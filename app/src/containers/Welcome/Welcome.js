@@ -11,7 +11,7 @@ import {
 
 import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
-import {ActivityIndicator, Image, View} from 'react-native';
+import {ActivityIndicator, Image, View, StyleSheet} from 'react-native';
 
 const splash = require('../../assets/images/splash.png');
 
@@ -50,7 +50,7 @@ function Welcome({
           resizeMode: 'stretch',
         }}
       />
-      {this.props.loader ? (
+      {loader ? (
         <View
           style={{
             alignSelf: 'center',
@@ -84,3 +84,12 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Welcome);
+
+// Style for "Background"
+const styles = StyleSheet.create({
+  background: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'transparent',
+  },
+});
