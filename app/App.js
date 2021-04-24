@@ -18,7 +18,7 @@ import {Provider} from 'react-redux';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-import {Welcome} from './src/containers/Welcome/Welcome';
+import Welcome from './src/containers/Welcome/Welcome';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -42,7 +42,6 @@ const App: () => React$Node = () => {
             />
           </Stack.Navigator>
         </NavigationContainer>
-        <Player />
       </Provider>
     </>
   );
