@@ -1,7 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {APP_INIT_LINK} from '../../commons/Constants';
-import {WHITE_COLOR, PRIMARY_COLOR, GRAY_COLOR} from '../../theme/Colors';
+import {
+  WHITE_COLOR,
+  PRIMARY_COLOR,
+  GRAY_COLOR,
+  BLACK_COLOR,
+} from '../../theme/Colors';
 
 import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
@@ -19,10 +24,11 @@ import {RFValue} from 'react-native-responsive-fontsize';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import RadioButton from '../../components/RadioButton';
+import {moveToMainScreenAction} from './Actions';
 const welcomeLogo = require('../../assets/images/welcome-logo.png');
 const welcomeImg = require('../../assets/images/welcome-image.png');
 const currentDate = new Date();
-function UserInfo({loader}) {
+function UserInfo({loader, moveToMainScreen, navigation}) {
   const [isFamily, setIsFamily] = useState(false);
   const [fName, setFName] = useState('');
   const [lName, setLName] = useState('');
@@ -85,6 +91,7 @@ function UserInfo({loader}) {
           <View style={styles.formContainer}>
             <View style={styles.userName}>
               <TextInput
+                placeholderTextColor={BLACK_COLOR}
                 value={fName}
                 textContentType="givenName"
                 underlineColorAndroid="transparent"
@@ -92,6 +99,7 @@ function UserInfo({loader}) {
                 style={styles.inputStyle}
                 onChangeText={value => setFName(value)}></TextInput>
               <TextInput
+                placeholderTextColor={BLACK_COLOR}
                 value={lName}
                 textContentType="familyName"
                 placeholder="Last Name"
@@ -133,41 +141,9 @@ function UserInfo({loader}) {
                 }}
                 widthFactorMain="25"></RadioButton>
             </View>
-
-            <DropDownPicker
-              items={[
-                {
-                  label: 'Bavaria',
-                  value: 'Bavaria',
-                },
-                {
-                  label: 'Berlin',
-                  value: 'Berlin',
-                },
-                {
-                  label: 'Munich',
-                  value: 'Munich',
-                },
-              ]}
-              defaultValue={city}
-              containerStyle={{height: '15%'}}
-              style={{
-                backgroundColor: '#F5F9F8',
-                fontSize: RFValue(14, 580),
-                color: '#243E3B',
-              }}
-              itemStyle={{
-                justifyContent: 'flex-start',
-              }}
-              dropDownStyle={{
-                backgroundColor: '#F5F9F8',
-                fontSize: RFValue(14, 580),
-                color: '#243E3B',
-              }}
-              onChangeItem={item => setCity(item.value)}
-            />
           </View>
           <TextInput
+            placeholderTextColor={BLACK_COLOR}
             value={dob}
             textContentType="none"
             placeholder="Date"
@@ -186,6 +162,7 @@ function UserInfo({loader}) {
             />
           ) : null}
           <TextInput
+            placeholderTextColor={BLACK_COLOR}
             value={taxId}
             textContentType="taxId"
             underlineColorAndroid="transparent"
@@ -193,6 +170,7 @@ function UserInfo({loader}) {
             style={styles.inputStyle1}
             onChangeText={value => setTaxId(value)}></TextInput>
           <TextInput
+            placeholderTextColor={BLACK_COLOR}
             value={email}
             textContentType="email"
             underlineColorAndroid="transparent"
@@ -200,6 +178,7 @@ function UserInfo({loader}) {
             style={styles.inputStyle1}
             onChangeText={value => setEmail(value)}></TextInput>
           <TextInput
+            placeholderTextColor={BLACK_COLOR}
             value={mobileNo}
             textContentType="mobileNo"
             underlineColorAndroid="transparent"
@@ -211,6 +190,7 @@ function UserInfo({loader}) {
           </View>
           <View style={styles.userName}>
             <TextInput
+              placeholderTextColor={BLACK_COLOR}
               value={schiller}
               textContentType="schiller"
               underlineColorAndroid="transparent"
@@ -218,6 +198,7 @@ function UserInfo({loader}) {
               style={styles.inputStyle}
               onChangeText={value => setSchiller(value)}></TextInput>
             <TextInput
+              placeholderTextColor={BLACK_COLOR}
               value={schiller}
               textContentType="schiller"
               placeholder="zimmer"
@@ -238,9 +219,17 @@ function UserInfo({loader}) {
                 label: 'Munich',
                 value: 'Munich',
               },
+              {
+                label: 'Frankfurt',
+                value: 'Frankfurt',
+              },
+              {
+                label: 'Leipzig',
+                value: 'Leipzig',
+              },
             ]}
-            defaultValue={city1}
-            containerStyle={{height: '15%'}}
+            defaultValue={city}
+            containerStyle={{height: '6%'}}
             style={{
               backgroundColor: '#F5F9F8',
               fontSize: RFValue(14, 580),
@@ -254,20 +243,23 @@ function UserInfo({loader}) {
               fontSize: RFValue(14, 580),
               color: '#243E3B',
             }}
-            onChangeItem={item => setCity1(item.value)}
+            onChangeItem={item => setCity(item.value)}
           />
           <TextInput
+            placeholderTextColor={BLACK_COLOR}
             value={fName}
             textContentType="postalCode"
             underlineColorAndroid="transparent"
             placeholder="Postal Code"
-            style={styles.inputStyle1}
+            style={styles.inputStyle2}
             onChangeText={value => setPostalCode(value)}></TextInput>
-          <TouchableOpacity style={[styles.container, styles.submitButtonDark]}>
-            <Text style={styles.submitText}>Save {'\u2B24'} Continue</Text>
+          <TouchableOpacity
+            style={[styles.container, styles.submitButtonDark]}
+            onPress={() => moveToMainScreen(navigation)}>
+            <Text style={styles.saveCloseText}>Continue</Text>
           </TouchableOpacity>
-          <View style={styles.saveCloseDiv}>
-            <Text style={styles.saveCloseText}>Save & add another member</Text>
+          <View style={{marginTop: '4%', alignContent: 'center'}}>
+            <Text style={styles.saveAddText}>Save & add another member</Text>
           </View>
           {loader ? (
             <View
@@ -289,7 +281,9 @@ function UserInfo({loader}) {
 }
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    moveToMainScreen: navigation => moveToMainScreenAction(navigation),
+  };
 };
 
 const mapStateToProps = state => {
@@ -303,7 +297,6 @@ const styles = StyleSheet.create({
   background: {
     backgroundColor: WHITE_COLOR,
     paddingTop: '9%',
-    paddingBottom: '10%',
     paddingLeft: '5%',
     paddingRight: '5%',
   },
@@ -359,6 +352,20 @@ const styles = StyleSheet.create({
     paddingRight: '5%',
     marginBottom: 14,
   },
+  inputStyle2: {
+    display: 'flex',
+
+    backgroundColor: '#F5F9F8',
+    borderRadius: 6,
+    fontSize: RFValue(14, 580),
+    color: '#243E3B',
+    paddingTop: '4%',
+    paddingBottom: '4%',
+    paddingLeft: '5%',
+    paddingRight: '5%',
+    marginBottom: 14,
+    marginTop: '4%',
+  },
   gender: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -393,11 +400,20 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     fontSize: RFValue(14, 580),
     fontWeight: '600',
+    marginTop: '8%',
   },
   saveCloseText: {
     fontSize: RFValue(14, 580),
     fontWeight: '600',
     color: '#212826',
+    color: WHITE_COLOR,
+  },
+  saveAddText: {
+    fontSize: RFValue(14, 580),
+    fontWeight: '600',
+    color: '#212826',
+    color: BLACK_COLOR,
     marginBottom: 180,
+    textAlign: 'center',
   },
 });
