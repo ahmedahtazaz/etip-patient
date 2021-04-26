@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {connect} from 'react-redux';
-import {APP_INIT_LINK} from '../../commons/Constants';
 import {
   WHITE_COLOR,
   PRIMARY_COLOR,
@@ -45,7 +44,6 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
   const [showCalender, setShowCalender] = useState(false);
   const [calDate, setCalDate] = useState(new Date());
   const [city, setCity] = useState('Bavaria');
-  const [city1, setCity1] = useState('Bavaria');
   const isFocused = useIsFocused();
   const [taxId, setTaxId] = useState('');
   const [email, setEmail] = useState('');
@@ -53,6 +51,9 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
   const [schiller, setSchiller] = useState('');
   const [zimmer, setzimmer] = useState('');
   const [postalCode, setPostalCode] = useState('');
+  const [relation, setRelation] = useState('Wife');
+
+  const scrollRef = useRef();
 
   useEffect(() => {
     Orientation.lockToPortrait();
@@ -69,7 +70,7 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
   };
 
   return (
-    <ScrollView style={{height: '100%'}}>
+    <ScrollView style={{height: '100%'}} ref={scrollRef}>
       <View style={styles.background}>
         <View style={styles.innerDiv}>
           <View style={styles.mainHeading}>
@@ -142,6 +143,56 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
                 widthFactorMain="25"></RadioButton>
             </View>
           </View>
+          {isFamily ? (
+            <DropDownPicker
+              items={[
+                {
+                  label: 'Brother',
+                  value: 'Brother',
+                },
+                {
+                  label: 'Sister',
+                  value: 'Sister',
+                },
+                {
+                  label: 'Mother',
+                  value: 'Mother',
+                },
+                {
+                  label: 'Father',
+                  value: 'Father',
+                },
+                {
+                  label: 'Son',
+                  value: 'Son',
+                },
+                {
+                  label: 'Daughter',
+                  value: 'Daughter',
+                },
+                {
+                  label: 'Wife',
+                  value: 'Wife',
+                },
+              ]}
+              defaultValue={relation}
+              containerStyle={{height: '6%', marginBottom: '4%'}}
+              style={{
+                backgroundColor: '#F5F9F8',
+                fontSize: RFValue(14, 580),
+                color: '#243E3B',
+              }}
+              itemStyle={{
+                justifyContent: 'flex-start',
+              }}
+              dropDownStyle={{
+                backgroundColor: '#F5F9F8',
+                fontSize: RFValue(14, 580),
+                color: '#243E3B',
+              }}
+              onChangeItem={item => setRelation(item.value)}
+            />
+          ) : null}
           <TextInput
             placeholderTextColor={BLACK_COLOR}
             value={dob}
@@ -177,14 +228,16 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
             placeholder="Email"
             style={styles.inputStyle1}
             onChangeText={value => setEmail(value)}></TextInput>
-          <TextInput
-            placeholderTextColor={BLACK_COLOR}
-            value={mobileNo}
-            textContentType="mobileNo"
-            underlineColorAndroid="transparent"
-            placeholder="Mobile No"
-            style={styles.inputStyle1}
-            onChangeText={value => setMobileNo(value)}></TextInput>
+          {isFamily ? (
+            <TextInput
+              placeholderTextColor={BLACK_COLOR}
+              value={mobileNo}
+              textContentType="mobileNo"
+              underlineColorAndroid="transparent"
+              placeholder="Mobile No"
+              style={styles.inputStyle1}
+              onChangeText={value => setMobileNo(value)}></TextInput>
+          ) : null}
           <View style={styles.secondaryHeading}>
             <Text style={styles.secondaryHeadingText}>Address</Text>
           </View>
@@ -258,9 +311,41 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
             onPress={() => moveToMainScreen(navigation)}>
             <Text style={styles.saveCloseText}>Continue</Text>
           </TouchableOpacity>
-          <View style={{marginTop: '4%', alignContent: 'center'}}>
-            <Text style={styles.saveAddText}>Save & add another member</Text>
-          </View>
+          <TouchableOpacity
+            style={{marginTop: '4%', alignContent: 'center'}}
+            onPress={() => {
+              setIsFamily(true);
+              setFName('');
+              setLName('');
+              setMale(true);
+              setFemale(false);
+              setOther(false);
+              setDob(
+                currentDate.getDate() +
+                  '-' +
+                  currentDate.getMonth() +
+                  '-' +
+                  currentDate.getFullYear(),
+              );
+              setCalDate(new Date());
+              setCity('Bavaria');
+              setEmail('');
+              setTaxId('');
+              setPostalCode('');
+              setMobileNo('');
+              setSchiller('');
+              setzimmer('');
+              setRelation('Son');
+
+              scrollRef.current.scrollTo({
+                y: 0,
+                animated: true,
+              });
+            }}>
+            <Text style={styles.saveAddText}>
+              {isFamily ? 'Save & add another member' : 'Save & Add Family'}
+            </Text>
+          </TouchableOpacity>
           {loader ? (
             <View
               style={{
