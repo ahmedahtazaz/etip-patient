@@ -80,7 +80,7 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
               textContentType="telephoneNumber"
               underlineColorAndroid="transparent"
               placeholder="Phone"
-              style={styles.inputStyle}
+              style={styles.inputStyle1}
               onChangeText={value => setPhoneValue(value)}></TextInput>
           </>
         ) : (
@@ -103,13 +103,15 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
                 marginTop: '15%',
                 marginBottom: '15%',
                 flexDirection: 'row',
+                justifyContent:'space-between',
               }}>
               <TextInput
                 ref={input => setOtp(input)}
                 value={otpValue}
                 maxLength={1}
+                underlineColorAndroid="transparent"
                 textContentType="oneTimeCode"
-                placeholder="OTP"
+                placeholder="0"
                 style={styles.inputStyle}
                 onChangeText={value => {
                   setOTPValue(value);
@@ -119,8 +121,9 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
                 ref={input => setOtp1(input)}
                 value={otpValue1}
                 maxLength={1}
+                underlineColorAndroid="transparent"
                 textContentType="oneTimeCode"
-                placeholder="OTP"
+                placeholder="0"
                 style={styles.inputStyle}
                 onChangeText={value => {
                   setOTPValue1(value);
@@ -131,8 +134,9 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
                 ref={input => setOtp2(input)}
                 value={otpValue2}
                 maxLength={1}
+                underlineColorAndroid="transparent"
                 textContentType="oneTimeCode"
-                placeholder="OTP"
+                placeholder="0"
                 style={styles.inputStyle}
                 onChangeText={value => {
                   setOTPValue2(value);
@@ -143,8 +147,9 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
                 ref={input => setOtp3(input)}
                 value={otpValue3}
                 maxLength={1}
+                underlineColorAndroid="transparent"
                 textContentType="oneTimeCode"
-                placeholder="OTP"
+                placeholder="0"
                 style={styles.inputStyle}
                 onChangeText={value => {
                   setOTPValue3(value);
@@ -156,7 +161,8 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
                 value={otpValue4}
                 textContentType="oneTimeCode"
                 maxLength={1}
-                placeholder="OTP"
+                underlineColorAndroid="transparent"
+                placeholder="0"
                 style={styles.inputStyle}
                 onChangeText={value => {
                   setOTPValue4(value);
@@ -264,7 +270,7 @@ const styles = StyleSheet.create({
     color: GRAY_COLOR,
     paddingTop: 15,
   },
-  inputStyle: {
+  inputStyle1: {
     color: '#000',
 
     display: 'flex',
@@ -273,8 +279,25 @@ const styles = StyleSheet.create({
     paddingBottom: '1.5%',
     fontSize: RFValue(24, 580),
     fontWeight: '500',
-    marginTop: '15%',
+    marginTop: '20%',
+    marginBottom: '20%',
+  },
+  inputStyle: {
+    color: '#000',
+
+    display: 'flex',
+    borderBottomWidth: 1,
+    paddingTop: '1.8%',
+    paddingBottom: '1.5%',
+    fontSize: RFValue(24, 580),
+    fontWeight: '500',
+    marginTop: '5%',
     marginBottom: '15%',
+    textAlign:'center',
+    borderBottomColor:'#000000',
+    width:'17%',
+
+    
   },
   container: {
     backgroundColor: 'rgba(243,115,32,1)',
@@ -285,11 +308,11 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 2,
     },
     shadowOpacity: 0.35,
     shadowRadius: 5,
-    elevation: 2,
+    elevation: 5,
     minWidth: 88,
     paddingLeft: 16,
     paddingRight: 16,
@@ -302,6 +325,7 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 15,
     fontSize: RFValue(14, 580),
+    fontWeight:'600',
   },
   submitButtonDark: {
     width: '100%',
@@ -311,9 +335,11 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 15,
     fontSize: RFValue(14, 580),
+    fontWeight:'600',
   },
   submitText: {
     color: '#fff',
-    fontSize: RFValue(12, 580),
+    fontSize: RFValue(14, 580),
+    fontWeight:'600',
   },
 });
