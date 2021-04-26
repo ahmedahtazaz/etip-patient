@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {APP_INIT_LINK} from '../../commons/Constants';
-
+import { WHITE_COLOR } from '../../theme/Colors';
 import {
   moveToWelcomeScreenAction,
   initialiseAppAction,
@@ -11,9 +11,9 @@ import {
 
 import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
-import {ActivityIndicator, Image, View, StyleSheet} from 'react-native';
-
-const splash = require('../../assets/images/splash.png');
+import {ActivityIndicator, Image, View, StyleSheet, ImageBackground, Text} from 'react-native';
+const splashBg = require('../../assets/images/splash-bg.png');
+const splashLogo = require('../../assets/images/splash-logo.png');
 
 function Splash({
   showLoader,
@@ -41,16 +41,18 @@ function Splash({
   }, [initLoaded]);
 
   return (
-    <View style={styles.background}>
-      <Image
-        source={splash}
-        style={{
-          width: '100%',
-          height: '100%',
-          resizeMode: 'stretch',
-        }}
-      />
-      {loader ? (
+    <ImageBackground
+        source={splashBg}
+        style={styles.splashbackground}
+      >
+    <View  style={styles.background}>
+      <Image source={splashLogo} />
+      
+    </View>
+    <View style={styles.copyrightDiv}>
+          <Text style={styles.copyrightText}>Copyright - Etip UG I.G. - 2021</Text>
+    </View>
+    {loader ? (
         <View
           style={{
             alignSelf: 'center',
@@ -63,7 +65,7 @@ function Splash({
           <ActivityIndicator size="large" color="grey" animating={loader} />
         </View>
       ) : null}
-    </View>
+    </ImageBackground>
   );
 }
 
@@ -87,9 +89,26 @@ export default connect(mapStateToProps, mapDispatchToProps)(Splash);
 
 // Style for "Background"
 const styles = StyleSheet.create({
-  background: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'transparent',
+  splashbackground: {
+    flex:1,
+    justifyContent:'center',
+    resizeMode: 'cover',
   },
+  background: {
+    height: '90%',
+    width: '100%',
+    display:'flex',
+    justifyContent:'center',
+    alignItems:'center',
+  },
+  copyrightDiv:{
+    
+  },
+  copyrightText:{
+    fontSize:14,
+    textAlign:'center',
+    fontWeight:'400',
+    color:WHITE_COLOR,
+  },
+  
 });

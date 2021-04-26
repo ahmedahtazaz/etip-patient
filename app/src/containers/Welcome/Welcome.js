@@ -13,7 +13,8 @@ import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
 import {ActivityIndicator, Image, View, StyleSheet} from 'react-native';
 
-const splash = require('../../assets/images/splash.png');
+const splashBg = require('../../assets/images/splash-bg.png');
+const splashLogo = require('../../assets/images/splash-logo.png');
 
 function Welcome({
   showLoader,
@@ -90,6 +91,7 @@ const styles = StyleSheet.create({
   background: {
     width: '100%',
     height: '100%',
-    backgroundColor: 'transparent',
+    backgroundColor: '#ffffff',
   },
+  
 });
