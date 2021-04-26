@@ -39,7 +39,7 @@ function Phone({loader}) {
     if (isPhone) {
       if (
         phone &&
-        phone.match('[0-9]*/*(+49)*[ ]*(([0-9]+))*([ ]*(-|–)*[ ]*[0-9]+)*')
+        phone.match('[0-9]{1,3}(?:\.[0-9]{3})*(?:\,[0-9]+)?')
       ) {
         setIsPhone(false);
       } else showToast('Please enter a valid phone number.');
