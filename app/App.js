@@ -22,6 +22,7 @@ import Welcome from './src/containers/Welcome/Welcome';
 import Splash from './src/containers/Splash/Splash';
 import Phone from './src/containers/Phone/Phone';
 import UserInfo from './src/containers/UserInfo/UserInfo';
+import UpdateSettings from './src/containers/UpdateSettings/UpdateSettings';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -38,6 +39,11 @@ const App: () => React$Node = () => {
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
+          <Stack.Screen
+              name="UpdateSettingScreen"
+              component={UpdateSettings}
+              options={{headerShown: false}}
+            />
             <Stack.Screen
               name="SplashScreen"
               component={Splash}
