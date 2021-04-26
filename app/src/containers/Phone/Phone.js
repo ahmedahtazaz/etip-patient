@@ -11,10 +11,12 @@ import {
   Platform,
   ToastAndroid,
   Alert,
+  TouchableOpacity,
+  Text,
 } from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
 
-function Phone({}) {
+function Phone({loader}) {
   const [isPhone, setIsPhone] = useState(true);
   const [phoneValue, setPhoneValue] = useState('');
   const [otpValue, setOTPValue] = useState('');

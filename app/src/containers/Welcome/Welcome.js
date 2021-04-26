@@ -8,6 +8,7 @@ import {
   initialiseAppAction,
   showLoaderAction,
   moveToSignInAction,
+  moveToPhoneScreenAction,
 } from './Actions';
 
 import Orientation from 'react-native-orientation-locker';
@@ -23,6 +24,7 @@ function Welcome({
   initLoaded,
   navigation,
   loader,
+  moveToPhoneScreen,
 }) {
   const isFocused = useIsFocused();
 
@@ -47,20 +49,26 @@ function Welcome({
         <Image source={welcomeLogo} />
       </View>
       <View style={styles.welcomeTextDiv}>
-        <Text style={styles.welcomeText}>
-        Willkommen
-        </Text>
+        <Text style={styles.welcomeText}>Willkommen</Text>
       </View>
       <View style={styles.welcomeImage}>
         <Image source={welcomeImg} />
       </View>
       <View style={styles.welcomeBottomText}>
         <Text style={styles.bottomTextBig}>Bleiben Sie geschützt</Text>
-        <Text style={styles.bottomTextSmall}>Ihre ultimative Test - und Impfdokumentation</Text>
+        <Text style={styles.bottomTextSmall}>
+          Ihre ultimative Test - und Impfdokumentation
+        </Text>
       </View>
       <View style={styles.buttonDiv}>
-      <PrimaryButton text="Lesen Sie die AGB"  />
-      <PrimaryButton text="Ich stimme zu"  />
+        <PrimaryButton
+          text="Lesen Sie die AGB"
+          nextHandler={() => moveToPhoneScreen(navigation)}
+        />
+        <PrimaryButton
+          text="Ich stimme zu"
+          nextHandler={() => moveToPhoneScreen(navigation)}
+        />
       </View>
       {loader ? (
         <View
@@ -85,6 +93,7 @@ const mapDispatchToProps = dispatch => {
     showLoader: status => dispatch(showLoaderAction(status)),
     moveToSignIn: navigation => moveToSignInAction(navigation),
     moveToMainScreen: navigation => moveToMainScreenAction(navigation),
+    moveToPhoneScreen: navigation => moveToPhoneScreenAction(navigation),
   };
 };
 
@@ -100,55 +109,55 @@ export default connect(mapStateToProps, mapDispatchToProps)(Welcome);
 // Style for "Background"
 const styles = StyleSheet.create({
   background: {
-    backgroundColor: '#F8F8F8', 
-    paddingTop:'9%',
-    paddingBottom:'10%',
-    paddingLeft:'5%',
-    paddingRight:'5%',
+    backgroundColor: '#F8F8F8',
+    paddingTop: '9%',
+    paddingBottom: '10%',
+    paddingLeft: '5%',
+    paddingRight: '5%',
   },
   welcomeLogo: {
-    display:'flex',
-    justifyContent:'flex-end',
-    flexDirection:'row',  
-    paddingRight:'3%',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
+    paddingRight: '3%',
   },
-  welcomeTextDiv : {
-    paddingTop:'5%',
+  welcomeTextDiv: {
+    paddingTop: '5%',
   },
-  welcomeText : {
+  welcomeText: {
     fontSize: RFValue(24, 580),
     color: PRIMARY_COLOR,
-    fontWeight:'700',
-    textAlign:'center',
+    fontWeight: '700',
+    textAlign: 'center',
   },
   welcomeImage: {
-    display:'flex',
-    justifyContent:'center',
-    flexDirection:'row',
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'row',
   },
-  welcomeBottomText : {
-    display:'flex',
-    justifyContent:'center',
+  welcomeBottomText: {
+    display: 'flex',
+    justifyContent: 'center',
   },
-  bottomTextBig : {
+  bottomTextBig: {
     fontSize: RFValue(16, 580),
     color: PRIMARY_COLOR,
-    fontWeight:'700',
-    textAlign:'center',
-    paddingTop:'3%',
-    paddingBottom:'3%',
+    fontWeight: '700',
+    textAlign: 'center',
+    paddingTop: '3%',
+    paddingBottom: '3%',
   },
-  bottomTextSmall : {
+  bottomTextSmall: {
     fontSize: RFValue(12, 580),
     color: PRIMARY_COLOR,
-    fontWeight:'400',
-    textAlign:'center',
+    fontWeight: '400',
+    textAlign: 'center',
   },
-  buttonDiv : {
-    display:'flex',
-    flexDirection:'column',
-    justifyContent:'center',
-    alignItems:'baseline',
-    paddingTop:'23%',
+  buttonDiv: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'baseline',
+    paddingTop: '23%',
   },
 });

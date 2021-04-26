@@ -21,3 +21,7 @@ export const moveToSignInAction = navigation => {
 export const moveToMainScreenAction = navigation => {
   return navigation.replace('MainScreen');
 };
+
+export const moveToPhoneScreenAction = navigation => {
+  return navigation.replace('PhoneScreen');
+};
