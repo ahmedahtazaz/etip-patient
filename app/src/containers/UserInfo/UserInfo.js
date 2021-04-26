@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import DropDownPicker from 'react-native-dropdown-picker';
 import RadioButton from '../../components/RadioButton';
 const welcomeLogo = require('../../assets/images/welcome-logo.png');
 const welcomeImg = require('../../assets/images/welcome-image.png');
@@ -35,6 +36,7 @@ function UserInfo({loader}) {
   );
   const [showCalender, setShowCalender] = useState(false);
   const [calDate, setCalDate] = useState(new Date());
+  const [city, setCity] = useState('Bavaria');
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -138,6 +140,30 @@ function UserInfo({loader}) {
               onChange={_handleDatePicked}
             />
           ) : null}
+          <DropDownPicker
+            items={[
+              {
+                label: 'Bavaria',
+                value: 'Bavaria',
+              },
+              {
+                label: 'Berlin',
+                value: 'Berlin',
+              },
+              {
+                label: 'Munich',
+                value: 'Munich',
+              },
+            ]}
+            defaultValue={city}
+            containerStyle={{height: '20%'}}
+            style={{backgroundColor: '#fafafa'}}
+            itemStyle={{
+              justifyContent: 'flex-start',
+            }}
+            dropDownStyle={{backgroundColor: '#fafafa'}}
+            onChangeItem={item => setCity(item.value)}
+          />
         </View>
         {loader ? (
           <View
