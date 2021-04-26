@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 
 import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
+import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
 import {
   ActivityIndicator,
   View,
@@ -50,25 +51,43 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
 
   return (
     <View style={styles.background}>
+      <View style={styles.innerDiv}>
       {isPhone ? (
+        <>
+        <Text style={styles.inputLabelDiv}>
+        <Text style={styles.inputLabel}>Enter Your{'\n'}
+        Mobile Number</Text>
+        {'\n'}
+        {'\n'}
+        <Text style={styles.inputLabelSmall}>Please Enter your Phone Number to continue</Text>
+        </Text>
         <TextInput
           value={phoneValue}
           textContentType="telephoneNumber"
+          underlineColorAndroid ='transparent'
           placeholder="Phone"
           style={styles.inputStyle}
           onChangeText={value => setPhoneValue(value)}></TextInput>
+          </>
       ) : (
+        <>
+        <Text style={styles.inputLabelDiv}>
+        <Text style={styles.inputLabel}>Enter OTP</Text>
+        {'\n'}{'\n'}
+        <Text style={styles.inputLabelSmall}>Please Enter the OTP we have sent over the numuber </Text>
+        </Text>
         <TextInput
           value={otpValue}
           textContentType="oneTimeCode"
           placeholder="OTP"
           style={styles.inputStyle}
           onChangeText={value => setOTPValue(value)}></TextInput>
+          </>
       )}
       <TouchableOpacity
         style={[styles.container, styles.submitButton]}
         onPress={() => onSubmit(isPhone, phoneValue, otpValue)}>
-        <Text style={styles.submitText}>Submit</Text>
+        <Text style={styles.submitText}>Continue</Text>
       </TouchableOpacity>
       {loader ? (
         <View
@@ -83,6 +102,7 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
           <ActivityIndicator size="large" color="grey" animating={loader} />
         </View>
       ) : null}
+      </View>
     </View>
   );
 }
@@ -106,17 +126,40 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: '#ffffff',
   },
+  innerDiv: {
+    paddingTop: '12%',
+    paddingBottom: '10%',
+    paddingLeft: '5%',
+    paddingRight: '5%',
+  },
+  inputLabelDiv : {
+    display:'flex',
+    height:100,
+    flexDirection:'column',
+    alignItems:'center',
+  },
+  inputLabel: {
+    fontSize: RFValue(20, 580),
+    fontWeight:'bold',
+    color: PRIMARY_COLOR,
+  },
+  inputLabelSmall : {
+    fontSize: RFValue(10, 580),
+    fontWeight:'bold',
+    color: GRAY_COLOR,
+    paddingTop:15,
+  },
   inputStyle: {
     color: '#000',
-    marginLeft: '5.12%',
-    paddingRight: '1.6%',
-    alignSelf: 'stretch',
-    flex: 1,
-    borderBottomWidth: 1,
-    borderColor: '#D9D5DC',
+
+   display:'flex',
+    borderBottomWidth: 0,
     paddingTop: '1.8%',
     paddingBottom: '1.5%',
-    fontSize: RFValue(12, 580),
+    fontSize: RFValue(24, 580),
+    fontWeight:'500',
+    marginTop:'15%',
+    marginBottom:'15%',
   },
   container: {
     backgroundColor: 'rgba(243,115,32,1)',
@@ -137,12 +180,14 @@ const styles = StyleSheet.create({
     paddingRight: 16,
   },
   submitButton: {
-    height: '6.57%',
-    position: 'absolute',
-    left: '8.18%',
-    top: '63.55%',
-    width: '83.64%',
-  },
+    width: '100%',
+    borderRadius:3,
+    backgroundColor:'#EDEDED',
+    color:WHITE_COLOR,
+    paddingTop: 15,
+    paddingBottom: 15,
+    fontSize: RFValue(14, 580),
+    },
   submitText: {
     color: '#fff',
     fontSize: RFValue(12, 580),
