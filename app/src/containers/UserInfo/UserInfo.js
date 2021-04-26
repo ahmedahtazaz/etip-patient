@@ -12,6 +12,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  ScrollView,
 } from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -38,6 +39,9 @@ function UserInfo({loader}) {
   const [calDate, setCalDate] = useState(new Date());
   const [city, setCity] = useState('Bavaria');
   const isFocused = useIsFocused();
+  const [taxId, setTaxId] = useState('');
+  const [email, setEmail] = useState('');
+  const [mobileNo, setMobileNo] = useState('');
 
   useEffect(() => {
     Orientation.lockToPortrait();
@@ -54,6 +58,7 @@ function UserInfo({loader}) {
   };
 
   return (
+    <ScrollView style={{height:'100%'}}>
     <View style={styles.background}>
       <View style={styles.innerDiv}>
         <View style={styles.mainHeading}>
@@ -71,6 +76,7 @@ function UserInfo({loader}) {
         <View style={styles.secondaryHeading}>
           <Text style={styles.secondaryHeadingText}>User Information</Text>
         </View>
+        
         <View style={styles.formContainer}>
           <View style={styles.userName}>
             <TextInput
@@ -98,7 +104,7 @@ function UserInfo({loader}) {
                 }
                 setMale(value);
               }}
-              widthFactorMain="21"></RadioButton>
+              widthFactorMain="25"></RadioButton>
             <RadioButton
               checked={female}
               data="FeMale"
@@ -109,7 +115,7 @@ function UserInfo({loader}) {
                 }
                 setFemale(value);
               }}
-              widthFactorMain="21"></RadioButton>
+              widthFactorMain="25"></RadioButton>
             <RadioButton
               checked={other}
               data="Other"
@@ -120,26 +126,9 @@ function UserInfo({loader}) {
                 }
                 setOther(value);
               }}
-              widthFactorMain="21"></RadioButton>
+              widthFactorMain="25"></RadioButton>
           </View>
-          <TextInput
-            value={dob}
-            textContentType="none"
-            placeholder="Date"
-            style={styles.inputStyle}
-            onFocus={() => {
-              setShowCalender(true);
-            }}></TextInput>
-          {showCalender ? (
-            <DateTimePicker
-              testID="dateTimePicker"
-              mode={'date'}
-              value={calDate}
-              is24Hour={true}
-              display="default"
-              onChange={_handleDatePicked}
-            />
-          ) : null}
+         
           <DropDownPicker
             items={[
               {
@@ -157,14 +146,59 @@ function UserInfo({loader}) {
             ]}
             defaultValue={city}
             containerStyle={{height: '20%'}}
-            style={{backgroundColor: '#fafafa'}}
+            style={{backgroundColor: '#F5F9F8', fontSize: RFValue(14, 580),
+            color: '#243E3B'}}
             itemStyle={{
               justifyContent: 'flex-start',
             }}
-            dropDownStyle={{backgroundColor: '#fafafa'}}
+            dropDownStyle={{backgroundColor: '#F5F9F8', fontSize: RFValue(14, 580),
+            color: '#243E3B'}}
             onChangeItem={item => setCity(item.value)}
           />
         </View>
+        <TextInput
+            value={dob}
+            textContentType="none"
+            placeholder="Date"
+            style={styles.inputStyle1}
+            onFocus={() => {
+              setShowCalender(true);
+            }}></TextInput>
+          {showCalender ? (
+            <DateTimePicker
+              testID="dateTimePicker"
+              mode={'date'}
+              value={calDate}
+              is24Hour={true}
+              display="default"
+              onChange={_handleDatePicked}
+            />
+          ) : null}
+          <TextInput
+              value={fName}
+              textContentType="taxId"
+              underlineColorAndroid="transparent"
+              placeholder="Tax ID"
+              style={styles.inputStyle1}
+              onChangeText={value => setTaxId(value)}></TextInput>
+          <TextInput
+              value={fName}
+              textContentType="email"
+              underlineColorAndroid="transparent"
+              placeholder="Email"
+              style={styles.inputStyle1}
+              onChangeText={value => setEmail(value)}></TextInput>
+            <TextInput
+              value={fName}
+              textContentType="mobileNo"
+              underlineColorAndroid="transparent"
+              placeholder="Mobile No"
+              style={styles.inputStyle1}
+              onChangeText={value => setMobileNo(value)}></TextInput>
+            <View style={styles.secondaryHeading}>
+              <Text style={styles.secondaryHeadingText}>Address</Text>
+            </View>
+            
         {loader ? (
           <View
             style={{
@@ -180,6 +214,7 @@ function UserInfo({loader}) {
         ) : null}
       </View>
     </View>
+    </ScrollView>
   );
 }
 
@@ -202,7 +237,7 @@ const styles = StyleSheet.create({
     paddingLeft: '5%',
     paddingRight: '5%',
   },
-
+ 
   mainHeadingText: {
     fontSize: RFValue(16, 580),
     color: PRIMARY_COLOR,
@@ -225,7 +260,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    marginBottom: 14,
+    marginBottom: 4,
+    width:'100%',
+    
   },
   inputStyle: {
     display: 'flex',
@@ -238,6 +275,20 @@ const styles = StyleSheet.create({
     paddingBottom: '4%',
     paddingLeft: '5%',
     paddingRight: '5%',
+    marginBottom: 14,
+  },
+  inputStyle1: {
+    display: 'flex',
+   
+    backgroundColor: '#F5F9F8',
+    borderRadius: 6,
+    fontSize: RFValue(14, 580),
+    color: '#243E3B',
+    paddingTop: '4%',
+    paddingBottom: '4%',
+    paddingLeft: '5%',
+    paddingRight: '5%',
+    marginBottom: 14,
   },
   gender: {
     display: 'flex',
