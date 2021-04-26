@@ -22,6 +22,7 @@ import Welcome from './src/containers/Welcome/Welcome';
 import Splash from './src/containers/Splash/Splash';
 import Phone from './src/containers/Phone/Phone';
 import UserInfo from './src/containers/UserInfo/UserInfo';
+import UpdateSettings from './src/containers/UpdateSettings/UpdateSettings';
 import MainScreen from './src/containers/MainScreen/MainScreen';
 import Settings from './src/containers/Settings/Settings';
 
