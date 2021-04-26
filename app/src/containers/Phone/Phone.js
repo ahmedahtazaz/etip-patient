@@ -15,8 +15,9 @@ import {
   Text,
 } from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
+import {moveToUserInfoScreenAction} from './Actions';
 
-function Phone({loader}) {
+function Phone({loader, movetoUserInfoScreen, navigation}) {
   const [isPhone, setIsPhone] = useState(true);
   const [phoneValue, setPhoneValue] = useState('');
   const [otpValue, setOTPValue] = useState('');
@@ -37,15 +38,12 @@ function Phone({loader}) {
 
   const onSubmit = (isPhone, phone, otp) => {
     if (isPhone) {
-      if (
-        phone &&
-        phone.match('[0-9]{1,3}(?:\.[0-9]{3})*(?:\,[0-9]+)?')
-      ) {
+      if (phone && phone.match('[0-9]{1,3}(?:.[0-9]{3})*(?:,[0-9]+)?')) {
         setIsPhone(false);
       } else showToast('Please enter a valid phone number.');
     } else {
       if (otp && otp.length == 5) {
-        // Do nothing.
+        movetoUserInfoScreen(navigation);
       } else showToast('Please enter a valid OTP.');
     }
   };
@@ -90,7 +88,9 @@ function Phone({loader}) {
 }
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    movetoUserInfoScreen: navigation => moveToUserInfoScreenAction(navigation),
+  };
 };
 
 const mapStateToProps = state => {
