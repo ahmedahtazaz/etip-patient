@@ -41,11 +41,6 @@ const App: () => React$Node = () => {
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
-          <Stack.Screen
-              name="UpdateSettingScreen"
-              component={UpdateSettings}
-              options={{headerShown: false}}
-            />
             <Stack.Screen
               name="SplashScreen"
               component={Splash}
