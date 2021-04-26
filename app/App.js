@@ -7,16 +7,18 @@
  */
 
 import React from 'react';
-import {compose, createStore, applyMiddleware} from 'redux';
+import { Button } from 'react-native';
+import { compose, createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './src/commons/RootSaga';
 import createRootReducer from './src/commons/RootReducer';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {StyleSheet, Text, TextInput} from 'react-native';
-import {Provider} from 'react-redux';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { StyleSheet, Text, TextInput } from 'react-native';
+import { Provider } from 'react-redux';
+import { Icon } from 'react-native-elements'
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 import Welcome from './src/containers/Welcome/Welcome';
 import Splash from './src/containers/Splash/Splash';
@@ -41,7 +43,7 @@ const App: () => React$Node = () => {
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen
+            {/* <Stack.Screen
               name="SplashScreen"
               component={Splash}
               options={{headerShown: false}}
@@ -60,13 +62,9 @@ const App: () => React$Node = () => {
               name="UserInfoScreen"
               component={UserInfo}
               options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="MainScreen"
-              component={MainScreen}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
+            /> */}
+{/* 
+<Stack.Screen
               name="Settings"
               component={Settings}
               options={{
@@ -75,8 +73,29 @@ const App: () => React$Node = () => {
                   backgroundColor: 'white',
                 },
                 headerTintColor: 'black',
-              }}
-            />
+               
+              }}              /> */}
+
+            <Stack.Screen
+              name="MainScreen"
+              component={MainScreen}
+              options={{
+                title: 'MainScreen',
+                headerStyle: {
+                  backgroundColor: 'white',
+                },
+                headerTintColor: 'black',
+                headerLeft: () => (
+
+                  <Icon
+                    name='rowing'
+                    size={35} />
+
+                ),
+
+              }} />
+
+
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>
