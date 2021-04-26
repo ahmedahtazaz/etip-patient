@@ -22,6 +22,7 @@ import Welcome from './src/containers/Welcome/Welcome';
 import Splash from './src/containers/Splash/Splash';
 import Phone from './src/containers/Phone/Phone';
 import UserInfo from './src/containers/UserInfo/UserInfo';
+import MainScreen from './src/containers/MainScreen/MainScreen';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -56,6 +57,11 @@ const App: () => React$Node = () => {
             <Stack.Screen
               name="UserInfoScreen"
               component={UserInfo}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="MainScreen"
+              component={MainScreen}
               options={{headerShown: false}}
             />
           </Stack.Navigator>
