@@ -23,6 +23,8 @@ import Splash from './src/containers/Splash/Splash';
 import Phone from './src/containers/Phone/Phone';
 import UserInfo from './src/containers/UserInfo/UserInfo';
 import UpdateSettings from './src/containers/UpdateSettings/UpdateSettings';
+import MainScreen from './src/containers/MainScreen/MainScreen';
+import Settings from './src/containers/Settings/Settings';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -63,6 +65,22 @@ const App: () => React$Node = () => {
               name="UserInfoScreen"
               component={UserInfo}
               options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="MainScreen"
+              component={MainScreen}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Settings"
+              component={Settings}
+              options={{
+                title: 'Settings',
+                headerStyle: {
+                  backgroundColor: 'white',
+                },
+                headerTintColor: 'black',
+              }}
             />
           </Stack.Navigator>
         </NavigationContainer>

@@ -1,50 +1,229 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {APP_INIT_LINK} from '../../commons/Constants';
-import {PRIMARY_COLOR} from '../../theme/Colors';
+import {WHITE_COLOR, PRIMARY_COLOR, GRAY_COLOR} from '../../theme/Colors';
 
 import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
-import {ActivityIndicator, Image, View, StyleSheet, Text} from 'react-native';
+import {
+  ActivityIndicator,
+  Image,
+  View,
+  StyleSheet,
+  Text,
+  TextInput,
+  ScrollView,
+} from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import DropDownPicker from 'react-native-dropdown-picker';
+import RadioButton from '../../components/RadioButton';
 const welcomeLogo = require('../../assets/images/welcome-logo.png');
 const welcomeImg = require('../../assets/images/welcome-image.png');
-function UserInfo({
-  loader,
-}) {
+const currentDate = new Date();
+function UserInfo({loader}) {
+  const [isFamily, setIsFamily] = useState(false);
+  const [fName, setFName] = useState('');
+  const [lName, setLName] = useState('');
+  const [male, setMale] = useState(true);
+  const [female, setFemale] = useState(false);
+  const [other, setOther] = useState(false);
+  const [dob, setDob] = useState(
+    currentDate.getDate() +
+      '-' +
+      currentDate.getMonth() +
+      '-' +
+      currentDate.getFullYear(),
+  );
+  const [showCalender, setShowCalender] = useState(false);
+  const [calDate, setCalDate] = useState(new Date());
+  const [city, setCity] = useState('Bavaria');
   const isFocused = useIsFocused();
+  const [taxId, setTaxId] = useState('');
+  const [email, setEmail] = useState('');
+  const [mobileNo, setMobileNo] = useState('');
 
   useEffect(() => {
     Orientation.lockToPortrait();
   }, [isFocused]);
 
+  const _handleDatePicked = (e, pickeddate) => {
+    const date = new Date(pickeddate);
+    const day = date.getDate();
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    if (day) setDob(day + '-' + month + '-' + year);
+    if (day) setCalDate(date);
+    setShowCalender(false);
+  };
+
   return (
+    <ScrollView style={{height:'100%'}}>
     <View style={styles.background}>
-      {loader ? (
-        <View
-          style={{
-            alignSelf: 'center',
-            height: '100%',
-            width: '100%',
-            justifyContent: 'center',
-            position: 'absolute',
-            zIndex: 1000,
-          }}>
-          <ActivityIndicator size="large" color="grey" animating={loader} />
+      <View style={styles.innerDiv}>
+        <View style={styles.mainHeading}>
+          <Text style={styles.mainHeadingText}>
+            {isFamily ? 'Add Family' : 'User Information'}
+          </Text>
         </View>
-      ) : null}
+        <View style={styles.smallHeading}>
+          <Text style={styles.smallHeadingText}>
+            {isFamily
+              ? 'Please Information of Family Member'
+              : 'Please provide your information to continue'}
+          </Text>
+        </View>
+        <View style={styles.secondaryHeading}>
+          <Text style={styles.secondaryHeadingText}>User Information</Text>
+        </View>
+        
+        <View style={styles.formContainer}>
+          <View style={styles.userName}>
+            <TextInput
+              value={fName}
+              textContentType="givenName"
+              underlineColorAndroid="transparent"
+              placeholder="First Name"
+              style={styles.inputStyle}
+              onChangeText={value => setFName(value)}></TextInput>
+            <TextInput
+              value={lName}
+              textContentType="familyName"
+              placeholder="Last Name"
+              style={styles.inputStyle}
+              onChangeText={value => setLName(value)}></TextInput>
+          </View>
+          <View style={styles.gender}>
+            <RadioButton
+              checked={male}
+              data="Male"
+              setChecked={value => {
+                if (value) {
+                  setFemale(false);
+                  setOther(false);
+                }
+                setMale(value);
+              }}
+              widthFactorMain="25"></RadioButton>
+            <RadioButton
+              checked={female}
+              data="FeMale"
+              setChecked={value => {
+                if (value) {
+                  setMale(false);
+                  setOther(false);
+                }
+                setFemale(value);
+              }}
+              widthFactorMain="25"></RadioButton>
+            <RadioButton
+              checked={other}
+              data="Other"
+              setChecked={value => {
+                if (value) {
+                  setMale(false);
+                  setFemale(false);
+                }
+                setOther(value);
+              }}
+              widthFactorMain="25"></RadioButton>
+          </View>
+         
+          <DropDownPicker
+            items={[
+              {
+                label: 'Bavaria',
+                value: 'Bavaria',
+              },
+              {
+                label: 'Berlin',
+                value: 'Berlin',
+              },
+              {
+                label: 'Munich',
+                value: 'Munich',
+              },
+            ]}
+            defaultValue={city}
+            containerStyle={{height: '20%'}}
+            style={{backgroundColor: '#F5F9F8', fontSize: RFValue(14, 580),
+            color: '#243E3B'}}
+            itemStyle={{
+              justifyContent: 'flex-start',
+            }}
+            dropDownStyle={{backgroundColor: '#F5F9F8', fontSize: RFValue(14, 580),
+            color: '#243E3B'}}
+            onChangeItem={item => setCity(item.value)}
+          />
+        </View>
+        <TextInput
+            value={dob}
+            textContentType="none"
+            placeholder="Date"
+            style={styles.inputStyle1}
+            onFocus={() => {
+              setShowCalender(true);
+            }}></TextInput>
+          {showCalender ? (
+            <DateTimePicker
+              testID="dateTimePicker"
+              mode={'date'}
+              value={calDate}
+              is24Hour={true}
+              display="default"
+              onChange={_handleDatePicked}
+            />
+          ) : null}
+          <TextInput
+              value={fName}
+              textContentType="taxId"
+              underlineColorAndroid="transparent"
+              placeholder="Tax ID"
+              style={styles.inputStyle1}
+              onChangeText={value => setTaxId(value)}></TextInput>
+          <TextInput
+              value={fName}
+              textContentType="email"
+              underlineColorAndroid="transparent"
+              placeholder="Email"
+              style={styles.inputStyle1}
+              onChangeText={value => setEmail(value)}></TextInput>
+            <TextInput
+              value={fName}
+              textContentType="mobileNo"
+              underlineColorAndroid="transparent"
+              placeholder="Mobile No"
+              style={styles.inputStyle1}
+              onChangeText={value => setMobileNo(value)}></TextInput>
+            <View style={styles.secondaryHeading}>
+              <Text style={styles.secondaryHeadingText}>Address</Text>
+            </View>
+            
+        {loader ? (
+          <View
+            style={{
+              alignSelf: 'center',
+              height: '100%',
+              width: '100%',
+              justifyContent: 'center',
+              position: 'absolute',
+              zIndex: 1000,
+            }}>
+            <ActivityIndicator size="large" color="grey" animating={loader} />
+          </View>
+        ) : null}
+      </View>
     </View>
+    </ScrollView>
   );
 }
 
 const mapDispatchToProps = dispatch => {
-  return {
-  };
+  return {};
 };
 
 const mapStateToProps = state => {
-  return {
-  };
+  return {};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserInfo);
@@ -52,55 +231,69 @@ export default connect(mapStateToProps, mapDispatchToProps)(UserInfo);
 // Style for "Background"
 const styles = StyleSheet.create({
   background: {
-    backgroundColor: '#F8F8F8',
+    backgroundColor: WHITE_COLOR,
     paddingTop: '9%',
     paddingBottom: '10%',
     paddingLeft: '5%',
     paddingRight: '5%',
   },
-  welcomeLogo: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    flexDirection: 'row',
-    paddingRight: '3%',
-  },
-  welcomeTextDiv: {
-    paddingTop: '5%',
-  },
-  welcomeText: {
-    fontSize: RFValue(24, 580),
-    color: PRIMARY_COLOR,
-    fontWeight: '700',
-    textAlign: 'center',
-  },
-  welcomeImage: {
-    display: 'flex',
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  welcomeBottomText: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  bottomTextBig: {
+ 
+  mainHeadingText: {
     fontSize: RFValue(16, 580),
     color: PRIMARY_COLOR,
     fontWeight: '700',
-    textAlign: 'center',
-    paddingTop: '3%',
+  },
+  smallHeadingText: {
+    fontSize: RFValue(12, 580),
+    color: GRAY_COLOR,
+    fontWeight: '400',
+    paddingTop: '2%',
+    paddingBottom: '7%',
+  },
+  secondaryHeadingText: {
+    fontSize: RFValue(16, 580),
+    color: GRAY_COLOR,
+    fontWeight: '500',
     paddingBottom: '3%',
   },
-  bottomTextSmall: {
-    fontSize: RFValue(12, 580),
-    color: PRIMARY_COLOR,
-    fontWeight: '400',
-    textAlign: 'center',
-  },
-  buttonDiv: {
+  userName: {
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'baseline',
-    paddingTop: '23%',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    marginBottom: 4,
+    width:'100%',
+    
+  },
+  inputStyle: {
+    display: 'flex',
+    width: '48%',
+    backgroundColor: '#F5F9F8',
+    borderRadius: 6,
+    fontSize: RFValue(14, 580),
+    color: '#243E3B',
+    paddingTop: '4%',
+    paddingBottom: '4%',
+    paddingLeft: '5%',
+    paddingRight: '5%',
+    marginBottom: 14,
+  },
+  inputStyle1: {
+    display: 'flex',
+   
+    backgroundColor: '#F5F9F8',
+    borderRadius: 6,
+    fontSize: RFValue(14, 580),
+    color: '#243E3B',
+    paddingTop: '4%',
+    paddingBottom: '4%',
+    paddingLeft: '5%',
+    paddingRight: '5%',
+    marginBottom: 14,
+  },
+  gender: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    marginBottom: 14,
   },
 });
