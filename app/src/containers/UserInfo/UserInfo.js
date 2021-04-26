@@ -12,9 +12,12 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import DropDownPicker from 'react-native-dropdown-picker';
 import RadioButton from '../../components/RadioButton';
 const welcomeLogo = require('../../assets/images/welcome-logo.png');
 const welcomeImg = require('../../assets/images/welcome-image.png');
@@ -35,7 +38,15 @@ function UserInfo({loader}) {
   );
   const [showCalender, setShowCalender] = useState(false);
   const [calDate, setCalDate] = useState(new Date());
+  const [city, setCity] = useState('Bavaria');
+  const [city1, setCity1] = useState('Bavaria');
   const isFocused = useIsFocused();
+  const [taxId, setTaxId] = useState('');
+  const [email, setEmail] = useState('');
+  const [mobileNo, setMobileNo] = useState('');
+  const [schiller, setSchiller] = useState('');
+  const [zimmer, setzimmer] = useState('');
+  const [postalCode, setPostalCode] = useState('');
 
   useEffect(() => {
     Orientation.lockToPortrait();
@@ -52,6 +63,7 @@ function UserInfo({loader}) {
   };
 
   return (
+    <ScrollView style={{height:'100%'}}>
     <View style={styles.background}>
       <View style={styles.innerDiv}>
         <View style={styles.mainHeading}>
@@ -69,6 +81,7 @@ function UserInfo({loader}) {
         <View style={styles.secondaryHeading}>
           <Text style={styles.secondaryHeadingText}>User Information</Text>
         </View>
+        
         <View style={styles.formContainer}>
           <View style={styles.userName}>
             <TextInput
@@ -96,7 +109,7 @@ function UserInfo({loader}) {
                 }
                 setMale(value);
               }}
-              widthFactorMain="21"></RadioButton>
+              widthFactorMain="25"></RadioButton>
             <RadioButton
               checked={female}
               data="FeMale"
@@ -107,7 +120,7 @@ function UserInfo({loader}) {
                 }
                 setFemale(value);
               }}
-              widthFactorMain="21"></RadioButton>
+              widthFactorMain="25"></RadioButton>
             <RadioButton
               checked={other}
               data="Other"
@@ -118,13 +131,41 @@ function UserInfo({loader}) {
                 }
                 setOther(value);
               }}
-              widthFactorMain="21"></RadioButton>
+              widthFactorMain="25"></RadioButton>
           </View>
-          <TextInput
+         
+          <DropDownPicker
+            items={[
+              {
+                label: 'Bavaria',
+                value: 'Bavaria',
+              },
+              {
+                label: 'Berlin',
+                value: 'Berlin',
+              },
+              {
+                label: 'Munich',
+                value: 'Munich',
+              },
+            ]}
+            defaultValue={city}
+            containerStyle={{height: '15%'}}
+            style={{backgroundColor: '#F5F9F8', fontSize: RFValue(14, 580),
+            color: '#243E3B'}}
+            itemStyle={{
+              justifyContent: 'flex-start',
+            }}
+            dropDownStyle={{backgroundColor: '#F5F9F8', fontSize: RFValue(14, 580),
+            color: '#243E3B'}}
+            onChangeItem={item => setCity(item.value)}
+          />
+        </View>
+        <TextInput
             value={dob}
             textContentType="none"
             placeholder="Date"
-            style={styles.inputStyle}
+            style={styles.inputStyle1}
             onFocus={() => {
               setShowCalender(true);
             }}></TextInput>
@@ -138,7 +179,85 @@ function UserInfo({loader}) {
               onChange={_handleDatePicked}
             />
           ) : null}
-        </View>
+          <TextInput
+              value={taxId}
+              textContentType="taxId"
+              underlineColorAndroid="transparent"
+              placeholder="Tax ID"
+              style={styles.inputStyle1}
+              onChangeText={value => setTaxId(value)}></TextInput>
+          <TextInput
+              value={email}
+              textContentType="email"
+              underlineColorAndroid="transparent"
+              placeholder="Email"
+              style={styles.inputStyle1}
+              onChangeText={value => setEmail(value)}></TextInput>
+            <TextInput
+              value={mobileNo}
+              textContentType="mobileNo"
+              underlineColorAndroid="transparent"
+              placeholder="Mobile No"
+              style={styles.inputStyle1}
+              onChangeText={value => setMobileNo(value)}></TextInput>
+            <View style={styles.secondaryHeading}>
+              <Text style={styles.secondaryHeadingText}>Address</Text>
+            </View>
+            <View style={styles.userName}>
+            <TextInput
+              value={schiller}
+              textContentType="schiller"
+              underlineColorAndroid="transparent"
+              placeholder="Schiller"
+              style={styles.inputStyle}
+              onChangeText={value => setSchiller(value)}></TextInput>
+            <TextInput
+              value={schiller}
+              textContentType="schiller"
+              placeholder="zimmer"
+              style={styles.inputStyle}
+              onChangeText={value => setZimmer(value)}></TextInput>
+          </View>
+          <DropDownPicker
+            items={[
+              {
+                label: 'Bavaria',
+                value: 'Bavaria',
+              },
+              {
+                label: 'Berlin',
+                value: 'Berlin',
+              },
+              {
+                label: 'Munich',
+                value: 'Munich',
+              },
+            ]}
+            defaultValue={city1}
+            containerStyle={{height: '15%'}}
+            style={{backgroundColor: '#F5F9F8', fontSize: RFValue(14, 580),
+            color: '#243E3B'}}
+            itemStyle={{
+              justifyContent: 'flex-start',
+            }}
+            dropDownStyle={{backgroundColor: '#F5F9F8', fontSize: RFValue(14, 580),
+            color: '#243E3B'}}
+            onChangeItem={item => setCity1(item.value)}
+          />
+          <TextInput
+              value={fName}
+              textContentType="postalCode"
+              underlineColorAndroid="transparent"
+              placeholder="Postal Code"
+              style={styles.inputStyle1}
+              onChangeText={value => setPostalCode(value)}></TextInput>
+              <TouchableOpacity
+            style={[styles.container, styles.submitButtonDark]}>
+            <Text style={styles.submitText}>Save {'\u2B24'} Continue</Text>
+          </TouchableOpacity>
+          <View style={styles.saveCloseDiv}>
+              <Text style={styles.saveCloseText}>Save & add another member</Text>
+            </View>
         {loader ? (
           <View
             style={{
@@ -154,6 +273,7 @@ function UserInfo({loader}) {
         ) : null}
       </View>
     </View>
+    </ScrollView>
   );
 }
 
@@ -176,7 +296,7 @@ const styles = StyleSheet.create({
     paddingLeft: '5%',
     paddingRight: '5%',
   },
-
+ 
   mainHeadingText: {
     fontSize: RFValue(16, 580),
     color: PRIMARY_COLOR,
@@ -199,7 +319,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    marginBottom: 14,
+    marginBottom: 4,
+    width:'100%',
+    
   },
   inputStyle: {
     display: 'flex',
@@ -212,6 +334,20 @@ const styles = StyleSheet.create({
     paddingBottom: '4%',
     paddingLeft: '5%',
     paddingRight: '5%',
+    marginBottom: 14,
+  },
+  inputStyle1: {
+    display: 'flex',
+   
+    backgroundColor: '#F5F9F8',
+    borderRadius: 6,
+    fontSize: RFValue(14, 580),
+    color: '#243E3B',
+    paddingTop: '4%',
+    paddingBottom: '4%',
+    paddingLeft: '5%',
+    paddingRight: '5%',
+    marginBottom: 14,
   },
   gender: {
     display: 'flex',
@@ -219,4 +355,39 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 14,
   },
+  container: {
+    backgroundColor: 'rgba(243,115,32,1)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    borderRadius: 67,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.35,
+    shadowRadius: 5,
+    elevation: 5,
+    minWidth: 88,
+    paddingLeft: 16,
+    paddingRight: 16,
+  },
+
+  submitButtonDark: {
+    width: '100%',
+    borderRadius: 3,
+    backgroundColor: '#212826',
+    color: WHITE_COLOR,
+    paddingTop: 15,
+    paddingBottom: 15,
+    fontSize: RFValue(14, 580),
+    fontWeight:'600',
+  },
+  saveCloseText : {
+    fontSize: RFValue(14, 580),
+    fontWeight:'600',
+    color: '#212826',
+    marginBottom:180,
+  }
 });
