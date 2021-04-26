@@ -20,6 +20,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import Welcome from './src/containers/Welcome/Welcome';
 import Splash from './src/containers/Splash/Splash';
+import Phone from './src/containers/Phone/Phone';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -44,6 +45,11 @@ const App: () => React$Node = () => {
             <Stack.Screen
               name="WelcomeScreen"
               component={Welcome}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="PhoneScreen"
+              component={Phone}
               options={{headerShown: false}}
             />
           </Stack.Navigator>
