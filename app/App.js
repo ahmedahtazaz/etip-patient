@@ -19,6 +19,7 @@ import {Provider} from 'react-redux';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import Welcome from './src/containers/Welcome/Welcome';
+import Splash from './src/containers/Splash/Splash';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -36,7 +37,12 @@ const App: () => React$Node = () => {
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen
-              name="Welcome"
+              name="SplashScreen"
+              component={Splash}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="WelcomeScreen"
               component={Welcome}
               options={{headerShown: false}}
             />
