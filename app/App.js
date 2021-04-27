@@ -13,7 +13,7 @@ import rootSaga from './src/commons/RootSaga';
 import createRootReducer from './src/commons/RootReducer';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {StyleSheet, Text, TextInput} from 'react-native';
+import {StyleSheet, Text, TextInput, Image} from 'react-native';
 import {Provider} from 'react-redux';
 import {Icon} from 'react-native-elements';
 
@@ -26,7 +26,7 @@ import UserInfo from './src/containers/UserInfo/UserInfo';
 import UpdateSettings from './src/containers/UpdateSettings/UpdateSettings';
 import MainScreen from './src/containers/MainScreen/MainScreen';
 import Settings from './src/containers/Settings/Settings';
-
+const menuIcon = require('../app/src/assets/images/menu-icon.png');
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
   createRootReducer(),
@@ -42,18 +42,7 @@ const App: () => React$Node = () => {
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
-          <Stack.Screen
-              name="MainScreen"
-              component={MainScreen}
-              options={{
-                title: 'MainScreen',
-                headerStyle: {
-                  backgroundColor: 'white',
-                },
-                headerTintColor: 'black',
-                headerLeft: () => <Icon name="rowing" size={35} />,
-              }}
-            />
+          
             <Stack.Screen
               name="SplashScreen"
               component={Splash}
@@ -87,18 +76,18 @@ const App: () => React$Node = () => {
               }}
             />
 
-            {/* <Stack.Screen
+            <Stack.Screen
               name="MainScreen"
               component={MainScreen}
               options={{
-                title: 'MainScreen',
+                title: '',
                 headerStyle: {
                   backgroundColor: 'white',
                 },
                 headerTintColor: 'black',
-                headerLeft: () => <Icon name="rowing" size={35} />,
+                headerLeft: () => <Image source={menuIcon} style={{marginLeft:25}} />,
               }}
-            /> */}
+            />
             <Stack.Screen
               name="UpdateSettingScreen"
               component={UpdateSettings}

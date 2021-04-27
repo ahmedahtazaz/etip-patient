@@ -10,9 +10,16 @@ import {
   View,
   Image,
   useWindowDimensions,
+  ImageBackground,
 } from 'react-native';
 import {Dimensions} from 'react-native';
 import Orientation from 'react-native-orientation-locker';
+import {WHITE_COLOR} from '../../theme/Colors';
+import {RFValue} from 'react-native-responsive-fontsize';
+const mainScreenIcon = require('../../assets/images/main-screen-icon.png');
+const activeCertificationBg = require('../../assets/images/active-certification-bg.png');
+const activeAppoinmentsBg = require('../../assets/images/active-appoinments-bg.png');
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const DATA = [
@@ -65,26 +72,31 @@ const MainScreen = () => {
 
   const renderItem = ({item}) => {
     return (
-      <View style={{marginStart: 8}}>
-        <Image
-          style={{height: window.height / 4, width: window.width, marginEnd: 8}}
-          source={{uri: 'https://picsum.photos/200/300'}}
-        />
+      <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+        <View style={styles.activeCertificationDiv} >
+      <ImageBackground source={activeCertificationBg} style={{width: '100%', height:'100%', resizeMode: 'cover',}}>
+      <View style={styles.contentPadding}>
+        <Text style={styles.boxHeading}>No Active Certificate</Text>
+        <Text style={styles.boxText}>You don’t have any active certificate at the moment</Text>
+        </View>
+      </ImageBackground>
       </View>
+      </View>
+      
     );
   };
 
   const renderItemAppointment = ({item}) => {
     return (
-      <View style={{marginStart: 8}}>
-        <Image
-          style={{
-            height: window.height / 4,
-            width: window.width,
-            marginBottom: 8,
-          }}
-          source={{uri: 'https://picsum.photos/200/300'}}
-        />
+      <View>
+        <View style={styles.activeAppoinmentsDiv} >
+        <ImageBackground source={activeAppoinmentsBg} style={styles.activeAppoinmentsDiv} style={{width: '100%', height:'100%', resizeMode: 'cover',}} >
+        <View style={styles.contentPadding}>
+        <Text style={styles.boxHeading}>No Active Certificate</Text>
+        <Text style={styles.boxText}>You don’t have any active certificate at the moment</Text>
+        </View>
+      </ImageBackground>
+      </View>
       </View>
     );
   };
@@ -98,20 +110,20 @@ const MainScreen = () => {
               Hi Jenny
             </Text>
             <Text style={{textColor: 'grey', marginStart: 8}}>
-              Hope u r feeling healthy today
+              Hope u r feeling healthy today 
             </Text>
           </View>
 
           <View>
             <Image
               style={{height: 50, width: 50, marginEnd: 8}}
-              source={{uri: 'https://picsum.photos/200/300'}}
+              source={mainScreenIcon}
             />
           </View>
         </View>
       </View>
       <View style={styles.actionCertificateContainer}>
-        <Text style={{marginBottom: 8, marginStart: 8}}>
+        <Text style={styles.boxTopHeading}>
           ACTIVE CERTIFICATES
         </Text>
         <FlatList
@@ -123,7 +135,7 @@ const MainScreen = () => {
         />
       </View>
       <View style={styles.actionCertificateContainer}>
-        <Text style={{marginBottom: 8, marginStart: 8}}>APPOINTMENTS</Text>
+      <Text style={styles.boxTopHeading}>APPOINTMENTS</Text>
         <FlatList
           vertical
           data={DATA}
@@ -139,16 +151,67 @@ const MainScreen = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    flex: 1,
+    paddingLeft: '3%',
+    paddingRight: '3%',
+    flex:1,
+  },
+  activeCertificationDiv : {
+    borderRadius:10,
+    flexWrap: 'wrap',
+
+    display: 'flex',
+    flexDirection: 'column', 
+    resizeMode: 'cover',
+    overflow:'hidden',
+    marginEnd:10,
+    maxHeight:153,
+    
+  },
+  activeAppoinmentsDiv : {
+    borderRadius:10,
+   
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    textAlign:'left',
+    marginBottom:10,
+    resizeMode: 'cover',
+    overflow:'hidden',
+    
+    minHeight:153,
+  },
+  contentPadding : {
+    paddingTop:25,
+    paddingBottom:25,
+    paddingLeft:13,
+    paddingRight:50,
+  },
+  boxHeading : {
+    fontSize: RFValue(14, 580),
+    color: WHITE_COLOR,
+    fontWeight: '800',
+   
+   
+    paddingBottom:10,
+  },
+  boxText : {
+    fontSize: RFValue(13, 580),
+    color: WHITE_COLOR,
+    fontWeight: '400',
+   
+    lineHeight:20,
   },
   nameTextContainer: {
     display: 'flex',
     flexDirection: 'column',
   },
   actionCertificateContainer: {
-    marginTop: 32,
+    marginTop: 42,
     display: 'flex',
     flexDirection: 'column',
+  },
+  boxTopHeading : {
+    marginBottom: 8, marginStart: 8, color:'#595050', fontWeight:'600', fontSize: RFValue(12, 580),
   },
   nameContainer: {
     alignSelf: 'stretch',
