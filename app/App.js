@@ -26,6 +26,12 @@ import UpdateSettings from './src/containers/UpdateSettings/UpdateSettings';
 import MainScreen from './src/containers/MainScreen/MainScreen';
 import Settings from './src/containers/Settings/Settings';
 import { IS_VERIFIER_APP } from './src/commons/Constants';
+import QRScreen from './src/containers/QRScreen/QRScreen';
+import TestInformation from './src/containers/TestInformation/TestInformation';
+import TestConducted from './src/containers/TestConducted/TestConducted';
+import PinScreen from './src/containers/PinScreen/PinScreen';
+import TestCenter from './src/containers/TestCenter/TestCenter';
+import TestCenterInfo from './src/containers/TestCenterInfo/TestCenterInfo';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -45,6 +51,37 @@ const App: () => React$Node = () => {
             IS_VERIFIER_APP ?
               <Stack.Navigator>
                 {/* verifier app screens goes here */}
+                <Stack.Screen
+                  name="TestCenterInfo"
+                  component={TestCenterInfo}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="TestCenter"
+                  component={TestCenter}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="PhoneNumberScreen"
+                  component={PinScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="QRScreen"
+                  component={QRScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="TestInformationScreen"
+                  component={TestInformation}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="TestConductedScreen"
+                  component={TestConducted}
+                  options={{ headerShown: false }}
+                />
+
               </Stack.Navigator>
               :
               <Stack.Navigator>
