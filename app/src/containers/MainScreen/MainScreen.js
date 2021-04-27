@@ -13,10 +13,14 @@ import {
   ImageBackground,
 } from 'react-native';
 import {Dimensions} from 'react-native';
+import {Icon} from 'react-native-elements';
 import Orientation from 'react-native-orientation-locker';
 import {WHITE_COLOR} from '../../theme/Colors';
 import {RFValue} from 'react-native-responsive-fontsize';
 import BottomNavigator from '../../components/BottomNavigator';
+const menuIcon = require('../../assets/images/menu-icon.png');
+const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
+const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
 const mainScreenIcon = require('../../assets/images/main-screen-icon.png');
 const activeCertificationBg = require('../../assets/images/active-certification-bg.png');
 const activeAppoinmentsBg = require('../../assets/images/active-appoinments-bg.png');
@@ -117,6 +121,16 @@ const MainScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.mainMenu}>
+       <View style={styles.mainMenuItems}>
+        <View style={styles.menuItemsLeft}>
+        <Image source={menuArrowIcon} style={{marginLeft:10}} />
+        <Image source={menuIcon} style={{marginLeft:20}} />
+         </View>
+         <View style={styles.menuItemsCenter}><Image source={smallHeaderLogo} style={{marginLeft:5}} /></View>
+       </View>
+      </View>
+      <View style={styles.mainDivPad}>
       <View style={styles.nameContainer}>
         <View style={styles.parentNameContainer}>
           <View style={styles.nameTextContainer}>
@@ -156,6 +170,7 @@ const MainScreen = ({navigation}) => {
           extraData={selectedId}
         />
       </View>
+      </View>
       <BottomNavigator navigation={navigation}></BottomNavigator>
     </View>
   );
@@ -163,10 +178,37 @@ const MainScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
-    paddingLeft: '3%',
-    paddingRight: '3%',
     flex: 1,
+    backgroundColor:'white',
+  },
+  mainDivPad : {
+    paddingLeft:'3%',
+    paddingRight:'3%',
+    paddingTop:'10%',
+  },
+  mainMenu : {
+    position:'absolute',
+    zIndex:2000,
+    top:0,
+    left:'3%',
+    width:'100%',
+ 
+  },
+  mainMenuItems : {
+    flex:1,
+    flexDirection: 'row',
+    alignItems:'center',
+    paddingBottom:15,
+    paddingTop:15,
+  },
+  menuItemsLeft : {
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
+    alignItems:'center',
+    width:'45%',
+  },
+  menuItemsCenter : {
+    justifyContent: 'center',
   },
   activeCertificationDiv: {
     borderRadius: 10,
