@@ -19,7 +19,7 @@ import Orientation from 'react-native-orientation-locker';
 import {WHITE_COLOR} from '../../theme/Colors';
 import {RFValue} from 'react-native-responsive-fontsize';
 import BottomNavigator from '../../components/BottomNavigator';
-import {moveToSettingsScreenAction} from './Actions';
+import {moveToMakeAppointsAction, moveToSettingsScreenAction} from './Actions';
 const menuIcon = require('../../assets/images/menu-icon.png');
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
@@ -67,7 +67,11 @@ const Item = ({item, onPress, backgroundColor, textColor}) => (
   </TouchableOpacity>
 );
 
-const MainScreen = ({navigation, movetoSettingsScreen}) => {
+const MainScreen = ({
+  navigation,
+  movetoSettingsScreen,
+  movetoMakeAnAppointmentScreen,
+}) => {
   const window = useWindowDimensions();
 
   const [selectedId, setSelectedId] = useState(null);
@@ -179,7 +183,11 @@ const MainScreen = ({navigation, movetoSettingsScreen}) => {
           />
         </View>
       </View>
-      <View style={styles.plusIconDiv}><Image source={plusIcon} /></View>
+      <TouchableOpacity
+        style={styles.plusIconDiv}
+        onPress={() => movetoMakeAnAppointmentScreen(navigation)}>
+        <Image source={plusIcon} />
+      </TouchableOpacity>
       <BottomNavigator navigation={navigation}></BottomNavigator>
     </View>
   );
@@ -188,6 +196,8 @@ const MainScreen = ({navigation, movetoSettingsScreen}) => {
 const mapDispatchToProps = dispatch => {
   return {
     movetoSettingsScreen: navigation => moveToSettingsScreenAction(navigation),
+    movetoMakeAnAppointmentScreen: navigation =>
+      moveToMakeAppointsAction(navigation),
   };
 };
 
@@ -309,13 +319,13 @@ const styles = StyleSheet.create({
     height: 100,
     backgroundColor: 'black',
   },
-  plusIconDiv : {
-    position:'absolute',
-    zIndex:99999,
-    right:14,
-    bottom:'10%',
-    width:81,
-    height:81,
+  plusIconDiv: {
+    position: 'absolute',
+    zIndex: 99999,
+    right: 14,
+    bottom: '10%',
+    width: 81,
+    height: 81,
   },
 });
 
