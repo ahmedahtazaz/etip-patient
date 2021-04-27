@@ -1,60 +1,72 @@
-import React, { useState } from "react";
-import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, Button, Image, View, ImageBackground, TouchableOpacity } from "react-native";
+import React, {useState} from 'react';
+import {
+  FlatList,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  Button,
+  Image,
+  View,
+  ImageBackground,
+  TouchableOpacity,
+} from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {WHITE_COLOR} from '../../theme/Colors';
+import {connect} from 'react-redux';
+import {moveToUserUpdateSettingScreenAction} from './Actions';
 const settingHeaderBg = require('../../assets/images/setting-header-bg.png');
 const settingTopIcon = require('../../assets/images/setting-top-icon.png');
 const menuArrowWhiteIcon = require('../../assets/images/menu-arrow-white-icon.png');
 const DATA = [
   {
-    id: "Modifiy Personal Information",
-    title: "Modifiy Personal Information",
+    id: 'Modifiy Personal Information',
+    title: 'Modifiy Personal Information',
   },
   {
-    id: "Modify Email",
-    title: "Modify Email",
+    id: 'Modify Email',
+    title: 'Modify Email',
   },
   {
-    id: "Modify Sim",
-    title: "Modify Sim",
+    id: 'Modify Sim',
+    title: 'Modify Sim',
   },
   {
-    id: "About App",
-    title: "About App",
+    id: 'About App',
+    title: 'About App',
   },
   {
-    id: "Need Assistance",
-    title: "Need Assistance",
+    id: 'Need Assistance',
+    title: 'Need Assistance',
   },
   {
-    id: "Privacy Policy",
-    title: "Privacy Policy",
+    id: 'Privacy Policy',
+    title: 'Privacy Policy',
   },
   {
-    id: "Terms & Conditions",
-    title: "Terms & Conditions",
+    id: 'Terms & Conditions',
+    title: 'Terms & Conditions',
   },
-
 ];
 
-const Item = ({ item, onPress, backgroundColor, textColor }) => (
+const Item = ({item, onPress, backgroundColor, textColor}) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <Text style={[styles.title, textColor]}>{item.title}</Text>
   </TouchableOpacity>
 );
 
-const Settings = () => {
+const Settings = ({navigation, movetoUpdateScreen}) => {
   const [selectedId, setSelectedId] = useState(null);
 
-  const renderItem = ({ item }) => {
-    // const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
-    // const color = item.id === selectedId ? 'white' : 'black';
-
+  const renderItem = ({item}) => {
     return (
       <Item
         item={item}
-        onPress={() => setSelectedId(item.id)}
-        backgroundColor={ 'white' }
+        onPress={() => {
+          setSelectedId(item.id);
+          movetoUpdateScreen(navigation, item.title);
+        }}
+        backgroundColor={'white'}
         textColor={'black'}
       />
     );
@@ -62,59 +74,62 @@ const Settings = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground  source={settingHeaderBg} style={styles.settingHeaderBg}>
-      <View style={styles.SettingHeaderDiv}>
-      <Image source={menuArrowWhiteIcon} style={{marginRight:10}} />
-      <Text style={styles.profileName}>Jenny White</Text>
-      <Image source={settingTopIcon}  />
-      </View>
+      <ImageBackground source={settingHeaderBg} style={styles.settingHeaderBg}>
+        <View style={styles.SettingHeaderDiv}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Image source={menuArrowWhiteIcon} style={{marginRight: 10}} />
+          </TouchableOpacity>
+          <Text style={styles.profileName}>Jenny White</Text>
+          <Image source={settingTopIcon} />
+        </View>
       </ImageBackground>
       <FlatList
         data={DATA}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         extraData={selectedId}
       />
-      
+
       <TouchableOpacity
-            style={[styles.container, styles.submitButton]}>
-            <Text style={styles.submitText} style={{color:'#F20000'}}>Logout</Text>
-          </TouchableOpacity>
-      
+        style={[styles.container, styles.submitButton]}
+        onPress={() => goBack()}>
+        <Text style={styles.submitText} style={{color: '#F20000'}}>
+          Logout
+        </Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-      backgroundColor:'white',
-      flex: 1,
+    backgroundColor: 'white',
+    flex: 1,
   },
-  settingHeaderBg : {
-      width:'100%',
-      display:'flex',
-      alignItems:'center',
-      minHeight:135,
+  settingHeaderBg: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    minHeight: 135,
   },
-  SettingHeaderDiv : {
+  SettingHeaderDiv: {
     paddingTop: 46,
     paddingBottom: 25,
     paddingLeft: 13,
     paddingRight: 25,
-    display:'flex',
-    alignItems:'center',
-    justifyContent:'space-between',
-    flexDirection:'row',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
   },
-  profileName : {
+  profileName: {
     fontSize: RFValue(24, 580),
-    color:WHITE_COLOR,
-    justifyContent:'flex-start',
-    flexGrow:10,
-    paddingLeft:10,
-  
+    color: WHITE_COLOR,
+    justifyContent: 'flex-start',
+    flexGrow: 10,
+    paddingLeft: 10,
   },
-  
+
   item: {
     padding: 15,
     marginVertical: 8,
@@ -122,24 +137,34 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-
   },
   submitButton: {
     width: '100%',
     backgroundColor: '#FAFAFA',
     color: '#F20000',
     fontSize: RFValue(14, 580),
-    fontWeight:'700',
+    fontWeight: '700',
     paddingTop: 20,
     paddingBottom: 0,
     paddingLeft: 15,
     paddingRight: 15,
   },
-  submitText : {
+  submitText: {
     fontSize: RFValue(12, 580),
     color: '#F20000',
-    fontWeight:'600',
+    fontWeight: '600',
   },
 });
 
-export default Settings;
+const mapDispatchToProps = dispatch => {
+  return {
+    movetoUpdateScreen: (navigation, title) =>
+      moveToUserUpdateSettingScreenAction(navigation, title),
+  };
+};
+
+const mapStateToProps = state => {
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);

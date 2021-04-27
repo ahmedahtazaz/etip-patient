@@ -177,6 +177,11 @@ const App: () => React$Node = () => {
               component={AppointmentDetails}
               options={{headerShown: false}}
             />
+            <Stack.Screen
+              name="UpdateSettingsScreen"
+              component={UpdateSettings}
+              options={{headerShown: false}}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>
