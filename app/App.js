@@ -27,6 +27,10 @@ import UserInfo from './src/containers/UserInfo/UserInfo';
 import UpdateSettings from './src/containers/UpdateSettings/UpdateSettings';
 import MainScreen from './src/containers/MainScreen/MainScreen';
 import Settings from './src/containers/Settings/Settings';
+import Appointment from './src/containers/Appointment/Appointment';
+import AppointmentCalender from './src/containers/AppointmentCalender/AppointmentCalender';
+import TestCenter from './src/containers/TestCenter/TestCenter';
+import AppointmentTimeSlot from './src/containers/AppointmentTimeSlot/AppointmentTimeSlot';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -43,7 +47,7 @@ const App: () => React$Node = () => {
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
-            {/* <Stack.Screen
+            <Stack.Screen
               name="SplashScreen"
               component={Splash}
               options={{headerShown: false}}
@@ -62,8 +66,8 @@ const App: () => React$Node = () => {
               name="UserInfoScreen"
               component={UserInfo}
               options={{headerShown: false}}
-            /> */}
-{/* 
+            /> 
+
 <Stack.Screen
               name="Settings"
               component={Settings}
@@ -74,7 +78,7 @@ const App: () => React$Node = () => {
                 },
                 headerTintColor: 'black',
                
-              }}              /> */}
+              }}              /> 
 
             <Stack.Screen
               name="MainScreen"
@@ -93,8 +97,64 @@ const App: () => React$Node = () => {
 
                 ),
 
-              }} />
+              }} /> 
+  <Stack.Screen
+ 
+              name="Make an Appointment"
+              component={Appointment}
+              options={{
+                title: 'Make an Appointment',
+                headerTitleAlign: 'center',
 
+                headerStyle: {
+                  backgroundColor: 'white',
+                },
+              
+
+              }} /> 
+  <Stack.Screen
+ 
+ name="AppointmentCalender"
+ component={AppointmentCalender}
+ options={{
+   title: 'Make an Appointment',
+   headerTitleAlign: 'center',
+
+   headerStyle: {
+     backgroundColor: 'white',
+   },
+ 
+
+ }} />
+
+  <Stack.Screen
+ 
+ name="testCenter"
+ component={TestCenter}
+ options={{
+   title: 'Select Test Center',
+   headerTitleAlign: 'center',
+
+   headerStyle: {
+     backgroundColor: 'white',
+   },
+ 
+
+ }} />
+ <Stack.Screen
+ 
+ name="appointmentSlot"
+ component={AppointmentTimeSlot}
+ options={{
+   title: 'Make an Appointment',
+   headerTitleAlign: 'center',
+
+   headerStyle: {
+     backgroundColor: 'white',
+   },
+ 
+
+ }} />
 
           </Stack.Navigator>
         </NavigationContainer>
