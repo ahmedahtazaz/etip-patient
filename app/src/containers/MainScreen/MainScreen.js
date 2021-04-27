@@ -1,5 +1,6 @@
 import {useIsFocused} from '@react-navigation/core';
 import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
 import {
   FlatList,
   SafeAreaView,
@@ -18,6 +19,7 @@ import Orientation from 'react-native-orientation-locker';
 import {WHITE_COLOR} from '../../theme/Colors';
 import {RFValue} from 'react-native-responsive-fontsize';
 import BottomNavigator from '../../components/BottomNavigator';
+import {moveToSettingsScreenAction} from './Actions';
 const menuIcon = require('../../assets/images/menu-icon.png');
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
@@ -65,7 +67,7 @@ const Item = ({item, onPress, backgroundColor, textColor}) => (
   </TouchableOpacity>
 );
 
-const MainScreen = ({navigation}) => {
+const MainScreen = ({navigation, movetoSettingsScreen}) => {
   const window = useWindowDimensions();
 
   const [selectedId, setSelectedId] = useState(null);
@@ -123,54 +125,59 @@ const MainScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.mainMenu}>
-       <View style={styles.mainMenuItems}>
-        <View style={styles.menuItemsLeft}>
-        <Image source={menuArrowIcon} style={{marginLeft:10}} />
-        <Image source={menuIcon} style={{marginLeft:20}} />
-         </View>
-         <View style={styles.menuItemsCenter}><Image source={smallHeaderLogo} style={{marginLeft:5}} /></View>
-       </View>
-      </View>
-      <View style={styles.mainDivPad}>
-      <View style={styles.nameContainer}>
-        <View style={styles.parentNameContainer}>
-          <View style={styles.nameTextContainer}>
-            <Text style={{fontSize: 25, fontWeight: 'bold', marginStart: 8}}>
-              Hi Jenny
-            </Text>
-            <Text style={{textColor: 'grey', marginStart: 8}}>
-              Hope u r feeling healthy today
-            </Text>
-          </View>
-
-          <View>
-            <Image
-              style={{height: 50, width: 50, marginEnd: 8}}
-              source={mainScreenIcon}
-            />
+        <View style={styles.mainMenuItems}>
+          <TouchableOpacity
+            style={styles.menuItemsLeft}
+            onPress={() => {
+              movetoSettingsScreen(navigation);
+            }}>
+            <Image source={menuIcon} style={{marginLeft: 10}} />
+          </TouchableOpacity>
+          <View style={styles.menuItemsCenter}>
+            <Image source={smallHeaderLogo} style={{marginLeft: 5}} />
           </View>
         </View>
       </View>
-      <View style={styles.actionCertificateContainer}>
-        <Text style={styles.boxTopHeading}>ACTIVE CERTIFICATES</Text>
-        <FlatList
-          horizontal
-          data={DATA}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-          extraData={selectedId}
-        />
-      </View>
-      <View style={styles.actionCertificateContainer}>
-        <Text style={styles.boxTopHeading}>APPOINTMENTS</Text>
-        <FlatList
-          vertical
-          data={DATA}
-          renderItem={renderItemAppointment}
-          keyExtractor={item => item.id}
-          extraData={selectedId}
-        />
-      </View>
+      <View style={styles.mainDivPad}>
+        <View style={styles.nameContainer}>
+          <View style={styles.parentNameContainer}>
+            <View style={styles.nameTextContainer}>
+              <Text style={{fontSize: 25, fontWeight: 'bold', marginStart: 8}}>
+                Hi Jenny
+              </Text>
+              <Text style={{textColor: 'grey', marginStart: 8}}>
+                Hope u r feeling healthy today
+              </Text>
+            </View>
+
+            <View>
+              <Image
+                style={{height: 50, width: 50, marginEnd: 8}}
+                source={mainScreenIcon}
+              />
+            </View>
+          </View>
+        </View>
+        <View style={styles.actionCertificateContainer}>
+          <Text style={styles.boxTopHeading}>ACTIVE CERTIFICATES</Text>
+          <FlatList
+            horizontal
+            data={DATA}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+            extraData={selectedId}
+          />
+        </View>
+        <View style={styles.actionCertificateContainer}>
+          <Text style={styles.boxTopHeading}>APPOINTMENTS</Text>
+          <FlatList
+            vertical
+            data={DATA}
+            renderItem={renderItemAppointment}
+            keyExtractor={item => item.id}
+            extraData={selectedId}
+          />
+        </View>
       </View>
       <View style={styles.plusIconDiv}><Image source={plusIcon} /></View>
       <BottomNavigator navigation={navigation}></BottomNavigator>
@@ -178,38 +185,47 @@ const MainScreen = ({navigation}) => {
   );
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    movetoSettingsScreen: navigation => moveToSettingsScreenAction(navigation),
+  };
+};
+
+const mapStateToProps = state => {
+  return {};
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:'white',
+    backgroundColor: 'white',
   },
-  mainDivPad : {
-    paddingLeft:'3%',
-    paddingRight:'3%',
-    paddingTop:'10%',
+  mainDivPad: {
+    paddingLeft: '3%',
+    paddingRight: '3%',
+    paddingTop: '10%',
   },
-  mainMenu : {
-    position:'absolute',
-    zIndex:2000,
-    top:0,
-    left:'3%',
-    width:'100%',
- 
+  mainMenu: {
+    position: 'absolute',
+    zIndex: 2000,
+    top: 0,
+    left: '3%',
+    width: '100%',
   },
-  mainMenuItems : {
-    flex:1,
+  mainMenuItems: {
+    flex: 1,
     flexDirection: 'row',
-    alignItems:'center',
-    paddingBottom:15,
-    paddingTop:15,
+    alignItems: 'center',
+    paddingBottom: 15,
+    paddingTop: 15,
   },
-  menuItemsLeft : {
+  menuItemsLeft: {
     justifyContent: 'flex-start',
     flexDirection: 'row',
-    alignItems:'center',
-    width:'45%',
+    alignItems: 'center',
+    width: '45%',
   },
-  menuItemsCenter : {
+  menuItemsCenter: {
     justifyContent: 'center',
   },
   activeCertificationDiv: {
@@ -303,4 +319,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MainScreen;
+export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
