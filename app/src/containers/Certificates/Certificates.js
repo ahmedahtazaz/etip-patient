@@ -1,5 +1,3 @@
-
-
 import {useIsFocused} from '@react-navigation/core';
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
@@ -125,9 +123,7 @@ const Certificates = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-     
       <View style={styles.mainDivPad}>
-     
         <View style={styles.actionCertificateContainer}>
           <Text style={styles.boxTopHeading}>ACTIVE CERTIFICATES</Text>
           <FlatList
@@ -149,8 +145,12 @@ const Certificates = ({navigation}) => {
           />
         </View>
       </View>
-      <View style={styles.plusIconDiv}><Image source={plusIcon} /></View>
-      <BottomNavigator navigation={navigation}></BottomNavigator>
+      <View style={styles.plusIconDiv}>
+        <Image source={plusIcon} />
+      </View>
+      <BottomNavigator
+        navigation={navigation}
+        selectedItem={{id: 4, label: 'Certificates'}}></BottomNavigator>
     </View>
   );
 };
@@ -279,13 +279,13 @@ const styles = StyleSheet.create({
     height: 100,
     backgroundColor: 'black',
   },
-  plusIconDiv : {
-    position:'absolute',
-    zIndex:99999,
-    right:14,
-    bottom:'10%',
-    width:81,
-    height:81,
+  plusIconDiv: {
+    position: 'absolute',
+    zIndex: 99999,
+    right: 14,
+    bottom: '10%',
+    width: 81,
+    height: 81,
   },
 });
 

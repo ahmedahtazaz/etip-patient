@@ -1,7 +1,8 @@
 import React from 'react';
 import {ImageBackground, Text, View, StyleSheet, Image} from 'react-native';
-import { RFValue } from 'react-native-responsive-fontsize';
-import { WHITE_COLOR } from '../../theme/Colors';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {RFValue} from 'react-native-responsive-fontsize';
+import {WHITE_COLOR} from '../../theme/Colors';
 const mainScreenIcon = require('../../assets/images/main-screen-icon.png');
 const qrBig = require('../../assets/images/qr-big.png');
 const activeCertificationBg = require('../../assets/images/active-certification-bg.png');
@@ -11,11 +12,13 @@ const AppointmentDetails = ({navigation}) => {
   return (
     <View style={{height: '100%', width: '100%', flexDirection: 'column'}}>
       <View style={styles.mainMenu}>
-        <View style={styles.mainMenuItems}>
-            <Image source={menuArrowIcon} style={{marginLeft: 5}} />
-        </View>
+        <TouchableOpacity
+          style={styles.mainMenuItems}
+          onPress={() => navigation.goBack()}>
+          <Image source={menuArrowIcon} style={{marginLeft: 5}} />
+        </TouchableOpacity>
       </View>
-      
+
       <View style={styles.mainView}>
         <View style={styles.activeCertificationDiv}>
           <ImageBackground
@@ -29,11 +32,8 @@ const AppointmentDetails = ({navigation}) => {
             </View>
           </ImageBackground>
         </View>
-        <Image
-          style={{ marginEnd: 8}}
-          source={qrBig}></Image>
+        <Image style={{marginEnd: 8}} source={qrBig}></Image>
       </View>
-     
     </View>
   );
 };
@@ -49,14 +49,14 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     marginEnd: 10,
     maxHeight: 153,
-    marginBottom:50,
+    marginBottom: 50,
   },
-  mainView : {
+  mainView: {
     flex: 1,
     flexDirection: 'column',
-    
-    paddingTop:50,
-    paddingLeft:'3%',
+
+    paddingTop: 50,
+    paddingLeft: '3%',
   },
   mainMenu: {
     position: 'absolute',

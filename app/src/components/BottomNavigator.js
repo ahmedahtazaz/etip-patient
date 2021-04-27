@@ -2,14 +2,14 @@ import React, {useState} from 'react';
 import {StyleSheet, View, FlatList} from 'react-native';
 import NavigatorItem from './NavigatorItem';
 
-function BottomNavigator({navigation}) {
+function BottomNavigator({navigation, selectedItem}) {
   const [items, setItems] = useState([
     {id: 1, label: 'Home'},
     {id: 2, label: 'Appointments'},
     {id: 3, label: 'Family'},
     {id: 4, label: 'Certificates'},
   ]);
-  const [selectedItem, setSelectedItem] = useState({id: 1, label: 'Home'});
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -25,7 +25,6 @@ function BottomNavigator({navigation}) {
             item={item}
             isSelected={selectedItem.id == item.id}
             navigation={navigation}
-            onPress={item => setSelectedItem(item)}
           />
         )}
         keyExtractor={item => item.id.toString()}
@@ -43,16 +42,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
-    borderTopLeftRadius:20,
-    borderTopRightRadius:20,
-    
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+
     shadowRadius: 2,
     shadowOffset: {
-     width: 0,
-     height: -3,
+      width: 0,
+      height: -3,
     },
-   shadowColor: '#000000',
-   elevation: 4,
+    shadowColor: '#000000',
+    elevation: 4,
   },
   rowHorizontalScreenListContainer: {
     flexGrow: 0,

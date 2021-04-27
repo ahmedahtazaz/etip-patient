@@ -151,9 +151,6 @@ const AppointmentCalender = ({
           <Text style={{marginBottom: 8, marginStart: 8}}>Region</Text>
           <Calendar onDateChange={onDateChange} />
         </View>
-        <View style={styles.bottom}>
-          <Button color="#20B2AA" title="Book Appointment" />
-        </View>
       </ScrollView>
     </View>
   );

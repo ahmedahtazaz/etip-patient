@@ -31,10 +31,19 @@ const mainScreenIcon = require('../../assets/images/main-screen-icon.png');
 const activeCertificationBg = require('../../assets/images/active-certification-bg.png');
 const activeAppoinmentsBg = require('../../assets/images/active-appoinments-bg.png');
 const plusIcon = require('../../assets/images/plus-icon.png');
+const appoinmentRedBg = require('../../assets/images/appoinment-red-bg.png');
+const rightHandFinger = require('../../assets/images/right-hand-finger.png');
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const DATA = [
+  {
+    id: 'Modifiy Personal Information',
+    title: 'Modifiy Personal Information',
+  },
+];
+
+const DATA1 = [
   {
     id: 'Modifiy Personal Information',
     title: 'Modifiy Personal Information',
@@ -76,6 +85,7 @@ const MainScreen = ({
   movetoSettingsScreen,
   movetoMakeAnAppointmentScreen,
   moveToAppointmentDetails,
+  route,
 }) => {
   const window = useWindowDimensions();
 
@@ -88,6 +98,32 @@ const MainScreen = ({
   }, [isFocused]);
 
   const renderItem = ({item}) => {
+    if (route.params && route.params.booked) {
+      return (
+        <View style={styles.appoinmentRedDiv}>
+          <ImageBackground
+            source={appoinmentRedBg}
+            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
+            <View style={styles.contentPadding1}>
+              <View style={styles.redDivTop}>
+                <Text style={styles.boxHeading}>You are Covid Positive</Text>
+                <Text style={styles.boxText}>
+                  Please donot panic, For any Medical Assistance you have +49 00
+                  000000 available 24/7.
+                </Text>
+              </View>
+              <View style={styles.redDivBottom}>
+                <Text style={styles.redDivBottomLeft}>
+                  We have added few tips in your dashbaord that may help you in
+                  these times. Swipe to view them
+                </Text>
+                <Image source={rightHandFinger} style={{marginTop: 30}} />
+              </View>
+            </View>
+          </ImageBackground>
+        </View>
+      );
+    }
     return (
       <View
         style={{
@@ -112,6 +148,25 @@ const MainScreen = ({
   };
 
   const renderItemAppointment = ({item}) => {
+    if (route.params && route.params.booked) {
+      return (
+        <View>
+          <View style={styles.activeAppoinmentsDiv}>
+            <ImageBackground
+              source={activeAppoinmentsBg}
+              style={styles.activeAppoinmentsDiv}
+              style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
+              <View style={styles.contentPadding}>
+                <Text style={styles.boxHeading}>Citizen Antigen Test</Text>
+                <Text style={styles.boxText}>
+                  You don’t have any active certificate at the moment
+                </Text>
+              </View>
+            </ImageBackground>
+          </View>
+        </View>
+      );
+    }
     return (
       <View>
         <View style={styles.activeAppoinmentsDiv}>
@@ -182,7 +237,7 @@ const MainScreen = ({
           <Text style={styles.boxTopHeading}>APPOINTMENTS</Text>
           <FlatList
             vertical
-            data={DATA}
+            data={route.params && route.params.booked ? DATA1 : DATA}
             renderItem={renderItemAppointment}
             keyExtractor={item => item.id}
             extraData={selectedId}
@@ -194,7 +249,9 @@ const MainScreen = ({
         onPress={() => movetoMakeAnAppointmentScreen(navigation)}>
         <Image source={plusIcon} />
       </TouchableOpacity>
-      <BottomNavigator navigation={navigation}></BottomNavigator>
+      <BottomNavigator
+        navigation={navigation}
+        selectedItem={{id: 1, label: 'Home'}}></BottomNavigator>
     </View>
   );
 };
@@ -334,6 +391,38 @@ const styles = StyleSheet.create({
     bottom: '10%',
     width: 81,
     height: 81,
+  },
+  appoinmentRedDiv: {
+    borderRadius: 10,
+    flexWrap: 'wrap',
+    display: 'flex',
+    flexDirection: 'column',
+    resizeMode: 'cover',
+    overflow: 'hidden',
+    marginEnd: 10,
+    maxHeight: 198,
+  },
+  redDivBottom: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    paddingBottom: 35,
+  },
+  redDivBottomLeft: {
+    fontSize: RFValue(10, 580),
+    color: WHITE_COLOR,
+    justifyContent: 'flex-start',
+    flexGrow: 10,
+    paddingRight: 25,
+    paddingTop: 24,
+    lineHeight: 24,
+  },
+  contentPadding1: {
+    paddingTop: 25,
+    paddingBottom: 25,
+    paddingLeft: 13,
+    paddingRight: 25,
   },
 });
 

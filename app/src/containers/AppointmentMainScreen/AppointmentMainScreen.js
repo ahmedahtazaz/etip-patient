@@ -1,5 +1,3 @@
-
-
 import {useIsFocused} from '@react-navigation/core';
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
@@ -125,9 +123,7 @@ const AppointmentMainScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-     
       <View style={styles.mainDivPad}>
-     
         <View style={styles.actionCertificateContainer}>
           <Text style={styles.boxTopHeading}>ACTIVE APPOINTMENTS</Text>
           <FlatList
@@ -149,8 +145,12 @@ const AppointmentMainScreen = ({navigation}) => {
           />
         </View>
       </View>
-      <View style={styles.plusIconDiv}><Image source={plusIcon} /></View>
-      <BottomNavigator navigation={navigation}></BottomNavigator>
+      <View style={styles.plusIconDiv}>
+        <Image source={plusIcon} />
+      </View>
+      <BottomNavigator
+        navigation={navigation}
+        selectedItem={{id: 2, label: 'Appointments'}}></BottomNavigator>
     </View>
   );
 };
@@ -279,14 +279,17 @@ const styles = StyleSheet.create({
     height: 100,
     backgroundColor: 'black',
   },
-  plusIconDiv : {
-    position:'absolute',
-    zIndex:99999,
-    right:14,
-    bottom:'10%',
-    width:81,
-    height:81,
+  plusIconDiv: {
+    position: 'absolute',
+    zIndex: 99999,
+    right: 14,
+    bottom: '10%',
+    width: 81,
+    height: 81,
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppointmentMainScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AppointmentMainScreen);
