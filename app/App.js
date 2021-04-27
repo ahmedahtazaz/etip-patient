@@ -31,6 +31,9 @@ import Appointment from './src/containers/Appointment/Appointment';
 import AppointmentCalender from './src/containers/AppointmentCalender/AppointmentCalender';
 import TestCenter from './src/containers/TestCenter/TestCenter';
 import AppointmentTimeSlot from './src/containers/AppointmentTimeSlot/AppointmentTimeSlot';
+import AppointmentMainScreen from './src/containers/AppointmentMainScreen/AppointmentMainScreen';
+import Certificates from './src/containers/Certificates/Certificates';
+import FamilyMain from './src/containers/FamilyMain/FamilyMain';
 const menuIcon = require('../app/src/assets/images/menu-icon.png');
 
 const sagaMiddleware = createSagaMiddleware();
@@ -141,8 +144,55 @@ const App: () => React$Node = () => {
                 },
 
 
+              }} /> 
+
+<Stack.Screen
+
+              name="appointmentMainScreen"
+              component={AppointmentMainScreen}
+              options={{
+                title: 'Appointment',
+                headerTitleAlign: 'center',
+
+                headerStyle: {
+                  backgroundColor: 'white',
+                },
+
+
               }} />
 
+
+<Stack.Screen
+
+              name="certificateMain"
+              component={Certificates}
+              options={{
+                title: 'Certificate',
+                headerTitleAlign: 'center',
+
+                headerStyle: {
+                  backgroundColor: 'white',
+                },
+
+
+              }} />
+
+
+              
+<Stack.Screen
+
+name="familyMain"
+component={FamilyMain}
+options={{
+  title: 'Family',
+  headerTitleAlign: 'center',
+
+  headerStyle: {
+    backgroundColor: 'white',
+  },
+
+
+}} />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>
