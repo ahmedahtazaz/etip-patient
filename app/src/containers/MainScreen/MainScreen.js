@@ -24,6 +24,7 @@ const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
 const mainScreenIcon = require('../../assets/images/main-screen-icon.png');
 const activeCertificationBg = require('../../assets/images/active-certification-bg.png');
 const activeAppoinmentsBg = require('../../assets/images/active-appoinments-bg.png');
+const plusIcon = require('../../assets/images/plus-icon.png');
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -171,6 +172,7 @@ const MainScreen = ({navigation}) => {
         />
       </View>
       </View>
+      <View style={styles.plusIconDiv}><Image source={plusIcon} /></View>
       <BottomNavigator navigation={navigation}></BottomNavigator>
     </View>
   );
@@ -290,6 +292,14 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     backgroundColor: 'black',
+  },
+  plusIconDiv : {
+    position:'absolute',
+    zIndex:99999,
+    right:14,
+    bottom:'10%',
+    width:81,
+    height:81,
   },
 });
 
