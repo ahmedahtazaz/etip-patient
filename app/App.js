@@ -7,16 +7,16 @@
  */
 
 import React from 'react';
-import {compose, createStore, applyMiddleware} from 'redux';
+import { compose, createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './src/commons/RootSaga';
 import createRootReducer from './src/commons/RootReducer';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {StyleSheet, Text, TextInput} from 'react-native';
-import {Provider} from 'react-redux';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { StyleSheet, Text, TextInput } from 'react-native';
+import { Provider } from 'react-redux';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 import Welcome from './src/containers/Welcome/Welcome';
 import Splash from './src/containers/Splash/Splash';
@@ -25,6 +25,7 @@ import UserInfo from './src/containers/UserInfo/UserInfo';
 import UpdateSettings from './src/containers/UpdateSettings/UpdateSettings';
 import MainScreen from './src/containers/MainScreen/MainScreen';
 import Settings from './src/containers/Settings/Settings';
+import { IS_VERIFIER_APP } from './src/commons/Constants';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -40,44 +41,51 @@ const App: () => React$Node = () => {
     <>
       <Provider store={store}>
         <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen
-              name="SplashScreen"
-              component={Splash}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="WelcomeScreen"
-              component={Welcome}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="PhoneScreen"
-              component={Phone}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="UserInfoScreen"
-              component={UserInfo}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="MainScreen"
-              component={MainScreen}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="Settings"
-              component={Settings}
-              options={{
-                title: 'Settings',
-                headerStyle: {
-                  backgroundColor: 'white',
-                },
-                headerTintColor: 'black',
-              }}
-            />
-          </Stack.Navigator>
+          {
+            IS_VERIFIER_APP ?
+              <Stack.Navigator>
+                {/* verifier app screens goes here */}
+              </Stack.Navigator>
+              :
+              <Stack.Navigator>
+                <Stack.Screen
+                  name="SplashScreen"
+                  component={Splash}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="WelcomeScreen"
+                  component={Welcome}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="PhoneScreen"
+                  component={Phone}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="UserInfoScreen"
+                  component={UserInfo}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="MainScreen"
+                  component={MainScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Settings"
+                  component={Settings}
+                  options={{
+                    title: 'Settings',
+                    headerStyle: {
+                      backgroundColor: 'white',
+                    },
+                    headerTintColor: 'black',
+                  }}
+                />
+              </Stack.Navigator>
+          }
         </NavigationContainer>
       </Provider>
     </>

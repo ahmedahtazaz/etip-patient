@@ -4,3 +4,5 @@ export const LOAD_INIT_FAILURE = 'LOAD_INIT_FAILURE';
 export const SHOW_INIT_LOADER = 'SHOW_INIT_LOADER';
 
 export const APP_INIT_LINK = '';
+
+export const IS_VERIFIER_APP = true;
