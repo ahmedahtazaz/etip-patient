@@ -19,7 +19,11 @@ import Orientation from 'react-native-orientation-locker';
 import {WHITE_COLOR} from '../../theme/Colors';
 import {RFValue} from 'react-native-responsive-fontsize';
 import BottomNavigator from '../../components/BottomNavigator';
-import {moveToMakeAppointsAction, moveToSettingsScreenAction} from './Actions';
+import {
+  moveToAppointmentDetailsAction,
+  moveToMakeAppointsAction,
+  moveToSettingsScreenAction,
+} from './Actions';
 const menuIcon = require('../../assets/images/menu-icon.png');
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
@@ -71,6 +75,7 @@ const MainScreen = ({
   navigation,
   movetoSettingsScreen,
   movetoMakeAnAppointmentScreen,
+  moveToAppointmentDetails,
 }) => {
   const window = useWindowDimensions();
 
@@ -154,12 +159,13 @@ const MainScreen = ({
               </Text>
             </View>
 
-            <View>
+            <TouchableOpacity
+              onPress={() => moveToAppointmentDetails(navigation)}>
               <Image
                 style={{height: 50, width: 50, marginEnd: 8}}
                 source={mainScreenIcon}
               />
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
         <View style={styles.actionCertificateContainer}>
@@ -198,6 +204,8 @@ const mapDispatchToProps = dispatch => {
     movetoSettingsScreen: navigation => moveToSettingsScreenAction(navigation),
     movetoMakeAnAppointmentScreen: navigation =>
       moveToMakeAppointsAction(navigation),
+    moveToAppointmentDetails: navigation =>
+      moveToAppointmentDetailsAction(navigation),
   };
 };
 
