@@ -1,56 +1,67 @@
-import React, { useState } from "react";
-import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity } from "react-native";
+import React, {useState} from 'react';
+import {
+  FlatList,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
+import {connect} from 'react-redux';
+import {moveToUserUpdateSettingScreenAction} from './Actions';
 
 const DATA = [
   {
-    id: "Modifiy Personal Information",
-    title: "Modifiy Personal Information",
+    id: 'Modifiy Personal Information',
+    title: 'Modifiy Personal Information',
   },
   {
-    id: "Modify Email",
-    title: "Modify Email",
+    id: 'Modify Email',
+    title: 'Modify Email',
   },
   {
-    id: "Modify Sim",
-    title: "Modify Sim",
+    id: 'Modify Sim',
+    title: 'Modify Sim',
   },
   {
-    id: "About App",
-    title: "About App",
+    id: 'About App',
+    title: 'About App',
   },
   {
-    id: "Need Assistance",
-    title: "Need Assistance",
+    id: 'Need Assistance',
+    title: 'Need Assistance',
   },
   {
-    id: "Privacy Policy",
-    title: "Privacy Policy",
+    id: 'Privacy Policy',
+    title: 'Privacy Policy',
   },
   {
-    id: "Terms & Conditions",
-    title: "Terms & Conditions",
+    id: 'Terms & Conditions',
+    title: 'Terms & Conditions',
   },
-
 ];
 
-const Item = ({ item, onPress, backgroundColor, textColor }) => (
+const Item = ({item, onPress, backgroundColor, textColor}) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <Text style={[styles.title, textColor]}>{item.title}</Text>
   </TouchableOpacity>
 );
 
-const Settings = () => {
+const Settings = ({movetoUpdateSettingsScreen, navigation}) => {
   const [selectedId, setSelectedId] = useState(null);
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({item}) => {
     // const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
     // const color = item.id === selectedId ? 'white' : 'black';
 
     return (
       <Item
         item={item}
-        onPress={() => setSelectedId(item.id)}
-        backgroundColor={ 'white' }
+        onPress={() => {
+          setSelectedId(item.id);
+          movetoUpdateSettingsScreen(navigation, item.title);
+        }}
+        backgroundColor={'white'}
         textColor={'black'}
       />
     );
@@ -61,7 +72,7 @@ const Settings = () => {
       <FlatList
         data={DATA}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         extraData={selectedId}
       />
     </SafeAreaView>
@@ -70,8 +81,8 @@ const Settings = () => {
 
 const styles = StyleSheet.create({
   container: {
-      backgroundColor:'white',
-      flex: 1,
+    backgroundColor: 'white',
+    flex: 1,
   },
   item: {
     padding: 20,
@@ -80,8 +91,18 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-
   },
 });
 
-export default Settings;
+const mapDispatchToProps = dispatch => {
+  return {
+    movetoUpdateSettingsScreen: (navigation, title) =>
+      moveToUserUpdateSettingScreenAction(navigation, title),
+  };
+};
+
+const mapStateToProps = state => {
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);
