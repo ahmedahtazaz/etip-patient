@@ -72,7 +72,7 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
               {'\n'}
               {'\n'}
               <Text style={styles.inputLabelSmall}>
-                Please Enter your Phone Number to continue
+              Please enter your valid phone number to continue
               </Text>
             </Text>
             <TextInput
@@ -90,7 +90,7 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
               {'\n'}
               {'\n'}
               <Text style={styles.inputLabelSmall}>
-                Please Enter the OTP we have sent over the numuber{' '}
+              Please Enter the OTP we have sent over the numuber {' '}
               </Text>
             </Text>
             <View
@@ -255,9 +255,10 @@ const styles = StyleSheet.create({
   },
   inputLabelDiv: {
     display: 'flex',
-    height: 100,
+    
     flexDirection: 'column',
     alignItems: 'center',
+    paddingRight:'10%',
   },
   inputLabel: {
     fontSize: RFValue(20, 580),
@@ -265,10 +266,9 @@ const styles = StyleSheet.create({
     color: PRIMARY_COLOR,
   },
   inputLabelSmall: {
-    fontSize: RFValue(10, 580),
-    fontWeight: 'bold',
+    fontSize: RFValue(12, 580),
     color: GRAY_COLOR,
-    paddingTop: 15,
+    lineHeight:20,
   },
   inputStyle1: {
     color: '#000',
