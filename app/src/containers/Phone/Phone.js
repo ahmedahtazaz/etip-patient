@@ -271,8 +271,7 @@ const styles = StyleSheet.create({
     lineHeight:20,
   },
   inputStyle1: {
-    color: '#000',
-
+    color: '#319085',
     display: 'flex',
     borderBottomWidth: 0,
     paddingTop: '1.8%',
@@ -283,8 +282,7 @@ const styles = StyleSheet.create({
     marginBottom: '20%',
   },
   inputStyle: {
-    color: '#000',
-
+    color: '#319085',
     display: 'flex',
     borderBottomWidth: 1,
     paddingTop: '1.8%',
@@ -296,8 +294,6 @@ const styles = StyleSheet.create({
     textAlign:'center',
     borderBottomColor:'#000000',
     width:'17%',
-
-    
   },
   container: {
     backgroundColor: 'rgba(243,115,32,1)',

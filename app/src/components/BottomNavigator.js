@@ -42,7 +42,17 @@ const styles = StyleSheet.create({
     height: '10%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#353333',
+    backgroundColor: '#FFFFFF',
+    borderTopLeftRadius:20,
+    borderTopRightRadius:20,
+    
+    shadowRadius: 2,
+    shadowOffset: {
+     width: 0,
+     height: -3,
+    },
+   shadowColor: '#000000',
+   elevation: 4,
   },
   rowHorizontalScreenListContainer: {
     flexGrow: 0,

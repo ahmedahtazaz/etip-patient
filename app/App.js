@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Button } from 'react-native';
+import { Button, Image } from 'react-native';
 import { compose, createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './src/commons/RootSaga';
@@ -31,6 +31,7 @@ import Appointment from './src/containers/Appointment/Appointment';
 import AppointmentCalender from './src/containers/AppointmentCalender/AppointmentCalender';
 import TestCenter from './src/containers/TestCenter/TestCenter';
 import AppointmentTimeSlot from './src/containers/AppointmentTimeSlot/AppointmentTimeSlot';
+const menuIcon = require('../app/src/assets/images/menu-icon.png');
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -83,16 +84,7 @@ const App: () => React$Node = () => {
             <Stack.Screen
               name="MainScreen"
               component={MainScreen}
-              options={{
-                title: 'MainScreen',
-                headerStyle: {
-                  backgroundColor: 'white',
-                },
-                headerTintColor: 'black',
-                headerLeft: () => <Image source={menuIcon} style={{marginLeft:25}} />,
-
-
-              }} />
+              options={{ headerShown: false }}/>
             <Stack.Screen
 
               name="Make an Appointment"
