@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {APP_INIT_LINK} from '../../commons/Constants';
-import {PRIMARY_COLOR} from '../../theme/Colors';
+import {PRIMARY_COLOR, WHITE_COLOR} from '../../theme/Colors';
 import PrimaryButton from '../../components/PrimaryButton';
 import {
   moveToMainScreenAction,
@@ -14,10 +14,10 @@ import {
 
 import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
-import {ActivityIndicator, Image, View, StyleSheet, Text} from 'react-native';
+import {ActivityIndicator, Image, View, StyleSheet, Text, ImageBackground,} from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
-const welcomeLogo = require('../../assets/images/welcome-logo.png');
-const welcomeImg = require('../../assets/images/welcome-image.png');
+const splashBg = require('../../assets/images/splash-bg.png');
+const splashLogoSmall = require('../../assets/images/splash-logo-small.png');
 function Welcome({
   showLoader,
   initialiseApp,
@@ -27,6 +27,7 @@ function Welcome({
   loader,
   moveToPhoneScreen,
   moveToUserInfoScreen,
+  
 }) {
   const isFocused = useIsFocused();
 
@@ -46,29 +47,24 @@ function Welcome({
   }, [initLoaded]);
 
   return (
+    <ImageBackground source={splashBg} style={styles.splashbackground}>
     <View style={styles.background}>
-      <View style={styles.welcomeLogo}>
-        <Image source={welcomeLogo} />
+      <View style={styles.welcomeLogoDiv}>
+      <Image source={splashLogoSmall} />
       </View>
-      <View style={styles.welcomeTextDiv}>
-        <Text style={styles.welcomeText}>Willkommen</Text>
-      </View>
-      <View style={styles.welcomeImage}>
-        <Image source={welcomeImg} />
-      </View>
+      
+      <View style={styles.buttonDiv}>
       <View style={styles.welcomeBottomText}>
-        <Text style={styles.bottomTextBig}>Bleiben Sie geschützt</Text>
+        <Text style={styles.bottomTextBig}>I have read and accept the following</Text>
         <Text style={styles.bottomTextSmall}>
-          Ihre ultimative Test - und Impfdokumentation
+        Terms & Conditions
+        </Text>
+        <Text style={styles.bottomTextSmall}>
+        Privacy policy of Application
         </Text>
       </View>
-      <View style={styles.buttonDiv}>
         <PrimaryButton
-          text="Lesen Sie die AGB"
-          nextHandler={() => moveToPhoneScreen(navigation)}
-        />
-        <PrimaryButton
-          text="Ich stimme zu"
+          text="Slide To Confirm"
           nextHandler={() => moveToPhoneScreen(navigation)}
         />
       </View>
@@ -86,6 +82,7 @@ function Welcome({
         </View>
       ) : null}
     </View>
+    </ImageBackground>
   );
 }
 
@@ -111,56 +108,47 @@ export default connect(mapStateToProps, mapDispatchToProps)(Welcome);
 
 // Style for "Background"
 const styles = StyleSheet.create({
+  splashbackground: {
+    flex: 1,
+    justifyContent: 'center',
+    resizeMode: 'cover',
+    alignItems: 'center',
+  },
   background: {
-    backgroundColor: '#F8F8F8',
-    paddingTop: '9%',
-    paddingBottom: '10%',
-    paddingLeft: '5%',
-    paddingRight: '5%',
+    width:'100%',
+    paddingLeft:16,
+    paddingRight:16,
   },
-  welcomeLogo: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    flexDirection: 'row',
-    paddingRight: '3%',
-  },
-  welcomeTextDiv: {
-    paddingTop: '5%',
-  },
-  welcomeText: {
-    fontSize: RFValue(24, 580),
-    color: PRIMARY_COLOR,
-    fontWeight: '700',
-    textAlign: 'center',
-  },
-  welcomeImage: {
+  welcomeLogoDiv: {
     display: 'flex',
     justifyContent: 'center',
+    alignItems:'center',
     flexDirection: 'row',
+    height:'72%',
   },
   welcomeBottomText: {
     display: 'flex',
     justifyContent: 'center',
   },
   bottomTextBig: {
-    fontSize: RFValue(16, 580),
-    color: PRIMARY_COLOR,
-    fontWeight: '700',
-    textAlign: 'center',
+    fontSize: RFValue(12, 580),
+    color: WHITE_COLOR,
+    fontWeight: '600',
     paddingTop: '3%',
     paddingBottom: '3%',
   },
   bottomTextSmall: {
     fontSize: RFValue(12, 580),
-    color: PRIMARY_COLOR,
+    color: WHITE_COLOR,
     fontWeight: '400',
-    textAlign: 'center',
+    paddingBottom: '3%',
+    paddingLeft:'2%',
   },
   buttonDiv: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'baseline',
-    paddingTop: '23%',
+ 
   },
 });

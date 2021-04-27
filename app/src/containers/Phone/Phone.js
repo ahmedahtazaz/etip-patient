@@ -72,7 +72,7 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
               {'\n'}
               {'\n'}
               <Text style={styles.inputLabelSmall}>
-                Please Enter your Phone Number to continue
+              Please enter your valid phone number to continue
               </Text>
             </Text>
             <TextInput
@@ -90,7 +90,7 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
               {'\n'}
               {'\n'}
               <Text style={styles.inputLabelSmall}>
-                Please Enter the OTP we have sent over the numuber{' '}
+              Please Enter the OTP we have sent over the numuber {' '}
               </Text>
             </Text>
             <View
@@ -255,9 +255,10 @@ const styles = StyleSheet.create({
   },
   inputLabelDiv: {
     display: 'flex',
-    height: 100,
+    
     flexDirection: 'column',
     alignItems: 'center',
+    paddingRight:'10%',
   },
   inputLabel: {
     fontSize: RFValue(20, 580),
@@ -265,10 +266,9 @@ const styles = StyleSheet.create({
     color: PRIMARY_COLOR,
   },
   inputLabelSmall: {
-    fontSize: RFValue(10, 580),
-    fontWeight: 'bold',
+    fontSize: RFValue(12, 580),
     color: GRAY_COLOR,
-    paddingTop: 15,
+    lineHeight:20,
   },
   inputStyle1: {
     color: '#000',
@@ -319,21 +319,21 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     width: '100%',
-    borderRadius: 3,
-    backgroundColor: '#EDEDED',
+    borderRadius: 10,
+    backgroundColor: '#4c959a',
     color: WHITE_COLOR,
-    paddingTop: 15,
-    paddingBottom: 15,
+    paddingTop: 20,
+    paddingBottom: 20,
     fontSize: RFValue(14, 580),
     fontWeight:'600',
   },
   submitButtonDark: {
     width: '100%',
-    borderRadius: 3,
-    backgroundColor: '#212826',
+    borderRadius: 10,
+    backgroundColor: '#006970',
     color: WHITE_COLOR,
-    paddingTop: 15,
-    paddingBottom: 15,
+    paddingTop: 20,
+    paddingBottom: 20,
     fontSize: RFValue(14, 580),
     fontWeight:'600',
   },
