@@ -50,25 +50,25 @@ const App: () => React$Node = () => {
             <Stack.Screen
               name="SplashScreen"
               component={Splash}
-              options={{headerShown: false}}
+              options={{ headerShown: false }}
             />
             <Stack.Screen
               name="WelcomeScreen"
               component={Welcome}
-              options={{headerShown: false}}
+              options={{ headerShown: false }}
             />
             <Stack.Screen
               name="PhoneScreen"
               component={Phone}
-              options={{headerShown: false}}
+              options={{ headerShown: false }}
             />
             <Stack.Screen
               name="UserInfoScreen"
               component={UserInfo}
-              options={{headerShown: false}}
-            /> 
+              options={{ headerShown: false }}
+            />
 
-<Stack.Screen
+            <Stack.Screen
               name="Settings"
               component={Settings}
               options={{
@@ -77,8 +77,8 @@ const App: () => React$Node = () => {
                   backgroundColor: 'white',
                 },
                 headerTintColor: 'black',
-               
-              }}              /> 
+
+              }} />
 
             <Stack.Screen
               name="MainScreen"
@@ -89,17 +89,12 @@ const App: () => React$Node = () => {
                   backgroundColor: 'white',
                 },
                 headerTintColor: 'black',
-                headerLeft: () => (
+                headerLeft: () => <Image source={menuIcon} style={{marginLeft:25}} />,
 
-                  <Icon
-                    name='rowing'
-                    size={35} />
 
-                ),
+              }} />
+            <Stack.Screen
 
-              }} /> 
-  <Stack.Screen
- 
               name="Make an Appointment"
               component={Appointment}
               options={{
@@ -109,52 +104,52 @@ const App: () => React$Node = () => {
                 headerStyle: {
                   backgroundColor: 'white',
                 },
-              
 
-              }} /> 
-  <Stack.Screen
- 
- name="AppointmentCalender"
- component={AppointmentCalender}
- options={{
-   title: 'Make an Appointment',
-   headerTitleAlign: 'center',
 
-   headerStyle: {
-     backgroundColor: 'white',
-   },
- 
+              }} />
+            <Stack.Screen
 
- }} />
+              name="AppointmentCalender"
+              component={AppointmentCalender}
+              options={{
+                title: 'Make an Appointment',
+                headerTitleAlign: 'center',
 
-  <Stack.Screen
- 
- name="testCenter"
- component={TestCenter}
- options={{
-   title: 'Select Test Center',
-   headerTitleAlign: 'center',
+                headerStyle: {
+                  backgroundColor: 'white',
+                },
 
-   headerStyle: {
-     backgroundColor: 'white',
-   },
- 
 
- }} />
- <Stack.Screen
- 
- name="appointmentSlot"
- component={AppointmentTimeSlot}
- options={{
-   title: 'Make an Appointment',
-   headerTitleAlign: 'center',
+              }} />
 
-   headerStyle: {
-     backgroundColor: 'white',
-   },
- 
+            <Stack.Screen
 
- }} />
+              name="testCenter"
+              component={TestCenter}
+              options={{
+                title: 'Select Test Center',
+                headerTitleAlign: 'center',
+
+                headerStyle: {
+                  backgroundColor: 'white',
+                },
+
+
+              }} />
+            <Stack.Screen
+
+              name="appointmentSlot"
+              component={AppointmentTimeSlot}
+              options={{
+                title: 'Make an Appointment',
+                headerTitleAlign: 'center',
+
+                headerStyle: {
+                  backgroundColor: 'white',
+                },
+
+
+              }} />
 
           </Stack.Navigator>
         </NavigationContainer>
