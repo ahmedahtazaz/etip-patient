@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
 import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
+const headerLogo = require('../../assets/images/header-logo.png');
 import {
   ActivityIndicator,
   View,
@@ -12,6 +13,7 @@ import {
   Platform,
   ToastAndroid,
   Alert,
+  Image,
   TouchableOpacity,
   Text,
 } from 'react-native';
@@ -61,6 +63,11 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
 
   return (
     <View style={styles.background}>
+      <View style={styles.mainMenu}>
+       
+        <Image source={headerLogo}  />
+       
+      </View>
       <View style={styles.innerDiv}>
         {isPhone ? (
           <>
@@ -247,8 +254,18 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: '#ffffff',
   },
+  mainMenu : {
+    position: 'absolute',
+    zIndex: 2000,
+    top: 0,
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent:'center',
+    paddingTop:'5%',
+  },
   innerDiv: {
-    paddingTop: '12%',
+    paddingTop: '25%',
     paddingBottom: '10%',
     paddingLeft: '5%',
     paddingRight: '5%',
@@ -278,8 +295,8 @@ const styles = StyleSheet.create({
     paddingBottom: '1.5%',
     fontSize: RFValue(24, 580),
     fontWeight: '500',
-    marginTop: '20%',
-    marginBottom: '20%',
+    marginTop: '15%',
+    marginBottom: '15%',
   },
   inputStyle: {
     color: '#319085',

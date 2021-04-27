@@ -72,14 +72,7 @@ const App: () => React$Node = () => {
             <Stack.Screen
               name="Settings"
               component={Settings}
-              options={{
-                title: 'Settings',
-                headerStyle: {
-                  backgroundColor: 'white',
-                },
-                headerTintColor: 'black',
-
-              }} />
+              options={{ headerShown: false }}/>
 
             <Stack.Screen
               name="MainScreen"
