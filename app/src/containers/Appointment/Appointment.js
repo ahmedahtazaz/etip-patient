@@ -74,6 +74,7 @@ const Appointment = ({movetoAppointmentCalenderScreen, navigation}) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.appoinmentDivBg}>
       <View style={styles.nameContainer}>
         <View style={styles.nameTextContainer}>
           <Text style={{fontSize: 25, fontWeight: 'bold', marginStart: 8}}>
@@ -92,6 +93,7 @@ const Appointment = ({movetoAppointmentCalenderScreen, navigation}) => {
           extraData={selectedId}
         />
       </View>
+      </View>
     </View>
   );
 };
@@ -109,8 +111,14 @@ const mapStateToProps = state => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: '#f8fbfa',
     flex: 1,
+  },
+  appoinmentDivBg : {
+    borderTopLeftRadius:20,
+    borderTopRightRadius:20,
+    backgroundColor: 'white',
+    marginTop: 30,
   },
   nameTextContainer: {
     marginTop: 50,
@@ -124,7 +132,10 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 16,
     display: 'flex',
+    borderRadius:4,
     flexDirection: 'column',
+    backgroundColor:'#F9F9F9',
+    padding:15,
   },
   actionCertificateContainer: {
     marginTop: 32,
