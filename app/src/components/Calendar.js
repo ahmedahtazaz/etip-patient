@@ -1,29 +1,31 @@
-import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import React from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
-import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
-//import { getRegularFont } from '../../Commons/Fonts';
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from 'react-native-responsive-screen';
 
-export default class Calendar extends Component {
+const Calendar = ({onDateChange}) => {
+  return (
+    <View style={styles.container}>
+      <CalendarPicker
+        textStyle={{
+          fontSize: heightPercentageToDP(2),
+          fontWeight: '200',
+          color: 'black',
+        }}
+        onDateChange={onDateChange}
+      />
+    </View>
+  );
+};
 
-    render() {
-        return (
-          <View style={styles.container}>
-            <CalendarPicker textStyle={{ fontSize: heightPercentageToDP(2), fontWeight: '200', color: 'black'}}
-              onDateChange={this.props.onDateChange}
-            />
-          </View>
-        );
-      }
-    }
-    
-    const styles = StyleSheet.create({
-      container: {
-        backgroundColor: 'transparent',
-        marginTop: heightPercentageToDP(1),
-      },
-    });
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'transparent',
+    marginTop: heightPercentageToDP(1),
+  },
+});
+
+export default Calendar;
