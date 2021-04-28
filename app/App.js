@@ -98,26 +98,12 @@ const App: () => React$Node = () => {
             <Stack.Screen
               name="testCenter"
               component={TestCenter}
-              options={{
-                title: 'Select Test Center',
-                headerTitleAlign: 'center',
-
-                headerStyle: {
-                  backgroundColor: 'white',
-                },
-              }}
+              options={{headerShown: false}}
             />
             <Stack.Screen
               name="appointmentSlot"
               component={AppointmentTimeSlot}
-              options={{
-                title: 'Make an Appointment',
-                headerTitleAlign: 'center',
-
-                headerStyle: {
-                  backgroundColor: 'white',
-                },
-              }}
+              options={{headerShown: false}}
             />
 
             <Stack.Screen
