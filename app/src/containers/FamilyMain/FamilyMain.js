@@ -32,6 +32,7 @@ const rightHandFinger = require('../../assets/images/right-hand-finger.png');
 const deleteIcon = require('../../assets/images/delete-icon-red.png');
 const issuedWhiteQr = require('../../assets/images/issued-white-qr.png');
 const greyQr = require('../../assets/images/issued-gray-qr.png');
+const greyEdit = require('../../assets/images/edit-gray-icon.png');
 
 import {
   moveToAppointmentDetailsAction,
@@ -111,11 +112,11 @@ const FamilyMain = ({
       <View style={styles.nameContainer}>
         <View style={styles.parentNameContainer}>
           <View style={styles.nameTextContainer}>
-            <Text style={{ marginStart: 8, color: '#adadad' }}>
-              Appointment For
-            </Text>
             <Text style={{ color: '#20B2AA', textColor: 'grey', marginStart: 8 }}>
               Jenny White
+            </Text>
+            <Text style={{ marginStart: 8, color: '#adadad' }}>
+              Appointment For
             </Text>
           </View>
           <View style={styles.qrCodeandEditConatiner}>
@@ -123,7 +124,7 @@ const FamilyMain = ({
           <Image source={greyQr} style={{ marginLeft: 5 }} />
           </View>
           <View style={styles.editContainer}>
-            <Icon name="edit" color="black" size={25} style={{ margin: 8 }} />
+          <Image source={greyEdit} style={{ marginLeft: 5 }} />
           </View>
         
           </View>
@@ -181,10 +182,11 @@ const FamilyMain = ({
 
         </View>
 
-        <BottomNavigator
+       
+      </View>
+      <BottomNavigator
           navigation={navigation}
           selectedItem={{ id: 3, label: 'Family' }}></BottomNavigator>
-      </View>
     </View>
 
   );
@@ -208,7 +210,9 @@ const styles = StyleSheet.create({
   },
   editContainer:{
     marginStart:8,
-marginTop:-12
+marginBottom:30,
+marginTop:-8,
+marginEnd:8,
 
   },
   qrEditContainer:{
@@ -239,8 +243,9 @@ marginTop:-12
     flex: 1,
     alignSelf: 'stretch',
     marginTop: 16,
-    backgroundColor: 'white',
+    backgroundColor: '#F9F9F9',
     textAlign: 'center',
+    borderRadius:4,
   },
   parentNameContainer: {
     marginTop: 16,

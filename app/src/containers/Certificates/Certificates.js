@@ -281,7 +281,7 @@ const mapDispatchToProps = dispatch => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#F9F9F9',
   },
   mainDivPad: {
     paddingLeft: '3%',
