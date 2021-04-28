@@ -294,7 +294,7 @@ marginEnd:8,
   mainMenu: {
     position: 'absolute',
     zIndex: 2000,
-    top: '4%',
+    top: '3%',
     left: '3%',
     width: '100%',
   },

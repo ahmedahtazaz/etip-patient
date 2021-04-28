@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     height: height * 0.1,
+    paddingTop:'7%',
     alignItems: "center",
     width,
   },
@@ -149,6 +150,7 @@ const styles = StyleSheet.create({
     borderRadius:20,
     backgroundColor:'white',
     height:'90%',
+    marginTop:'5%',
   },
   nameTextContainer: {
     display: 'flex',

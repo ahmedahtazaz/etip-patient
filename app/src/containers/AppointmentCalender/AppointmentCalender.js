@@ -206,6 +206,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: windowHeight * 0.1,
     alignItems: 'center',
+    paddingTop:'7%',
   },
   backIcon: {
     flex: 1,
@@ -236,6 +237,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
+    marginTop:'5%',
   },
   imgShadow: {
     shadowColor: '#000',

@@ -257,6 +257,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: windowHeight * 0.1,
     alignItems: 'center',
+    paddingTop:'7%',
   },
   backIcon: {
     flex: 1,
@@ -287,6 +288,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
+    marginTop:'5%',
   },
   imgShadow: {
     shadowColor: '#000',
@@ -403,6 +405,24 @@ const styles = StyleSheet.create({
     margin: 5,
     backgroundColor: 'white',
     borderStyle: 'dotted',
+  },
+  GridViewBlockStyleActive: {
+    borderRadius: 4,
+    borderWidth: 1,
+    justifyContent: 'center',
+    flex: 1,
+    alignItems: 'center',
+    height: 50,
+    margin: 5,
+    backgroundColor:'#006970',
+    backgroundColor: '#006970',
+    borderStyle: 'solid',
+  },
+  GridViewInsideTextItemStyleActive: {
+    color: '#F4AC1F',
+    padding: 10,
+    fontSize: 14,
+    justifyContent: 'center',
   },
   GridViewInsideTextItemStyle: {
     color: '#027279',
