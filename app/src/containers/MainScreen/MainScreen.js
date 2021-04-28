@@ -226,6 +226,7 @@ const MainScreen = ({
           </View>
         </View>
       </View>
+      <View style={styles.appoinmentDivBg}>
       <View style={styles.mainDivPad}>
         <View style={styles.nameContainer}>
           <View style={styles.parentNameContainer}>
@@ -267,6 +268,7 @@ const MainScreen = ({
           />
         </View>
       </View>
+      </View>
       <TouchableOpacity
         style={styles.plusIconDiv}
         onPress={() => movetoMakeAnAppointmentScreen(navigation)}>
@@ -296,17 +298,22 @@ const mapStateToProps = state => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#f8fbfa',
   },
   mainDivPad: {
     paddingLeft: '3%',
     paddingRight: '3%',
-    paddingTop: '10%',
+  },
+  appoinmentDivBg: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    backgroundColor: 'white',
+    marginTop:'25%',
   },
   mainMenu: {
     position: 'absolute',
     zIndex: 2000,
-    top: 0,
+    top: '3%',
     left: '3%',
     width: '100%',
   },

@@ -31,7 +31,7 @@ const appoinmentRedBg = require('../../assets/images/appoinment-red-bg.png');
 const rightHandFinger = require('../../assets/images/right-hand-finger.png');
 const deleteIcon = require('../../assets/images/delete-icon-red.png');
 const issuedWhiteQr = require('../../assets/images/issued-white-qr.png');
-const greyQr = require('../../assets/images/issued-gray-qr.png');
+const greenQrCode = require('../../assets/images/green-qr-code.png');
 const greyEdit = require('../../assets/images/edit-gray-icon.png');
 
 import {
@@ -121,7 +121,7 @@ const FamilyMain = ({
           </View>
           <View style={styles.qrCodeandEditConatiner}>
           <View style={styles.qrEditContainer}>
-          <Image source={greyQr} style={{ marginLeft: 5 }} />
+          <Image source={greenQrCode} style={{ marginLeft: 5 }} />
           </View>
           <View style={styles.editContainer}>
           <Image source={greyEdit} style={{ marginLeft: 5 }} />
@@ -150,6 +150,7 @@ const FamilyMain = ({
           </View>
         </View>
       </View>
+      <View style={styles.appoinmentDivBg}>
       <View style={styles.mainDivPad}>
 
         <View style={styles.actionCertificateContainer}>
@@ -184,6 +185,7 @@ const FamilyMain = ({
 
        
       </View>
+      </View>
       <BottomNavigator
           navigation={navigation}
           selectedItem={{ id: 3, label: 'Family' }}></BottomNavigator>
@@ -197,7 +199,7 @@ const mapStateToProps = state => {
 };
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: '#F9F9F9',
     flex: 1,
     flexDirection: 'column',
   },
@@ -282,12 +284,17 @@ marginEnd:8,
   mainDivPad: {
     paddingLeft: '3%',
     paddingRight: '3%',
-    paddingTop: '10%',
+  },
+  appoinmentDivBg : {
+    borderTopLeftRadius:20,
+    borderTopRightRadius:20,
+    backgroundColor:'white',
+    marginTop:'25%',
   },
   mainMenu: {
     position: 'absolute',
     zIndex: 2000,
-    top: 0,
+    top: '4%',
     left: '3%',
     width: '100%',
   },

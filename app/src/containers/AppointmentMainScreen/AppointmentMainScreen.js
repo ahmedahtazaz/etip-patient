@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
   mainMenu: {
     position: 'absolute',
     zIndex: 2000,
-    top: 0,
+    top: '4%',
     left: '3%',
     width: '100%',
   },
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius:20,
     borderTopRightRadius:20,
     backgroundColor:'white',
-    marginTop:'15%',
+    marginTop:'25%',
   },
   activeCertificationDiv: {
     borderRadius: 10,
