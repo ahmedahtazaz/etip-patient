@@ -1,132 +1,165 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
-import {
-    StyleSheet,
-    View,
-    Text,
-    TouchableOpacity,
-    Dimensions,
-    FlatList
-} from 'react-native';
-import Orientation from 'react-native-orientation-locker';
-import { useIsFocused } from '@react-navigation/native';
+import React, {useState} from 'react';
+import {Icon, SearchBar} from 'react-native-elements';
 
-import { RFValue } from 'react-native-responsive-fontsize';
-import { GREEN_COLOR } from '../../theme/Colors';
-const { width, height } = Dimensions.get('window')
+import {
+  Button,
+  FlatList,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+  useWindowDimensions,
+  ImageBackground,
+} from 'react-native';
+import {Dimensions} from 'react-native';
+import Calendar from '../../components/Calendar';
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const DATA = [
-    {
-        name: 'Zeitfenster auswahlen',
-        address: 'SudLager 220g, g2249 Vilseck, Germany',
-    },
-    {
-        name: 'Zeitfenster auswahlen',
-        address: 'SudLager 220g, g2249 Vilseck, Germany',
-    },
-    {
-        name: 'Zeitfenster auswahlen',
-        address: 'SudLager 220g, g2249 Vilseck, Germany',
-    },
-    {
-        name: 'Zeitfenster auswahlen',
-        address: 'SudLager 220g, g2249 Vilseck, Germany',
-    },
-    {
-        name: 'Zeitfenster auswahlen',
-        address: 'SudLager 220g, g2249 Vilseck, Germany',
-    },
-    {
-        name: 'Zeitfenster auswahlen',
-        address: 'SudLager 220g, g2249 Vilseck, Germany',
-    },
-    {
-        name: 'Zeitfenster auswahlen',
-        address: 'SudLager 220g, g2249 Vilseck, Germany',
-    },
+  {
+    id: 'Modifiy Personal Information',
+    title: 'Modifiy Personal Information',
+  },
+  {
+    id: 'Modify Email',
+    title: 'Modify Email',
+  },
+  {
+    id: 'Modify Sim',
+    title: 'Modify Sim',
+  },
+  {
+    id: 'About App',
+    title: 'About App',
+  },
+  {
+    id: 'Need Assistance',
+    title: 'Need Assistance',
+  },
+  {
+    id: 'Privacy Policy',
+    title: 'Privacy Policy',
+  },
+  {
+    id: 'Terms & Conditions',
+    title: 'Terms & Conditions',
+  },
 ];
 
-function TestCenter({ navigation }) {
-    const isFocused = useIsFocused();
+const Item = ({item, onPress, backgroundColor, textColor}) => (
+  <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
+    <Text style={[styles.title, textColor]}>{item.title}</Text>
+  </TouchableOpacity>
+);
 
-    useEffect(() => {
-        Orientation.lockToPortrait();
-    }, [isFocused]);
+const TestCenter = ({navigation: {goBack}}) => {
+  const window = useWindowDimensions();
 
+  const [selectedId, setSelectedId] = useState(null);
 
-    const renderItem = ({ item, index }) => (
-        <TouchableOpacity style={styles.item} key={index}>
-            <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.address}>{item.address}</Text>
-        </TouchableOpacity>
-    );
+  const renderItem = ({item}) => {
     return (
-        <View style={styles.MainContainer}>
-            <View style={styles.header}>
-                <View>
-                    <Text style={styles.heading}>Select test center</Text>
-                    <Text style={styles.subHeading}>Select the test center you are working today</Text>
-                </View>
-            </View>
-            <View style={styles.testCenterList}>
-                <View style={styles.listView}>
-                    <FlatList
-                        data={DATA}
-                        renderItem={renderItem}
-                        keyExtractor={(item, index) => index}
-                    />
-                </View>
-            </View>
-
+      <View
+        style={{
+          marginVertical: 8,
+          marginHorizontal: 16,
+        }}>
+        <View style={styles.nameTextContainer}>
+          <Text style={{marginStart: 8, color: '#adadad'}}>
+            Appointment For
+          </Text>
+          <Text style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
+            Jenny White
+          </Text>
         </View>
+      </View>
     );
-}
+  };
 
+  return (
+    <View style={styles.container}>
+      <SearchBar
+        containerStyle={{
+          backgroundColor: 'white',
+          borderWidth: 0,
+          borderRadius: 10,
+          marginStart: 8,
+          marginEnd: 8,
+          marginTop: 32,
+          borderBottomColor: 'transparent',
+          borderTopColor: 'transparent',
+        }}
+        inputContainerStyle={{backgroundColor: '#d3d3d3'}}
+        placeholder="Type Here..."
+      />
+      <View style={styles.actionCertificateContainer}>
+        <FlatList
+          data={DATA}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          extraData={selectedId}
+        />
+      </View>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    MainContainer: {
-        height,
-        width
-    },
-    header: {
-        flexDirection: "row",
-        height: height * 0.15,
-        alignItems: "flex-end",
-        paddingLeft: 10,
-        width,
-    },
-    listView: {
-        marginTop: 30
-    },
-    testCenterList: {
-        height: height * 0.85,
-        paddingHorizontal: 5
-    },
-    heading: {
-        fontSize: RFValue(18, 580),
-        fontWeight: "bold"
-    },
-    subHeading: {
-        color: "#bcbcbc",
-        fontSize: RFValue(14, 580),
-    },
-    name: {
-        fontSize: RFValue(12, 580),
-        color: GREEN_COLOR
-    },
-    address: {
-        fontSize: RFValue(12, 580),
-        color: "#aeaeae"
-    },
-    item: {
-        height: 50,
-        padding: 10,
-        borderWidth: 1,
-        paddingLeft: 15,
-        paddingBottom: 15,
-        marginBottom: 15,
-        borderRadius: 5,
-        borderColor: "#f9f9f9"
-    },
+  container: {
+    backgroundColor: 'white',
+    flex: 1,
+    flexDirection: 'column',
+  },
+  nameTextContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  actionCertificateContainer: {
+    marginTop: 8,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+
+  calenderContainer: {
+    marginTop: 8,
+    flex: 3,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  nameContainer: {
+    flex: 1,
+    alignSelf: 'stretch',
+    marginTop: 16,
+    backgroundColor: 'white',
+    textAlign: 'center',
+  },
+  parentNameContainer: {
+    marginTop: 16,
+    flex: 1,
+
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  bluebox: {
+    width: 100,
+    height: 100,
+    backgroundColor: 'blue',
+  },
+  blackbox: {
+    width: 100,
+    height: 100,
+    backgroundColor: 'black',
+  },
+  bottom: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    marginBottom: 16,
+    borderRadius: 10,
+  },
 });
 
 export default TestCenter;

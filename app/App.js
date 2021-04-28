@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import { Button, Image } from 'react-native';
 import { compose, createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './src/commons/RootSaga';
@@ -15,6 +16,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet, Text, TextInput } from 'react-native';
 import { Provider } from 'react-redux';
+import { Icon } from 'react-native-elements';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
@@ -32,6 +34,15 @@ import TestConducted from './src/containers/TestConducted/TestConducted';
 import PinScreen from './src/containers/PinScreen/PinScreen';
 import TestCenter from './src/containers/TestCenter/TestCenter';
 import TestCenterInfo from './src/containers/TestCenterInfo/TestCenterInfo';
+import Appointment from './src/containers/Appointment/Appointment';
+import AppointmentCalender from './src/containers/AppointmentCalender/AppointmentCalender';
+import AppointmentTimeSlot from './src/containers/AppointmentTimeSlot/AppointmentTimeSlot';
+import AppointmentMainScreen from './src/containers/AppointmentMainScreen/AppointmentMainScreen';
+import Certificates from './src/containers/Certificates/Certificates';
+import FamilyMain from './src/containers/FamilyMain/FamilyMain';
+import AppointmentDetails from './src/containers/AppointmentDetails.js/AppointmentDetails';
+import TestCenterVerifier from './src/containers/TestCenterVerifier/TestCenterVerifier';
+const menuIcon = require('../app/src/assets/images/menu-icon.png');
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -63,7 +74,7 @@ const App: () => React$Node = () => {
                 />
                 <Stack.Screen
                   name="TestCenter"
-                  component={TestCenter}
+                  component={TestCenterVerifier}
                   options={{ headerShown: false }}
                 />
                 <Stack.Screen
@@ -110,21 +121,101 @@ const App: () => React$Node = () => {
                   component={UserInfo}
                   options={{ headerShown: false }}
                 />
+
+                <Stack.Screen
+                  name="Settings"
+                  component={Settings}
+                  options={{ headerShown: false }}
+                />
+
                 <Stack.Screen
                   name="MainScreen"
                   component={MainScreen}
                   options={{ headerShown: false }}
                 />
                 <Stack.Screen
-                  name="Settings"
-                  component={Settings}
+                  name="Make an Appointment"
+                  component={Appointment}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="AppointmentCalender"
+                  component={AppointmentCalender}
+                  options={{ headerShown: false }}
+                />
+
+                <Stack.Screen
+                  name="testCenter"
+                  component={TestCenter}
                   options={{
-                    title: 'Settings',
+                    title: 'Select Test Center',
+                    headerTitleAlign: 'center',
+
                     headerStyle: {
                       backgroundColor: 'white',
                     },
-                    headerTintColor: 'black',
                   }}
+                />
+                <Stack.Screen
+                  name="appointmentSlot"
+                  component={AppointmentTimeSlot}
+                  options={{
+                    title: 'Make an Appointment',
+                    headerTitleAlign: 'center',
+
+                    headerStyle: {
+                      backgroundColor: 'white',
+                    },
+                  }}
+                />
+
+                <Stack.Screen
+                  name="appointmentMainScreen"
+                  component={AppointmentMainScreen}
+                  options={{
+                    title: 'Appointment',
+                    headerTitleAlign: 'center',
+
+                    headerStyle: {
+                      backgroundColor: 'white',
+                    },
+                  }}
+                />
+
+                <Stack.Screen
+                  name="certificateMain"
+                  component={Certificates}
+                  options={{
+                    title: 'Certificate',
+                    headerTitleAlign: 'center',
+
+                    headerStyle: {
+                      backgroundColor: 'white',
+                    },
+                  }}
+                />
+
+                <Stack.Screen
+                  name="familyMain"
+                  component={FamilyMain}
+                  options={{
+                    title: 'Family',
+                    headerTitleAlign: 'center',
+
+                    headerStyle: {
+                      backgroundColor: 'white',
+                    },
+                  }}
+                />
+                <Stack.Screen
+                  name="AppointmentDetailsScreen"
+                  component={AppointmentDetails}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="UpdateSettingsScreen"
+                  component={UpdateSettings}
+                  options={{ headerShown: false }}
                 />
               </Stack.Navigator>
           }

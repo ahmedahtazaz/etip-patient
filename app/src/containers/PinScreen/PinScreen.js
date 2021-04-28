@@ -57,6 +57,7 @@ function PinScreen({ navigation }) {
 
                 <View style={{ marginTop: 20 }}>
                     <TouchableOpacity
+                        onPress={()=>navigation.navigate("TestCenter")}
                         disabled={pin.length !== 7}
                         style={{ ...styles.btnStyle, backgroundColor: pin.length !== 7 ? "#4b9499" : GREEN_COLOR }}>
                         <Text style={styles.submitText}>Continue</Text>

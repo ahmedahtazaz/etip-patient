@@ -62,14 +62,9 @@ function Splash({
         }
       }}>
       <ImageBackground source={splashBg} style={styles.splashbackground}>
-        <View style={styles.background}>
+        
           <Image source={splashLogo} />
-        </View>
-        <View style={styles.copyrightDiv}>
-          <Text style={styles.copyrightText}>
-            Copyright - Etip UG I.G. - 2021
-          </Text>
-        </View>
+        
         {loader ? (
           <View
             style={{
@@ -112,19 +107,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     resizeMode: 'cover',
-  },
-  background: {
-    height: '90%',
+    height: '100%',
     width: '100%',
-    display: 'flex',
-    justifyContent: 'center',
     alignItems: 'center',
   },
-  copyrightDiv: {},
-  copyrightText: {
-    fontSize: RFValue(12, 580),
-    textAlign: 'center',
-    fontWeight: '400',
-    color: WHITE_COLOR,
-  },
+
+
 });

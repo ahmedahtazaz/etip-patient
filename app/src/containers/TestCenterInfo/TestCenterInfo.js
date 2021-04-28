@@ -92,7 +92,9 @@ function TestCenterInfo({ navigation }) {
                 </View>
 
             </View>
-
+            {/* <BottomNavigator
+        navigation={navigation}
+        selectedItem={{id: 1, label: 'Home'}}></BottomNavigator> */}
         </View>
     );
 }

@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
 import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
+const headerLogo = require('../../assets/images/header-logo.png');
+const phoneDivBg = require('../../assets/images/phone-div-bg.png');
 import {
   ActivityIndicator,
   View,
@@ -12,8 +14,10 @@ import {
   Platform,
   ToastAndroid,
   Alert,
+  Image,
   TouchableOpacity,
   Text,
+  ImageBackground,
 } from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {moveToUserInfoScreenAction} from './Actions';
@@ -61,6 +65,12 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
 
   return (
     <View style={styles.background}>
+      <View style={styles.mainMenu}>
+       
+        <Image source={headerLogo}  />
+       
+      </View>
+      <ImageBackground source={phoneDivBg} style={styles.splashbackground}>
       <View style={styles.innerDiv}>
         {isPhone ? (
           <>
@@ -72,7 +82,7 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
               {'\n'}
               {'\n'}
               <Text style={styles.inputLabelSmall}>
-                Please Enter your Phone Number to continue
+              Please enter your valid phone number to continue
               </Text>
             </Text>
             <TextInput
@@ -81,6 +91,7 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
               underlineColorAndroid="transparent"
               placeholder="Phone"
               style={styles.inputStyle1}
+              keyboardType="numeric"
               onChangeText={value => setPhoneValue(value)}></TextInput>
           </>
         ) : (
@@ -90,7 +101,7 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
               {'\n'}
               {'\n'}
               <Text style={styles.inputLabelSmall}>
-                Please Enter the OTP we have sent over the numuber{' '}
+              Please Enter the OTP we have sent over the numuber {' '}
               </Text>
             </Text>
             <View
@@ -113,6 +124,7 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
                 textContentType="oneTimeCode"
                 placeholder="0"
                 style={styles.inputStyle}
+                keyboardType="numeric"
                 onChangeText={value => {
                   setOTPValue(value);
                   if (otp1 && value) otp1.focus();
@@ -125,6 +137,7 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
                 textContentType="oneTimeCode"
                 placeholder="0"
                 style={styles.inputStyle}
+                keyboardType="numeric"
                 onChangeText={value => {
                   setOTPValue1(value);
                   if (otp2 && value) otp2.focus();
@@ -138,6 +151,7 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
                 textContentType="oneTimeCode"
                 placeholder="0"
                 style={styles.inputStyle}
+                keyboardType="numeric"
                 onChangeText={value => {
                   setOTPValue2(value);
                   if (otp3 && value) otp3.focus();
@@ -151,6 +165,7 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
                 textContentType="oneTimeCode"
                 placeholder="0"
                 style={styles.inputStyle}
+                keyboardType="numeric"
                 onChangeText={value => {
                   setOTPValue3(value);
                   if (otp4 && value) otp4.focus();
@@ -164,6 +179,7 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
                 underlineColorAndroid="transparent"
                 placeholder="0"
                 style={styles.inputStyle}
+                keyboardType="numeric"
                 onChangeText={value => {
                   setOTPValue4(value);
                   if (!value) otp3.focus();
@@ -224,6 +240,7 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
           </View>
         ) : null}
       </View>
+      </ImageBackground>
     </View>
   );
 }
@@ -247,17 +264,33 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: '#ffffff',
   },
+  splashbackground: {
+    flex: 1,
+    resizeMode: 'cover',
+ 
+  },
+  mainMenu : {
+    position: 'absolute',
+    zIndex: 2000,
+    top: 0,
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent:'center',
+    paddingTop:'5%',
+  },
   innerDiv: {
-    paddingTop: '12%',
+    paddingTop: '30%',
     paddingBottom: '10%',
     paddingLeft: '5%',
     paddingRight: '5%',
   },
   inputLabelDiv: {
     display: 'flex',
-    height: 100,
+    
     flexDirection: 'column',
     alignItems: 'center',
+    paddingRight:'10%',
   },
   inputLabel: {
     fontSize: RFValue(20, 580),
@@ -265,39 +298,34 @@ const styles = StyleSheet.create({
     color: PRIMARY_COLOR,
   },
   inputLabelSmall: {
-    fontSize: RFValue(10, 580),
-    fontWeight: 'bold',
+    fontSize: RFValue(12, 580),
     color: GRAY_COLOR,
-    paddingTop: 15,
+    lineHeight:20,
   },
   inputStyle1: {
-    color: '#000',
-
+    color: '#319085',
     display: 'flex',
     borderBottomWidth: 0,
     paddingTop: '1.8%',
     paddingBottom: '1.5%',
     fontSize: RFValue(24, 580),
     fontWeight: '500',
-    marginTop: '20%',
-    marginBottom: '20%',
+    marginTop: '15%',
+    marginBottom: '15%',
   },
   inputStyle: {
-    color: '#000',
-
+    color: '#319085',
     display: 'flex',
     borderBottomWidth: 1,
     paddingTop: '1.8%',
     paddingBottom: '1.5%',
     fontSize: RFValue(24, 580),
     fontWeight: '500',
-    marginTop: '5%',
-    marginBottom: '15%',
+    marginTop: '1%',
+    marginBottom: '5%',
     textAlign:'center',
     borderBottomColor:'#000000',
     width:'17%',
-
-    
   },
   container: {
     backgroundColor: 'rgba(243,115,32,1)',
@@ -319,21 +347,21 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     width: '100%',
-    borderRadius: 3,
-    backgroundColor: '#EDEDED',
+    borderRadius: 10,
+    backgroundColor: '#4c959a',
     color: WHITE_COLOR,
-    paddingTop: 15,
-    paddingBottom: 15,
+    paddingTop: 20,
+    paddingBottom: 20,
     fontSize: RFValue(14, 580),
     fontWeight:'600',
   },
   submitButtonDark: {
     width: '100%',
-    borderRadius: 3,
-    backgroundColor: '#212826',
+    borderRadius: 10,
+    backgroundColor: '#006970',
     color: WHITE_COLOR,
-    paddingTop: 15,
-    paddingBottom: 15,
+    paddingTop: 20,
+    paddingBottom: 20,
     fontSize: RFValue(14, 580),
     fontWeight:'600',
   },
