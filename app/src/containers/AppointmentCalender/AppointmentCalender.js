@@ -20,6 +20,7 @@ import {width, height, totalSize} from 'react-native-dimension';
 import {ScrollView} from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
 import {moveToTestCentersAction, moveToTimeSlotsAction} from './Actions';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
@@ -116,18 +117,16 @@ const AppointmentCalender = ({
 
   return (
     <View style={styles.container}>
-      <View style={styles.mainMenu}>
-      <View style={styles.mainMenuItems}>
-        <TouchableOpacity
-          style={styles.menuItemsLeft}
-          onPress={() => navigation.goBack()}>
-          <Image source={menuArrowIcon} style={{marginLeft: 10}} />
-        </TouchableOpacity>
-        <View style={styles.menuItemsCenter}>
-        <Text style={styles.headerTitle}>Make an Appointment</Text>
-        </View>
-        </View>
-      </View>
+      <View style={styles.header}>
+            <View style={styles.backIcon}>
+              <TouchableOpacity onPress={() => goBack()}>
+                <EvilIcons name="chevron-left" color="#000" size={40} style={{fontWeight:'bold'}} />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.headerTextView}>
+              <Text style={styles.headerText}>Make an Appointment</Text>
+            </View>
+          </View>
       <View style={styles.appoinmentDivBg}>
       <ScrollView>
         <View style={styles.nameContainer}>
@@ -202,32 +201,24 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
-  mainMenu : {
-    paddingBottom: 18,
-    paddingTop: 20,
+  header: {
+    flexDirection: "row",
+    height: windowHeight * 0.1,
+    alignItems: "center",
+ 
   },
-  mainMenuItems: {
+  backIcon: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingBottom: 15,
-    paddingTop: 15,
+    alignItems: "flex-start"
   },
-  menuItemsLeft: {
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'center',
-    width:'25%',
-    marginStart:5,
+  headerTextView: {
+    flex: 9,
+    alignItems: "center",
+    paddingRight: windowWidth * 0.1
   },
-  menuItemsCenter: {
-    justifyContent: 'center',
-    minHeight:28,
-  },
-  headerTitle : {
-    color:'#322929',
-    fontWeight:'900',
+  headerText: {
     fontSize: RFValue(16, 580),
+
   },
   regionText : {
     color:'#322929',
