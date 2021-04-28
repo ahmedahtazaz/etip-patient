@@ -26,6 +26,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import RadioButton from '../../components/RadioButton';
 import { moveToMainScreenAction } from './Actions';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import UpdateOtherSettings from '../UpdateOtherSettings/UpdateOtherSettings'
 const welcomeLogo = require('../../assets/images/welcome-logo.png');
 const welcomeImg = require('../../assets/images/welcome-image.png');
 const currentDate = new Date();
@@ -35,7 +36,7 @@ function UpdateSettings({
   route: {
     params: { title },
   },
-  navigation: { goBack },
+  navigation,
   loader
 }) {
   const [isFamily, setIsFamily] = useState(false);
@@ -85,7 +86,7 @@ function UpdateSettings({
         <View style={styles.innerDiv}>
           <View style={styles.header}>
             <View style={styles.backIcon}>
-              <TouchableOpacity onPress={() => goBack()}>
+              <TouchableOpacity onPress={() => navigation.goBack()}>
                 <EvilIcons name="chevron-left" color="#000" size={40} style={{fontWeight:'bold'}} />
               </TouchableOpacity>
             </View>
@@ -314,8 +315,7 @@ function UpdateSettings({
               style={styles.inputStyle2}
               onChangeText={value => setPostalCode(value)}></TextInput>
             <TouchableOpacity
-              style={[styles.container, styles.submitButtonDark]}
-              onPress={() => moveToMainScreen(navigation)}>
+              style={[styles.container, styles.submitButtonDark]}>
               <Text style={styles.saveCloseText}>Continue</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -377,6 +377,94 @@ export default UpdateSettings;
 
 // Style for "Background"
 const styles = StyleSheet.create({
+  backIcon: {
+    marginHorizontal: 5,
+  },
+  inputMain: {
+    paddingHorizontal: 20,
+  },
+  infoSec: {
+    height: '50%',
+    justifyContent: 'center',
+  },
+  updateBtnMain: {
+    height: '50%',
+    justifyContent: 'flex-end',
+    paddingBottom: 20,
+    alignItems: 'center',
+  },
+  switchView: {
+    width: width * 0.2,
+  },
+  switchText: {
+    color: '#243E3B',
+    fontSize: RFValue(12, 580),
+  },
+  switchTextView: {
+    width: width * 0.7,
+  },
+  switchMain: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  container: {
+    height,
+  },
+  header: {
+    flexDirection: 'row',
+    height: height * 0.1,
+    alignItems: 'center',
+  },
+  fields: {
+    height: height * 0.9,
+  },
+  headerText: {
+    fontSize: RFValue(16, 580),
+  },
+  btnStyle: {
+    backgroundColor: '#212826',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.35,
+    shadowRadius: 5,
+    elevation: 2,
+    height: 50,
+    paddingHorizontal: 5,
+    width: width * 0.9,
+  },
+  submitButtonDark: {
+    height: height * 0.1,
+    borderRadius: 3,
+    backgroundColor: '#000',
+    color: WHITE_COLOR,
+    paddingTop: 15,
+    paddingBottom: 15,
+    fontSize: RFValue(14, 580),
+  },
+  submitText: {
+    color: WHITE_COLOR,
+    fontSize: RFValue(14, 580),
+  },
+  inputStyle1: {
+    display: 'flex',
+
+    backgroundColor: '#F5F9F8',
+    borderRadius: 6,
+    fontSize: RFValue(14, 580),
+    color: '#243E3B',
+    paddingTop: '4%',
+    paddingBottom: '4%',
+    paddingLeft: '5%',
+    paddingRight: '5%',
+    marginBottom: 14,
+  },
   header: {
     flexDirection: "row",
     height: height * 0.1,
