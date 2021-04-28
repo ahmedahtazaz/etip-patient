@@ -413,12 +413,12 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    height: height * 0.1,
-    paddingTop:'9%',
+    height: height * 0.2,
+    paddingTop:'10%',
     alignItems: 'center',
   },
   fields: {
-    height: height * 0.9,
+    height: height * 0.8,
   },
   headerText: {
     fontSize: RFValue(16, 580),

@@ -35,7 +35,7 @@ function UpdateOtherSettings({
       <View style={styles.header}>
         <View style={styles.backIcon}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <EvilIcons name="chevron-left" color="#000" size={20} />
+            <EvilIcons name="chevron-left" color="#000" size={30} />
           </TouchableOpacity>
         </View>
         <View>
@@ -119,12 +119,13 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    height: height * 0.1,
+    height: height * 0.2,
     alignItems: 'center',
-    paddingTop:'9%',
+    paddingTop:'10%',
   },
   fields: {
-    height: height * 0.9,
+    height: height * 0.8,
+    
   },
   headerText: {
     fontSize: RFValue(16, 580),
