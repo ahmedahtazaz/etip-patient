@@ -79,6 +79,55 @@ function UpdateSettings({
     if (day) setCalDate(date);
   };
 
+  if (title !== "Personal Information") {
+    return (
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <View style={styles.backIcon}>
+            <TouchableOpacity onPress={() => goBack()}>
+              <EvilIcons name="chevron-left" color="#000" size={20} />
+            </TouchableOpacity>
+          </View>
+          <View>
+            <Text style={styles.headerText}>Update {title}</Text>
+          </View>
+        </View>
+        <View style={styles.fields}>
+          <View style={styles.infoSec}>
+            <View style={styles.inputMain}>
+              <TextInput
+                textContentType="email"
+                underlineColorAndroid="transparent"
+                placeholder="Email"
+                style={styles.inputStyle1}></TextInput>
+            </View>
+            <View style={styles.switchMain}>
+              <View style={styles.switchTextView}>
+                <Text style={styles.switchText}>
+                  Associate my information as a family number with another number
+              </Text>
+              </View>
+              <View style={styles.switchView}>
+                <Switch
+                  trackColor={{ false: '#767577', true: '#767577' }}
+                  thumbColor={isEnabled ? '#f4f3f4' : '#f4f3f4'}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={toggleSwitch}
+                  value={isEnabled}
+                />
+              </View>
+            </View>
+          </View>
+          <View style={styles.updateBtnMain}>
+            <TouchableOpacity style={[styles.btnStyle, styles.submitButton]}>
+              <Text style={styles.submitText}>Update</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    )
+  }
+
   return (
     <ScrollView style={{ height: '100%' }} ref={scrollRef}>
       <View style={styles.background}>
