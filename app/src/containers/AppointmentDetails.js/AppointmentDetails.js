@@ -95,7 +95,9 @@ const AppointmentDetails = ({navigation}) => {
             </View>
           </ImageBackground>
         </View>
+        <View style={styles.qrDiv}>
         <Image style={{marginEnd: 8}} source={qrBig}></Image>
+        </View>
       </View>
     </View>
   );
@@ -262,6 +264,10 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginTop: '8%',
   },
+  qrDiv : {
+    display:'flex',
+    justifyContent:'center',
+  }
 });
 
 export default AppointmentDetails;

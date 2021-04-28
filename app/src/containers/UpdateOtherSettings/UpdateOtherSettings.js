@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: height * 0.1,
     alignItems: 'center',
+    paddingTop:'9%',
   },
   fields: {
     height: height * 0.9,
