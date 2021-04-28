@@ -27,6 +27,7 @@ import {
   moveToSettingsScreenAction,
 } from './Actions';
 import BottomNavigator from '../../components/BottomNavigator';
+import { ScrollView } from 'react-native-gesture-handler';
 const menuIcon = require('../../assets/images/menu-icon.png');
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
@@ -57,6 +58,14 @@ const DATA = [
   {
     id: 'Need Assistance',
     title: 'Need Assistance',
+  },
+  {
+    id: 'Privacy Policy',
+    title: 'Privacy Policy',
+  },
+  {
+    id: 'Terms & Conditions',
+    title: 'Terms & Conditions',
   },
   {
     id: 'Privacy Policy',
@@ -201,13 +210,16 @@ const AppointmentMainScreen = ({  navigation,
         </View>
         <View style={styles.actionCertificateContainer}>
           <Text style={styles.boxTopHeading}>PREVIOUS APPOINTMENTS</Text>
+          <ScrollView>
           <FlatList
             vertical
             data={DATA}
             renderItem={renderItemAppointment}
             keyExtractor={item => item.id}
-            extraData={selectedId}
+            extra
+            Data={selectedId}
           />
+          </ScrollView>
         </View>
       </View>
       </View>
