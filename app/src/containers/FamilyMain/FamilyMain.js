@@ -43,49 +43,23 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const DATA = [
   {
-    id: 'Modifiy Personal Information',
-    title: 'Modifiy Personal Information',
+    id: 'Jenny White',
+    title: 'Myself',
   },
   {
-    id: 'Modify Email',
-    title: 'Modify Email',
+    id: 'Jhon Doe',
+    title: 'Husband',
   },
   {
-    id: 'Modify Sim',
-    title: 'Modify Sim',
+    id: 'Will Smith',
+    title: 'Son',
   },
   {
-    id: 'About App',
-    title: 'About App',
+    id: 'Julia',
+    title: 'Daughter',
   },
-  {
-    id: 'Need Assistance',
-    title: 'Need Assistance',
-  },
-  {
-    id: 'Privacy Policy',
-    title: 'Privacy Policy',
-  },
-  {
-    id: 'Terms & Conditions',
-    title: 'Terms & Conditions',
-  },
-  {
-    id: 'Terms & Conditions',
-    title: 'Terms & Conditions',
-  },
-  {
-    id: 'Terms & Conditions',
-    title: 'Terms & Conditions',
-  },
-  {
-    id: 'Terms & Conditions',
-    title: 'Terms & Conditions',
-  },
-  {
-    id: 'Terms & Conditions',
-    title: 'Terms & Conditions',
-  },
+  
+ 
 ];
 
 const Item = ({item, onPress, backgroundColor, textColor}) => (
@@ -111,9 +85,9 @@ const FamilyMain = ({
         <View style={styles.parentNameContainer}>
           <View style={styles.nameTextContainer}>
             <Text style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
-              Jenny White
+            {item.id}
             </Text>
-            <Text style={{marginStart: 8, color: '#adadad'}}>My Self</Text>
+            <Text style={{marginStart: 8, color: '#adadad'}}>{item.title}</Text>
           </View>
           <View style={styles.qrCodeandEditConatiner}>
             <TouchableOpacity
