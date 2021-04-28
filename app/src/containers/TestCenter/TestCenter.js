@@ -122,7 +122,7 @@ const TestCenter = ({navigation: {goBack}}) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#E5E5E5',
+    backgroundColor: '#f8fbfa',
     flex: 1,
     flexDirection: 'column',
   },

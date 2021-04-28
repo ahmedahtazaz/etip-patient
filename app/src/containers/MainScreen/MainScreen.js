@@ -157,7 +157,7 @@ const MainScreen = ({
             width: width(95),
           }}>
           <TouchableOpacity
-            style={styles.activeCertificationDiv}
+            style={styles.activeAppoinmentsDiv}
             onPress={() => moveToAppointmentDetails(navigation, 'appointment')}>
             <ImageBackground
               source={activeCertificationBg}
