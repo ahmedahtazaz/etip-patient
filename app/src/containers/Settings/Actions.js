@@ -5,3 +5,7 @@ export const moveToUserUpdateSettingScreenAction = (
 ) => {
   return navigation.navigate(path, {title: title});
 };
+
+export const moveToAppointmentDetailsAction = (navigation, path) => {
+  return navigation.navigate('AppointmentDetailsScreen', {path: path});
+};
