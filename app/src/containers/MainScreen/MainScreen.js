@@ -34,6 +34,7 @@ const activeAppoinmentsBg = require('../../assets/images/active-appoinments-bg.p
 const plusIcon = require('../../assets/images/plus-icon.png');
 const appoinmentRedBg = require('../../assets/images/appoinment-red-bg.png');
 const rightHandFinger = require('../../assets/images/right-hand-finger.png');
+const previousAppoinmentBg = require('../../assets/images/previous-appoinment-bg.png');
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -134,11 +135,11 @@ const MainScreen = ({
         }}>
         <View style={styles.activeCertificationDiv}>
           <ImageBackground
-            source={activeCertificationBg}
-            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
-            <View style={styles.contentPadding}>
-              <Text style={styles.boxHeading}>No Active Certificate</Text>
-              <Text style={styles.boxText}>
+            source={previousAppoinmentBg}
+            style={{width: '100%', height: '100%', resizeMode: 'cover',}}>
+            <View style={styles.contentPadding} >
+              <Text style={styles.boxHeadingDisable}>No Active Certificate</Text>
+              <Text style={styles.boxTextDisable}>
                 You don’t have any active certificate at the moment
               </Text>
             </View>
@@ -161,6 +162,7 @@ const MainScreen = ({
             <ImageBackground
               source={activeCertificationBg}
               style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
+                <View style={styles.contentPadding} >
               <View style={styles.parentNameContainer}>
                 <View style={styles.nameTextContainer}>
                   <Text style={styles.boxHeading}>SARS-COV-2</Text>
@@ -177,6 +179,7 @@ const MainScreen = ({
                   <Text style={styles.boxText}>Citigen Antizen Test</Text>
                 </View>
               </View>
+              </View>
             </ImageBackground>
           </TouchableOpacity>
         </View>
@@ -186,12 +189,12 @@ const MainScreen = ({
       <View>
         <View style={styles.activeAppoinmentsDiv}>
           <ImageBackground
-            source={activeAppoinmentsBg}
+            source={previousAppoinmentBg}
             style={styles.activeAppoinmentsDiv}
             style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
             <View style={styles.contentPadding}>
-              <Text style={styles.boxHeading}>No Active Certificate</Text>
-              <Text style={styles.boxText}>
+              <Text style={styles.boxHeadingDisable}>No Active Certificate</Text>
+              <Text style={styles.boxTextDisable}>
                 You don’t have any active certificate at the moment
               </Text>
             </View>
@@ -367,6 +370,20 @@ const styles = StyleSheet.create({
   boxText: {
     fontSize: RFValue(13, 580),
     color: WHITE_COLOR,
+    fontWeight: '400',
+
+    lineHeight: 20,
+  },
+  boxHeadingDisable: {
+    fontSize: RFValue(14, 580),
+    color: '#595050',
+    fontWeight: '800',
+
+    paddingBottom: 10,
+  },
+  boxTextDisable: {
+    fontSize: RFValue(13, 580),
+    color: '#595050',
     fontWeight: '400',
 
     lineHeight: 20,

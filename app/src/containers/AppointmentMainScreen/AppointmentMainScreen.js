@@ -107,14 +107,14 @@ const AppointmentMainScreen = ({
           width: width(95),
         }}>
         <TouchableOpacity
-          style={styles.activeCertificationDiv}
+          style={styles.activeCertificationDiv} 
           onPress={() =>
             moveToAppointmentDetailsAction(navigation, 'appointment')
           }>
           <ImageBackground
             source={activeCertificationBg}
             style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
-            <View style={styles.parentNameContainer}>
+            <View style={styles.parentNameContainer} >
               <View style={styles.nameTextContainer}>
                 <Text style={styles.boxHeading}>SARS-COV-2</Text>
                 <Text style={styles.boxTestText}>Citigen Antizen Test</Text>
