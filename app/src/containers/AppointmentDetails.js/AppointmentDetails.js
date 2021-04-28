@@ -12,7 +12,12 @@ const issuedWhiteQr = require('../../assets/images/issued-white-qr.png');
 const issuedGrayeQr = require('../../assets/images/issued-gray-qr.png');
 const issuedRedIcon = require('../../assets/images/issued-by-red-icon.png');
 
-const AppointmentDetails = ({navigation}) => {
+const AppointmentDetails = ({
+  navigation,
+  route: {
+    params: {path},
+  },
+}) => {
   return (
     <View style={{height: '100%', width: '100%', flexDirection: 'column'}}>
       <View style={styles.mainMenu}>
@@ -24,79 +29,86 @@ const AppointmentDetails = ({navigation}) => {
       </View>
 
       <View style={styles.mainView}>
-      <View style={styles.activeAppoinmentsDiv}>
-      <ImageBackground
-            source={activeCertificationBg}
-            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
-            <View style={styles.parentNameContainer}>
-              <View style={styles.nameTextContainer}>
-                <Text style={styles.boxHeading}>SARS-COV-2</Text>
-                <Text style={styles.boxTestText}>Citigen Antizen Test</Text>
+        {path == 'personal' ? (
+          <View style={styles.activeCertificationDiv}>
+            <ImageBackground
+              source={previousAppoinmentsBg}
+              style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
+              <View style={styles.contentPadding}>
+                <Text style={styles.boxHeading1}>Jenny White</Text>
+                <Text style={styles.boxText1}>
+                  This is my personal QR code.
+                </Text>
               </View>
-              <View style={styles.nameTextContainer}>
-                <TouchableOpacity
-                  style={[styles.buttonStyle, styles.submitButtonDark]}
-                  onPress={() => moveToMainScreen(navigation)}>
-                  <Text style={{color: 'white'}}>24 hours</Text>
-                </TouchableOpacity>
+            </ImageBackground>
+          </View>
+        ) : path == 'certificates' ? (
+          <View style={styles.activeAppoinmentsDiv}>
+            <ImageBackground
+              source={activeCertificationBg}
+              style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
+              <View style={styles.parentNameContainer}>
+                <View style={styles.nameTextContainer}>
+                  <Text style={styles.boxHeading}>SARS-COV-2</Text>
+                  <Text style={styles.boxTestText}>Citigen Antizen Test</Text>
+                </View>
+                <View style={styles.nameTextContainer}>
+                  <TouchableOpacity
+                    style={[styles.buttonStyle, styles.submitButtonDark]}
+                    onPress={() => moveToMainScreen(navigation)}>
+                    <Text style={{color: 'white'}}>24 hours</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
-            <View style={styles.parentNameContainer}>
-              <View style={styles.bottomTextContainer}>
-                <View style={styles.iconRowContainer}>
-                  <View style={styles.issueIcon}>
-                    <Image source={issuedRedIcon} />
+              <View style={styles.parentNameContainer}>
+                <View style={styles.bottomTextContainer}>
+                  <View style={styles.iconRowContainer}>
+                    <View style={styles.issueIcon}>
+                      <Image source={issuedRedIcon} />
+                    </View>
+                    <View>
+                      <Text style={styles.boxHeading}>issued by</Text>
+                      <Text style={styles.boxText}>Citigen Antizen Test</Text>
+                    </View>
                   </View>
-                  <View>
-                    <Text style={styles.boxHeading}>issued by</Text>
-                    <Text style={styles.boxText}>Citigen Antizen Test</Text>
+                </View>
+                <View style={styles.nameTextContainer}>
+                  <View style={styles.qrCodeItem}>
+                    <Image source={issuedWhiteQr} />
                   </View>
                 </View>
               </View>
-              <View style={styles.nameTextContainer}>
-                <View style={styles.qrCodeItem}>
-                  <Image source={issuedWhiteQr} />
+            </ImageBackground>
+          </View>
+        ) : path == 'appointment' ? (
+          <View style={styles.activeAppoinmentsDiv}>
+            <ImageBackground
+              source={activeCertificationBg}
+              style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
+              <View style={styles.parentNameContainer}>
+                <View style={styles.nameTextContainer}>
+                  <Text style={styles.boxHeading}>SARS-COV-2</Text>
+                  <Text style={styles.boxTestText}>Citigen Antizen Test</Text>
+                </View>
+                <View style={styles.nameTextContainer}>
+                  <Text style={styles.boxHeading}>12-may-2021</Text>
+                  <Text style={styles.boxText}>10:00-10:15</Text>
                 </View>
               </View>
-            </View>
-          </ImageBackground>
-      </View>
-      <View style={styles.activeAppoinmentsDiv}>
-      <ImageBackground
-            source={activeCertificationBg}
-            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
-            <View style={styles.parentNameContainer} >
-              <View style={styles.nameTextContainer}>
-                <Text style={styles.boxHeading}>SARS-COV-2</Text>
-                <Text style={styles.boxTestText}>Citigen Antizen Test</Text>
+              <View style={styles.parentNameContainer}>
+                <View style={styles.bottomTextContainer}>
+                  <Text style={styles.boxHeading}>SARS-COV-2</Text>
+                  <Text style={styles.boxText}>Citigen Antizen Test</Text>
+                </View>
               </View>
-              <View style={styles.nameTextContainer}>
-                <Text style={styles.boxHeading}>12-may-2021</Text>
-                <Text style={styles.boxText}>10:00-10:15</Text>
-              </View>
-            </View>
-            <View style={styles.parentNameContainer}>
-              <View style={styles.bottomTextContainer}>
-                <Text style={styles.boxHeading}>SARS-COV-2</Text>
-                <Text style={styles.boxText}>Citigen Antizen Test</Text>
-              </View>
-            </View>
-          </ImageBackground>
-      </View>
-        <View style={styles.activeCertificationDiv}>
-          <ImageBackground
-            source={previousAppoinmentsBg}
-            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
-            <View style={styles.contentPadding}>
-              <Text style={styles.boxHeading1}>Jenny White</Text>
-              <Text style={styles.boxText1}>
-                This is my personal QR code.
-              </Text>
-            </View>
-          </ImageBackground>
+            </ImageBackground>
+          </View>
+        ) : null}
+        <View style={styles.qrDiv}>
+          <Image style={{marginEnd: 8}} source={qrBig}></Image>
         </View>
         <View style={styles.qrDiv}>
-        <Image style={{marginEnd: 8}} source={qrBig}></Image>
+          <Image style={{marginEnd: 8}} source={qrBig}></Image>
         </View>
       </View>
     </View>
@@ -187,7 +199,7 @@ const styles = StyleSheet.create({
   },
   nameContainer: {
     alignSelf: 'stretch',
-    
+
     backgroundColor: 'white',
     textAlign: 'center',
   },
@@ -198,7 +210,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingLeft: 13,
     paddingRight: 20,
-    paddingBottom:10,
+    paddingBottom: 10,
   },
   bottomTextContainer: {
     display: 'flex',
@@ -264,10 +276,10 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginTop: '8%',
   },
-  qrDiv : {
-    display:'flex',
-    justifyContent:'center',
-  }
+  qrDiv: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
 });
 
 export default AppointmentDetails;
