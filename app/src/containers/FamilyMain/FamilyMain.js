@@ -58,8 +58,6 @@ const DATA = [
     id: 'Julia',
     title: 'Daughter',
   },
-  
- 
 ];
 
 const Item = ({item, onPress, backgroundColor, textColor}) => (
@@ -85,14 +83,16 @@ const FamilyMain = ({
         <View style={styles.parentNameContainer}>
           <View style={styles.nameTextContainer}>
             <Text style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
-            {item.id}
+              {item.id}
             </Text>
             <Text style={{marginStart: 8, color: '#adadad'}}>{item.title}</Text>
           </View>
           <View style={styles.qrCodeandEditConatiner}>
             <TouchableOpacity
               style={styles.qrEditContainer}
-              onPress={() => moveToAppointmentDetails(navigation, 'family')}>
+              onPress={() =>
+                moveToAppointmentDetails(navigation, 'personal', item.id)
+              }>
               <Image source={greenQrCode} style={{marginLeft: 5}} />
             </TouchableOpacity>
             <View style={styles.editContainer}>
@@ -278,8 +278,8 @@ const mapDispatchToProps = dispatch => {
     movetoSettingsScreen: navigation => moveToSettingsScreenAction(navigation),
     movetoMakeAnAppointmentScreen: navigation =>
       moveToMakeAppointsAction(navigation),
-    moveToAppointmentDetails: (navigation, path) =>
-      moveToAppointmentDetailsAction(navigation, path),
+    moveToAppointmentDetails: (navigation, path, title) =>
+      moveToAppointmentDetailsAction(navigation, path, title),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(FamilyMain);

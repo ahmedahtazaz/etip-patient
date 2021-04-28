@@ -73,6 +73,7 @@ const AppointmentTimeSlot = ({navigation}) => {
   const window = useWindowDimensions();
 
   const [selectedId, setSelectedId] = useState(null);
+  const [selectedIdRegion, setSelectedIdRegion] = useState(null);
 
   const renderItem = ({item}) => {
     let imgsource = require('../../assets/images/bavaria.png');
@@ -97,7 +98,9 @@ const AppointmentTimeSlot = ({navigation}) => {
         break;
     }
     return (
-      <View style={{marginStart: 8}}>
+      <TouchableOpacity
+        style={{marginStart: 8}}
+        onPress={() => setSelectedIdRegion(item.id)}>
         <Image
           style={{
             height: window.height / 5,
@@ -107,9 +110,11 @@ const AppointmentTimeSlot = ({navigation}) => {
           }}
           source={imgsource}
         />
-        <View style={styles.regionSelectedDiv}>
-        <Image source={regionSelectedIcon} />
-        </View>
+        {item.id == selectedIdRegion ? (
+          <View style={styles.regionSelectedDiv}>
+            <Image source={regionSelectedIcon} />
+          </View>
+        ) : null}
         <View
           style={{
             position: 'absolute',
@@ -122,7 +127,7 @@ const AppointmentTimeSlot = ({navigation}) => {
           }}>
           <Text style={styles.regionImgText}>{item.title}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -450,12 +455,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     justifyContent: 'center',
   },
-  regionSelectedDiv : {
-    position:'absolute',
-    top:10,
-    right:10,
-    width:15,
-    height:15,
+  regionSelectedDiv: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    width: 15,
+    height: 15,
   },
 });
 

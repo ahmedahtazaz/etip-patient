@@ -90,8 +90,10 @@ const AppointmentCalender = ({
         break;
     }
     return (
-      <View style={{marginStart: 8}} style={styles.imgShadow}>
-        
+      <TouchableOpacity
+        style={{marginStart: 8}}
+        style={styles.imgShadow}
+        onPress={() => setSelectedId(item.id)}>
         <Image
           style={{
             height: window.height / 5,
@@ -101,9 +103,11 @@ const AppointmentCalender = ({
           }}
           source={imgsource}
         />
-        <View style={styles.regionSelectedDiv}>
-        <Image source={regionSelectedIcon} />
-        </View>
+        {item.id == selectedId ? (
+          <View style={styles.regionSelectedDiv}>
+            <Image source={regionSelectedIcon} />
+          </View>
+        ) : null}
         <View
           style={{
             position: 'absolute',
@@ -116,7 +120,7 @@ const AppointmentCalender = ({
           }}>
           <Text style={styles.regionImgText}>{item.title}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -211,7 +215,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: windowHeight * 0.1,
     alignItems: 'center',
-    paddingTop:'7%',
+    paddingTop: '7%',
   },
   backIcon: {
     flex: 1,
@@ -242,7 +246,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
-    marginTop:'5%',
+    marginTop: '5%',
   },
   imgShadow: {
     shadowColor: '#000',
@@ -302,12 +306,12 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     borderRadius: 10,
   },
-  regionSelectedDiv : {
-    position:'absolute',
-    top:10,
-    right:10,
-    width:15,
-    height:15,
+  regionSelectedDiv: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    width: 15,
+    height: 15,
   },
 });
 

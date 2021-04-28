@@ -7,5 +7,5 @@ export const moveToMakeAppointsAction = navigation => {
 };
 
 export const moveToAppointmentDetailsAction = (navigation, path) => {
-  return navigation.navigate('AppointmentDetailsScreen', path);
+  return navigation.navigate('AppointmentDetailsScreen', {path: path});
 };

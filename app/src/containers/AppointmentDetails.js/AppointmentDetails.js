@@ -15,7 +15,7 @@ const issuedRedIcon = require('../../assets/images/issued-by-red-icon.png');
 const AppointmentDetails = ({
   navigation,
   route: {
-    params: {path},
+    params: {path, title},
   },
 }) => {
   return (
@@ -35,7 +35,9 @@ const AppointmentDetails = ({
               source={previousAppoinmentsBg}
               style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
               <View style={styles.contentPadding}>
-                <Text style={styles.boxHeading1}>Jenny White</Text>
+                <Text style={styles.boxHeading1}>
+                  {title ? title : 'Jenny White'}
+                </Text>
                 <Text style={styles.boxText1}>
                   This is my personal QR code.
                 </Text>
@@ -104,9 +106,6 @@ const AppointmentDetails = ({
             </ImageBackground>
           </View>
         ) : null}
-        <View style={styles.qrDiv}>
-          <Image style={{marginEnd: 8}} source={qrBig}></Image>
-        </View>
         <View style={styles.qrDiv}>
           <Image style={{marginEnd: 8}} source={qrBig}></Image>
         </View>
@@ -279,6 +278,8 @@ const styles = StyleSheet.create({
   qrDiv: {
     display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
+    alignContent: 'center',
   },
 });
 

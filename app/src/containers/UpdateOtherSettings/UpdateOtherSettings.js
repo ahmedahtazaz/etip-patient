@@ -19,7 +19,9 @@ import {DARK_GREEN_COLOR, WHITE_COLOR} from '../../theme/Colors';
 const {width, height} = Dimensions.get('window');
 
 function UpdateOtherSettings({
-  title,
+  route: {
+    params: {title},
+  },
   navigation,
 }) {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -72,7 +74,6 @@ function UpdateOtherSettings({
           <TouchableOpacity style={[styles.btnStyle, styles.submitButton]}>
             <Text style={styles.submitText}>Update</Text>
           </TouchableOpacity>
-          
         </View>
       </View>
     </View>
@@ -116,17 +117,16 @@ const styles = StyleSheet.create({
   },
   container: {
     height,
-    backgroundColor:'white',
+    backgroundColor: 'white',
   },
   header: {
     flexDirection: 'row',
     height: height * 0.2,
     alignItems: 'center',
-    paddingTop:'10%',
+    paddingTop: '10%',
   },
   fields: {
     height: height * 0.8,
-    
   },
   headerText: {
     fontSize: RFValue(16, 580),
@@ -149,8 +149,8 @@ const styles = StyleSheet.create({
     width: width * 0.9,
     borderRadius: 5,
     marginBottom: 10,
-    height:60,
-    backgroundColor:DARK_GREEN_COLOR
+    height: 60,
+    backgroundColor: DARK_GREEN_COLOR,
   },
   submitButtonDark: {
     height: height * 0.1,
