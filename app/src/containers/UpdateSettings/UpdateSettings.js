@@ -86,7 +86,7 @@ function UpdateSettings({
         <View style={styles.innerDiv}>
           <View style={styles.header}>
             <View style={styles.backIcon}>
-              <TouchableOpacity onPress={() => goBack()}>
+              <TouchableOpacity onPress={() => navigation.goBack()}>
                 <EvilIcons name="chevron-left" color="#000" size={40} style={{fontWeight:'bold'}} />
               </TouchableOpacity>
             </View>
@@ -315,8 +315,7 @@ function UpdateSettings({
               style={styles.inputStyle2}
               onChangeText={value => setPostalCode(value)}></TextInput>
             <TouchableOpacity
-              style={[styles.container, styles.submitButtonDark]}
-              onPress={() => moveToMainScreen(navigation)}>
+              style={[styles.container, styles.submitButtonDark]}>
               <Text style={styles.saveCloseText}>Continue</Text>
             </TouchableOpacity>
             <TouchableOpacity
