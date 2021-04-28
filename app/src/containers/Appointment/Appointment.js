@@ -15,11 +15,11 @@ import {Dimensions} from 'react-native';
 import {connect} from 'react-redux';
 import {moveToAppointmentCalenderAction} from './Actions';
 import {RFValue} from 'react-native-responsive-fontsize';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const appointmentBg1 = require('../../assets/images/appointment-bg1.png');
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const { width, height } = Dimensions.get('window');
 const DATA = [
   {
     id: 'Modifiy Personal Information',
@@ -79,18 +79,16 @@ const Appointment = ({movetoAppointmentCalenderScreen, navigation}) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.mainMenu}>
-      <View style={styles.mainMenuItems}>
-        <TouchableOpacity
-          style={styles.menuItemsLeft}
-          onPress={() => navigation.goBack()}>
-          <Image source={menuArrowIcon} style={{marginLeft: 10}} />
-        </TouchableOpacity>
-        <View style={styles.menuItemsCenter}>
-        <Text style={styles.headerTitle}>Make an Appointment</Text>
-        </View>
-        </View>
-      </View>
+      <View style={styles.header}>
+            <View style={styles.backIcon}>
+              <TouchableOpacity onPress={() => goBack()}>
+                <EvilIcons name="chevron-left" color="#000" size={40} style={{fontWeight:'bold'}} />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.headerTextView}>
+              <Text style={styles.headerText}>Make an Appointment</Text>
+            </View>
+          </View>
       <View style={styles.appoinmentDivBg}>
       <View style={styles.nameContainer}>
         <View style={styles.nameTextContainer}>
@@ -135,32 +133,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8fbfa',
     flex: 1,
   },
-  mainMenu : {
-    paddingBottom: 18,
-    paddingTop: 20,
+  header: {
+    flexDirection: "row",
+    height: height * 0.1,
+    alignItems: "center",
+    width,
   },
-  mainMenuItems: {
+  backIcon: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingBottom: 15,
-    paddingTop: 15,
+    alignItems: "flex-start"
   },
-  menuItemsLeft: {
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'center',
-    width:'25%',
-    marginStart:5,
+  headerTextView: {
+    flex: 9,
+    alignItems: "center",
+    paddingRight: width * 0.1
   },
-  menuItemsCenter: {
-    justifyContent: 'center',
-    minHeight:28,
-  },
-  headerTitle : {
-    color:'#322929',
-    fontWeight:'900',
+  headerText: {
     fontSize: RFValue(16, 580),
+
   },
   appoinmentDivBg : {
     borderTopLeftRadius:20,

@@ -86,7 +86,7 @@ function UpdateSettings({
           <View style={styles.header}>
             <View style={styles.backIcon}>
               <TouchableOpacity onPress={() => goBack()}>
-                <EvilIcons name="chevron-left" color="#000" size={27} />
+                <EvilIcons name="chevron-left" color="#000" size={40} style={{fontWeight:'bold'}} />
               </TouchableOpacity>
             </View>
             <View style={styles.headerTextView}>
