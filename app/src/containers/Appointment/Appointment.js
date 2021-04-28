@@ -9,10 +9,15 @@ import {
   View,
   Image,
   useWindowDimensions,
+  ImageBackground,
 } from 'react-native';
 import {Dimensions} from 'react-native';
 import {connect} from 'react-redux';
 import {moveToAppointmentCalenderAction} from './Actions';
+import {RFValue} from 'react-native-responsive-fontsize';
+import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
+const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
+const appointmentBg1 = require('../../assets/images/appointment-bg1.png');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const DATA = [
@@ -74,14 +79,30 @@ const Appointment = ({movetoAppointmentCalenderScreen, navigation}) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.mainMenu}>
+      <View style={styles.mainMenuItems}>
+        <TouchableOpacity
+          style={styles.menuItemsLeft}
+          onPress={() => navigation.goBack()}>
+          <Image source={menuArrowIcon} style={{marginLeft: 10}} />
+        </TouchableOpacity>
+        <View style={styles.menuItemsCenter}>
+        <Text style={styles.headerTitle}>Make an Appointment</Text>
+        </View>
+        </View>
+      </View>
       <View style={styles.appoinmentDivBg}>
       <View style={styles.nameContainer}>
         <View style={styles.nameTextContainer}>
-          <Text style={{fontSize: 25, fontWeight: 'bold', marginStart: 8}}>
-            Make an Appointment for
+        <Text style={styles.inputLabelDiv}>
+        <Text style={styles.inputLabel}>
+            Make an {'\n'}Appointment for
           </Text>
-          <Text style={{textColor: 'grey', marginStart: 8, fontSize: 16}}>
+          {'\n'}
+          {'\n'}
+          <Text style={styles.inputLabelSmall}>
             Please select the family memebers u want to select.
+          </Text>
           </Text>
         </View>
       </View>
@@ -93,7 +114,7 @@ const Appointment = ({movetoAppointmentCalenderScreen, navigation}) => {
           extraData={selectedId}
         />
       </View>
-      </View>
+    </View>
     </View>
   );
 };
@@ -114,11 +135,41 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8fbfa',
     flex: 1,
   },
+  mainMenu : {
+    paddingBottom: 18,
+    paddingTop: 20,
+  },
+  mainMenuItems: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingBottom: 15,
+    paddingTop: 15,
+  },
+  menuItemsLeft: {
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
+    width:'25%',
+    marginStart:5,
+  },
+  menuItemsCenter: {
+    justifyContent: 'center',
+    minHeight:28,
+  },
+  headerTitle : {
+    color:'#322929',
+    fontWeight:'900',
+    fontSize: RFValue(16, 580),
+  },
   appoinmentDivBg : {
     borderTopLeftRadius:20,
     borderTopRightRadius:20,
-    backgroundColor: 'white',
-    marginTop: 30,
+    backgroundColor:'white',
+  },
+  splashbackground: {
+    flex: 1,
+    
   },
   nameTextContainer: {
     marginTop: 50,
@@ -135,7 +186,7 @@ const styles = StyleSheet.create({
     borderRadius:4,
     flexDirection: 'column',
     backgroundColor:'#F9F9F9',
-    padding:15,
+    padding:10,
   },
   actionCertificateContainer: {
     marginTop: 32,
@@ -162,6 +213,23 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     backgroundColor: 'black',
+  },
+  inputLabelDiv: {
+    display: 'flex',
+    
+    flexDirection: 'column',
+    alignItems: 'center',
+    paddingRight:'10%',
+  },
+  inputLabel: {
+    fontSize: RFValue(20, 580),
+    fontWeight: 'bold',
+    color: PRIMARY_COLOR,
+  },
+  inputLabelSmall: {
+    fontSize: RFValue(12, 580),
+    color: GRAY_COLOR,
+    lineHeight:20,
   },
 });
 
