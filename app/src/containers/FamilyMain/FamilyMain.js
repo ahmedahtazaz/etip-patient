@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import {Icon, SearchBar} from 'react-native-elements';
-import {connect} from 'react-redux';
+import React, { useState } from 'react';
+import { Icon, SearchBar } from 'react-native-elements';
+import { connect } from 'react-redux';
 
 import {
   Button,
@@ -15,9 +15,10 @@ import {
   useWindowDimensions,
   ImageBackground,
 } from 'react-native';
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
 import Calendar from '../../components/Calendar';
 import BottomNavigator from '../../components/BottomNavigator';
+import { SwipeListView } from 'react-native-swipe-list-view';
 
 const menuIcon = require('../../assets/images/menu-icon.png');
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
@@ -28,6 +29,9 @@ const activeAppoinmentsBg = require('../../assets/images/active-appoinments-bg.p
 const plusIcon = require('../../assets/images/plus-icon.png');
 const appoinmentRedBg = require('../../assets/images/appoinment-red-bg.png');
 const rightHandFinger = require('../../assets/images/right-hand-finger.png');
+const deleteIcon = require('../../assets/images/delete-icon-red.png');
+const issuedWhiteQr = require('../../assets/images/issued-white-qr.png');
+const greyQr = require('../../assets/images/issued-gray-qr.png');
 
 import {
   moveToAppointmentDetailsAction,
@@ -81,10 +85,10 @@ const DATA = [
     id: 'Terms & Conditions',
     title: 'Terms & Conditions',
   },
-  
+
 ];
 
-const Item = ({item, onPress, backgroundColor, textColor}) => (
+const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <Text style={[styles.title, textColor]}>{item.title}</Text>
   </TouchableOpacity>
@@ -101,22 +105,29 @@ const FamilyMain = ({
 
   const [selectedId, setSelectedId] = useState(null);
 
- 
-  const renderItem = ({item}) => {
+
+  const renderItem = ({ item }) => {
     return (
       <View style={styles.nameContainer}>
         <View style={styles.parentNameContainer}>
           <View style={styles.nameTextContainer}>
-            <Text style={{marginStart: 8, color: '#adadad'}}>
+            <Text style={{ marginStart: 8, color: '#adadad' }}>
               Appointment For
             </Text>
-            <Text style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
+            <Text style={{ color: '#20B2AA', textColor: 'grey', marginStart: 8 }}>
               Jenny White
             </Text>
           </View>
-          <View>
-            <Icon name="edit" color="black" size={25} style={{margin: 8}} />
+          <View style={styles.qrCodeandEditConatiner}>
+          <View style={styles.qrEditContainer}>
+          <Image source={greyQr} style={{ marginLeft: 5 }} />
           </View>
+          <View style={styles.editContainer}>
+            <Icon name="edit" color="black" size={25} style={{ margin: 8 }} />
+          </View>
+        
+          </View>
+
         </View>
       </View>
     );
@@ -124,35 +135,56 @@ const FamilyMain = ({
 
   return (
     <View style={styles.container}>
-       <View style={styles.mainMenu}>
+      <View style={styles.mainMenu}>
         <View style={styles.mainMenuItems}>
           <TouchableOpacity
             style={styles.menuItemsLeft}
             onPress={() => {
               movetoSettingsScreen(navigation);
             }}>
-            <Image source={menuIcon} style={{marginLeft: 10}} />
+            <Image source={menuIcon} style={{ marginLeft: 10 }} />
           </TouchableOpacity>
           <View style={styles.menuItemsCenter}>
-            <Image source={smallHeaderLogo} style={{marginLeft: 5}} />
+            <Image source={smallHeaderLogo} style={{ marginLeft: 5 }} />
           </View>
         </View>
       </View>
       <View style={styles.mainDivPad}>
 
-      <View style={styles.actionCertificateContainer}>
-        <FlatList
+        <View style={styles.actionCertificateContainer}>
+          {/* <FlatList
           data={DATA}
           renderItem={renderItem}
           keyExtractor={item => item.id}
           extraData={selectedId}
-        />
-      </View>
+        /> */}
+          <SwipeListView
+            data={DATA}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
 
-      <BottomNavigator
-        navigation={navigation}
-        selectedItem={{id: 3, label: 'Family'}}></BottomNavigator>
-    </View>
+            renderHiddenItem={(data, rowMap) => (
+              <View style={styles.rowDeleteImage}>
+
+
+                <View style={styles.deleteItem}>
+                  <Image source={deleteIcon} />
+                </View>
+
+
+              </View>
+            )}
+            disableRightSwipe={true}
+            leftOpenValue={75}
+            rightOpenValue={-75}
+          />
+
+        </View>
+
+        <BottomNavigator
+          navigation={navigation}
+          selectedItem={{ id: 3, label: 'Family' }}></BottomNavigator>
+      </View>
     </View>
 
   );
@@ -167,6 +199,23 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
+  rowDeleteImage: {
+    justifyContent: 'flex-end',
+    flex: 1,
+
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  editContainer:{
+    marginStart:8,
+marginTop:-12
+
+  },
+  qrEditContainer:{
+    marginTop:-10,
+
+  },
+
   nameTextContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -176,7 +225,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
   },
-
+  deleteItem: {
+    marginEnd: 8,
+    marginTop: 22,
+  },
   calenderContainer: {
     marginTop: 8,
     flex: 3,
@@ -197,6 +249,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  qrCodeandEditConatiner:{
+    marginTop: 16,
+    flex: 1,
+
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent:'flex-end',
   },
   bluebox: {
     width: 100,
