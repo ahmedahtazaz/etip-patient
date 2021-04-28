@@ -3,6 +3,9 @@ import {connect} from 'react-redux';
 import {APP_INIT_LINK} from '../../commons/Constants';
 import {PRIMARY_COLOR, WHITE_COLOR} from '../../theme/Colors';
 import PrimaryButton from '../../components/PrimaryButton';
+import Slider from 'react-native-slide-to-unlock';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import {
   moveToMainScreenAction,
   initialiseAppAction,
@@ -14,7 +17,7 @@ import {
 
 import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
-import {ActivityIndicator, Image, View, StyleSheet, Text, ImageBackground,} from 'react-native';
+import {ActivityIndicator, Image, View, StyleSheet, Text, ImageBackground,Alert,} from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
 const splashBg = require('../../assets/images/splash-bg.png');
 const splashLogoSmall = require('../../assets/images/splash-logo-small.png');
@@ -63,10 +66,49 @@ function Welcome({
         Privacy policy of Application
         </Text>
       </View>
-        <PrimaryButton
+        {/* <PrimaryButton
           text="Slide To Confirm"
           nextHandler={() => moveToPhoneScreen(navigation)}
-        />
+        /> */}
+
+<Slider
+  onEndReached={() => {
+    // Alert.alert('Attention', 'onEndReached!');
+    moveToPhoneScreen(navigation)
+
+  }}
+  containerStyle={{
+    margin: 8,
+    backgroundColor: '#F9F9F970',
+    borderRadius: 10,
+    overflow: 'hidden',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '95%'
+  }}
+  sliderElement={
+    <View
+      style={{
+        width: 50,
+        margin: 6,
+        borderRadius: 4,
+        height: 50,
+        backgroundColor: '#006970',
+        justifyContent : "center",
+      }}
+   
+    >
+  <Icon name="chevron-right" color="white" size={30} style={{alignSelf : "center"}} />
+    </View>
+  }
+>
+  <View style={{flexDirection : "row"}}>
+  <Text style={{color : "#839E9F", fontSize : 21}}>{'Slide to Confirm'}
+  </Text>
+  <Icon name="chevron-double-right" color="#839E9F" size={30} style={{}}  />
+
+  </View>
+</Slider>
       </View>
       {loader ? (
         <View
