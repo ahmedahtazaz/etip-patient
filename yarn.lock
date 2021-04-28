@@ -2155,7 +2155,7 @@ browser-process-hrtime@^1.0.0:
   resolved "https://registry.yarnpkg.com/browser-process-hrtime/-/browser-process-hrtime-1.0.0.tgz#3c9b4b7d782c8121e56f10106d84c0d0ffc94626"
   integrity sha512-9o5UecI3GhkpM6DrXr69PblIuWxPKk9Y0jHBRhdocZ2y7YECBFCsHm79Pr3OyR2AvjhDkabFJaDJMYRazHgsow==
 
-browserslist@^4.14.5, browserslist@^4.16.4:
+browserslist@^4.14.5, browserslist@^4.16.5:
   version "4.16.5"
   resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.16.5.tgz#952825440bca8913c62d0021334cbe928ef062ae"
   integrity sha512-C2HAjrM1AI/djrpAUU/tr4pml1DqLIzJKSLDBXBrNErl9ZCCTXdhwxdJjYc16953+mBWf7Lw+uUJgpgb8cN71A==
@@ -2510,11 +2510,11 @@ copy-descriptor@^0.1.0:
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
 
 core-js-compat@^3.9.1:
-  version "3.11.0"
-  resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.11.0.tgz#635683f43480a0b41e3f6be3b1c648dadb8b4390"
-  integrity sha512-3wsN9YZJohOSDCjVB0GequOyHax8zFiogSX3XWLE28M1Ew7dTU57tgHjIylSBKSIouwmLBp3g61sKMz/q3xEGA==
+  version "3.11.1"
+  resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.11.1.tgz#57a91e9b02d3bb8cf37f82eceaf44a3d646fa614"
+  integrity sha512-aZ0e4tmlG/aOBHj92/TuOuZwp6jFvn1WNabU5VOVixzhu5t5Ao+JZkQOPlgNXu6ynwLrwJxklT4Gw1G1VGEh+g==
   dependencies:
-    browserslist "^4.16.4"
+    browserslist "^4.16.5"
     semver "7.0.0"
 
 core-js@^1.0.0:
@@ -5939,9 +5939,9 @@ range-parser@~1.2.1:
   integrity sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==
 
 react-devtools-core@^4.6.0:
-  version "4.12.4"
-  resolved "https://registry.yarnpkg.com/react-devtools-core/-/react-devtools-core-4.12.4.tgz#50ed121d467f44b051d1f7d19694849db0365d52"
-  integrity sha512-hVCT7wRtA5xWclgLb3oA51RNBAlbuTauEYkqFX+qRAkPLVJoX8qdJnO7r+47SSUckD5vkBm3kaAhg6597m7gDA==
+  version "4.13.0"
+  resolved "https://registry.yarnpkg.com/react-devtools-core/-/react-devtools-core-4.13.0.tgz#fa80ee03b1a975c1d9898e24de841e45a4b22d30"
+  integrity sha512-KR+0pLw8wTjOVr+9AECe5ctmycaAjbmxN3bbdB0vmlwm0JkxNnKMxDzanf+4V8IuPBQWgm8qdWpbSOqhu1l14g==
   dependencies:
     shell-quote "^1.6.1"
     ws "^7"

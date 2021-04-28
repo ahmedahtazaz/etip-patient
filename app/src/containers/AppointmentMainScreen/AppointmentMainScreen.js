@@ -1,6 +1,6 @@
-import { useIsFocused } from '@react-navigation/core';
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import {useIsFocused} from '@react-navigation/core';
+import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
 import {
   FlatList,
   SafeAreaView,
@@ -13,11 +13,11 @@ import {
   useWindowDimensions,
   ImageBackground,
 } from 'react-native';
-import { Dimensions } from 'react-native';
-import { Icon } from 'react-native-elements';
+import {Dimensions} from 'react-native';
+import {Icon} from 'react-native-elements';
 import Orientation from 'react-native-orientation-locker';
-import { WHITE_COLOR,LIGHT_GREY } from '../../theme/Colors';
-import { RFValue } from 'react-native-responsive-fontsize';
+import {WHITE_COLOR, LIGHT_GREY} from '../../theme/Colors';
+import {RFValue} from 'react-native-responsive-fontsize';
 import {width, height, totalSize} from 'react-native-dimension';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
@@ -27,7 +27,7 @@ import {
   moveToSettingsScreenAction,
 } from './Actions';
 import BottomNavigator from '../../components/BottomNavigator';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 const menuIcon = require('../../assets/images/menu-icon.png');
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
@@ -77,17 +77,19 @@ const DATA = [
   },
 ];
 
-const Item = ({ item, onPress, backgroundColor, textColor }) => (
+const Item = ({item, onPress, backgroundColor, textColor}) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <Text style={[styles.title, textColor]}>{item.title}</Text>
   </TouchableOpacity>
 );
 
-const AppointmentMainScreen = ({  navigation,
+const AppointmentMainScreen = ({
+  navigation,
   movetoSettingsScreen,
   movetoMakeAnAppointmentScreen,
   moveToAppointmentDetails,
-  route, }) => {
+  route,
+}) => {
   const window = useWindowDimensions();
 
   const [selectedId, setSelectedId] = useState(null);
@@ -98,95 +100,78 @@ const AppointmentMainScreen = ({  navigation,
     Orientation.lockToPortrait();
   }, [isFocused]);
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({item}) => {
     return (
       <View
         style={{
           width: width(95),
-
         }}>
-        <View style={styles.activeCertificationDiv}>
+        <TouchableOpacity
+          style={styles.activeCertificationDiv}
+          onPress={() =>
+            moveToAppointmentDetailsAction(navigation, 'appointment')
+          }>
           <ImageBackground
             source={activeCertificationBg}
-            style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
+            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
             <View style={styles.parentNameContainer}>
               <View style={styles.nameTextContainer}>
                 <Text style={styles.boxHeading}>SARS-COV-2</Text>
-                <Text style={styles.boxTestText}>
-                  Citigen Antizen Test
-              </Text>
+                <Text style={styles.boxTestText}>Citigen Antizen Test</Text>
               </View>
               <View style={styles.nameTextContainer}>
                 <Text style={styles.boxHeading}>12-may-2021</Text>
-                <Text style={styles.boxText}>
-                  10:00-10:15
-              </Text>
+                <Text style={styles.boxText}>10:00-10:15</Text>
               </View>
-              
             </View>
             <View style={styles.parentNameContainer}>
-
-            <View style={styles.bottomTextContainer}>
+              <View style={styles.bottomTextContainer}>
                 <Text style={styles.boxHeading}>SARS-COV-2</Text>
-                <Text style={styles.boxText}>
-                  Citigen Antizen Test
-              </Text>
+                <Text style={styles.boxText}>Citigen Antizen Test</Text>
               </View>
+            </View>
+          </ImageBackground>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+  const renderItemAppointment = ({item}) => {
+    return (
+      <View
+        style={{
+          width: width(95),
+          marginBottom: 8,
+        }}>
+        <View style={styles.activeCertificationDiv}>
+          <ImageBackground
+            source={previousAppoinmentsBg}
+            style={styles.activeAppoinmentsDiv}
+            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
+            <View style={styles.parentNameContainer}>
+              <View style={styles.nameTextContainer}>
+                <Text style={styles.boxHeading1}>SARS-COV-2</Text>
+                <Text style={styles.boxTestText1}>Citigen Antizen Test</Text>
               </View>
-
+              <View style={styles.nameTextContainer}>
+                <Text style={styles.boxText1}>12-may-2021</Text>
+                <Text style={styles.boxText1}>10:00-10:15</Text>
+              </View>
+            </View>
+            <View style={styles.parentNameContainer}>
+              <View style={styles.bottomTextContainer}>
+                <Text style={styles.boxHeading2}>Zeitfenster auswählen</Text>
+                <Text style={styles.boxText1}>Citigen Antizen Test</Text>
+              </View>
+            </View>
           </ImageBackground>
         </View>
       </View>
     );
   };
-  const renderItemAppointment = ({ item }) => {
-    return (
-      <View
-      style={{
-        width: width(95),
-        marginBottom:8,
-
-      }}>
-      <View style={styles.activeCertificationDiv}>
-        <ImageBackground
-         source={previousAppoinmentsBg}
-         style={styles.activeAppoinmentsDiv}
-         style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
-          <View style={styles.parentNameContainer}>
-            <View style={styles.nameTextContainer}>
-              <Text style={styles.boxHeading1}>SARS-COV-2</Text>
-              <Text style={styles.boxTestText1}>
-                Citigen Antizen Test
-            </Text>
-            </View>
-            <View style={styles.nameTextContainer}>
-              <Text style={styles.boxText1}>12-may-2021</Text>
-              <Text style={styles.boxText1}>
-                10:00-10:15
-            </Text>
-            </View>
-            
-          </View>
-          <View style={styles.parentNameContainer}>
-
-          <View style={styles.bottomTextContainer}>
-              <Text style={styles.boxHeading2}>Zeitfenster auswählen</Text>
-              <Text style={styles.boxText1}>
-                Citigen Antizen Test
-            </Text>
-            </View>
-            </View>
-
-        </ImageBackground>
-      </View>
-    </View>
-  );
-  };
- 
 
   return (
     <View style={styles.container}>
-        <View style={styles.mainMenu}>
+      <View style={styles.mainMenu}>
         <View style={styles.mainMenuItems}>
           <TouchableOpacity
             style={styles.menuItemsLeft}
@@ -200,43 +185,42 @@ const AppointmentMainScreen = ({  navigation,
           </View>
         </View>
       </View>
-          <View style={styles.appoinmentDivBg}>
-      <View style={styles.mainDivPad}>
-        <View style={styles.actionCertificateContainer}>
-          <Text style={styles.boxTopHeading}>ACTIVE APPOINTMENTS</Text>
-          <FlatList
-            horizontal
-            data={DATA}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-            extraData={selectedId}
-          />
+      <View style={styles.appoinmentDivBg}>
+        <View style={styles.mainDivPad}>
+          <View style={styles.actionCertificateContainer}>
+            <Text style={styles.boxTopHeading}>ACTIVE APPOINTMENTS</Text>
+            <FlatList
+              horizontal
+              data={DATA}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
+              extraData={selectedId}
+            />
+          </View>
+          <View style={styles.actionCertificateContainer}>
+            <Text style={styles.boxTopHeading}>PREVIOUS APPOINTMENTS</Text>
+            <ScrollView>
+              <FlatList
+                vertical
+                data={DATA}
+                renderItem={renderItemAppointment}
+                keyExtractor={item => item.id}
+                extra
+                Data={selectedId}
+              />
+            </ScrollView>
+          </View>
         </View>
-        <View style={styles.actionCertificateContainer}>
-          <Text style={styles.boxTopHeading}>PREVIOUS APPOINTMENTS</Text>
-          <ScrollView>
-          <FlatList
-            vertical
-            data={DATA}
-            renderItem={renderItemAppointment}
-            keyExtractor={item => item.id}
-            extra
-            Data={selectedId}
-          />
-          </ScrollView>
-        </View>
-      </View>
       </View>
       <View style={styles.plusIconDiv}>
         <Image source={plusIcon} />
       </View>
       <BottomNavigator
         navigation={navigation}
-        selectedItem={{ id: 2, label: 'Appointments' }}></BottomNavigator>
+        selectedItem={{id: 2, label: 'Appointments'}}></BottomNavigator>
     </View>
   );
 };
-
 
 const mapStateToProps = state => {
   return {};
@@ -274,11 +258,11 @@ const styles = StyleSheet.create({
   menuItemsCenter: {
     justifyContent: 'center',
   },
-  appoinmentDivBg : {
-    borderTopLeftRadius:20,
-    borderTopRightRadius:20,
-    backgroundColor:'white',
-    marginTop:'25%',
+  appoinmentDivBg: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    backgroundColor: 'white',
+    marginTop: '25%',
   },
   activeCertificationDiv: {
     borderRadius: 10,
@@ -345,14 +329,14 @@ const styles = StyleSheet.create({
 
     lineHeight: 20,
   },
-  boxTestText:{
+  boxTestText: {
     fontSize: RFValue(16, 580),
     color: WHITE_COLOR,
     fontWeight: '400',
 
     lineHeight: 20,
   },
-  boxTestText1:{
+  boxTestText1: {
     fontSize: RFValue(16, 580),
     color: '#595050',
     fontWeight: '400',
@@ -363,10 +347,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
   },
-  bottomTextContainer:{
+  bottomTextContainer: {
     display: 'flex',
     flexDirection: 'column',
-    
   },
 
   actionCertificateContainer: {
@@ -419,8 +402,8 @@ const mapDispatchToProps = dispatch => {
     movetoSettingsScreen: navigation => moveToSettingsScreenAction(navigation),
     movetoMakeAnAppointmentScreen: navigation =>
       moveToMakeAppointsAction(navigation),
-    moveToAppointmentDetails: navigation =>
-      moveToAppointmentDetailsAction(navigation),
+    moveToAppointmentDetails: (navigation, path) =>
+      moveToAppointmentDetailsAction(navigation, path),
   };
 };
 export default connect(

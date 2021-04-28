@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Icon, SearchBar } from 'react-native-elements';
-import { connect } from 'react-redux';
+import React, {useState} from 'react';
+import {Icon, SearchBar} from 'react-native-elements';
+import {connect} from 'react-redux';
 
 import {
   Button,
@@ -15,10 +15,10 @@ import {
   useWindowDimensions,
   ImageBackground,
 } from 'react-native';
-import { Dimensions } from 'react-native';
+import {Dimensions} from 'react-native';
 import Calendar from '../../components/Calendar';
 import BottomNavigator from '../../components/BottomNavigator';
-import { SwipeListView } from 'react-native-swipe-list-view';
+import {SwipeListView} from 'react-native-swipe-list-view';
 
 const menuIcon = require('../../assets/images/menu-icon.png');
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
@@ -86,10 +86,9 @@ const DATA = [
     id: 'Terms & Conditions',
     title: 'Terms & Conditions',
   },
-
 ];
 
-const Item = ({ item, onPress, backgroundColor, textColor }) => (
+const Item = ({item, onPress, backgroundColor, textColor}) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <Text style={[styles.title, textColor]}>{item.title}</Text>
   </TouchableOpacity>
@@ -106,29 +105,28 @@ const FamilyMain = ({
 
   const [selectedId, setSelectedId] = useState(null);
 
-
-  const renderItem = ({ item }) => {
+  const renderItem = ({item}) => {
     return (
       <View style={styles.nameContainer}>
         <View style={styles.parentNameContainer}>
           <View style={styles.nameTextContainer}>
-            <Text style={{ color: '#20B2AA', textColor: 'grey', marginStart: 8 }}>
+            <Text style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
               Jenny White
             </Text>
-            <Text style={{ marginStart: 8, color: '#adadad' }}>
-            My Self
+            <Text style={{marginStart: 8, color: '#adadad'}}>
+              Appointment For
             </Text>
           </View>
           <View style={styles.qrCodeandEditConatiner}>
-          <View style={styles.qrEditContainer}>
-          <Image source={greenQrCode} style={{ marginLeft: 5 }} />
+            <TouchableOpacity
+              style={styles.qrEditContainer}
+              onPress={() => moveToAppointmentDetails(navigation, 'family')}>
+              <Image source={greenQrCode} style={{marginLeft: 5}} />
+            </TouchableOpacity>
+            <View style={styles.editContainer}>
+              <Image source={greyEdit} style={{marginLeft: 5}} />
+            </View>
           </View>
-          <View style={styles.editContainer}>
-          <Image source={greyEdit} style={{ marginLeft: 5 }} />
-          </View>
-        
-          </View>
-
         </View>
       </View>
     );
@@ -143,54 +141,44 @@ const FamilyMain = ({
             onPress={() => {
               movetoSettingsScreen(navigation);
             }}>
-            <Image source={menuIcon} style={{ marginLeft: 10 }} />
+            <Image source={menuIcon} style={{marginLeft: 10}} />
           </TouchableOpacity>
           <View style={styles.menuItemsCenter}>
-            <Image source={smallHeaderLogo} style={{ marginLeft: 5 }} />
+            <Image source={smallHeaderLogo} style={{marginLeft: 5}} />
           </View>
         </View>
       </View>
       <View style={styles.appoinmentDivBg}>
-      <View style={styles.mainDivPad}>
-
-        <View style={styles.actionCertificateContainer}>
-          {/* <FlatList
+        <View style={styles.mainDivPad}>
+          <View style={styles.actionCertificateContainer}>
+            {/* <FlatList
           data={DATA}
           renderItem={renderItem}
           keyExtractor={item => item.id}
           extraData={selectedId}
         /> */}
-          <SwipeListView
-            data={DATA}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-
-            renderHiddenItem={(data, rowMap) => (
-              <View style={styles.rowDeleteImage}>
-
-
-                <View style={styles.deleteItem}>
-                  <Image source={deleteIcon} />
+            <SwipeListView
+              data={DATA}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
+              renderHiddenItem={(data, rowMap) => (
+                <View style={styles.rowDeleteImage}>
+                  <View style={styles.deleteItem}>
+                    <Image source={deleteIcon} />
+                  </View>
                 </View>
-
-
-              </View>
-            )}
-            disableRightSwipe={true}
-            leftOpenValue={75}
-            rightOpenValue={-75}
-          />
-
+              )}
+              disableRightSwipe={true}
+              leftOpenValue={75}
+              rightOpenValue={-75}
+            />
+          </View>
         </View>
-
-       
-      </View>
       </View>
       <BottomNavigator
-          navigation={navigation}
-          selectedItem={{ id: 3, label: 'Family' }}></BottomNavigator>
+        navigation={navigation}
+        selectedItem={{id: 3, label: 'Family'}}></BottomNavigator>
     </View>
-
   );
 };
 
@@ -210,16 +198,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
   },
-  editContainer:{
-    marginStart:8,
-marginBottom:30,
-marginTop:-8,
-marginEnd:8,
-
+  editContainer: {
+    marginStart: 8,
+    marginBottom: 30,
+    marginTop: -8,
+    marginEnd: 8,
   },
-  qrEditContainer:{
-    marginTop:-10,
-
+  qrEditContainer: {
+    marginTop: -10,
   },
 
   nameTextContainer: {
@@ -247,7 +233,7 @@ marginEnd:8,
     marginTop: 16,
     backgroundColor: '#F9F9F9',
     textAlign: 'center',
-    borderRadius:4,
+    borderRadius: 4,
   },
   parentNameContainer: {
     marginTop: 16,
@@ -257,13 +243,13 @@ marginEnd:8,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  qrCodeandEditConatiner:{
+  qrCodeandEditConatiner: {
     marginTop: 16,
     flex: 1,
 
     display: 'flex',
     flexDirection: 'row',
-    justifyContent:'flex-end',
+    justifyContent: 'flex-end',
   },
   bluebox: {
     width: 100,
@@ -285,11 +271,11 @@ marginEnd:8,
     paddingLeft: '3%',
     paddingRight: '3%',
   },
-  appoinmentDivBg : {
-    borderTopLeftRadius:20,
-    borderTopRightRadius:20,
-    backgroundColor:'white',
-    marginTop:'25%',
+  appoinmentDivBg: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    backgroundColor: 'white',
+    marginTop: '25%',
   },
   mainMenu: {
     position: 'absolute',
@@ -320,8 +306,8 @@ const mapDispatchToProps = dispatch => {
     movetoSettingsScreen: navigation => moveToSettingsScreenAction(navigation),
     movetoMakeAnAppointmentScreen: navigation =>
       moveToMakeAppointsAction(navigation),
-    moveToAppointmentDetails: navigation =>
-      moveToAppointmentDetailsAction(navigation),
+    moveToAppointmentDetails: (navigation, path) =>
+      moveToAppointmentDetailsAction(navigation, path),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(FamilyMain);

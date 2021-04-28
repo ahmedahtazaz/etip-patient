@@ -19,6 +19,7 @@ import Orientation from 'react-native-orientation-locker';
 import {WHITE_COLOR} from '../../theme/Colors';
 import {RFValue} from 'react-native-responsive-fontsize';
 import BottomNavigator from '../../components/BottomNavigator';
+import {width, height, totalSize} from 'react-native-dimension';
 import {
   moveToAppointmentDetailsAction,
   moveToMakeAppointsAction,
@@ -40,30 +41,6 @@ const DATA = [
   {
     id: 'Modifiy Personal Information',
     title: 'Modifiy Personal Information',
-  },
-  {
-    id: 'Modify Email',
-    title: 'Modify Email',
-  },
-  {
-    id: 'Modify Sim',
-    title: 'Modify Sim',
-  },
-  {
-    id: 'About App',
-    title: 'About App',
-  },
-  {
-    id: 'Need Assistance',
-    title: 'Need Assistance',
-  },
-  {
-    id: 'Privacy Policy',
-    title: 'Privacy Policy',
-  },
-  {
-    id: 'Terms & Conditions',
-    title: 'Terms & Conditions',
   },
 ];
 
@@ -174,20 +151,34 @@ const MainScreen = ({
   const renderItemAppointment = ({item}) => {
     if (route.params && route.params.booked) {
       return (
-        <View>
-          <View style={styles.activeAppoinmentsDiv}>
+        <View
+          style={{
+            width: width(95),
+          }}>
+          <TouchableOpacity
+            style={styles.activeCertificationDiv}
+            onPress={() => moveToAppointmentDetails(navigation, 'appointment')}>
             <ImageBackground
-              source={activeAppoinmentsBg}
-              style={styles.activeAppoinmentsDiv}
+              source={activeCertificationBg}
               style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
-              <View style={styles.contentPadding}>
-                <Text style={styles.boxHeading}>Citizen Antigen Test</Text>
-                <Text style={styles.boxText}>
-                  You don’t have any active certificate at the moment
-                </Text>
+              <View style={styles.parentNameContainer}>
+                <View style={styles.nameTextContainer}>
+                  <Text style={styles.boxHeading}>SARS-COV-2</Text>
+                  <Text style={styles.boxTestText}>Citigen Antizen Test</Text>
+                </View>
+                <View style={styles.nameTextContainer}>
+                  <Text style={styles.boxHeading}>12-may-2021</Text>
+                  <Text style={styles.boxText}>10:00-10:15</Text>
+                </View>
+              </View>
+              <View style={styles.parentNameContainer}>
+                <View style={styles.bottomTextContainer}>
+                  <Text style={styles.boxHeading}>SARS-COV-2</Text>
+                  <Text style={styles.boxText}>Citigen Antizen Test</Text>
+                </View>
               </View>
             </ImageBackground>
-          </View>
+          </TouchableOpacity>
         </View>
       );
     }
@@ -227,47 +218,50 @@ const MainScreen = ({
         </View>
       </View>
       <View style={styles.appoinmentDivBg}>
-      <View style={styles.mainDivPad}>
-        <View style={styles.nameContainer}>
-          <View style={styles.parentNameContainer}>
-            <View style={styles.nameTextContainer}>
-              <Text style={{fontSize: 25, fontWeight: 'bold', marginStart: 8}}>
-                Hi Jenny
-              </Text>
-              <Text style={{textColor: 'grey', marginStart: 8}}>
-                Hope u r feeling healthy today
-              </Text>
-            </View>
+        <View style={styles.mainDivPad}>
+          <View style={styles.nameContainer}>
+            <View style={styles.parentNameContainer}>
+              <View style={styles.nameTextContainer}>
+                <Text
+                  style={{fontSize: 25, fontWeight: 'bold', marginStart: 8}}>
+                  Hi Jenny
+                </Text>
+                <Text style={{textColor: 'grey', marginStart: 8}}>
+                  Hope u r feeling healthy today
+                </Text>
+              </View>
 
-            <TouchableOpacity
-              onPress={() => moveToAppointmentDetails(navigation)}>
-              <Image
-                style={{height: 50, width: 50, marginEnd: 8}}
-                source={mainScreenIcon}
-              />
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() =>
+                  moveToAppointmentDetails(navigation, 'personal')
+                }>
+                <Image
+                  style={{height: 50, width: 50, marginEnd: 8}}
+                  source={mainScreenIcon}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.actionCertificateContainer}>
+            <Text style={styles.boxTopHeading}>ACTIVE CERTIFICATES</Text>
+            <FlatList
+              horizontal
+              data={DATA}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
+              extraData={selectedId}
+            />
+          </View>
+          <View style={styles.actionCertificateContainer}>
+            <Text style={styles.boxTopHeading}>APPOINTMENTS</Text>
+            <FlatList
+              data={route.params && route.params.booked ? DATA1 : DATA}
+              renderItem={renderItemAppointment}
+              keyExtractor={item => item.id}
+              extraData={selectedId}
+            />
           </View>
         </View>
-        <View style={styles.actionCertificateContainer}>
-          <Text style={styles.boxTopHeading}>ACTIVE CERTIFICATES</Text>
-          <FlatList
-            horizontal
-            data={DATA}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-            extraData={selectedId}
-          />
-        </View>
-        <View style={styles.actionCertificateContainer}>
-          <Text style={styles.boxTopHeading}>APPOINTMENTS</Text>
-          <FlatList
-            data={route.params && route.params.booked ? DATA1 : DATA}
-            renderItem={renderItemAppointment}
-            keyExtractor={item => item.id}
-            extraData={selectedId}
-          />
-        </View>
-      </View>
       </View>
       <TouchableOpacity
         style={styles.plusIconDiv}
@@ -286,8 +280,8 @@ const mapDispatchToProps = dispatch => {
     movetoSettingsScreen: navigation => moveToSettingsScreenAction(navigation),
     movetoMakeAnAppointmentScreen: navigation =>
       moveToMakeAppointsAction(navigation),
-    moveToAppointmentDetails: navigation =>
-      moveToAppointmentDetailsAction(navigation),
+    moveToAppointmentDetails: (navigation, path) =>
+      moveToAppointmentDetailsAction(navigation, path),
   };
 };
 
@@ -308,7 +302,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
-    marginTop:'25%',
+    marginTop: '25%',
   },
   mainMenu: {
     position: 'absolute',

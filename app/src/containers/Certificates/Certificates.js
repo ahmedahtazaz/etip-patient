@@ -19,7 +19,7 @@ import {width, height, totalSize} from 'react-native-dimension';
 import {Dimensions} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Orientation from 'react-native-orientation-locker';
-import {WHITE_COLOR,LIGHT_GREY} from '../../theme/Colors';
+import {WHITE_COLOR, LIGHT_GREY} from '../../theme/Colors';
 import {RFValue} from 'react-native-responsive-fontsize';
 import BottomNavigator from '../../components/BottomNavigator';
 import color from 'color';
@@ -80,11 +80,13 @@ const Item = ({item, onPress, backgroundColor, textColor}) => (
   </TouchableOpacity>
 );
 
-const Certificates = ({ navigation,
+const Certificates = ({
+  navigation,
   movetoSettingsScreen,
   movetoMakeAnAppointmentScreen,
   moveToAppointmentDetails,
-  route}) => {
+  route,
+}) => {
   const window = useWindowDimensions();
 
   const [selectedId, setSelectedId] = useState(null);
@@ -95,129 +97,104 @@ const Certificates = ({ navigation,
     Orientation.lockToPortrait();
   }, [isFocused]);
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({item}) => {
     return (
       <View
         style={{
           width: width(95),
-
         }}>
-        <View style={styles.activeCertificationDiv}>
+        <TouchableOpacity
+          style={styles.activeCertificationDiv}
+          onPress={() => moveToAppointmentDetails(navigation, 'certificates')}>
           <ImageBackground
             source={activeCertificationBg}
-            style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
+            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
             <View style={styles.parentNameContainer}>
               <View style={styles.nameTextContainer}>
                 <Text style={styles.boxHeading}>SARS-COV-2</Text>
-                <Text style={styles.boxTestText}>
-                  Citigen Antizen Test
-              </Text>
+                <Text style={styles.boxTestText}>Citigen Antizen Test</Text>
               </View>
               <View style={styles.nameTextContainer}>
-              <TouchableOpacity
-            style={[styles.buttonStyle, styles.submitButtonDark]}
-            onPress={() => moveToMainScreen(navigation)}>
-            <Text style={{color:'white'}}>24 hours</Text>
-          </TouchableOpacity>
-           
+                <TouchableOpacity
+                  style={[styles.buttonStyle, styles.submitButtonDark]}
+                  onPress={() => moveToMainScreen(navigation)}>
+                  <Text style={{color: 'white'}}>24 hours</Text>
+                </TouchableOpacity>
               </View>
-              
             </View>
             <View style={styles.parentNameContainer}>
-
-            <View style={styles.bottomTextContainer}>
-            <View style={styles.iconRowContainer}>
-            <View style={styles.issueIcon}>
-            <Image  source={issuedRedIcon}  />
-          </View>
-              <View>
-                <Text style={styles.boxHeading}>issued by</Text>
-                <Text style={styles.boxText}>
-                  Citigen Antizen Test
-              </Text>
-              </View>
-              </View>
-
+              <View style={styles.bottomTextContainer}>
+                <View style={styles.iconRowContainer}>
+                  <View style={styles.issueIcon}>
+                    <Image source={issuedRedIcon} />
+                  </View>
+                  <View>
+                    <Text style={styles.boxHeading}>issued by</Text>
+                    <Text style={styles.boxText}>Citigen Antizen Test</Text>
+                  </View>
+                </View>
               </View>
               <View style={styles.nameTextContainer}>
-              
-              <View style={styles.qrCodeItem}>
-            <Image  source={issuedWhiteQr}  />
-          </View>
-           
+                <View style={styles.qrCodeItem}>
+                  <Image source={issuedWhiteQr} />
+                </View>
               </View>
-              
+            </View>
+          </ImageBackground>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+  const renderItemAppointment = ({item}) => {
+    return (
+      <View
+        style={{
+          width: width(95),
+          marginTop: 8,
+        }}>
+        <View style={styles.activeCertificationDiv}>
+          <ImageBackground
+            source={previousCertificateBg}
+            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
+            <View style={styles.parentNameContainer}>
+              <View style={styles.nameTextContainer}>
+                <Text style={styles.boxHeading1}>SARS-COV-2</Text>
+                <Text style={styles.boxTestText1}>Citigen Antizen Test</Text>
               </View>
-
+              <View style={styles.nameTextContainer}>
+                <TouchableOpacity
+                  style={[styles.buttonStyle, styles.submitButtonRed]}
+                  onPress={() => moveToMainScreen(navigation)}>
+                  <Text style={{color: 'white'}}>24 hours</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View style={styles.parentNameContainer}>
+              <View style={styles.bottomTextContainer}>
+                <View style={styles.iconRowContainer}>
+                  <View style={styles.issueIcon}>
+                    <Image source={issuedRedIcon} style={{marginBottom: 8}} />
+                  </View>
+                  <View>
+                    <Text style={styles.boxHeading1}>issued by</Text>
+                    <Text style={styles.boxText1}>Citigen Antizen Test</Text>
+                  </View>
+                </View>
+              </View>
+              <View style={styles.nameTextContainer}>
+                <View style={styles.qrCodeItem}>
+                  <Image source={issuedGrayeQr} />
+                </View>
+              </View>
+            </View>
           </ImageBackground>
         </View>
       </View>
     );
   };
-  const renderItemAppointment = ({ item }) => {
-   
-      return (
-        <View
-          style={{
-            width: width(95),
-            marginTop:8,
-  
-          }}>
-          <View style={styles.activeCertificationDiv}>
-            <ImageBackground
-              source={previousCertificateBg}
-              style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
-              <View style={styles.parentNameContainer}>
-                <View style={styles.nameTextContainer}>
-                  <Text style={styles.boxHeading1}>SARS-COV-2</Text>
-                  <Text style={styles.boxTestText1}>
-                    Citigen Antizen Test
-                </Text>
-                </View>
-                <View style={styles.nameTextContainer}>
-                <TouchableOpacity
-              style={[styles.buttonStyle, styles.submitButtonRed]}
-              onPress={() => moveToMainScreen(navigation)}>
-              <Text style={{color:'white'}}>24 hours</Text>
-            </TouchableOpacity>
-             
-                </View>
-                
-              </View>
-              <View style={styles.parentNameContainer}>
-  
-              <View style={styles.bottomTextContainer}>
-              <View style={styles.iconRowContainer}>
-              <View style={styles.issueIcon}>
-              <Image  source={issuedRedIcon} style={{marginBottom:8,}}  />
-            </View>
-                <View>
-                  <Text style={styles.boxHeading1}>issued by</Text>
-                  <Text style={styles.boxText1}>
-                    Citigen Antizen Test
-                </Text>
-                </View>
-                </View>
-  
-                </View>
-                <View style={styles.nameTextContainer}>
-                
-                <View style={styles.qrCodeItem}>
-              <Image  source={issuedGrayeQr}  />
-            </View>
-             
-                </View>
-                
-                </View>
-  
-            </ImageBackground>
-          </View>
-        </View>
-      );
-  };
   return (
     <View style={styles.container}>
-        <View style={styles.mainMenu}>
+      <View style={styles.mainMenu}>
         <View style={styles.mainMenuItems}>
           <TouchableOpacity
             style={styles.menuItemsLeft}
@@ -232,31 +209,31 @@ const Certificates = ({ navigation,
         </View>
       </View>
       <View style={styles.appoinmentDivBg}>
-      <View style={styles.mainDivPad}>
-        <View style={styles.actionCertificateContainer}>
-          <Text style={styles.boxTopHeading}>ACTIVE CERTIFICATES</Text>
-          <FlatList
-            horizontal
-            data={DATA}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-            extraData={selectedId}
-          />
+        <View style={styles.mainDivPad}>
+          <View style={styles.actionCertificateContainer}>
+            <Text style={styles.boxTopHeading}>ACTIVE CERTIFICATES</Text>
+            <FlatList
+              horizontal
+              data={DATA}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
+              extraData={selectedId}
+            />
+          </View>
+          <View style={styles.actionCertificateContainer}>
+            <Text style={styles.boxTopHeading}>PREVIOUS CERTIFICATES</Text>
+            <FlatList
+              vertical
+              data={DATA}
+              renderItem={renderItemAppointment}
+              keyExtractor={item => item.id}
+              extraData={selectedId}
+            />
+          </View>
         </View>
-        <View style={styles.actionCertificateContainer}>
-          <Text style={styles.boxTopHeading}>PREVIOUS CERTIFICATES</Text>
-          <FlatList
-            vertical
-            data={DATA}
-            renderItem={renderItemAppointment}
-            keyExtractor={item => item.id}
-            extraData={selectedId}
-          />
-        </View>
-      </View>
       </View>
       <View style={styles.plusIconDiv}>
-        <Image  source={plusIcon} />
+        <Image source={plusIcon} />
       </View>
       <BottomNavigator
         navigation={navigation}
@@ -264,7 +241,6 @@ const Certificates = ({ navigation,
     </View>
   );
 };
-
 
 const mapStateToProps = state => {
   return {};
@@ -275,8 +251,8 @@ const mapDispatchToProps = dispatch => {
     movetoSettingsScreen: navigation => moveToSettingsScreenAction(navigation),
     movetoMakeAnAppointmentScreen: navigation =>
       moveToMakeAppointsAction(navigation),
-    moveToAppointmentDetails: navigation =>
-      moveToAppointmentDetailsAction(navigation),
+    moveToAppointmentDetails: (navigation, path) =>
+      moveToAppointmentDetailsAction(navigation, path),
   };
 };
 
@@ -310,27 +286,26 @@ const styles = StyleSheet.create({
     width: '45%',
   },
   menuItemsCenter: {
-    marginEnd:16,
-    marginTop:16,
-    marginBottom:16,
-
-    },
-    appoinmentDivBg : {
-      borderTopLeftRadius:20,
-      borderTopRightRadius:20,
-      backgroundColor:'white',
-      marginTop:'25%',
-    },
-    qrCodeItem:{
-      marginEnd:16,
-      marginTop:22,
-    },
-    issueIcon:{
-      marginEnd:16,
-      marginBottom:16,
-      marginStart:-16,
-      marginTop:4,
-    },
+    marginEnd: 16,
+    marginTop: 16,
+    marginBottom: 16,
+  },
+  appoinmentDivBg: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    backgroundColor: 'white',
+    marginTop: '25%',
+  },
+  qrCodeItem: {
+    marginEnd: 16,
+    marginTop: 22,
+  },
+  issueIcon: {
+    marginEnd: 16,
+    marginBottom: 16,
+    marginStart: -16,
+    marginTop: 4,
+  },
   activeCertificationDiv: {
     borderRadius: 10,
     flexWrap: 'wrap',
@@ -339,7 +314,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     resizeMode: 'cover',
     overflow: 'hidden',
-    backgroundColor:'#d8d8d8',
+    backgroundColor: '#d8d8d8',
     marginEnd: 10,
     maxHeight: 153,
   },
@@ -390,14 +365,14 @@ const styles = StyleSheet.create({
 
     lineHeight: 20,
   },
-  boxTestText:{
+  boxTestText: {
     fontSize: RFValue(16, 580),
     color: WHITE_COLOR,
     fontWeight: '400',
 
     lineHeight: 20,
   },
-  boxTestText1:{
+  boxTestText1: {
     fontSize: RFValue(16, 580),
     color: '#595050',
     fontWeight: '400',
@@ -408,10 +383,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
   },
-  bottomTextContainer:{
+  bottomTextContainer: {
     display: 'flex',
     flexDirection: 'column',
-    
   },
 
   actionCertificateContainer: {
@@ -440,13 +414,12 @@ const styles = StyleSheet.create({
     paddingLeft: 13,
     paddingRight: 20,
   },
-  iconRowContainer:{
+  iconRowContainer: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent:'flex-start',
+    justifyContent: 'flex-start',
     paddingTop: 15,
     paddingLeft: 13,
-
   },
 
   bluebox: {
@@ -488,7 +461,7 @@ const styles = StyleSheet.create({
 
   submitButtonDark: {
     width: 65,
-    height:38,
+    height: 38,
     borderRadius: 17,
     backgroundColor: '#12878D',
     color: WHITE_COLOR,
@@ -500,7 +473,7 @@ const styles = StyleSheet.create({
   },
   submitButtonRed: {
     width: 65,
-    height:38,
+    height: 38,
     borderRadius: 17,
     backgroundColor: '#FB4646',
     color: WHITE_COLOR,
