@@ -15,6 +15,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { BLACK_COLOR, GREEN_COLOR, WHITE_COLOR } from '../../theme/Colors';
+import BottomNavigator from '../../components/BottomNavigator';
 const { width, height } = Dimensions.get('window')
 
 const DATA = [
@@ -78,9 +79,10 @@ function TestCenterInfo({ navigation }) {
 
                 <View>
                     <TouchableOpacity
-                        style={[styles.btnStyle, styles.submitButton]}>
+                        style={[styles.btnStyle, styles.submitButton]}
+                        onPress={()=>navigation.navigate("QRScreen")}>
                         <FontAwesome name="qrcode" color={WHITE_COLOR} size={20} />
-                        <Text style={styles.submitText}>Issue Certificate</Text>
+                        <Text style={styles.submitText}>Scan QR Code</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -92,9 +94,9 @@ function TestCenterInfo({ navigation }) {
                 </View>
 
             </View>
-            {/* <BottomNavigator
-        navigation={navigation}
-        selectedItem={{id: 1, label: 'Home'}}></BottomNavigator> */}
+            <BottomNavigator
+                navigation={navigation}
+                selectedItem={{ id: 1, label: 'Home' }}></BottomNavigator>
         </View>
     );
 }

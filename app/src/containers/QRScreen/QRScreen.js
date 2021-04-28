@@ -19,7 +19,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 const { width, height } = Dimensions.get('window')
 
 
-function QRScreen({ navigation: { goBack } }) {
+function QRScreen({ navigation}) {
     const [scan, setScan] = useState(true);
     const [certificate_request, setCertificateRequest] = useState("");
     const [proof_request, setProofRequest] = useState("");
@@ -34,7 +34,7 @@ function QRScreen({ navigation: { goBack } }) {
         <View style={styles.MainContainer}>
             <View style={styles.header}>
                 <View style={styles.backIcon}>
-                    <TouchableOpacity onPress={() => goBack()}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
                         <EvilIcons name="chevron-left" color="#000" size={27} />
                     </TouchableOpacity>
                 </View>
@@ -75,7 +75,7 @@ function QRScreen({ navigation: { goBack } }) {
                     }
                     bottomContent={
                         <TouchableOpacity style={styles.buttonTouchable} onPress={() => {
-                            navigation.navigate('MainScreen')
+                            navigation.navigate('VerifierUserInfoScreen')
                         }}>
                             <Text style={styles.buttonText}>Cancel Scan</Text>
                         </TouchableOpacity>

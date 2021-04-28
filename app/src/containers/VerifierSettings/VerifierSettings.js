@@ -24,32 +24,24 @@ import BottomNavigator from '../../components/BottomNavigator';
 const { width, height } = Dimensions.get('window')
 const DATA = [
     {
-        name: 'P-1234',
-        date: '12/Apr/2020 10:00',
+        name: 'About App',
+
     },
     {
-        name: 'P-1234',
-        date: '12/Apr/2020 10:00',
+        name: 'Need assistance',
+
     },
     {
-        name: 'P-1234',
-        date: '12/Apr/2020 10:00',
+        name: 'Privacy Policy',
+
     },
     {
-        name: 'P-1234',
-        date: '12/Apr/2020 10:00',
-    },
-    {
-        name: 'P-1234',
-        date: '12/Apr/2020 10:00',
-    },
-    {
-        name: 'P-1234',
-        date: '12/Apr/2020 10:00',
-    },
+        name: 'Terms & Condition',
+
+    }
 ];
 
-function TestConducted({ navigation }) {
+function VerifierSettings({ navigation }) {
     const [patientName, setPatientName] = useState("")
     const isFocused = useIsFocused();
 
@@ -61,7 +53,6 @@ function TestConducted({ navigation }) {
     const renderItem = ({ item, index }) => (
         <TouchableOpacity style={styles.item} key={index}>
             <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.date}>{item.date}</Text>
         </TouchableOpacity>
     );
 
@@ -69,26 +60,11 @@ function TestConducted({ navigation }) {
         <View style={styles.MainContainer}>
             <View style={styles.header}>
                 <View >
-                    <Text style={styles.headerText}>Test Conducted</Text>
+                    <Text style={styles.headerText}>Setting</Text>
                 </View>
             </View>
             <View style={styles.infoContainer}>
                 <View style={styles.infoContainerChild}>
-
-                    <View style={styles.searchBox}>
-                        <View style={styles.searchFieldView}>
-                            <TextInput
-                                style={styles.searchField}
-                                placeholder="Search"
-                                underlineColorAndroid="transparent"
-                                value={patientName}
-                                onChange={e => setPatientName(e.target.value)}
-                            ></TextInput>
-                        </View>
-                        <View style={styles.searchIconView}>
-                            <Feather name="search" color="#aeadad" size={20} />
-                        </View>
-                    </View>
 
                     <View style={styles.patientList}>
                         <FlatList
@@ -103,7 +79,7 @@ function TestConducted({ navigation }) {
             </View>
             <BottomNavigator
                 navigation={navigation}
-                selectedItem={{ id: 2, label: 'Test Conducted' }}></BottomNavigator>
+                selectedItem={{ id: 3, label: 'Settings' }}></BottomNavigator>
         </View>
     );
 }
@@ -201,4 +177,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default TestConducted;
+export default VerifierSettings;

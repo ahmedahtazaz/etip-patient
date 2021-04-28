@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, { useRef } from 'react';
 import {
   StyleSheet,
   TouchableOpacity,
@@ -7,10 +7,11 @@ import {
   ImageBackground,
   View,
 } from 'react-native';
-import {RFValue} from 'react-native-responsive-fontsize';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { IS_VERIFIER_APP } from '../commons/Constants';
 const selectedBottomNav = require('../assets/images/selected-bottom-nav.png');
 
-function NavigatorItem({item, isSelected, navigation}) {
+function NavigatorItem({ item, isSelected, navigation }) {
   const isSelectedRef = useRef(isSelected);
   isSelectedRef.current = isSelected;
 
@@ -45,6 +46,14 @@ function NavigatorItem({item, isSelected, navigation}) {
   };
 
   const navigateToHome = item => {
+    if (IS_VERIFIER_APP) {
+      verifierNavigator(item);
+    } else {
+      patientNavigator(item);
+    }
+  };
+
+  const patientNavigator = (item) => {
     switch (item.id) {
       case 1:
         navigation.replace('MainScreen');
@@ -62,7 +71,24 @@ function NavigatorItem({item, isSelected, navigation}) {
         navigation.replace('MainScreen');
         break;
     }
-  };
+  }
+
+  const verifierNavigator = (item) => {
+    switch (item.id) {
+      case 1:
+        navigation.replace('TestCenterInfo');
+        break;
+      case 2:
+        navigation.replace('TestConductedScreen');
+        break;
+      case 3:
+        navigation.replace('Settings');
+        break;
+      default:
+        navigation.replace('TestCenterInfo');
+        break;
+    }
+  }
 
   return (
     <TouchableOpacity

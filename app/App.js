@@ -42,6 +42,8 @@ import Certificates from './src/containers/Certificates/Certificates';
 import FamilyMain from './src/containers/FamilyMain/FamilyMain';
 import AppointmentDetails from './src/containers/AppointmentDetails.js/AppointmentDetails';
 import TestCenterVerifier from './src/containers/TestCenterVerifier/TestCenterVerifier';
+import VerifierSettings from './src/containers/VerifierSettings/VerifierSettings';
+import VerifierUserInfo from './src/containers/VerifierUserInfo/VerifierUserInfo';
 const menuIcon = require('../app/src/assets/images/menu-icon.png');
 
 const sagaMiddleware = createSagaMiddleware();
@@ -95,6 +97,18 @@ const App: () => React$Node = () => {
                 <Stack.Screen
                   name="TestConductedScreen"
                   component={TestConducted}
+                  options={{ headerShown: false }}
+                />
+
+                <Stack.Screen
+                  name="VerifierUserInfoScreen"
+                  component={VerifierUserInfo}
+                  options={{ headerShown: false }}
+                />
+
+                <Stack.Screen
+                  name="Settings"
+                  component={VerifierSettings}
                   options={{ headerShown: false }}
                 />
 

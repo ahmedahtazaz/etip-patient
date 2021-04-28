@@ -5,6 +5,8 @@ import NavigatorItem from './NavigatorItem';
 
 const verifierNavOptions = [
   { id: 1, label: 'Home' },
+  { id: 2, label: 'Test Conducted' },
+  { id: 3, label: 'Settings' },
 ]
 
 const patientNavOptions = [
