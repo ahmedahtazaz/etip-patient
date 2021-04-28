@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
   GridViewInsideTextItemStyle: {
     color: 'black',
     padding: 10,
-    fontSize: 18,
+    fontSize: 14,
     justifyContent: 'center',
   },
 });

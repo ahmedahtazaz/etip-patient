@@ -91,6 +91,7 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
               underlineColorAndroid="transparent"
               placeholder="Phone"
               style={styles.inputStyle1}
+              keyboardType="numeric"
               onChangeText={value => setPhoneValue(value)}></TextInput>
           </>
         ) : (
@@ -123,6 +124,7 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
                 textContentType="oneTimeCode"
                 placeholder="0"
                 style={styles.inputStyle}
+                keyboardType="numeric"
                 onChangeText={value => {
                   setOTPValue(value);
                   if (otp1 && value) otp1.focus();
@@ -135,6 +137,7 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
                 textContentType="oneTimeCode"
                 placeholder="0"
                 style={styles.inputStyle}
+                keyboardType="numeric"
                 onChangeText={value => {
                   setOTPValue1(value);
                   if (otp2 && value) otp2.focus();
@@ -148,6 +151,7 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
                 textContentType="oneTimeCode"
                 placeholder="0"
                 style={styles.inputStyle}
+                keyboardType="numeric"
                 onChangeText={value => {
                   setOTPValue2(value);
                   if (otp3 && value) otp3.focus();
@@ -161,6 +165,7 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
                 textContentType="oneTimeCode"
                 placeholder="0"
                 style={styles.inputStyle}
+                keyboardType="numeric"
                 onChangeText={value => {
                   setOTPValue3(value);
                   if (otp4 && value) otp4.focus();
@@ -174,6 +179,7 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
                 underlineColorAndroid="transparent"
                 placeholder="0"
                 style={styles.inputStyle}
+                keyboardType="numeric"
                 onChangeText={value => {
                   setOTPValue4(value);
                   if (!value) otp3.focus();
