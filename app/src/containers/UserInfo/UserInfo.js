@@ -92,7 +92,7 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
           <View style={styles.formContainer}>
             <View style={styles.userName}>
               <TextInput
-                placeholderTextColor={BLACK_COLOR}
+                placeholderTextColor={'#a29d9d'}
                 value={fName}
                 textContentType="givenName"
                 underlineColorAndroid="transparent"
@@ -100,7 +100,7 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
                 style={styles.inputStyle}
                 onChangeText={value => setFName(value)}></TextInput>
               <TextInput
-                placeholderTextColor={BLACK_COLOR}
+                placeholderTextColor={'#a29d9d'}
                 value={lName}
                 textContentType="familyName"
                 placeholder="Last Name"
@@ -180,7 +180,7 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
               style={{
                 backgroundColor: '#F5F9F8',
                 fontSize: RFValue(14, 580),
-                color: '#243E3B',
+                color: '#a29d9d',
               }}
               itemStyle={{
                 justifyContent: 'flex-start',
@@ -188,13 +188,13 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
               dropDownStyle={{
                 backgroundColor: '#F5F9F8',
                 fontSize: RFValue(14, 580),
-                color: '#243E3B',
+                color: '#a29d9d',
               }}
               onChangeItem={item => setRelation(item.value)}
             />
           ) : null}
           <TextInput
-            placeholderTextColor={BLACK_COLOR}
+            placeholderTextColor={'#a29d9d'}
             value={dob}
             textContentType="none"
             placeholder="Date"
@@ -213,7 +213,7 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
             />
           ) : null}
           <TextInput
-            placeholderTextColor={BLACK_COLOR}
+            placeholderTextColor={'#a29d9d'}
             value={taxId}
             textContentType="taxId"
             underlineColorAndroid="transparent"
@@ -221,7 +221,7 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
             style={styles.inputStyle1}
             onChangeText={value => setTaxId(value)}></TextInput>
           <TextInput
-            placeholderTextColor={BLACK_COLOR}
+            placeholderTextColor={'#a29d9d'}
             value={email}
             textContentType="email"
             underlineColorAndroid="transparent"
@@ -230,7 +230,7 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
             onChangeText={value => setEmail(value)}></TextInput>
           {isFamily ? (
             <TextInput
-              placeholderTextColor={BLACK_COLOR}
+              placeholderTextColor={'#a29d9d'}
               value={mobileNo}
               textContentType="mobileNo"
               underlineColorAndroid="transparent"
@@ -243,7 +243,7 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
           </View>
           <View style={styles.userName}>
             <TextInput
-              placeholderTextColor={BLACK_COLOR}
+              placeholderTextColor={'#a29d9d'}
               value={schiller}
               textContentType="schiller"
               underlineColorAndroid="transparent"
@@ -251,7 +251,7 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
               style={styles.inputStyle}
               onChangeText={value => setSchiller(value)}></TextInput>
             <TextInput
-              placeholderTextColor={BLACK_COLOR}
+              placeholderTextColor={'#a29d9d'}
               value={schiller}
               textContentType="schiller"
               placeholder="zimmer"
@@ -286,7 +286,7 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
             style={{
               backgroundColor: '#F5F9F8',
               fontSize: RFValue(14, 580),
-              color: '#243E3B',
+              color: '#a29d9d',
             }}
             itemStyle={{
               justifyContent: 'flex-start',
@@ -294,12 +294,12 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
             dropDownStyle={{
               backgroundColor: '#F5F9F8',
               fontSize: RFValue(14, 580),
-              color: '#243E3B',
+              color: '#a29d9d',
             }}
             onChangeItem={item => setCity(item.value)}
           />
           <TextInput
-            placeholderTextColor={BLACK_COLOR}
+            placeholderTextColor={'#a29d9d'}
             value={fName}
             textContentType="postalCode"
             underlineColorAndroid="transparent"

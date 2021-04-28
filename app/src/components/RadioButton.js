@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     backgroundColor: WHITE_COLOR,
     borderWidth:1,
     borderColor:'#EDEDED',
-    color: '#243E3B',
+    color: '#a29d9d',
     fontSize: RFValue(12, 580),
     fontWeight:'600',
     paddingTop: '10%',
