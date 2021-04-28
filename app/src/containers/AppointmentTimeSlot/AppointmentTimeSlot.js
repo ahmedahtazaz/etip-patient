@@ -138,6 +138,7 @@ const AppointmentTimeSlot = ({navigation}) => {
       
       <View style={styles.appoinmentDivBg}>
       <ScrollView>
+        <View>
         <View style={styles.nameContainer}>
           <View style={styles.parentNameContainer}>
             <View style={styles.nameTextContainer}>
@@ -212,7 +213,7 @@ const AppointmentTimeSlot = ({navigation}) => {
         </View>
 
         <View style={styles.calenderContainer}>
-          <Text style={{marginBottom: 8, marginStart: 8}}>Time Slot</Text>
+          <Text style={{marginStart: 8}}>Time Slot</Text>
           {/* <Calendar/> */}
 
           <FlatList
@@ -229,13 +230,15 @@ const AppointmentTimeSlot = ({navigation}) => {
           />
         </View>
         <View style={styles.bottom}>
-          <Button
-            color="#20B2AA"
-            title="Book Appointment"
+        <TouchableOpacity
+            style={[styles.container1, styles.submitButton]}
             onPress={() => navigation.replace('MainScreen', {booked: true})}
-          />
+          >
+          <Text style={styles.submitText}>Book Appointment</Text>
+          </TouchableOpacity>
         </View>
         
+        </View>
       </ScrollView>
       </View>
     </View>
@@ -354,11 +357,44 @@ const styles = StyleSheet.create({
   bottom: {
     height: height(10),
     justifyContent: 'flex-end',
-    marginBottom: 8,
+    marginBottom: 80,
     padding: 16,
     borderRadius: 10,
   },
-
+  container1: {
+    backgroundColor: 'rgba(243,115,32,1)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    borderRadius: 67,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.35,
+    shadowRadius: 5,
+    elevation: 5,
+    minWidth: 88,
+    paddingLeft: 16,
+    paddingRight: 16,
+  },
+  submitButton: {
+    width: '100%',
+    borderRadius: 10,
+    backgroundColor: '#006970',
+    color: WHITE_COLOR,
+    
+    fontSize: RFValue(14, 580),
+    fontWeight:'600',
+    minHeight:68,
+  },
+  submitText: {
+    color: WHITE_COLOR,
+    fontSize: RFValue(14, 580),
+    fontWeight:'600',
+  
+  },
   MainContainer: {
     justifyContent: 'center',
     flex: 1,
