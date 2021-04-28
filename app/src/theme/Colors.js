@@ -5,4 +5,7 @@ export const WHITE_COLOR = 'white';
 export const RED_COLOR = 'red';
 export const GRAY_COLOR = '#525151';
 export const DARK_GREEN_COLOR = '#006970';
+export const LIGHT_GREY = '#d3d3d3';
+
+
 

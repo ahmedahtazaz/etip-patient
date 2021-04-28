@@ -80,11 +80,16 @@ const Appointment = ({movetoAppointmentCalenderScreen, navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.mainMenu}>
+      <View style={styles.mainMenuItems}>
         <TouchableOpacity
-          style={styles.mainMenuItems}
+          style={styles.menuItemsLeft}
           onPress={() => navigation.goBack()}>
-          <Image source={menuArrowIcon} style={{marginLeft: 10, marginTop:5}} />
+          <Image source={menuArrowIcon} style={{marginLeft: 10}} />
         </TouchableOpacity>
+        <View style={styles.menuItemsCenter}>
+        <Text style={styles.headerTitle}>Make an Appointment</Text>
+        </View>
+        </View>
       </View>
       <View style={styles.appoinmentDivBg}>
       <View style={styles.nameContainer}>
@@ -130,17 +135,36 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8fbfa',
     flex: 1,
   },
+  mainMenu : {
+    paddingBottom: 18,
+    paddingTop: 20,
+  },
   mainMenuItems: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     paddingBottom: 15,
-    paddingTop: 25,
+    paddingTop: 15,
+  },
+  menuItemsLeft: {
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
+    width:'25%',
+    marginStart:5,
+  },
+  menuItemsCenter: {
+    justifyContent: 'center',
+    minHeight:28,
+  },
+  headerTitle : {
+    color:'#322929',
+    fontWeight:'900',
+    fontSize: RFValue(16, 580),
   },
   appoinmentDivBg : {
     borderTopLeftRadius:20,
     borderTopRightRadius:20,
-    marginTop: 30,
     backgroundColor:'white',
   },
   splashbackground: {

@@ -103,7 +103,7 @@ const MainScreen = ({
         <View style={styles.appoinmentRedDiv}>
           <ImageBackground
             source={appoinmentRedBg}
-            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
+            style={styles.appoinmentRedDiv1}>
             <View style={styles.contentPadding1}>
               <View style={styles.redDivTop}>
                 <Text style={styles.boxHeading}>You are Covid Positive</Text>
@@ -400,14 +400,18 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     overflow: 'hidden',
     marginEnd: 10,
-    maxHeight: 198,
+  },
+  appoinmentRedDiv1: {
+    maxWidth:400,
+    maxHeight: 280,
+    borderRadius: 10,
   },
   redDivBottom: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    paddingBottom: 35,
+    paddingBottom: 15,
   },
   redDivBottomLeft: {
     fontSize: RFValue(10, 580),

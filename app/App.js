@@ -98,65 +98,33 @@ const App: () => React$Node = () => {
             <Stack.Screen
               name="testCenter"
               component={TestCenter}
-              options={{
-                title: 'Select Test Center',
-                headerTitleAlign: 'center',
-
-                headerStyle: {
-                  backgroundColor: 'white',
-                },
-              }}
+              options={{headerShown: false}}
             />
             <Stack.Screen
               name="appointmentSlot"
               component={AppointmentTimeSlot}
-              options={{
-                title: 'Make an Appointment',
-                headerTitleAlign: 'center',
-
-                headerStyle: {
-                  backgroundColor: 'white',
-                },
-              }}
+              options={{headerShown: false}}
             />
 
             <Stack.Screen
               name="appointmentMainScreen"
               component={AppointmentMainScreen}
-              options={{
-                title: 'Appointment',
-                headerTitleAlign: 'center',
+              options={{headerShown: false}}
 
-                headerStyle: {
-                  backgroundColor: 'white',
-                },
-              }}
             />
 
             <Stack.Screen
               name="certificateMain"
               component={Certificates}
-              options={{
-                title: 'Certificate',
-                headerTitleAlign: 'center',
+              options={{headerShown: false}}
 
-                headerStyle: {
-                  backgroundColor: 'white',
-                },
-              }}
             />
 
             <Stack.Screen
               name="familyMain"
               component={FamilyMain}
-              options={{
-                title: 'Family',
-                headerTitleAlign: 'center',
+              options={{headerShown: false}}
 
-                headerStyle: {
-                  backgroundColor: 'white',
-                },
-              }}
             />
             <Stack.Screen
               name="AppointmentDetailsScreen"
