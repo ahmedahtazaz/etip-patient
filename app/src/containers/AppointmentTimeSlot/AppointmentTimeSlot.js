@@ -48,18 +48,18 @@ const DATA = [
   },
 ];
 const GRID_DATA = [
-  {key: '09:00-09:15'},
-  {key: '09:15-09:30'},
-  {key: '09:15-09:30'},
-  {key: '09:15-09:30'},
-  {key: '09:15-09:30'},
-  {key: '09:15-09:30'},
-  {key: '09:15-09:30'},
-  {key: '09:15-09:30'},
-  {key: '09:15-09:30'},
-  {key: '09:15-09:30'},
-  {key: '09:15-09:30'},
-  {key: '09:15-09:30'},
+  {key: '09:00-09:15', id: 1},
+  {key: '09:15-09:30', id: 2},
+  {key: '09:15-09:30', id: 3},
+  {key: '09:15-09:30', id: 4},
+  {key: '09:15-09:30', id: 5},
+  {key: '09:15-09:30', id: 6},
+  {key: '09:15-09:30', id: 7},
+  {key: '09:15-09:30', id: 8},
+  {key: '09:15-09:30', id: 9},
+  {key: '09:15-09:30', id: 10},
+  {key: '09:15-09:30', id: 11},
+  {key: '09:15-09:30', id: 12},
 ];
 
 const Item = ({item, onPress, backgroundColor, textColor}) => (
@@ -220,14 +220,30 @@ const AppointmentTimeSlot = ({navigation}) => {
 
               <FlatList
                 data={GRID_DATA}
-                renderItem={({item}) => (
-                  <View style={styles.GridViewBlockStyle}>
-                    <Text style={styles.GridViewInsideTextItemStyle}>
-                      {' '}
-                      {item.key}{' '}
-                    </Text>
-                  </View>
-                )}
+                renderItem={({item}) => {
+                  if (item.id == selectedId) {
+                    return (
+                      <TouchableOpacity
+                        style={styles.GridViewBlockStyleActive}
+                        onPress={() => setSelectedId(null)}>
+                        <Text style={styles.GridViewInsideTextItemStyleActive}>
+                          {' '}
+                          {item.key}{' '}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  }
+                  return (
+                    <TouchableOpacity
+                      style={styles.GridViewBlockStyle}
+                      onPress={() => setSelectedId(item.id)}>
+                      <Text style={styles.GridViewInsideTextItemStyle}>
+                        {' '}
+                        {item.key}{' '}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                }}
                 numColumns={3}
               />
             </View>
@@ -257,7 +273,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: windowHeight * 0.1,
     alignItems: 'center',
-    paddingTop:'7%',
+    paddingTop: '7%',
   },
   backIcon: {
     flex: 1,
@@ -288,7 +304,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
-    marginTop:'5%',
+    marginTop: '5%',
   },
   imgShadow: {
     shadowColor: '#000',
@@ -414,7 +430,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 50,
     margin: 5,
-    backgroundColor:'#006970',
+    backgroundColor: '#006970',
     backgroundColor: '#006970',
     borderStyle: 'solid',
   },
