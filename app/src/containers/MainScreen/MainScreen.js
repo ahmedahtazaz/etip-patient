@@ -41,6 +41,30 @@ const DATA = [
     id: 'Modifiy Personal Information',
     title: 'Modifiy Personal Information',
   },
+  {
+    id: 'Modify Email',
+    title: 'Modify Email',
+  },
+  {
+    id: 'Modify Sim',
+    title: 'Modify Sim',
+  },
+  {
+    id: 'About App',
+    title: 'About App',
+  },
+  {
+    id: 'Need Assistance',
+    title: 'Need Assistance',
+  },
+  {
+    id: 'Privacy Policy',
+    title: 'Privacy Policy',
+  },
+  {
+    id: 'Terms & Conditions',
+    title: 'Terms & Conditions',
+  },
 ];
 
 const DATA1 = [
@@ -236,7 +260,7 @@ const MainScreen = ({
         <View style={styles.actionCertificateContainer}>
           <Text style={styles.boxTopHeading}>APPOINTMENTS</Text>
           <FlatList
-            vertical
+            
             data={route.params && route.params.booked ? DATA1 : DATA}
             renderItem={renderItemAppointment}
             keyExtractor={item => item.id}

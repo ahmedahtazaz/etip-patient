@@ -127,7 +127,7 @@ const Certificates = ({ navigation,
 
             <View style={styles.bottomTextContainer}>
             <View style={styles.iconRowContainer}>
-            <View style={styles.menuItemsCenter}>
+            <View style={styles.issueIcon}>
             <Image  source={issuedRedIcon}  />
           </View>
               <View>
@@ -141,7 +141,7 @@ const Certificates = ({ navigation,
               </View>
               <View style={styles.nameTextContainer}>
               
-              <View style={styles.menuItemsCenter}>
+              <View style={styles.qrCodeItem}>
             <Image  source={issuedWhiteQr}  />
           </View>
            
@@ -188,7 +188,7 @@ const Certificates = ({ navigation,
   
               <View style={styles.bottomTextContainer}>
               <View style={styles.iconRowContainer}>
-              <View style={styles.menuItemsCenter}>
+              <View style={styles.issueIcon}>
               <Image  source={issuedRedIcon} style={{marginBottom:8,}}  />
             </View>
                 <View>
@@ -202,7 +202,7 @@ const Certificates = ({ navigation,
                 </View>
                 <View style={styles.nameTextContainer}>
                 
-                <View style={styles.menuItemsCenter}>
+                <View style={styles.qrCodeItem}>
               <Image  source={issuedGrayeQr}  />
             </View>
              
@@ -313,7 +313,16 @@ const styles = StyleSheet.create({
     marginTop:16,
     marginBottom:16,
 
-
+    },
+    qrCodeItem:{
+      marginEnd:16,
+      marginTop:22,
+    },
+    issueIcon:{
+      marginEnd:16,
+      marginBottom:16,
+      marginStart:-16,
+      marginTop:4,
     },
   activeCertificationDiv: {
     borderRadius: 10,
