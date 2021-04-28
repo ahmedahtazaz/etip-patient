@@ -113,9 +113,7 @@ const FamilyMain = ({
             <Text style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
               Jenny White
             </Text>
-            <Text style={{marginStart: 8, color: '#adadad'}}>
-              Appointment For
-            </Text>
+            <Text style={{marginStart: 8, color: '#adadad'}}>My Self</Text>
           </View>
           <View style={styles.qrCodeandEditConatiner}>
             <TouchableOpacity

@@ -136,9 +136,11 @@ const MainScreen = ({
         <View style={styles.activeCertificationDiv}>
           <ImageBackground
             source={previousAppoinmentBg}
-            style={{width: '100%', height: '100%', resizeMode: 'cover',}}>
-            <View style={styles.contentPadding} >
-              <Text style={styles.boxHeadingDisable}>No Active Certificate</Text>
+            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
+            <View style={styles.contentPadding}>
+              <Text style={styles.boxHeadingDisable}>
+                No Active Certificate
+              </Text>
               <Text style={styles.boxTextDisable}>
                 You don’t have any active certificate at the moment
               </Text>
@@ -162,23 +164,23 @@ const MainScreen = ({
             <ImageBackground
               source={activeCertificationBg}
               style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
-                <View style={styles.contentPadding} >
-              <View style={styles.parentNameContainer}>
-                <View style={styles.nameTextContainer}>
-                  <Text style={styles.boxHeading}>SARS-COV-2</Text>
-                  <Text style={styles.boxTestText}>Citigen Antizen Test</Text>
+              <View style={styles.contentPadding}>
+                <View style={styles.parentNameContainer}>
+                  <View style={styles.nameTextContainer}>
+                    <Text style={styles.boxHeading}>SARS-COV-2</Text>
+                    <Text style={styles.boxTestText}>Citigen Antizen Test</Text>
+                  </View>
+                  <View style={styles.nameTextContainer}>
+                    <Text style={styles.boxHeading}>12-may-2021</Text>
+                    <Text style={styles.boxText}>10:00-10:15</Text>
+                  </View>
                 </View>
-                <View style={styles.nameTextContainer}>
-                  <Text style={styles.boxHeading}>12-may-2021</Text>
-                  <Text style={styles.boxText}>10:00-10:15</Text>
+                <View style={styles.parentNameContainer}>
+                  <View style={styles.bottomTextContainer}>
+                    <Text style={styles.boxHeading}>SARS-COV-2</Text>
+                    <Text style={styles.boxText}>Citigen Antizen Test</Text>
+                  </View>
                 </View>
-              </View>
-              <View style={styles.parentNameContainer}>
-                <View style={styles.bottomTextContainer}>
-                  <Text style={styles.boxHeading}>SARS-COV-2</Text>
-                  <Text style={styles.boxText}>Citigen Antizen Test</Text>
-                </View>
-              </View>
               </View>
             </ImageBackground>
           </TouchableOpacity>
@@ -193,9 +195,11 @@ const MainScreen = ({
             style={styles.activeAppoinmentsDiv}
             style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
             <View style={styles.contentPadding}>
-              <Text style={styles.boxHeadingDisable}>No Active Certificate</Text>
+              <Text style={styles.boxHeadingDisable}>
+                No Active Appointments
+              </Text>
               <Text style={styles.boxTextDisable}>
-                You don’t have any active certificate at the moment
+                You don’t have any active appointment at the moment
               </Text>
             </View>
           </ImageBackground>

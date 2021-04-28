@@ -14,7 +14,10 @@ import {
 import {RFValue} from 'react-native-responsive-fontsize';
 import {WHITE_COLOR} from '../../theme/Colors';
 import {connect} from 'react-redux';
-import {moveToUserUpdateSettingScreenAction} from './Actions';
+import {
+  moveToAppointmentDetailsAction,
+  moveToUserUpdateSettingScreenAction,
+} from './Actions';
 const settingHeaderBg = require('../../assets/images/setting-header-bg.png');
 const settingTopIcon = require('../../assets/images/setting-top-icon.png');
 const menuArrowWhiteIcon = require('../../assets/images/menu-arrow-white-icon.png');
@@ -58,7 +61,11 @@ const Item = ({item, onPress, backgroundColor, textColor}) => (
   </TouchableOpacity>
 );
 
-const Settings = ({navigation, movetoUpdateScreen}) => {
+const Settings = ({
+  navigation,
+  movetoUpdateScreen,
+  moveToAppointmentDetails,
+}) => {
   const [selectedId, setSelectedId] = useState(null);
 
   const renderItem = ({item}) => {
@@ -83,7 +90,10 @@ const Settings = ({navigation, movetoUpdateScreen}) => {
             <Image source={menuArrowWhiteIcon} style={{marginRight: 10}} />
           </TouchableOpacity>
           <Text style={styles.profileName}>Jenny White</Text>
-          <Image source={settingTopIcon} />
+          <TouchableOpacity
+            onPress={() => moveToAppointmentDetails(navigation, 'personal')}>
+            <Image source={settingTopIcon} />
+          </TouchableOpacity>
         </View>
       </ImageBackground>
       <FlatList
@@ -163,6 +173,8 @@ const mapDispatchToProps = dispatch => {
   return {
     movetoUpdateScreen: (path, navigation, title) =>
       moveToUserUpdateSettingScreenAction(path, navigation, title),
+    moveToAppointmentDetails: (navigation, path) =>
+      moveToAppointmentDetailsAction(navigation, path),
   };
 };
 
