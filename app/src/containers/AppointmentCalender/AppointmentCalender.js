@@ -24,6 +24,7 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
+const regionSelectedIcon = require('../../assets/images/region-selected-icon.png');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const DATA = [
@@ -90,6 +91,7 @@ const AppointmentCalender = ({
     }
     return (
       <View style={{marginStart: 8}} style={styles.imgShadow}>
+        
         <Image
           style={{
             height: window.height / 5,
@@ -99,6 +101,9 @@ const AppointmentCalender = ({
           }}
           source={imgsource}
         />
+        <View style={styles.regionSelectedDiv}>
+        <Image source={regionSelectedIcon} />
+        </View>
         <View
           style={{
             position: 'absolute',
@@ -296,6 +301,13 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     marginBottom: 16,
     borderRadius: 10,
+  },
+  regionSelectedDiv : {
+    position:'absolute',
+    top:10,
+    right:10,
+    width:15,
+    height:15,
   },
 });
 

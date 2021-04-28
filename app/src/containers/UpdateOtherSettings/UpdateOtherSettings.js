@@ -116,6 +116,7 @@ const styles = StyleSheet.create({
   },
   container: {
     height,
+    backgroundColor:'white',
   },
   header: {
     flexDirection: 'row',

@@ -22,33 +22,23 @@ const appointmentBg1 = require('../../assets/images/appointment-bg1.png');
 const {width, height} = Dimensions.get('window');
 const DATA = [
   {
-    id: 'Modifiy Personal Information',
-    title: 'Modifiy Personal Information',
+    id: 'Jenny White',
+    title: 'Myself',
   },
   {
-    id: 'Modify Email',
-    title: 'Modify Email',
+    id: 'Jhon Doe',
+    title: 'Husband',
   },
   {
-    id: 'Modify Sim',
-    title: 'Modify Sim',
+    id: 'Will Smith',
+    title: 'Son',
   },
   {
-    id: 'About App',
-    title: 'About App',
+    id: 'Julia',
+    title: 'Daughter',
   },
-  {
-    id: 'Need Assistance',
-    title: 'Need Assistance',
-  },
-  {
-    id: 'Privacy Policy',
-    title: 'Privacy Policy',
-  },
-  {
-    id: 'Terms & Conditions',
-    title: 'Terms & Conditions',
-  },
+  
+ 
 ];
 
 const Item = ({item, onPress, backgroundColor, textColor}) => (
@@ -68,10 +58,10 @@ const Appointment = ({movetoAppointmentCalenderScreen, navigation}) => {
         style={styles.appointmentlistContainer}
         onPress={() => movetoAppointmentCalenderScreen(navigation)}>
         <Text style={{fontWeight: 'bold', marginStart: 8, color: '#20B2AA'}}>
-          Jenny WHite
+        {item.id}
         </Text>
         <Text style={{color: '#d3d3d3', marginStart: 8, fontSize: 16}}>
-          My self
+        {item.title}
         </Text>
       </TouchableOpacity>
     );
