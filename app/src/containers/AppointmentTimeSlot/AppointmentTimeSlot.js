@@ -74,25 +74,25 @@ const AppointmentTimeSlot = ({navigation}) => {
   const [selectedId, setSelectedId] = useState(null);
 
   const renderItem = ({item}) => {
-    let imgsource =require('../../assets/images/bavaria.png');
+    let imgsource = require('../../assets/images/bavaria.png');
     switch (item.id) {
       case 1:
-        imgsource =require('../../assets/images/bavaria.png');
+        imgsource = require('../../assets/images/bavaria.png');
         break;
       case 2:
-        imgsource =require('../../assets/images/munich.png');
+        imgsource = require('../../assets/images/munich.png');
         break;
       case 3:
-        imgsource =require('../../assets/images/augsburg.png');
+        imgsource = require('../../assets/images/augsburg.png');
         break;
       case 4:
-        imgsource =require('../../assets/images/frankfurt.png');
+        imgsource = require('../../assets/images/frankfurt.png');
         break;
-        case 5:
-          imgsource =require('../../assets/images/hamburg.png');
-          break;
+      case 5:
+        imgsource = require('../../assets/images/hamburg.png');
+        break;
       default:
-        imgsource =require('../../assets/images/bavaria.png');
+        imgsource = require('../../assets/images/bavaria.png');
         break;
     }
     return (
@@ -125,120 +125,123 @@ const AppointmentTimeSlot = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-            <View style={styles.backIcon}>
-              <TouchableOpacity onPress={() => goBack()}>
-                <EvilIcons name="chevron-left" color="#000" size={40} style={{fontWeight:'bold'}} />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.headerTextView}>
-              <Text style={styles.headerText}>Make an Appointment</Text>
-            </View>
-          </View>
-      
+        <View style={styles.backIcon}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <EvilIcons
+              name="chevron-left"
+              color="#000"
+              size={40}
+              style={{fontWeight: 'bold'}}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.headerTextView}>
+          <Text style={styles.headerText}>Make an Appointment</Text>
+        </View>
+      </View>
+
       <View style={styles.appoinmentDivBg}>
-      <ScrollView>
-        <View>
-        <View style={styles.nameContainer}>
-          <View style={styles.parentNameContainer}>
-            <View style={styles.nameTextContainer}>
-              <Text style={{marginStart: 8, color: '#606060'}}>
-                Appointment For
-              </Text>
-              <Text
-                style={{color: '#027279', textColor: 'grey', marginStart: 8}}>
-                Jenny White
-              </Text>
+        <ScrollView>
+          <View>
+            <View style={styles.nameContainer}>
+              <View style={styles.parentNameContainer}>
+                <View style={styles.nameTextContainer}>
+                  <Text style={{marginStart: 8, color: '#606060'}}>
+                    Appointment For
+                  </Text>
+                  <Text
+                    style={{
+                      color: '#027279',
+                      textColor: 'grey',
+                      marginStart: 8,
+                    }}>
+                    Jenny White
+                  </Text>
+                </View>
+                <View>
+                  <Icon
+                    name="closecircleo"
+                    color="red"
+                    size={25}
+                    style={{margin: 8}}
+                  />
+                </View>
+              </View>
             </View>
-            <View>
-              <Icon
-                name="closecircleo"
-                color="red"
-                size={25}
-                style={{margin: 8}}
+            <View style={styles.actionCertificateContainer}>
+              <Text style={{marginBottom: 8, marginStart: 8}}>Region</Text>
+              <FlatList
+                horizontal
+                data={DATA}
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+                extraData={selectedId}
               />
             </View>
-          </View>
-        </View>
-        <View style={styles.actionCertificateContainer}>
-          <Text style={{marginBottom: 8, marginStart: 8}}>Region</Text>
-          <FlatList
-            horizontal
-            data={DATA}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-            extraData={selectedId}
-          />
-        </View>
 
-        <View style={styles.parentNameContainer}>
-          <View style={styles.nameTextContainer}>
-            <Text style={{marginStart: 8, color: '#606060'}}>
-              Appointment For
-            </Text>
-            <Text style={{color: '#027279', textColor: 'grey', marginStart: 8}}>
-              Jenny White
-            </Text>
-          </View>
-          <View>
-            {/* <Icon
+            <View style={styles.parentNameContainer}>
+              <View style={styles.nameTextContainer}>
+                <Text style={{marginStart: 8, color: '#606060'}}>
+                  Appointment For
+                </Text>
+                <Text
+                  style={{color: '#027279', textColor: 'grey', marginStart: 8}}>
+                  Jenny White
+                </Text>
+              </View>
+              <View>
+                {/* <Icon
                             name='left'
                             color='green'
                             size={25}
                             style={{ marginEnd: 8 }} /> */}
-            <Icon
-              name="right"
-              size={25}
-              color="#016970"
-            />
-          </View>
-        </View>
+                <Icon name="right" size={25} color="#016970" />
+              </View>
+            </View>
 
-        <View style={styles.parentNameContainer}>
-          <View style={styles.nameTextContainer}>
-            <Text style={{marginStart: 8, color: '#606060'}}>
-              Appointment Date
-            </Text>
-            <Text style={{color: '#027279', textColor: 'grey', marginStart: 8}}>
-              12 May 2021
-            </Text>
-          </View>
-          <View>
-            <Icon
-              name="calendar"
-              size={25}
-              color="#016970"
-            />
-          </View>
-        </View>
-
-        <View style={styles.calenderContainer}>
-          <Text style={{marginStart: 8}}>Time Slot</Text>
-          {/* <Calendar/> */}
-
-          <FlatList
-            data={GRID_DATA}
-            renderItem={({item}) => (
-              <View style={styles.GridViewBlockStyle}>
-                <Text style={styles.GridViewInsideTextItemStyle}>
-                  {' '}
-                  {item.key}{' '}
+            <View style={styles.parentNameContainer}>
+              <View style={styles.nameTextContainer}>
+                <Text style={{marginStart: 8, color: '#606060'}}>
+                  Appointment Date
+                </Text>
+                <Text
+                  style={{color: '#027279', textColor: 'grey', marginStart: 8}}>
+                  12 May 2021
                 </Text>
               </View>
-            )}
-            numColumns={3}
-          />
-        </View>
-        <View style={styles.bottom}>
-        <TouchableOpacity
-            style={[styles.container1, styles.submitButton]}
-            onPress={() => navigation.replace('MainScreen', {booked: true})}
-          >
-          <Text style={styles.submitText}>Book Appointment</Text>
-          </TouchableOpacity>
-        </View>
-        
-        </View>
-      </ScrollView>
+              <View>
+                <Icon name="calendar" size={25} color="#016970" />
+              </View>
+            </View>
+
+            <View style={styles.calenderContainer}>
+              <Text style={{marginStart: 8}}>Time Slot</Text>
+              {/* <Calendar/> */}
+
+              <FlatList
+                data={GRID_DATA}
+                renderItem={({item}) => (
+                  <View style={styles.GridViewBlockStyle}>
+                    <Text style={styles.GridViewInsideTextItemStyle}>
+                      {' '}
+                      {item.key}{' '}
+                    </Text>
+                  </View>
+                )}
+                numColumns={3}
+              />
+            </View>
+            <View style={styles.bottom}>
+              <TouchableOpacity
+                style={[styles.container1, styles.submitButton]}
+                onPress={() =>
+                  navigation.replace('MainScreen', {booked: true})
+                }>
+                <Text style={styles.submitText}>Book Appointment</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ScrollView>
       </View>
     </View>
   );
@@ -251,41 +254,39 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   header: {
-    flexDirection: "row",
+    flexDirection: 'row',
     height: windowHeight * 0.1,
-    alignItems: "center",
- 
+    alignItems: 'center',
   },
   backIcon: {
     flex: 1,
-    alignItems: "flex-start"
+    alignItems: 'flex-start',
   },
   headerTextView: {
     flex: 9,
-    alignItems: "center",
-    paddingRight: windowWidth * 0.1
+    alignItems: 'center',
+    paddingRight: windowWidth * 0.1,
   },
   headerText: {
     fontSize: RFValue(16, 580),
-
   },
-  regionText : {
-    color:'#322929',
+  regionText: {
+    color: '#322929',
     fontSize: RFValue(12, 580),
-    fontWeight:'500',
-    marginBottom:8,
+    fontWeight: '500',
+    marginBottom: 8,
   },
-  regionText1 : {
-    color:'#322929',
+  regionText1: {
+    color: '#322929',
     fontSize: RFValue(12, 580),
-    fontWeight:'500',
-    marginStart:8,
-    marginBottom:8,
+    fontWeight: '500',
+    marginStart: 8,
+    marginBottom: 8,
   },
-  appoinmentDivBg : {
-    borderTopLeftRadius:20,
-    borderTopRightRadius:20,
-    backgroundColor:'white',
+  appoinmentDivBg: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    backgroundColor: 'white',
   },
   imgShadow: {
     shadowColor: '#000',
@@ -297,8 +298,8 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 5,
   },
-  regionImgText : {
-    color:WHITE_COLOR,
+  regionImgText: {
+    color: WHITE_COLOR,
     fontSize: RFValue(12, 580),
   },
   nameTextContainer: {
@@ -312,13 +313,13 @@ const styles = StyleSheet.create({
     height: height(25),
 
     flexDirection: 'column',
-    paddingLeft:10,
+    paddingLeft: 10,
   },
 
   calenderContainer: {
     marginTop: 8,
-    paddingLeft:10,
-    paddingRight:10,
+    paddingLeft: 10,
+    paddingRight: 10,
     height: height(40),
     display: 'flex',
     flexDirection: 'column',
@@ -331,18 +332,18 @@ const styles = StyleSheet.create({
   },
   parentNameContainer: {
     marginTop: 16,
-    marginLeft:16,
-    marginRight:16,
-    marginBottom:10,
+    marginLeft: 16,
+    marginRight: 16,
+    marginBottom: 10,
     backgroundColor: '#ededed',
     height: height(8),
-    borderRadius:4,
+    borderRadius: 4,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems:'center',
-    paddingLeft:10,
-    paddingRight:10,
+    alignItems: 'center',
+    paddingLeft: 10,
+    paddingRight: 10,
   },
 
   bottom: {
@@ -375,16 +376,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#006970',
     color: WHITE_COLOR,
-    
+
     fontSize: RFValue(14, 580),
-    fontWeight:'600',
-    minHeight:68,
+    fontWeight: '600',
+    minHeight: 68,
   },
   submitText: {
     color: WHITE_COLOR,
     fontSize: RFValue(14, 580),
-    fontWeight:'600',
-  
+    fontWeight: '600',
   },
   MainContainer: {
     justifyContent: 'center',

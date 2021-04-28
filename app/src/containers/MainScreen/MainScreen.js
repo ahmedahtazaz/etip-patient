@@ -260,7 +260,6 @@ const MainScreen = ({
         <View style={styles.actionCertificateContainer}>
           <Text style={styles.boxTopHeading}>APPOINTMENTS</Text>
           <FlatList
-            
             data={route.params && route.params.booked ? DATA1 : DATA}
             renderItem={renderItemAppointment}
             keyExtractor={item => item.id}
@@ -426,7 +425,7 @@ const styles = StyleSheet.create({
     marginEnd: 10,
   },
   appoinmentRedDiv1: {
-    maxWidth:400,
+    maxWidth: 400,
     maxHeight: 280,
     borderRadius: 10,
   },

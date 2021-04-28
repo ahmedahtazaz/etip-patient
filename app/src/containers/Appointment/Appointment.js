@@ -19,7 +19,7 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const appointmentBg1 = require('../../assets/images/appointment-bg1.png');
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 const DATA = [
   {
     id: 'Modifiy Personal Information',
@@ -80,39 +80,44 @@ const Appointment = ({movetoAppointmentCalenderScreen, navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-            <View style={styles.backIcon}>
-              <TouchableOpacity onPress={() => goBack()}>
-                <EvilIcons name="chevron-left" color="#000" size={40} style={{fontWeight:'bold'}} />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.headerTextView}>
-              <Text style={styles.headerText}>Make an Appointment</Text>
-            </View>
-          </View>
-      <View style={styles.appoinmentDivBg}>
-      <View style={styles.nameContainer}>
-        <View style={styles.nameTextContainer}>
-        <Text style={styles.inputLabelDiv}>
-        <Text style={styles.inputLabel}>
-            Make an {'\n'}Appointment for
-          </Text>
-          {'\n'}
-          {'\n'}
-          <Text style={styles.inputLabelSmall}>
-            Please select the family memebers u want to select.
-          </Text>
-          </Text>
+        <View style={styles.backIcon}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <EvilIcons
+              name="chevron-left"
+              color="#000"
+              size={40}
+              style={{fontWeight: 'bold'}}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.headerTextView}>
+          <Text style={styles.headerText}>Make an Appointment</Text>
         </View>
       </View>
-      <View style={styles.actionCertificateContainer}>
-        <FlatList
-          data={DATA}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-          extraData={selectedId}
-        />
+      <View style={styles.appoinmentDivBg}>
+        <View style={styles.nameContainer}>
+          <View style={styles.nameTextContainer}>
+            <Text style={styles.inputLabelDiv}>
+              <Text style={styles.inputLabel}>
+                Make an {'\n'}Appointment for
+              </Text>
+              {'\n'}
+              {'\n'}
+              <Text style={styles.inputLabelSmall}>
+                Please select the family memebers u want to select.
+              </Text>
+            </Text>
+          </View>
+        </View>
+        <View style={styles.actionCertificateContainer}>
+          <FlatList
+            data={DATA}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+            extraData={selectedId}
+          />
+        </View>
       </View>
-    </View>
     </View>
   );
 };
@@ -134,32 +139,30 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    flexDirection: "row",
+    flexDirection: 'row',
     height: height * 0.1,
-    alignItems: "center",
+    alignItems: 'center',
     width,
   },
   backIcon: {
     flex: 1,
-    alignItems: "flex-start"
+    alignItems: 'flex-start',
   },
   headerTextView: {
     flex: 9,
-    alignItems: "center",
-    paddingRight: width * 0.1
+    alignItems: 'center',
+    paddingRight: width * 0.1,
   },
   headerText: {
     fontSize: RFValue(16, 580),
-
   },
-  appoinmentDivBg : {
-    borderTopLeftRadius:20,
-    borderTopRightRadius:20,
-    backgroundColor:'white',
+  appoinmentDivBg: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    backgroundColor: 'white',
   },
   splashbackground: {
     flex: 1,
-    
   },
   nameTextContainer: {
     marginTop: 50,
@@ -173,10 +176,10 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 16,
     display: 'flex',
-    borderRadius:4,
+    borderRadius: 4,
     flexDirection: 'column',
-    backgroundColor:'#F9F9F9',
-    padding:10,
+    backgroundColor: '#F9F9F9',
+    padding: 10,
   },
   actionCertificateContainer: {
     marginTop: 32,
@@ -206,10 +209,10 @@ const styles = StyleSheet.create({
   },
   inputLabelDiv: {
     display: 'flex',
-    
+
     flexDirection: 'column',
     alignItems: 'center',
-    paddingRight:'10%',
+    paddingRight: '10%',
   },
   inputLabel: {
     fontSize: RFValue(20, 580),
@@ -219,7 +222,7 @@ const styles = StyleSheet.create({
   inputLabelSmall: {
     fontSize: RFValue(12, 580),
     color: GRAY_COLOR,
-    lineHeight:20,
+    lineHeight: 20,
   },
 });
 

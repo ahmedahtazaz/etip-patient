@@ -95,7 +95,7 @@ const Settings = ({navigation, movetoUpdateScreen}) => {
 
       <TouchableOpacity
         style={[styles.container, styles.submitButton]}
-        onPress={() => goBack()}>
+        onPress={() => navigation.goBack()}>
         <Text style={styles.submitText} style={{color: '#F20000'}}>
           Logout
         </Text>

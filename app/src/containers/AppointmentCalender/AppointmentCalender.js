@@ -67,25 +67,25 @@ const AppointmentCalender = ({
   const onDateChange = () => moveToTimeSlots(navigation);
 
   const renderItem = ({item}) => {
-    let imgsource =require('../../assets/images/bavaria.png');
+    let imgsource = require('../../assets/images/bavaria.png');
     switch (item.id) {
       case 1:
-        imgsource =require('../../assets/images/bavaria.png');
+        imgsource = require('../../assets/images/bavaria.png');
         break;
       case 2:
-        imgsource =require('../../assets/images/munich.png');
+        imgsource = require('../../assets/images/munich.png');
         break;
       case 3:
-        imgsource =require('../../assets/images/augsburg.png');
+        imgsource = require('../../assets/images/augsburg.png');
         break;
       case 4:
-        imgsource =require('../../assets/images/frankfurt.png');
+        imgsource = require('../../assets/images/frankfurt.png');
         break;
-        case 5:
-          imgsource =require('../../assets/images/hamburg.png');
-          break;
+      case 5:
+        imgsource = require('../../assets/images/hamburg.png');
+        break;
       default:
-        imgsource =require('../../assets/images/bavaria.png');
+        imgsource = require('../../assets/images/bavaria.png');
         break;
     }
     return (
@@ -118,67 +118,68 @@ const AppointmentCalender = ({
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-            <View style={styles.backIcon}>
-              <TouchableOpacity onPress={() => goBack()}>
-                <EvilIcons name="chevron-left" color="#000" size={40} style={{fontWeight:'bold'}} />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.headerTextView}>
-              <Text style={styles.headerText}>Make an Appointment</Text>
+        <View style={styles.backIcon}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <EvilIcons
+              name="chevron-left"
+              color="#000"
+              size={40}
+              style={{fontWeight: 'bold'}}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.headerTextView}>
+          <Text style={styles.headerText}>Make an Appointment</Text>
+        </View>
+      </View>
+      <View style={styles.appoinmentDivBg}>
+        <ScrollView>
+          <View style={styles.nameContainer}>
+            <View style={styles.parentNameContainer}>
+              <View style={styles.nameTextContainer}>
+                <Text style={{marginStart: 8, color: '#adadad'}}>
+                  Appointment For
+                </Text>
+                <Text
+                  style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
+                  Jenny White
+                </Text>
+              </View>
+              <View>
+                <Icon name="cancel" color="red" size={25} style={{margin: 8}} />
+              </View>
             </View>
           </View>
-      <View style={styles.appoinmentDivBg}>
-      <ScrollView>
-        <View style={styles.nameContainer}>
-          <View style={styles.parentNameContainer}>
+          <View style={styles.actionCertificateContainer}>
+            <Text style={styles.regionText}>Region</Text>
+            <FlatList
+              horizontal
+              data={DATA}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
+              extraData={selectedId}
+            />
+          </View>
+
+          <TouchableOpacity
+            style={styles.parentNameContainer}
+            onPress={() => moveToTestCenters(navigation)}>
             <View style={styles.nameTextContainer}>
-              <Text style={{marginStart: 8, color: '#adadad'}}>
-                Appointment For
-              </Text>
               <Text
                 style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
-                Jenny White
+                Test Center
               </Text>
             </View>
             <View>
-              <Icon name="cancel" color="red" size={25} style={{margin: 8}} />
+              <Icon name="right" size={25} color="#adadad" />
             </View>
-          </View>
-        </View>
-        <View style={styles.actionCertificateContainer}>
-          <Text style={styles.regionText}>Region</Text>
-          <FlatList
-            horizontal
-            data={DATA}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-            extraData={selectedId}
-          />
-        </View>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.parentNameContainer}
-          onPress={() => moveToTestCenters(navigation)}>
-          <View style={styles.nameTextContainer}>
-            <Text style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
-              Test Center
-            </Text>
+          <View style={styles.calenderContainer}>
+            <Text style={styles.regionText1}>Appointment Date</Text>
+            <Calendar onDateChange={onDateChange} />
           </View>
-          <View>
-            <Icon
-              name="right"
-              size={25}
-              color="#adadad"
-              
-            />
-          </View>
-        </TouchableOpacity>
-
-        <View style={styles.calenderContainer}>
-          <Text style={styles.regionText1}>Appointment Date</Text>
-          <Calendar onDateChange={onDateChange} />
-        </View>
-      </ScrollView>
+        </ScrollView>
       </View>
     </View>
   );
@@ -202,41 +203,39 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   header: {
-    flexDirection: "row",
+    flexDirection: 'row',
     height: windowHeight * 0.1,
-    alignItems: "center",
- 
+    alignItems: 'center',
   },
   backIcon: {
     flex: 1,
-    alignItems: "flex-start"
+    alignItems: 'flex-start',
   },
   headerTextView: {
     flex: 9,
-    alignItems: "center",
-    paddingRight: windowWidth * 0.1
+    alignItems: 'center',
+    paddingRight: windowWidth * 0.1,
   },
   headerText: {
     fontSize: RFValue(16, 580),
-
   },
-  regionText : {
-    color:'#322929',
+  regionText: {
+    color: '#322929',
     fontSize: RFValue(12, 580),
-    fontWeight:'500',
-    marginBottom:8,
+    fontWeight: '500',
+    marginBottom: 8,
   },
-  regionText1 : {
-    color:'#322929',
+  regionText1: {
+    color: '#322929',
     fontSize: RFValue(12, 580),
-    fontWeight:'500',
-    marginStart:8,
-    marginBottom:8,
+    fontWeight: '500',
+    marginStart: 8,
+    marginBottom: 8,
   },
-  appoinmentDivBg : {
-    borderTopLeftRadius:20,
-    borderTopRightRadius:20,
-    backgroundColor:'white',
+  appoinmentDivBg: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    backgroundColor: 'white',
   },
   imgShadow: {
     shadowColor: '#000',
@@ -248,8 +247,8 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 5,
   },
-  regionImgText : {
-    color:WHITE_COLOR,
+  regionImgText: {
+    color: WHITE_COLOR,
     fontSize: RFValue(12, 580),
   },
   nameTextContainer: {
@@ -281,13 +280,13 @@ const styles = StyleSheet.create({
     margin: 16,
     backgroundColor: '#ededed',
     height: height(8),
-    borderRadius:4,
+    borderRadius: 4,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems:'center',
-    paddingLeft:10,
-    paddingRight:10,
+    alignItems: 'center',
+    paddingLeft: 10,
+    paddingRight: 10,
   },
 
   bottom: {

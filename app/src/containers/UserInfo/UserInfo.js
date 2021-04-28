@@ -31,8 +31,8 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
   const [isFamily, setIsFamily] = useState(false);
   const [fName, setFName] = useState('');
   const [lName, setLName] = useState('');
-  const [male, setMale] = useState(true);
-  const [female, setFemale] = useState(false);
+  const [male, setMale] = useState(false);
+  const [female, setFemale] = useState(true);
   const [other, setOther] = useState(false);
   const [dob, setDob] = useState(
     currentDate.getDate() +
@@ -121,7 +121,7 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
                 widthFactorMain="25"></RadioButton>
               <RadioButton
                 checked={female}
-                data="FeMale"
+                data="Female"
                 setChecked={value => {
                   if (value) {
                     setMale(false);
@@ -317,8 +317,8 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
               setIsFamily(true);
               setFName('');
               setLName('');
-              setMale(true);
-              setFemale(false);
+              setMale(false);
+              setFemale(true);
               setOther(false);
               setDob(
                 currentDate.getDate() +
@@ -435,7 +435,7 @@ const styles = StyleSheet.create({
     paddingLeft: '4%',
     paddingRight: '4%',
     marginBottom: 14,
-    fontWeight:'300',
+    fontWeight: '300',
   },
   inputStyle2: {
     display: 'flex',
@@ -449,7 +449,7 @@ const styles = StyleSheet.create({
     paddingRight: '4%',
     marginBottom: 14,
     marginTop: '4%',
-    fontWeight:'300',
+    fontWeight: '300',
   },
   gender: {
     display: 'flex',
