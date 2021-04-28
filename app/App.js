@@ -87,26 +87,12 @@ const App: () => React$Node = () => {
             <Stack.Screen
               name="Make an Appointment"
               component={Appointment}
-              options={{
-                title: 'Make an Appointment',
-                headerTitleAlign: 'center',
-
-                headerStyle: {
-                  backgroundColor: 'white',
-                },
-              }}
+              options={{headerShown: false}}
             />
             <Stack.Screen
               name="AppointmentCalender"
               component={AppointmentCalender}
-              options={{
-                title: 'Make an Appointment',
-                headerTitleAlign: 'center',
-
-                headerStyle: {
-                  backgroundColor: 'white',
-                },
-              }}
+              options={{headerShown: false}}
             />
 
             <Stack.Screen

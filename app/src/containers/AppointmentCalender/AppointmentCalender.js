@@ -20,6 +20,7 @@ import {width, height, totalSize} from 'react-native-dimension';
 import {ScrollView} from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
 import {moveToTestCentersAction, moveToTimeSlotsAction} from './Actions';
+const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -101,6 +102,13 @@ const AppointmentCalender = ({
 
   return (
     <View style={styles.container}>
+      <View style={styles.mainMenu}>
+        <TouchableOpacity
+          style={styles.mainMenuItems}
+          onPress={() => navigation.goBack()}>
+          <Image source={menuArrowIcon} style={{marginLeft: 10, marginTop:5}} />
+        </TouchableOpacity>
+      </View>
       <ScrollView>
         <View style={styles.nameContainer}>
           <View style={styles.parentNameContainer}>
@@ -172,6 +180,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex: 1,
     flexDirection: 'column',
+  },
+  mainMenuItems: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingBottom: 15,
+    paddingTop: 25,
   },
   nameTextContainer: {
     justifyContent: 'center',

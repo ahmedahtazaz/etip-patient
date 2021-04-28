@@ -5,6 +5,7 @@ import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
 import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
 const headerLogo = require('../../assets/images/header-logo.png');
+const phoneDivBg = require('../../assets/images/phone-div-bg.png');
 import {
   ActivityIndicator,
   View,
@@ -16,6 +17,7 @@ import {
   Image,
   TouchableOpacity,
   Text,
+  ImageBackground,
 } from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {moveToUserInfoScreenAction} from './Actions';
@@ -68,6 +70,7 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
         <Image source={headerLogo}  />
        
       </View>
+      <ImageBackground source={phoneDivBg} style={styles.splashbackground}>
       <View style={styles.innerDiv}>
         {isPhone ? (
           <>
@@ -231,6 +234,7 @@ function Phone({loader, movetoUserInfoScreen, navigation}) {
           </View>
         ) : null}
       </View>
+      </ImageBackground>
     </View>
   );
 }
@@ -254,6 +258,11 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: '#ffffff',
   },
+  splashbackground: {
+    flex: 1,
+    resizeMode: 'cover',
+ 
+  },
   mainMenu : {
     position: 'absolute',
     zIndex: 2000,
@@ -265,7 +274,7 @@ const styles = StyleSheet.create({
     paddingTop:'5%',
   },
   innerDiv: {
-    paddingTop: '25%',
+    paddingTop: '30%',
     paddingBottom: '10%',
     paddingLeft: '5%',
     paddingRight: '5%',
@@ -306,8 +315,8 @@ const styles = StyleSheet.create({
     paddingBottom: '1.5%',
     fontSize: RFValue(24, 580),
     fontWeight: '500',
-    marginTop: '5%',
-    marginBottom: '15%',
+    marginTop: '1%',
+    marginBottom: '5%',
     textAlign:'center',
     borderBottomColor:'#000000',
     width:'17%',

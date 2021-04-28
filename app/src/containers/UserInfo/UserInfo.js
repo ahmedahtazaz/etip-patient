@@ -282,7 +282,7 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
               },
             ]}
             defaultValue={city}
-            containerStyle={{height: '6%'}}
+            containerStyle={{height: '5%'}}
             style={{
               backgroundColor: '#F5F9F8',
               fontSize: RFValue(14, 580),
@@ -418,10 +418,10 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     fontSize: RFValue(12, 580),
     color: '#243E3B',
-    paddingTop: '4%',
-    paddingBottom: '4%',
-    paddingLeft: '5%',
-    paddingRight: '5%',
+    paddingTop: '3%',
+    paddingBottom: '3%',
+    paddingLeft: '4%',
+    paddingRight: '4%',
     marginBottom: 14,
   },
   inputStyle1: {
@@ -430,10 +430,10 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     fontSize: RFValue(12, 580),
     color: '#243E3B',
-    paddingTop: '4%',
-    paddingBottom: '4%',
-    paddingLeft: '5%',
-    paddingRight: '5%',
+    paddingTop: '3%',
+    paddingBottom: '3%',
+    paddingLeft: '4%',
+    paddingRight: '4%',
     marginBottom: 14,
     fontWeight:'300',
   },
@@ -443,10 +443,10 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     fontSize: RFValue(12, 580),
     color: '#243E3B',
-    paddingTop: '4%',
-    paddingBottom: '4%',
-    paddingLeft: '5%',
-    paddingRight: '5%',
+    paddingTop: '3%',
+    paddingBottom: '3%',
+    paddingLeft: '4%',
+    paddingRight: '4%',
     marginBottom: 14,
     marginTop: '4%',
     fontWeight:'300',
