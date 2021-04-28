@@ -116,7 +116,7 @@ const FamilyMain = ({
               Jenny White
             </Text>
             <Text style={{ marginStart: 8, color: '#adadad' }}>
-              Appointment For
+            My Self
             </Text>
           </View>
           <View style={styles.qrCodeandEditConatiner}>
