@@ -36,6 +36,10 @@ const activeCertificationBg = require('../../assets/images/active-certification-
 const activeAppoinmentsBg = require('../../assets/images/active-appoinments-bg.png');
 const plusIcon = require('../../assets/images/plus-icon.png');
 const familyIcon = require('../../assets/images/family-icon.png');
+const issuedWhiteQr = require('../../assets/images/issued-white-qr.png');
+const issuedGrayeQr = require('../../assets/images/issued-gray-qr.png');
+const issuedRedIcon = require('../../assets/images/issued-by-red-icon.png');
+const previousCertificateBg = require('../../assets/images/previous-certificate-bg.png');
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -124,7 +128,7 @@ const Certificates = ({ navigation,
             <View style={styles.bottomTextContainer}>
             <View style={styles.iconRowContainer}>
             <View style={styles.menuItemsCenter}>
-            <Image  source={familyIcon}  />
+            <Image  source={issuedRedIcon}  />
           </View>
               <View>
                 <Text style={styles.boxHeading}>issued by</Text>
@@ -138,7 +142,7 @@ const Certificates = ({ navigation,
               <View style={styles.nameTextContainer}>
               
               <View style={styles.menuItemsCenter}>
-            <Image  source={familyIcon}  />
+            <Image  source={issuedWhiteQr}  />
           </View>
            
               </View>
@@ -161,12 +165,12 @@ const Certificates = ({ navigation,
           }}>
           <View style={styles.activeCertificationDiv}>
             <ImageBackground
-              source={activeCertificationBg}
+              source={previousCertificateBg}
               style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
               <View style={styles.parentNameContainer}>
                 <View style={styles.nameTextContainer}>
-                  <Text style={styles.boxHeading}>SARS-COV-2</Text>
-                  <Text style={styles.boxTestText}>
+                  <Text style={styles.boxHeading1}>SARS-COV-2</Text>
+                  <Text style={styles.boxTestText1}>
                     Citigen Antizen Test
                 </Text>
                 </View>
@@ -185,11 +189,11 @@ const Certificates = ({ navigation,
               <View style={styles.bottomTextContainer}>
               <View style={styles.iconRowContainer}>
               <View style={styles.menuItemsCenter}>
-              <Image  source={familyIcon}  />
+              <Image  source={issuedRedIcon} style={{marginBottom:8,}}  />
             </View>
                 <View>
-                  <Text style={styles.boxHeading}>issued by</Text>
-                  <Text style={styles.boxText}>
+                  <Text style={styles.boxHeading1}>issued by</Text>
+                  <Text style={styles.boxText1}>
                     Citigen Antizen Test
                 </Text>
                 </View>
@@ -199,7 +203,7 @@ const Certificates = ({ navigation,
                 <View style={styles.nameTextContainer}>
                 
                 <View style={styles.menuItemsCenter}>
-              <Image  source={familyIcon}  />
+              <Image  source={issuedGrayeQr}  />
             </View>
              
                 </View>
@@ -319,6 +323,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     resizeMode: 'cover',
     overflow: 'hidden',
+    backgroundColor:'#d8d8d8',
     marginEnd: 10,
     maxHeight: 153,
   },
@@ -348,6 +353,13 @@ const styles = StyleSheet.create({
 
     paddingBottom: 5,
   },
+  boxHeading1: {
+    fontSize: RFValue(12, 580),
+    color: '#595050',
+    fontWeight: '800',
+
+    paddingBottom: 5,
+  },
   boxText: {
     fontSize: RFValue(12, 580),
     color: LIGHT_GREY,
@@ -355,9 +367,23 @@ const styles = StyleSheet.create({
 
     lineHeight: 20,
   },
+  boxText1: {
+    fontSize: RFValue(12, 580),
+    color: '#595050',
+    fontWeight: '400',
+
+    lineHeight: 20,
+  },
   boxTestText:{
     fontSize: RFValue(16, 580),
     color: WHITE_COLOR,
+    fontWeight: '400',
+
+    lineHeight: 20,
+  },
+  boxTestText1:{
+    fontSize: RFValue(16, 580),
+    color: '#595050',
     fontWeight: '400',
 
     lineHeight: 20,
@@ -447,7 +473,7 @@ const styles = StyleSheet.create({
   submitButtonDark: {
     width: '100%',
     borderRadius: 100,
-    backgroundColor: '#006970',
+    backgroundColor: '#12878D',
     color: WHITE_COLOR,
     paddingTop: 10,
     paddingBottom: 10,
@@ -458,7 +484,7 @@ const styles = StyleSheet.create({
   submitButtonRed: {
     width: '100%',
     borderRadius: 100,
-    backgroundColor: 'red',
+    backgroundColor: '#FB4646',
     color: WHITE_COLOR,
     paddingTop: 10,
     paddingBottom: 10,
