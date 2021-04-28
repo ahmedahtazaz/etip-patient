@@ -142,6 +142,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: height * 0.1,
     alignItems: 'center',
+    paddingTop:'7%',
     width,
   },
   backIcon: {
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
-    marginTop:'25%',
+    marginTop:'5%',
   },
   splashbackground: {
     flex: 1,
