@@ -1,3 +1,7 @@
-export const moveToUserUpdateSettingScreenAction = (navigation, title) => {
-  return navigation.navigate('UpdateSettingsScreen', {title: title});
+export const moveToUserUpdateSettingScreenAction = (
+  path,
+  navigation,
+  title,
+) => {
+  return navigation.navigate(path, {title: title});
 };

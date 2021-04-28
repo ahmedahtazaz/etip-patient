@@ -22,14 +22,17 @@ const DATA = [
   {
     id: 'Modifiy Personal Information',
     title: 'Modifiy Personal Information',
+    path: 'UpdateSettingsScreen',
   },
   {
     id: 'Modify Email',
     title: 'Modify Email',
+    path: 'UpdateOtherSettingsScreen',
   },
   {
     id: 'Modify Sim',
     title: 'Modify Sim',
+    path: 'UpdateOtherSettingsScreen',
   },
   {
     id: 'About App',
@@ -64,7 +67,7 @@ const Settings = ({navigation, movetoUpdateScreen}) => {
         item={item}
         onPress={() => {
           setSelectedId(item.id);
-          movetoUpdateScreen(navigation, item.title);
+          if (item.path) movetoUpdateScreen(item.path, navigation, item.title);
         }}
         backgroundColor={'white'}
         textColor={'black'}
@@ -158,8 +161,8 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
   return {
-    movetoUpdateScreen: (navigation, title) =>
-      moveToUserUpdateSettingScreenAction(navigation, title),
+    movetoUpdateScreen: (path, navigation, title) =>
+      moveToUserUpdateSettingScreenAction(path, navigation, title),
   };
 };
 
