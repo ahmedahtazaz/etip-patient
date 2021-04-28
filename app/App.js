@@ -52,6 +52,11 @@ const App: () => React$Node = () => {
               <Stack.Navigator>
                 {/* verifier app screens goes here */}
                 <Stack.Screen
+                  name="SplashScreen"
+                  component={Splash}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
                   name="TestCenterInfo"
                   component={TestCenterInfo}
                   options={{ headerShown: false }}
@@ -62,7 +67,7 @@ const App: () => React$Node = () => {
                   options={{ headerShown: false }}
                 />
                 <Stack.Screen
-                  name="PhoneNumberScreen"
+                  name="PincodeScreen"
                   component={PinScreen}
                   options={{ headerShown: false }}
                 />

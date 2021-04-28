@@ -21,3 +21,7 @@ export const moveToSignInAction = navigation => {
 export const moveToWelcomeScreenAction = navigation => {
   return navigation.replace('WelcomeScreen');
 };
+
+export const moveToPincodeScreenAction = navigation => {
+  return navigation.replace('PincodeScreen');
+};

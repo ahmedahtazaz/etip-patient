@@ -1,16 +1,17 @@
-import React, {useEffect} from 'react';
-import {connect} from 'react-redux';
-import {APP_INIT_LINK} from '../../commons/Constants';
-import {WHITE_COLOR} from '../../theme/Colors';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { APP_INIT_LINK } from '../../commons/Constants';
+import { WHITE_COLOR } from '../../theme/Colors';
 import {
   moveToWelcomeScreenAction,
+  moveToPincodeScreenAction,
   initialiseAppAction,
   showLoaderAction,
   moveToSignInAction,
 } from './Actions';
 
 import Orientation from 'react-native-orientation-locker';
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import {
   ActivityIndicator,
   Image,
@@ -20,7 +21,8 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import {RFValue} from 'react-native-responsive-fontsize';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { IS_VERIFIER_APP } from '../../commons/Constants';
 const splashBg = require('../../assets/images/splash-bg.png');
 const splashLogo = require('../../assets/images/splash-logo.png');
 
@@ -51,8 +53,14 @@ function Splash({
 
   return (
     <TouchableOpacity
-      style={{width: '100%', height: '100%'}}
-      onPress={() => moveToWelcomeScreen(navigation)}>
+      style={{ width: '100%', height: '100%' }}
+      onPress={() => {
+        if (IS_VERIFIER_APP) {
+          moveToPincodeScreenAction(navigation)
+        } else {
+          moveToWelcomeScreen(navigation)
+        }
+      }}>
       <ImageBackground source={splashBg} style={styles.splashbackground}>
         <View style={styles.background}>
           <Image source={splashLogo} />
