@@ -22,6 +22,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
+const regionSelectedIcon = require('../../assets/images/region-selected-icon.png');
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -106,6 +107,9 @@ const AppointmentTimeSlot = ({navigation}) => {
           }}
           source={imgsource}
         />
+        <View style={styles.regionSelectedDiv}>
+        <Image source={regionSelectedIcon} />
+        </View>
         <View
           style={{
             position: 'absolute',
@@ -445,6 +449,13 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 14,
     justifyContent: 'center',
+  },
+  regionSelectedDiv : {
+    position:'absolute',
+    top:10,
+    right:10,
+    width:15,
+    height:15,
   },
 });
 
