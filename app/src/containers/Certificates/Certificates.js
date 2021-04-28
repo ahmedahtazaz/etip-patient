@@ -231,6 +231,7 @@ const Certificates = ({ navigation,
           </View>
         </View>
       </View>
+      <View style={styles.appoinmentDivBg}>
       <View style={styles.mainDivPad}>
         <View style={styles.actionCertificateContainer}>
           <Text style={styles.boxTopHeading}>ACTIVE CERTIFICATES</Text>
@@ -252,6 +253,7 @@ const Certificates = ({ navigation,
             extraData={selectedId}
           />
         </View>
+      </View>
       </View>
       <View style={styles.plusIconDiv}>
         <Image  source={plusIcon} />
@@ -286,12 +288,11 @@ const styles = StyleSheet.create({
   mainDivPad: {
     paddingLeft: '3%',
     paddingRight: '3%',
-    paddingTop: '10%',
   },
   mainMenu: {
     position: 'absolute',
     zIndex: 2000,
-    top: 0,
+    top: '3%',
     left: '3%',
     width: '100%',
   },
@@ -313,6 +314,12 @@ const styles = StyleSheet.create({
     marginTop:16,
     marginBottom:16,
 
+    },
+    appoinmentDivBg : {
+      borderTopLeftRadius:20,
+      borderTopRightRadius:20,
+      backgroundColor:'white',
+      marginTop:'25%',
     },
     qrCodeItem:{
       marginEnd:16,
@@ -480,8 +487,9 @@ const styles = StyleSheet.create({
   },
 
   submitButtonDark: {
-    width: '100%',
-    borderRadius: 100,
+    width: 65,
+    height:38,
+    borderRadius: 17,
     backgroundColor: '#12878D',
     color: WHITE_COLOR,
     paddingTop: 10,
@@ -491,8 +499,9 @@ const styles = StyleSheet.create({
     marginTop: '8%',
   },
   submitButtonRed: {
-    width: '100%',
-    borderRadius: 100,
+    width: 65,
+    height:38,
+    borderRadius: 17,
     backgroundColor: '#FB4646',
     color: WHITE_COLOR,
     paddingTop: 10,

@@ -186,16 +186,20 @@ const AppointmentMainScreen = ({  navigation,
 
   return (
     <View style={styles.container}>
-        <View style={styles.header}>
-            <View style={styles.backIcon}>
-              <TouchableOpacity onPress={() => goBack()}>
-                <EvilIcons name="chevron-left" color="#000" size={40} style={{fontWeight:'bold'}} />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.headerTextView}>
-              <Text style={styles.headerText}>Make an Appointment</Text>
-            </View>
+        <View style={styles.mainMenu}>
+        <View style={styles.mainMenuItems}>
+          <TouchableOpacity
+            style={styles.menuItemsLeft}
+            onPress={() => {
+              movetoSettingsScreen(navigation);
+            }}>
+            <Image source={menuIcon} style={{marginLeft: 10}} />
+          </TouchableOpacity>
+          <View style={styles.menuItemsCenter}>
+            <Image source={smallHeaderLogo} style={{marginLeft: 5}} />
           </View>
+        </View>
+      </View>
           <View style={styles.appoinmentDivBg}>
       <View style={styles.mainDivPad}>
         <View style={styles.actionCertificateContainer}>
@@ -246,31 +250,35 @@ const styles = StyleSheet.create({
   mainDivPad: {
     paddingLeft: '3%',
     paddingRight: '3%',
-    paddingTop: '10%',
   },
-  header: {
-    flexDirection: "row",
-    height: windowHeight * 0.1,
-    alignItems: "center",
- 
+  mainMenu: {
+    position: 'absolute',
+    zIndex: 2000,
+    top: 0,
+    left: '3%',
+    width: '100%',
   },
-  backIcon: {
+  mainMenuItems: {
     flex: 1,
-    alignItems: "flex-start"
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingBottom: 15,
+    paddingTop: 15,
   },
-  headerTextView: {
-    flex: 9,
-    alignItems: "center",
-    paddingRight: windowWidth * 0.1
+  menuItemsLeft: {
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '45%',
   },
-  headerText: {
-    fontSize: RFValue(16, 580),
-
+  menuItemsCenter: {
+    justifyContent: 'center',
   },
   appoinmentDivBg : {
     borderTopLeftRadius:20,
     borderTopRightRadius:20,
     backgroundColor:'white',
+    marginTop:'15%',
   },
   activeCertificationDiv: {
     borderRadius: 10,

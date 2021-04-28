@@ -7,6 +7,7 @@ const mainScreenIcon = require('../../assets/images/main-screen-icon.png');
 const qrBig = require('../../assets/images/qr-big.png');
 const activeCertificationBg = require('../../assets/images/active-certification-bg.png');
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
+const previousAppoinmentsBg = require('../../assets/images/previous-appoinment-bg.png');
 
 const AppointmentDetails = ({navigation}) => {
   return (
@@ -20,6 +21,38 @@ const AppointmentDetails = ({navigation}) => {
       </View>
 
       <View style={styles.mainView}>
+      <View style={styles.activeCertificationDiv}>
+        <ImageBackground
+         source={previousAppoinmentsBg}
+         style={styles.activeAppoinmentsDiv}
+         style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
+          <View style={styles.parentNameContainer}>
+            <View style={styles.nameTextContainer}>
+              <Text style={styles.boxHeading1}>SARS-COV-2</Text>
+              <Text style={styles.boxTestText1}>
+                Citigen Antizen Test
+            </Text>
+            </View>
+            <View style={styles.nameTextContainer}>
+              <Text style={styles.boxText1}>12-may-2021</Text>
+              <Text style={styles.boxText1}>
+                10:00-10:15
+            </Text>
+            </View>
+            
+          </View>
+          <View style={styles.parentNameContainer}>
+
+          <View style={styles.bottomTextContainer}>
+              <Text style={styles.boxHeading2}>Zeitfenster auswählen</Text>
+              <Text style={styles.boxText1}>
+                Citigen Antizen Test
+            </Text>
+            </View>
+            </View>
+
+        </ImageBackground>
+      </View>
         <View style={styles.activeCertificationDiv}>
           <ImageBackground
             source={activeCertificationBg}
@@ -91,6 +124,20 @@ const styles = StyleSheet.create({
     fontWeight: '400',
 
     lineHeight: 20,
+  },
+  nameContainer: {
+    alignSelf: 'stretch',
+    marginTop: 16,
+    backgroundColor: 'white',
+    textAlign: 'center',
+  },
+  parentNameContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: 15,
+    paddingLeft: 13,
+    paddingRight: 20,
   },
 });
 
