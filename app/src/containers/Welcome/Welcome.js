@@ -79,6 +79,10 @@ function Welcome({
   }}
   containerStyle={{
     margin: 8,
+    paddingLeft : 5,
+    paddingRight : 5,
+    paddingTop : 2,
+    paddingBottom : 2,
     backgroundColor: '#F9F9F970',
     borderRadius: 10,
     overflow: 'hidden',
@@ -98,7 +102,7 @@ function Welcome({
       }}
    
     >
-  <Icon name="chevron-right" color="white" size={30} style={{alignSelf : "center"}} />
+  <Icon name="chevron-right" color="white" size={35} style={{alignSelf : "center"}} />
     </View>
   }
 >
