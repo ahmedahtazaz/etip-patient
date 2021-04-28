@@ -35,6 +35,7 @@ import AppointmentMainScreen from './src/containers/AppointmentMainScreen/Appoin
 import Certificates from './src/containers/Certificates/Certificates';
 import FamilyMain from './src/containers/FamilyMain/FamilyMain';
 import AppointmentDetails from './src/containers/AppointmentDetails.js/AppointmentDetails';
+import UpdateOtherSettings from './src/containers/UpdateOtherSettings/UpdateOtherSettings';
 const menuIcon = require('../app/src/assets/images/menu-icon.png');
 
 const sagaMiddleware = createSagaMiddleware();
@@ -110,21 +111,18 @@ const App: () => React$Node = () => {
               name="appointmentMainScreen"
               component={AppointmentMainScreen}
               options={{headerShown: false}}
-
             />
 
             <Stack.Screen
               name="certificateMain"
               component={Certificates}
               options={{headerShown: false}}
-
             />
 
             <Stack.Screen
               name="familyMain"
               component={FamilyMain}
               options={{headerShown: false}}
-
             />
             <Stack.Screen
               name="AppointmentDetailsScreen"
@@ -134,6 +132,11 @@ const App: () => React$Node = () => {
             <Stack.Screen
               name="UpdateSettingsScreen"
               component={UpdateSettings}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="UpdateOtherSettingsScreen"
+              component={UpdateOtherSettings}
               options={{headerShown: false}}
             />
           </Stack.Navigator>
