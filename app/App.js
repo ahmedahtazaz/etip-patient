@@ -36,6 +36,9 @@ import Certificates from './src/containers/Certificates/Certificates';
 import FamilyMain from './src/containers/FamilyMain/FamilyMain';
 import AppointmentDetails from './src/containers/AppointmentDetails.js/AppointmentDetails';
 import UpdateOtherSettings from './src/containers/UpdateOtherSettings/UpdateOtherSettings';
+import ChangeLanguage from './src/containers/ChangeLanguage/ChangeLanguage';
+
+
 const menuIcon = require('../app/src/assets/images/menu-icon.png');
 
 const sagaMiddleware = createSagaMiddleware();
@@ -137,6 +140,12 @@ const App: () => React$Node = () => {
             <Stack.Screen
               name="UpdateOtherSettingsScreen"
               component={UpdateOtherSettings}
+              options={{headerShown: false}}
+            />
+            
+            <Stack.Screen
+              name="ChangeLanguage"
+              component={ChangeLanguage}
               options={{headerShown: false}}
             />
           </Stack.Navigator>
