@@ -24,6 +24,34 @@ function NavigatorItem({ item, isSelected, navigation }) {
   };
 
   const getImage = (item, isSelected) => {
+    if(IS_VERIFIER_APP){
+      getVerifierImages(item, isSelected)
+    }else{
+      getPatientImages(item, isSelected);
+    }
+  };
+
+  //verifier images
+  const getVerifierImages = () => {
+    switch (item.id) {
+      case 1:
+        if (isSelected) return require('../assets/images/home-icon.png');
+        else return require('../assets/images/home-icon.png');
+      case 2:
+        if (isSelected)
+          return require('../assets/images/appointments-icon.png');
+        else return require('../assets/images/appointments-icon.png');
+      case 3:
+        if (isSelected) return require('../assets/images/family-icon.png');
+        else return require('../assets/images/family-icon.png');
+      default:
+        if (isSelected) return require('../assets/images/home-icon.png');
+        else return require('../assets/images/home-icon.png');
+    }
+  }
+
+
+  const getPatientImages = (item, isSelected) => {
     switch (item.id) {
       case 1:
         if (isSelected) return require('../assets/images/home-icon.png');
@@ -43,7 +71,8 @@ function NavigatorItem({ item, isSelected, navigation }) {
         if (isSelected) return require('../assets/images/home-icon.png');
         else return require('../assets/images/home-icon.png');
     }
-  };
+  }
+
 
   const navigateToHome = item => {
     if (IS_VERIFIER_APP) {
@@ -133,7 +162,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    marginTop:-15,
+    marginTop: -15,
   },
   slectedNavBg: {
     flex: 1,
