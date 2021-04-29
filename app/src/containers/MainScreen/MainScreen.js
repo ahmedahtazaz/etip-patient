@@ -1,6 +1,6 @@
-import {useIsFocused} from '@react-navigation/core';
-import React, {useEffect, useState} from 'react';
-import {connect} from 'react-redux';
+import { useIsFocused } from '@react-navigation/core';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import {
   FlatList,
   SafeAreaView,
@@ -13,13 +13,15 @@ import {
   useWindowDimensions,
   ImageBackground,
 } from 'react-native';
-import {Dimensions} from 'react-native';
-import {Icon} from 'react-native-elements';
+import { Dimensions } from 'react-native';
+import { Icon } from 'react-native-elements';
 import Orientation from 'react-native-orientation-locker';
-import {WHITE_COLOR} from '../../theme/Colors';
-import {RFValue} from 'react-native-responsive-fontsize';
+import { WHITE_COLOR } from '../../theme/Colors';
+import { RFValue } from 'react-native-responsive-fontsize';
 import BottomNavigator from '../../components/BottomNavigator';
-import {width, height, totalSize} from 'react-native-dimension';
+import { width, height, totalSize } from 'react-native-dimension';
+import { ScrollView } from 'react-native-gesture-handler';
+
 import {
   moveToAppointmentDetailsAction,
   moveToMakeAppointsAction,
@@ -42,6 +44,38 @@ const DATA = [
   {
     id: 'Modifiy Personal Information',
     title: 'Modifiy Personal Information',
+  },
+  {
+    id: 'About App',
+    title: 'About App',
+  },
+  {
+    id: 'Need Assistance',
+    title: 'Need Assistance',
+  },
+  {
+    id: 'Privacy Policy',
+    title: 'Privacy Policy',
+  },
+  {
+    id: 'Terms & Conditions',
+    title: 'Terms & Conditions',
+  },
+   {
+    id: 'About App',
+    title: 'About App',
+  },
+  {
+    id: 'Need Assistance',
+    title: 'Need Assistance',
+  },
+  {
+    id: 'Privacy Policy',
+    title: 'Privacy Policy',
+  },
+  {
+    id: 'Terms & Conditions',
+    title: 'Terms & Conditions',
   },
 ];
 
@@ -76,7 +110,7 @@ const DATA1 = [
   },
 ];
 
-const Item = ({item, onPress, backgroundColor, textColor}) => (
+const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <Text style={[styles.title, textColor]}>{item.title}</Text>
   </TouchableOpacity>
@@ -99,7 +133,7 @@ const MainScreen = ({
     Orientation.lockToPortrait();
   }, [isFocused]);
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     if (route.params && route.params.booked) {
       return (
         <View style={styles.appoinmentRedDiv}>
@@ -119,7 +153,7 @@ const MainScreen = ({
                   We have added few tips in your dashbaord that may help you in
                   these times. Swipe to view them
                 </Text>
-                <Image source={rightHandFinger} style={{marginTop: 30}} />
+                <Image source={rightHandFinger} style={{ marginTop: 30 }} />
               </View>
             </View>
           </ImageBackground>
@@ -136,7 +170,7 @@ const MainScreen = ({
         <View style={styles.activeCertificationDiv}>
           <ImageBackground
             source={previousAppoinmentBg}
-            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
+            style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
             <View style={styles.contentPadding}>
               <Text style={styles.boxHeadingDisable}>
                 No Active Certificate
@@ -151,7 +185,7 @@ const MainScreen = ({
     );
   };
 
-  const renderItemAppointment = ({item}) => {
+  const renderItemAppointment = ({ item }) => {
     if (route.params && route.params.booked) {
       return (
         <View
@@ -163,7 +197,7 @@ const MainScreen = ({
             onPress={() => moveToAppointmentDetails(navigation, 'appointment')}>
             <ImageBackground
               source={activeCertificationBg}
-              style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
+              style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
               <View style={styles.contentPadding}>
                 <View style={styles.parentNameContainer}>
                   <View style={styles.nameTextContainer}>
@@ -193,7 +227,7 @@ const MainScreen = ({
           <ImageBackground
             source={previousAppoinmentBg}
             style={styles.activeAppoinmentsDiv}
-            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
+            style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
             <View style={styles.contentPadding}>
               <Text style={styles.boxHeadingDisable}>
                 No Active Appointments
@@ -217,16 +251,16 @@ const MainScreen = ({
             onPress={() => {
               movetoSettingsScreen(navigation);
             }}>
-            <Image source={menuIcon} style={{marginLeft: 10}} />
+            <Image source={menuIcon} style={{ marginLeft: 10 }} />
           </TouchableOpacity>
           <View style={styles.menuItemsCenter}>
-            <Image source={smallHeaderLogo} style={{marginLeft: 5}} />
+            <Image source={smallHeaderLogo} style={{ marginLeft: 5 }} />
           </View>
         </View>
       </View>
       <View style={styles.appoinmentDivBg}>
         <View style={styles.mainDivPad}>
-          <View style={styles.nameContainer}>
+          {/* <View style={styles.nameContainer}>
             <View style={styles.parentNameContainer}>
               <View style={styles.nameTextContainer}>
                 <Text
@@ -248,7 +282,8 @@ const MainScreen = ({
                 />
               </TouchableOpacity>
             </View>
-          </View>
+          </View> */}
+         
           <View style={styles.actionCertificateContainer}>
             <Text style={styles.boxTopHeading}>ACTIVE CERTIFICATES</Text>
             <FlatList
@@ -261,12 +296,15 @@ const MainScreen = ({
           </View>
           <View style={styles.actionCertificateContainer}>
             <Text style={styles.boxTopHeading}>APPOINTMENTS</Text>
-            <FlatList
-              data={route.params && route.params.booked ? DATA1 : DATA}
-              renderItem={renderItemAppointment}
-              keyExtractor={item => item.id}
-              extraData={selectedId}
-            />
+              <FlatList
+                contentContainerStyle={{
+                  flexGrow: 1,
+                }}
+                data={ DATA}
+                renderItem={renderItemAppointment}
+                keyExtractor={item => item.id}
+                extraData={selectedId}
+              />
           </View>
         </View>
       </View>
@@ -277,7 +315,7 @@ const MainScreen = ({
       </TouchableOpacity>
       <BottomNavigator
         navigation={navigation}
-        selectedItem={{id: 1, label: 'Home'}}></BottomNavigator>
+        selectedItem={{ id: 1, label: 'Home' }}></BottomNavigator>
     </View>
   );
 };
@@ -397,9 +435,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   actionCertificateContainer: {
-    marginTop: 42,
-    display: 'flex',
-    flexDirection: 'column',
+    marginTop: 30,
+   
   },
   boxTopHeading: {
     marginBottom: 8,
