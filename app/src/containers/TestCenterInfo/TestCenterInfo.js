@@ -69,7 +69,7 @@ function TestCenterInfo({ navigation }) {
             </View>
             <View style={styles.testCenterList}>
             <View style={styles.innerDiv}>
-                <TouchableOpacity style={styles.centerLabel}>
+                <TouchableOpacity style={styles.centerLabel} onPress={()=>navigation.navigate("TestCenter")}>
                     <View>
                         <Text style={styles.centerTitle}>Test Center</Text>
                         <Text style={styles.centerName}>Zeitfenster auswahlen</Text>
