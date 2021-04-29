@@ -141,7 +141,7 @@ function TestInformation({moveToMainScreen, navigation}) {
             </View>
           </View>
 
-          <View>
+          <View style={{marginTop: '20%'}}>
             <TouchableOpacity
               style={[styles.btnStyle, styles.submitButton]}
               onPress={() => moveToMainScreen(navigation)}>
@@ -150,7 +150,9 @@ function TestInformation({moveToMainScreen, navigation}) {
           </View>
 
           <View>
-            <TouchableOpacity style={{width: '100%', marginTop: 16}}>
+            <TouchableOpacity
+              style={{width: '100%', marginTop: 16}}
+              onPress={() => navigation.navigate('QRScreen')}>
               <Text style={styles.scanAnotherQRcode}>Scan Another QR Code</Text>
             </TouchableOpacity>
           </View>

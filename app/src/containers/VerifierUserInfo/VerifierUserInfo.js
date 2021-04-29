@@ -343,7 +343,7 @@ function VerifierUserInfo({navigation, loader}) {
                     y: 0,
                     animated: true,
                   });
-                  navigation.navigate('TestCenterInfo');
+                  navigation.navigate('TestInformationScreen');
                 }}>
                 <Text style={styles.saveCloseText}>Continue</Text>
               </TouchableOpacity>
