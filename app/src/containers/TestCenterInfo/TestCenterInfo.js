@@ -101,7 +101,7 @@ function TestCenterInfo({ navigation }) {
                 <View>
                     <TouchableOpacity
                         style={{ width: "100%" }}>
-                        <Text style={styles.scanAnotherQRcode}>Insert Person Inf</Text>
+                        <Text style={styles.scanAnotherQRcode}>Insert Person Info</Text>
                     </TouchableOpacity>
                 </View>
                 </View>
@@ -116,7 +116,8 @@ function TestCenterInfo({ navigation }) {
 
 const styles = StyleSheet.create({
     patientList: {
-        marginTop: 30
+        marginTop: 30,
+        height: '55%'
     },
     MainContainer: {
         backgroundColor:WHITE_COLOR,
@@ -238,7 +239,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
         width: "100%",
         borderRadius: 8,
-        marginTop: '25%'
+        marginTop: '15%'
     },
     scanAnotherQRcode: {
         fontSize: RFValue(14, 580),
