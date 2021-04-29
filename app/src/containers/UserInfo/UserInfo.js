@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {connect} from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
 import {
   WHITE_COLOR,
   PRIMARY_COLOR,
@@ -8,7 +8,7 @@ import {
 } from '../../theme/Colors';
 
 import Orientation from 'react-native-orientation-locker';
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import {
   ActivityIndicator,
   Image,
@@ -18,16 +18,18 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
+  ToastAndroid
 } from 'react-native';
-import {RFValue} from 'react-native-responsive-fontsize';
+import { RFValue } from 'react-native-responsive-fontsize';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import RadioButton from '../../components/RadioButton';
-import {moveToMainScreenAction} from './Actions';
+import { moveToMainScreenAction } from './Actions';
+import { emailRegex } from '../../commons/Constants';
 const welcomeLogo = require('../../assets/images/welcome-logo.png');
 const welcomeImg = require('../../assets/images/welcome-image.png');
 const currentDate = new Date();
-function UserInfo({loader, moveToMainScreen, navigation}) {
+function UserInfo({ loader, moveToMainScreen, navigation }) {
   const [isFamily, setIsFamily] = useState(false);
   const [fName, setFName] = useState('');
   const [lName, setLName] = useState('');
@@ -36,10 +38,10 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
   const [other, setOther] = useState(false);
   const [dob, setDob] = useState(
     currentDate.getDate() +
-      '-' +
-      currentDate.getMonth() +
-      '-' +
-      currentDate.getFullYear(),
+    '-' +
+    currentDate.getMonth() +
+    '-' +
+    currentDate.getFullYear(),
   );
   const [showCalender, setShowCalender] = useState(false);
   const [calDate, setCalDate] = useState(new Date());
@@ -49,10 +51,9 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
   const [email, setEmail] = useState('');
   const [mobileNo, setMobileNo] = useState('');
   const [schiller, setSchiller] = useState('');
-  const [zimmer, setzimmer] = useState('');
+  const [zimmer, setZimmer] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [relation, setRelation] = useState('Wife');
-
   const scrollRef = useRef();
 
   useEffect(() => {
@@ -69,8 +70,53 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
     if (day) setCalDate(date);
   };
 
+  const submit = () => {
+    if (!fName) {
+      showToast("Please Enter First Name");
+      return;
+    }
+    if (!lName) {
+      showToast("Please Enter Last Name");
+      return;
+    }
+    if (!taxId) {
+      showToast("Please Enter Tax ID");
+      return;
+    }
+    if (!email || !email.match(emailRegex)) {
+      showToast("Please Enter a valid email");
+      return;
+    }
+    if(isFamily && (!mobileNo || !mobileNo.match('^[+]49[0-9]{10}$'))){
+      showToast('Please enter a valid phone number.')
+    }
+    if(!schiller){
+      showToast("Please Enter schiller");
+      return;
+    }
+    if(!zimmer){
+      showToast("Please Enter zimmer");
+      return;
+    }
+    if(!postalCode){
+      showToast("Please Enter postalcode");
+      return;
+    }
+    
+    moveToMainScreen(navigation)
+  }
+
+
+  const showToast = msg => {
+    if (Platform.OS === 'android') {
+      ToastAndroid.show(msg, ToastAndroid.SHORT);
+    } else {
+      Alert.alert(msg);
+    }
+  };
+
   return (
-    <ScrollView style={{height: '100%'}} ref={scrollRef}>
+    <ScrollView style={{ height: '100%' }} ref={scrollRef}>
       <View style={styles.background}>
         <View style={styles.innerDiv}>
           <View style={styles.mainHeading}>
@@ -103,6 +149,7 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
                 placeholderTextColor={'#a29d9d'}
                 value={lName}
                 textContentType="familyName"
+                underlineColorAndroid="transparent"
                 placeholder="Last Name"
                 style={styles.inputStyle}
                 onChangeText={value => setLName(value)}></TextInput>
@@ -176,7 +223,7 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
                 },
               ]}
               defaultValue={relation}
-              containerStyle={{height: '6%', marginBottom: '4%'}}
+              containerStyle={{ height: '6%', marginBottom: '4%' }}
               style={{
                 backgroundColor: '#F5F9F8',
                 fontSize: RFValue(14, 580),
@@ -252,8 +299,9 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
               onChangeText={value => setSchiller(value)}></TextInput>
             <TextInput
               placeholderTextColor={'#a29d9d'}
-              value={schiller}
+              value={zimmer}
               textContentType="schiller"
+              underlineColorAndroid="transparent"
               placeholder="zimmer"
               style={styles.inputStyle}
               onChangeText={value => setZimmer(value)}></TextInput>
@@ -282,7 +330,7 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
               },
             ]}
             defaultValue={city}
-            containerStyle={{height: '5%'}}
+            containerStyle={{ height: '5%' }}
             style={{
               backgroundColor: '#F5F9F8',
               fontSize: RFValue(14, 580),
@@ -300,7 +348,7 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
           />
           <TextInput
             placeholderTextColor={'#a29d9d'}
-            value={fName}
+            value={postalCode}
             textContentType="postalCode"
             underlineColorAndroid="transparent"
             placeholder="Postal Code"
@@ -308,11 +356,11 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
             onChangeText={value => setPostalCode(value)}></TextInput>
           <TouchableOpacity
             style={[styles.container, styles.submitButtonDark]}
-            onPress={() => moveToMainScreen(navigation)}>
+            onPress={() => submit()}>
             <Text style={styles.saveCloseText}>Continue</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={{marginTop: '4%', alignContent: 'center'}}
+            style={{ marginTop: '4%', alignContent: 'center' }}
             onPress={() => {
               setIsFamily(true);
               setFName('');
@@ -322,10 +370,10 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
               setOther(false);
               setDob(
                 currentDate.getDate() +
-                  '-' +
-                  currentDate.getMonth() +
-                  '-' +
-                  currentDate.getFullYear(),
+                '-' +
+                currentDate.getMonth() +
+                '-' +
+                currentDate.getFullYear(),
               );
               setCalDate(new Date());
               setCity('Bavaria');
@@ -334,7 +382,7 @@ function UserInfo({loader, moveToMainScreen, navigation}) {
               setPostalCode('');
               setMobileNo('');
               setSchiller('');
-              setzimmer('');
+              setZimmer('');
               setRelation('Son');
 
               scrollRef.current.scrollTo({
