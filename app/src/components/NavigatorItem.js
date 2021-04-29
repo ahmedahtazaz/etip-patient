@@ -39,11 +39,11 @@ function NavigatorItem({ item, isSelected, navigation }) {
         else return require('../assets/images/home-icon.png');
       case 2:
         if (isSelected)
-          return require('../assets/images/appointments-icon.png');
-        else return require('../assets/images/appointments-icon.png');
+          return require('../assets/images/test-conducted-icon.png');
+        else return require('../assets/images/test-conducted-icon.png');
       case 3:
-        if (isSelected) return require('../assets/images/family-icon.png');
-        else return require('../assets/images/family-icon.png');
+        if (isSelected) return require('../assets/images/settings-icon.png');
+        else return require('../assets/images/settings-icon.png');
       default:
         if (isSelected) return require('../assets/images/home-icon.png');
         else return require('../assets/images/home-icon.png');
