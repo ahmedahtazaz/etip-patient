@@ -5,9 +5,13 @@ import {
     View,
     Text,
     TouchableOpacity,
-    Dimensions,
-    Switch,
+    Dimensions,  ImageBackground,
+
 } from 'react-native';
+import {connect} from 'react-redux';
+import {moveToMainScreenAction} from './Action';
+
+import { Switch } from 'react-native-paper';
 
 import {
     Colors,
@@ -17,11 +21,19 @@ import { useIsFocused } from '@react-navigation/native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { RFValue } from 'react-native-responsive-fontsize';
+
+const menuIcon = require('../../assets/images/menu-icon.png');
+const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
+const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
+const mainScreenIcon = require('../../assets/images/main-screen-icon.png');
+const activeCertificationBg = require('../../assets/images/active-certification-bg.png');
+const previousAppoinmentsBg = require('../../assets/images/previous-appoinment-bg.png');
+const plusIcon = require('../../assets/images/plus-icon.png');
 import { BLACK_COLOR, GREEN_COLOR, WHITE_COLOR } from '../../theme/Colors';
 const { width, height } = Dimensions.get('window')
 
 
-function TestInformation({ navigation: { goBack } }) {
+function TestInformation( { goBack, moveToMainScreen, navigation } ) {
     const [result, setResult] = useState("positive");
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
@@ -44,8 +56,15 @@ function TestInformation({ navigation: { goBack } }) {
                 </View>
             </View>
             <View style={styles.infoContainer}>
+
+                
                 <View style={styles.infoContainerChild}>
-                    <View style={styles.patientInfo}>
+                <View style={styles.patientInfo}>
+
+                    <ImageBackground
+            source={activeCertificationBg}
+            style={styles.imagepatientInfo}>
+
                         <View style={styles.patientInfoR1}>
                             <Text style={styles.patientId}>P-1234</Text>
                         </View>
@@ -59,11 +78,12 @@ function TestInformation({ navigation: { goBack } }) {
                                 <Text style={styles.textSize}>10:41</Text>
                             </View>
                         </View>
-                    </View>
+                        </ImageBackground>
+                        </View>
 
 
                     <View >
-                        <View style={{ marginTop: 20, marginBottom: 10 }}>
+                        <View style={{ marginTop: 30, marginBottom: 10 }}>
                             <Text style={{ ...styles.textSize, color: BLACK_COLOR }}>Test Result</Text>
                         </View>
                         <TouchableOpacity style={styles.inputStyle1} onPress={() => setResult("positive")}>
@@ -92,7 +112,7 @@ function TestInformation({ navigation: { goBack } }) {
                         </View>
                         <View style={styles.switchView}>
                             <Switch
-                                trackColor={{ false: "#767577", true: "#767577" }}
+                                trackColor={{ false: "#4a9b8b", true: "#4a9b8b" }}
                                 thumbColor={isEnabled ? "#f4f3f4" : "#f4f3f4"}
                                 ios_backgroundColor="#3e3e3e"
                                 onValueChange={toggleSwitch}
@@ -103,14 +123,18 @@ function TestInformation({ navigation: { goBack } }) {
 
                     <View>
                         <TouchableOpacity
-                            style={[styles.btnStyle, styles.submitButton]}>
+                            style={[styles.btnStyle, styles.submitButton]}
+                            
+                            onPress={() => moveToMainScreen(navigation)}>
+                            
+                                
                             <Text style={styles.submitText}>Issue Certificate</Text>
                         </TouchableOpacity>
                     </View>
 
                     <View>
                         <TouchableOpacity
-                            style={{ width: "100%" }}>
+                            style={{ width: "100%",marginTop:16 }}>
                             <Text style={styles.scanAnotherQRcode}>Scan Another QR Code</Text>
                         </TouchableOpacity>
                     </View>
@@ -203,9 +227,23 @@ const styles = StyleSheet.create({
     },
 
     patientInfo: {
-        backgroundColor: "gray",
-        padding: 10,
-        borderRadius: 10
+        borderRadius: 10,
+    
+        display: 'flex',
+        flexDirection: 'column',
+        resizeMode: 'cover',
+        overflow: 'hidden',
+    },
+    
+    imagepatientInfo: {
+        borderRadius: 10,
+        padding:10,
+    
+        display: 'flex',
+        flexDirection: 'column',
+        resizeMode: 'cover',
+        overflow: 'hidden',
+        marginEnd: 10,
     }
     , patientId: {
         marginVertical: 12,
@@ -259,4 +297,14 @@ const styles = StyleSheet.create({
 
 });
 
-export default TestInformation;
+const mapDispatchToProps = dispatch => {
+    return {
+      moveToMainScreen: navigation => moveToMainScreenAction(navigation),
+    };
+  };
+  
+  const mapStateToProps = state => {
+    return {};
+  };
+export default connect(mapStateToProps, mapDispatchToProps)(TestInformation);
+

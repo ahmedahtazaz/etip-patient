@@ -25,27 +25,27 @@ const { width, height } = Dimensions.get('window')
 const DATA = [
     {
         name: 'P-1234',
-        date: '12/Apr/2020 10:00',
+        date: '20/May/2020 10:00',
     },
     {
-        name: 'P-1234',
-        date: '12/Apr/2020 10:00',
+        name: 'P-1354',
+        date: '1/Jun/2020 09:00',
     },
     {
-        name: 'P-1234',
-        date: '12/Apr/2020 10:00',
+        name: 'P-7878',
+        date: '12/Jul/2020 01:00',
     },
     {
-        name: 'P-1234',
-        date: '12/Apr/2020 10:00',
+        name: 'P-4887',
+        date: '2/Aug/2020 04:00',
     },
     {
-        name: 'P-1234',
-        date: '12/Apr/2020 10:00',
+        name: 'P-6698',
+        date: '8/Sep/2020 08:00',
     },
     {
-        name: 'P-1234',
-        date: '12/Apr/2020 10:00',
+        name: 'P-1987',
+        date: '27/Oct/2020 10:00',
     },
 ];
 
@@ -158,6 +158,7 @@ const styles = StyleSheet.create({
         height: height * 0.1,
         alignItems: "center",
         width,
+        backgroundColor:"#f8fbfa"
     },
     headerText: {
         fontSize: RFValue(16, 580),
@@ -167,12 +168,14 @@ const styles = StyleSheet.create({
     infoContainer: {
         height: height * 0.9,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        backgroundColor:"#f8fbfa"
     },
     infoContainerChild: {
         paddingTop: 30,
         borderWidth: 1,
         borderColor: "#f2f4f3",
+        backgroundColor: "#fff",
         height: height * 0.9,
         width,
         borderTopRightRadius: 20,

@@ -25,6 +25,7 @@ import {
   moveToMakeAppointsAction,
   moveToSettingsScreenAction,
 } from './Actions';
+import { ScrollView } from 'react-native-gesture-handler';
 const menuIcon = require('../../assets/images/menu-icon.png');
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
@@ -42,6 +43,34 @@ const DATA = [
   {
     id: 'Modifiy Personal Information',
     title: 'Modifiy Personal Information',
+  },
+  {
+    id: 'Modifiy Personal Information',
+    title: 'Modifiy Personal Information',
+  },
+  {
+    id: 'Modify Email',
+    title: 'Modify Email',
+  },
+  {
+    id: 'Modify Sim',
+    title: 'Modify Sim',
+  },
+  {
+    id: 'About App',
+    title: 'About App',
+  },
+  {
+    id: 'Need Assistance',
+    title: 'Need Assistance',
+  },
+  {
+    id: 'Privacy Policy',
+    title: 'Privacy Policy',
+  },
+  {
+    id: 'Terms & Conditions',
+    title: 'Terms & Conditions',
   },
 ];
 
@@ -155,9 +184,11 @@ const MainScreen = ({
     if (route.params && route.params.booked) {
       return (
         <View
-          style={{
-            width: width(95),
-          }}>
+        style={{
+          width: width(95),
+          marginBottom: 8,
+        }} 
+        >
           <TouchableOpacity
             style={styles.activeAppoinmentsDiv}
             onPress={() => moveToAppointmentDetails(navigation, 'appointment')}>
@@ -188,8 +219,13 @@ const MainScreen = ({
       );
     }
     return (
-      <View>
-        <View style={styles.activeAppoinmentsDiv}>
+  <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}>
+        <View style={styles.activeCertificationDiv}>        
           <ImageBackground
             source={previousAppoinmentBg}
             style={styles.activeAppoinmentsDiv}
@@ -204,7 +240,8 @@ const MainScreen = ({
             </View>
           </ImageBackground>
         </View>
-      </View>
+        </View>
+
     );
   };
 
@@ -226,7 +263,7 @@ const MainScreen = ({
       </View>
       <View style={styles.appoinmentDivBg}>
         <View style={styles.mainDivPad}>
-          <View style={styles.nameContainer}>
+          {/* <View style={styles.nameContainer}>
             <View style={styles.parentNameContainer}>
               <View style={styles.nameTextContainer}>
                 <Text
@@ -248,7 +285,7 @@ const MainScreen = ({
                 />
               </TouchableOpacity>
             </View>
-          </View>
+          </View> */}
           <View style={styles.actionCertificateContainer}>
             <Text style={styles.boxTopHeading}>ACTIVE CERTIFICATES</Text>
             <FlatList
@@ -261,12 +298,16 @@ const MainScreen = ({
           </View>
           <View style={styles.actionCertificateContainer}>
             <Text style={styles.boxTopHeading}>APPOINTMENTS</Text>
+            <ScrollView>
+
             <FlatList
-              data={route.params && route.params.booked ? DATA1 : DATA}
+              data={DATA1}
               renderItem={renderItemAppointment}
               keyExtractor={item => item.id}
               extraData={selectedId}
             />
+               </ScrollView>
+
           </View>
         </View>
       </View>
