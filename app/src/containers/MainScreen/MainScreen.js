@@ -263,7 +263,7 @@ const MainScreen = ({
       </View>
       <View style={styles.appoinmentDivBg}>
         <View style={styles.mainDivPad}>
-          {/* <View style={styles.nameContainer}>
+          { <View style={styles.nameContainer}>
             <View style={styles.parentNameContainer}>
               <View style={styles.nameTextContainer}>
                 <Text
@@ -285,7 +285,7 @@ const MainScreen = ({
                 />
               </TouchableOpacity>
             </View>
-          </View> */}
+          </View> }
           <View style={styles.actionCertificateContainer}>
             <Text style={styles.boxTopHeading}>ACTIVE CERTIFICATES</Text>
             <FlatList
@@ -384,6 +384,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     overflow: 'hidden',
     marginEnd: 10,
+    marginBottom:10,
     maxHeight: 153,
   },
   activeAppoinmentsDiv: {
