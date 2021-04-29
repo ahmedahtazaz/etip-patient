@@ -189,12 +189,14 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: "row",
         height: height * 0.1,
+        paddingTop:30,
         alignItems: "center",
         width,
     },
     infoContainerChild: {
         paddingTop: 30,
         borderWidth: 1,
+        marginTop:20,
         borderColor: "#f2f4f3",
         backgroundColor:'#fff',
         height: height * 0.9,
@@ -264,7 +266,7 @@ const styles = StyleSheet.create({
         paddingRight: '5%',
         marginBottom: 14,
         borderWidth: 1,
-        borderColor: "#f3f3f3"
+        borderColor: "#e0dfdf"
     },
     btnStyle: {
         backgroundColor: GREEN_COLOR,
@@ -285,7 +287,7 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         paddingBottom: 20,
         borderRadius: 8,
-        marginTop: 15
+        marginTop: '20%'
     },
     submitText: {
         color: WHITE_COLOR,

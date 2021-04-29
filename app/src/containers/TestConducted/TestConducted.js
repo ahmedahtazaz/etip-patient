@@ -160,6 +160,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         height: height * 0.1,
         alignItems: "center",
+        paddingTop:30,
         width,
         backgroundColor:"#f8fbfa"
     },
@@ -177,6 +178,7 @@ const styles = StyleSheet.create({
     infoContainerChild: {
         paddingTop: 30,
         borderWidth: 1,
+        marginTop:20,
         borderColor: "#f2f4f3",
         backgroundColor: "#fff",
         height: height * 0.8,

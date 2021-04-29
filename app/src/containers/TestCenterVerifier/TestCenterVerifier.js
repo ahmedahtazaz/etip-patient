@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
       mainMenu: {
         position: 'absolute',
         zIndex: 2000,
-        top: '3%',
+        top: '5%',
         left: '3%',
         width: '100%',
       },
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     innerDiv: {
         paddingLeft: '5%',
         paddingRight: '5%',
-        paddingTop:'20%',
+        paddingTop:'25%',
       },
     listView: {
         marginTop: 30

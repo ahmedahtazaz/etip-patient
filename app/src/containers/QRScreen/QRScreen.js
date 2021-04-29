@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height: height * 0.1,
         alignItems: 'center',
-        paddingTop:'7%',
+        paddingTop:'9%',
         width,
       },
       backIcon: {
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         overflow:'hidden',
-        marginTop:'10%',
+        marginTop:'13%',
     },
     sectionContainer: {
         backgroundColor: Colors.black,
