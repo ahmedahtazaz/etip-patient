@@ -25,16 +25,16 @@ const { width, height } = Dimensions.get('window')
 
 const DATA = [
     {
-        name: 'P-1234',
-        date: '12/Apr/2020 10:00',
+        name: 'P-8944',
+        date: '2/Apr/2020 09:00',
     },
     {
         name: 'P-1234',
-        date: '12/Apr/2020 10:00',
+        date: '12/Jun/2020 10:00',
     },
     {
-        name: 'P-1234',
-        date: '12/Apr/2020 10:00',
+        name: 'P-9797',
+        date: '12/Jul/2020 04:00',
     }
 ];
 
@@ -48,62 +48,62 @@ function TestCenterInfo({ navigation }) {
 
     const renderItem = ({ item, index }) => (
         <TouchableOpacity style={styles.item} key={index}>
-            
+
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.date}>{item.date}</Text>
-         
+
         </TouchableOpacity>
     );
     return (
         <View style={styles.MainContainer}>
             <View style={styles.header}>
-            <ImageBackground source={testCenterInfoBg} style={styles.splashbackground}>
-            <View style={styles.mainMenu}>
-            <Image source={headerLogo}  />
-            </View>
-                <View>
-                    <Text style={styles.heading}>Hello, Jone!</Text>
-                    <Text style={styles.subHeading}>Hope you are having a good day</Text>
-                </View>
+                <ImageBackground source={testCenterInfoBg} style={styles.splashbackground}>
+                    <View style={styles.mainMenu}>
+                        <Image source={headerLogo} />
+                    </View>
+                    <View>
+                        <Text style={styles.heading}>Hello, Jone!</Text>
+                        <Text style={styles.subHeading}>Hope you are having a good day</Text>
+                    </View>
                 </ImageBackground>
             </View>
             <View style={styles.testCenterList}>
-            <View style={styles.innerDiv}>
-                <TouchableOpacity style={styles.centerLabel}>
-                    <View>
-                        <Text style={styles.centerTitle}>Test Center</Text>
-                        <Text style={styles.centerName}>Zeitfenster auswahlen</Text>
-                    </View>
-                    <View>
-                        <Entypo name="chevron-small-right" color={GREEN_COLOR} size={20} />
-                    </View>
-                </TouchableOpacity>
-
-                <Text style={{ fontSize: RFValue(13, 580), marginTop: 30, fontWeight:'600' }}>Test Awaiting for results</Text>
-
-                <View style={styles.patientList}>
-                    <FlatList
-                        data={DATA}
-                        renderItem={renderItem}
-                        keyExtractor={(item, index) => index}
-                    />
-                </View>
-
-                <View>
-                    <TouchableOpacity
-                        style={[styles.btnStyle, styles.submitButton]}
-                        onPress={()=>navigation.navigate("QRScreen")}>
-                        <Image source={btnQrCode}  />
-                        <Text style={styles.submitText}>Scan QR Code</Text>
+                <View style={styles.innerDiv}>
+                    <TouchableOpacity style={styles.centerLabel} onPress={() => navigation.navigate("TestCenter")}>
+                        <View>
+                            <Text style={styles.centerTitle}>Test Center</Text>
+                            <Text style={styles.centerName}>Zeitfenster auswahlen</Text>
+                        </View>
+                        <View>
+                            <Entypo name="chevron-small-right" color={GREEN_COLOR} size={20} />
+                        </View>
                     </TouchableOpacity>
-                </View>
 
-                <View>
-                    <TouchableOpacity
-                        style={{ width: "100%" }}>
-                        <Text style={styles.scanAnotherQRcode}>Scan Another QR Code</Text>
-                    </TouchableOpacity>
-                </View>
+                    <Text style={{ fontSize: RFValue(13, 580), marginTop: 30, fontWeight: '600' }}>Test Awaiting for results</Text>
+
+                    <View style={styles.patientList}>
+                        <FlatList
+                            data={DATA}
+                            renderItem={renderItem}
+                            keyExtractor={(item, index) => index}
+                        />
+                    </View>
+
+                    <View>
+                        <TouchableOpacity
+                            style={[styles.btnStyle, styles.submitButton]}
+                            onPress={() => navigation.navigate("QRScreen")}>
+                            <Image source={btnQrCode} />
+                            <Text style={styles.submitText}>Scan QR Code</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    <View>
+                        <TouchableOpacity
+                            style={{ width: "100%" }}>
+                            <Text style={styles.scanAnotherQRcode}>Scan Another QR Code</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
             <BottomNavigator
@@ -119,40 +119,40 @@ const styles = StyleSheet.create({
         marginTop: 30
     },
     MainContainer: {
-        backgroundColor:WHITE_COLOR,
+        backgroundColor: WHITE_COLOR,
         height,
         width
     },
     splashbackground: {
         flex: 1,
         resizeMode: 'cover',
-        paddingTop:'25%',
-        paddingBottom:'15%',
+        paddingTop: '25%',
+        paddingBottom: '15%',
         flexDirection: "column",
-        paddingLeft:20,
+        paddingLeft: 20,
         width,
-     
-      },
-      mainMenu : {
+
+    },
+    mainMenu: {
         position: 'absolute',
         zIndex: 2000,
         top: '40%',
         width: '100%',
         display: 'flex',
         alignItems: 'center',
-        justifyContent:'center',
-        paddingTop:'7%',
-      },
+        justifyContent: 'center',
+        paddingTop: '7%',
+    },
     header: {
-        
+
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
         flexDirection: "row",
-        overflow:'hidden',
-        
+        overflow: 'hidden',
+
         backgroundColor: "gray",
         alignItems: "center",
-        
+
     },
     testCenterList: {
         height: height * 0.7,
@@ -173,14 +173,14 @@ const styles = StyleSheet.create({
         marginTop: 5
     },
     item: {
-        height:60,
+        height: 60,
         padding: 10,
         borderWidth: 1,
         paddingLeft: 15,
         paddingBottom: 15,
         marginBottom: 15,
         borderRadius: 5,
-        backgroundColor:WHITE_COLOR,
+        backgroundColor: WHITE_COLOR,
         borderColor: "#f9f9f9"
     },
     centerName: {
@@ -196,8 +196,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         borderRadius: 5,
         marginTop: -30,
-        paddingTop:5,
-        paddingBottom:5,
+        paddingTop: 5,
+        paddingBottom: 5,
         height: 60,
         flexDirection: "row",
         alignItems: "center",
@@ -245,8 +245,8 @@ const styles = StyleSheet.create({
         fontSize: RFValue(14, 580),
         color: GREEN_COLOR,
         textAlign: "center",
-        marginTop:5,
-       
+        marginTop: 5,
+
     },
     submitText: {
         color: WHITE_COLOR,
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
     innerDiv: {
         paddingLeft: '5%',
         paddingRight: '5%',
-      },
+    },
 });
 
 export default TestCenterInfo;

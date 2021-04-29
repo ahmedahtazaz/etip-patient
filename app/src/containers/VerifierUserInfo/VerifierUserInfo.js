@@ -104,7 +104,7 @@ function VerifierUserInfo({
               <View style={styles.formContainer}>
                 <View style={styles.userName}>
                   <TextInput
-                    placeholderTextColor={BLACK_COLOR}
+                    placeholderTextColor={"#a29d9d"}
                     value={fName}
                     textContentType="givenName"
                     underlineColorAndroid="transparent"
@@ -112,9 +112,10 @@ function VerifierUserInfo({
                     style={styles.inputStyle}
                     onChangeText={value => setFName(value)}></TextInput>
                   <TextInput
-                    placeholderTextColor={BLACK_COLOR}
+                    placeholderTextColor={"#a29d9d"}
                     value={lName}
                     textContentType="familyName"
+                    underlineColorAndroid="transparent"
                     placeholder="Last Name"
                     style={styles.inputStyle}
                     onChangeText={value => setLName(value)}></TextInput>
@@ -206,7 +207,7 @@ function VerifierUserInfo({
                 />
               ) : null}
               <TextInput
-                placeholderTextColor={BLACK_COLOR}
+                placeholderTextColor={"#a29d9d"}
                 value={dob}
                 textContentType="none"
                 placeholder="Date"
@@ -225,7 +226,7 @@ function VerifierUserInfo({
                 />
               ) : null}
               <TextInput
-                placeholderTextColor={BLACK_COLOR}
+                placeholderTextColor={"#a29d9d"}
                 value={taxId}
                 textContentType="taxId"
                 underlineColorAndroid="transparent"
@@ -233,7 +234,7 @@ function VerifierUserInfo({
                 style={styles.inputStyle1}
                 onChangeText={value => setTaxId(value)}></TextInput>
               <TextInput
-                placeholderTextColor={BLACK_COLOR}
+                placeholderTextColor={"#a29d9d"}
                 value={email}
                 textContentType="email"
                 underlineColorAndroid="transparent"
@@ -241,7 +242,7 @@ function VerifierUserInfo({
                 style={styles.inputStyle1}
                 onChangeText={value => setEmail(value)}></TextInput>
               <TextInput
-                placeholderTextColor={BLACK_COLOR}
+                placeholderTextColor={"#a29d9d"}
                 value={mobileNo}
                 textContentType="mobileNo"
                 underlineColorAndroid="transparent"
@@ -253,7 +254,7 @@ function VerifierUserInfo({
               </View>
               <View style={styles.userName}>
                 <TextInput
-                  placeholderTextColor={BLACK_COLOR}
+                  placeholderTextColor={"#a29d9d"}
                   value={schiller}
                   textContentType="schiller"
                   underlineColorAndroid="transparent"
@@ -261,7 +262,7 @@ function VerifierUserInfo({
                   style={styles.inputStyle}
                   onChangeText={value => setSchiller(value)}></TextInput>
                 <TextInput
-                  placeholderTextColor={BLACK_COLOR}
+                  placeholderTextColor={"#a29d9d"}
                   value={schiller}
                   textContentType="schiller"
                   placeholder="zimmer"
@@ -309,7 +310,7 @@ function VerifierUserInfo({
                 onChangeItem={item => setCity(item.value)}
               />
               <TextInput
-                placeholderTextColor={BLACK_COLOR}
+                placeholderTextColor={"#a29d9d"}
                 value={fName}
                 textContentType="postalCode"
                 underlineColorAndroid="transparent"
