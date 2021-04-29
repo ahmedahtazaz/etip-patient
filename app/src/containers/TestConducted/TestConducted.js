@@ -115,10 +115,12 @@ const styles = StyleSheet.create({
     },
     item: {
         height: 60,
-        padding: 10,
+
         borderWidth: 1,
         paddingLeft: 15,
-        paddingBottom: 15,
+        paddingRight:15,
+        paddingTop:10,
+        paddingBottom: 10,
         marginBottom: 15,
         borderRadius: 5,
         borderColor: "#f9f9f9"
@@ -131,6 +133,7 @@ const styles = StyleSheet.create({
         color: "#cbd1d0"
     },
     searchIconView: {
+        
         flex: 1
     },
     searchFieldView: {
@@ -144,8 +147,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderWidth: 1,
         backgroundColor: "#f9f9f9",
-        borderRadius: 5,
-        height: 40,
+        borderRadius: 4,
+       
+        height: 50,
         borderColor: "#f9f9f9"
     },
     MainContainer: {

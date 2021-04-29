@@ -91,11 +91,14 @@ const styles = StyleSheet.create({
     },
     item: {
         height: 50,
-        padding: 10,
+
         borderWidth: 1,
         paddingLeft: 15,
-        paddingBottom: 15,
+        paddingRight:15,
+        paddingTop:10,
+        paddingBottom: 10,
         marginBottom: 15,
+        justifyContent:'center',
         borderRadius: 5,
         borderColor: "#f9f9f9"
     },
@@ -120,8 +123,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderWidth: 1,
         backgroundColor: "#f9f9f9",
-        borderRadius: 5,
-        height: 40,
+        borderRadius: 4,
+        height: 50,
         borderColor: "#f9f9f9"
     },
     MainContainer: {
@@ -149,6 +152,7 @@ const styles = StyleSheet.create({
         paddingTop: 30,
         borderWidth: 1,
         borderColor: "#f2f4f3",
+        backgroundColor:'#ffffff',
         height: height * 0.9,
         width,
         borderTopRightRadius: 20,

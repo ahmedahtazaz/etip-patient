@@ -84,7 +84,7 @@ function VerifierUserInfo({
           <View style={styles.header}>
             <View style={styles.backIcon}>
               <TouchableOpacity onPress={() => navigation.goBack()}>
-                <EvilIcons name="chevron-left" color="#000" size={27} />
+                <EvilIcons name="chevron-left" color="#000" fontWeight='bold' size={40} />
               </TouchableOpacity>
             </View>
             <View style={styles.headerTextView}>
