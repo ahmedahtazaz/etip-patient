@@ -6,6 +6,8 @@ import {
     Text,
     Alert,
     TouchableOpacity,
+    ImageBackground,
+    Image,
     Dimensions
 } from 'react-native';
 
@@ -16,6 +18,7 @@ import {
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import { RFValue } from 'react-native-responsive-fontsize';
+const scanQrBg = require('../../assets/images/scan-qr-bg.png');
 const { width, height } = Dimensions.get('window')
 
 
@@ -32,20 +35,28 @@ function QRScreen({ navigation}) {
 
     return (
         <View style={styles.MainContainer}>
+           
             <View style={styles.header}>
-                <View style={styles.backIcon}>
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <EvilIcons name="chevron-left" color="#000" size={27} />
-                    </TouchableOpacity>
-                </View>
-                <View >
-                    <Text style={styles.headerText}>Scan QR Code</Text>
-                </View>
-            </View>
+        <View style={styles.backIcon}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <EvilIcons
+              name="chevron-left"
+              color="#000"
+              size={40}
+              style={{fontWeight: 'bold'}}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.headerTextView}>
+          <Text style={styles.headerText}>Scan QR Code</Text>
+        </View>
+      </View>
             <View style={styles.scanner}>
+            <ImageBackground source={scanQrBg} style={styles.splashbackground}>
                 <QRCodeScanner
                     reactivate={true}
                     showMarker={true}
+                    cameraStyle={{width:'90%', marginLeft:'5%',}}
                     customMarker={
                         <View style={
                             {
@@ -82,6 +93,7 @@ function QRScreen({ navigation}) {
                     }
 
                 />
+                </ImageBackground>
             </View>
         </View>
     );
@@ -89,43 +101,58 @@ function QRScreen({ navigation}) {
 
 
 const styles = StyleSheet.create({
-    header: {
-        flexDirection: "row",
-        height: height * 0.1,
-        alignItems: "center",
+    splashbackground: {
+        flex: 1,
+        resizeMode: 'cover',
+        flexDirection: "column",
+        paddingBottom:50,
         width,
-    },
-    backIcon: {
-        marginHorizontal: 5,
-        width: width * 0.1
-    },
-    headerText: {
+     
+      },
+    header: {
+        flexDirection: 'row',
+        height: height * 0.1,
+        alignItems: 'center',
+        paddingTop:'7%',
+        width,
+      },
+      backIcon: {
+        flex: 1,
+        alignItems: 'flex-start',
+      },
+      headerTextView: {
+        flex: 9,
+        alignItems: 'center',
+        paddingRight: width * 0.1,
+      },
+      headerText: {
         fontSize: RFValue(16, 580),
-        width: width * 0.8,
-        textAlign: "center"
-    },
+      },
     scanner: {
         height: height * 0.9,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        overflow:'hidden',
+        marginTop:'10%',
     },
     sectionContainer: {
         backgroundColor: Colors.black,
     },
     textBold: {
         fontSize: RFValue(13, 580),
-        marginLeft: 70,
-        marginRight: 70,
+        
         zIndex: 10,
-        marginBottom: 10,
+        
         textAlign: 'center',
         fontWeight: '600',
         color: '#fff',
-        marginTop: 20
     },
     buttonText: {
         fontSize: 21,
-        color: '#4178CD'
+        paddingBottom:20,
+        color: '#ffffff'
     },
     buttonTouchable: {
         padding: 16
@@ -139,6 +166,7 @@ const styles = StyleSheet.create({
     },
 
     MainContainer: {
+        backgroundColor:'#ffffff',
         width
         // flex: 1,
         // justifyContent: 'center',

@@ -6,13 +6,17 @@ import {
     Text,
     TouchableOpacity,
     Dimensions,
+    Image,
+    ImageBackground,
     TextInput
 } from 'react-native';
 import Orientation from 'react-native-orientation-locker';
 import { useIsFocused } from '@react-navigation/native';
 import Foundation from 'react-native-vector-icons/Foundation';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { GREEN_COLOR, WHITE_COLOR } from '../../theme/Colors';
+import { GREEN_COLOR, WHITE_COLOR, PRIMARY_COLOR, GRAY_COLOR, } from '../../theme/Colors';
+const headerLogo = require('../../assets/images/header-logo.png');
+const phoneDivBg = require('../../assets/images/phone-div-bg.png');
 const { width, height } = Dimensions.get('window')
 
 
@@ -28,11 +32,12 @@ function PinScreen({ navigation }) {
 
     return (
         <View style={styles.MainContainer}>
-            <View style={styles.header}>
-                <View>
-                    <Foundation name="plus" color={GREEN_COLOR} size={50} />
-                </View>
+            <View style={styles.mainMenu}>
+       
+            <Image source={headerLogo}  />
+      
             </View>
+            <ImageBackground source={phoneDivBg} style={styles.splashbackground}>
             <View style={styles.pinSection}>
                 <View style={{ marginTop: 20 }}>
                     <Text style={styles.heading}>Enter Your</Text>
@@ -65,6 +70,7 @@ function PinScreen({ navigation }) {
                 </View>
 
             </View>
+            </ImageBackground>
 
         </View>
     );
@@ -73,13 +79,36 @@ function PinScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     MainContainer: {
+        backgroundColor: '#ffffff',
         height,
         width,
 
     },
+    splashbackground: {
+        flex: 1,
+        resizeMode: 'cover',
+     
+      },
+      mainMenu : {
+        position: 'absolute',
+        zIndex: 2000,
+        top: '5%',
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent:'center',
+        paddingTop:'5%',
+      },
     pinStyle: {
-        fontWeight: "bold",
-        fontSize: RFValue(22, 580),
+        display: 'flex',
+        borderBottomWidth: 0,
+        paddingTop: '1.8%',
+        paddingBottom: '1.5%',
+        fontSize: RFValue(24, 580),
+        fontWeight: 'bold',
+        color:'#DADDDD',
+        marginTop: '10%',
+        marginBottom: '10%',
     },
     header: {
         flexDirection: "row",
@@ -89,15 +118,21 @@ const styles = StyleSheet.create({
         width,
     },
     pinSection: {
-        paddingHorizontal: 10
+        //paddingHorizontal: 10
+        paddingTop: '35%',
+        paddingBottom: '10%',
+        paddingLeft: '5%',
+        paddingRight: '5%',
     },
     heading: {
-        fontSize: RFValue(22, 580),
-        fontWeight: "bold"
+        fontSize: RFValue(20, 580),
+        fontWeight: 'bold',
+        color: PRIMARY_COLOR,
     },
     lable: {
-        color: "#d1d1d1",
         fontSize: RFValue(12, 580),
+        color: GRAY_COLOR,
+        lineHeight:20,
     },
     lableView: {
         marginTop: 20
@@ -115,16 +150,29 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.35,
         shadowRadius: 5,
         elevation: 2,
-        height: 50,
+     
         paddingHorizontal: 5,
         width: "100%",
         borderRadius: 8,
+        paddingTop: 20,
+    paddingBottom: 20,
         marginTop: 15
     },
+    submitButtonDark: {
+        width: '100%',
+        borderRadius: 10,
+        backgroundColor: '#006970',
+        color: WHITE_COLOR,
+        paddingTop: 20,
+        paddingBottom: 20,
+        fontSize: RFValue(14, 580),
+        fontWeight:'600',
+      },
 
     submitText: {
         color: WHITE_COLOR,
         fontSize: RFValue(14, 580),
+        fontWeight:'600',
     },
 
 });

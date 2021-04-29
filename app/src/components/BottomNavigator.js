@@ -48,10 +48,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
-    height: '10%',
+    height: '12%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#fff',
+ 
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
 

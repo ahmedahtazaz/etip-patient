@@ -6,6 +6,8 @@ import {
     Text,
     TouchableOpacity,
     Dimensions,
+    Image,
+    ImageBackground,
     FlatList
 } from 'react-native';
 import Orientation from 'react-native-orientation-locker';
@@ -13,6 +15,8 @@ import { useIsFocused } from '@react-navigation/native';
 
 import { RFValue } from 'react-native-responsive-fontsize';
 import { GREEN_COLOR } from '../../theme/Colors';
+const headerLogo = require('../../assets/images/header-logo.png');
+const phoneDivBg = require('../../assets/images/phone-div-bg.png');
 const { width, height } = Dimensions.get('window')
 const DATA = [
     {
@@ -61,6 +65,11 @@ function TestCenterVerifier({ navigation }) {
     );
     return (
         <View style={styles.MainContainer}>
+            <View style={styles.mainMenu}>
+            <Image source={headerLogo}  />
+            </View>
+            <ImageBackground source={phoneDivBg} style={styles.splashbackground}>
+            <View style={styles.innerDiv}>
             <View style={styles.header}>
                 <View>
                     <Text style={styles.heading}>Select test center</Text>
@@ -70,13 +79,15 @@ function TestCenterVerifier({ navigation }) {
             <View style={styles.testCenterList}>
                 <View style={styles.listView}>
                     <FlatList
+                        
                         data={DATA}
                         renderItem={renderItem}
                         keyExtractor={(item, index) => index}
                     />
                 </View>
             </View>
-
+            </View>
+            </ImageBackground>
         </View>
     );
 }
@@ -84,19 +95,41 @@ function TestCenterVerifier({ navigation }) {
 
 const styles = StyleSheet.create({
     MainContainer: {
+        backgroundColor: '#ffffff',
         height,
         width
     },
+    splashbackground: {
+        flex: 1,
+        resizeMode: 'cover',
+     
+      },
+    mainMenu : {
+        position: 'absolute',
+        zIndex: 2000,
+        top: '5%',
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent:'center',
+        paddingTop:'5%',
+      },
     header: {
         flexDirection: "row",
         height: height * 0.15,
         alignItems: "flex-end",
-        paddingLeft: 10,
+        marginTop: 80,
         width,
+        
     },
+    innerDiv: {
+        paddingLeft: '5%',
+        paddingRight: '5%',
+      },
     listView: {
         marginTop: 30
     },
+  
     testCenterList: {
         height: height * 0.85,
         paddingHorizontal: 5
@@ -111,21 +144,19 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: RFValue(12, 580),
-        color: GREEN_COLOR
+        color: '#027279'
     },
     address: {
-        fontSize: RFValue(12, 580),
-        color: "#aeaeae"
+        fontSize: RFValue(10, 580),
+        color: "#606060"
     },
     item: {
-        height: 50,
+        display: 'flex',
+        borderRadius: 4,
+        flexDirection: 'column',
+        backgroundColor: '#F9F9F9',
         padding: 10,
-        borderWidth: 1,
-        paddingLeft: 15,
-        paddingBottom: 15,
-        marginBottom: 15,
-        borderRadius: 5,
-        borderColor: "#f9f9f9"
+        marginBottom:10,
     },
 });
 
