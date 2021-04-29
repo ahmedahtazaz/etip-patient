@@ -15,40 +15,30 @@ import {Dimensions} from 'react-native';
 import {connect} from 'react-redux';
 import {moveToAppointmentCalenderAction} from './Actions';
 import {RFValue} from 'react-native-responsive-fontsize';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const appointmentBg1 = require('../../assets/images/appointment-bg1.png');
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const {width, height} = Dimensions.get('window');
 const DATA = [
   {
-    id: 'Modifiy Personal Information',
-    title: 'Modifiy Personal Information',
+    id: 'Jenny White',
+    title: 'Myself',
   },
   {
-    id: 'Modify Email',
-    title: 'Modify Email',
+    id: 'Jhon Doe',
+    title: 'Husband',
   },
   {
-    id: 'Modify Sim',
-    title: 'Modify Sim',
+    id: 'Will Smith',
+    title: 'Son',
   },
   {
-    id: 'About App',
-    title: 'About App',
+    id: 'Julia',
+    title: 'Daughter',
   },
-  {
-    id: 'Need Assistance',
-    title: 'Need Assistance',
-  },
-  {
-    id: 'Privacy Policy',
-    title: 'Privacy Policy',
-  },
-  {
-    id: 'Terms & Conditions',
-    title: 'Terms & Conditions',
-  },
+  
+ 
 ];
 
 const Item = ({item, onPress, backgroundColor, textColor}) => (
@@ -68,10 +58,10 @@ const Appointment = ({movetoAppointmentCalenderScreen, navigation}) => {
         style={styles.appointmentlistContainer}
         onPress={() => movetoAppointmentCalenderScreen(navigation)}>
         <Text style={{fontWeight: 'bold', marginStart: 8, color: '#20B2AA'}}>
-          Jenny WHite
+        {item.id}
         </Text>
         <Text style={{color: '#d3d3d3', marginStart: 8, fontSize: 16}}>
-          My self
+        {item.title}
         </Text>
       </TouchableOpacity>
     );
@@ -79,37 +69,45 @@ const Appointment = ({movetoAppointmentCalenderScreen, navigation}) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.mainMenu}>
-        <TouchableOpacity
-          style={styles.mainMenuItems}
-          onPress={() => navigation.goBack()}>
-          <Image source={menuArrowIcon} style={{marginLeft: 10, marginTop:5}} />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.appoinmentDivBg}>
-      <View style={styles.nameContainer}>
-        <View style={styles.nameTextContainer}>
-        <Text style={styles.inputLabelDiv}>
-        <Text style={styles.inputLabel}>
-            Make an {'\n'}Appointment for
-          </Text>
-          {'\n'}
-          {'\n'}
-          <Text style={styles.inputLabelSmall}>
-            Please select the family memebers u want to select.
-          </Text>
-          </Text>
+      <View style={styles.header}>
+        <View style={styles.backIcon}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <EvilIcons
+              name="chevron-left"
+              color="#000"
+              size={40}
+              style={{fontWeight: 'bold'}}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.headerTextView}>
+          <Text style={styles.headerText}>Make an Appointment</Text>
         </View>
       </View>
-      <View style={styles.actionCertificateContainer}>
-        <FlatList
-          data={DATA}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-          extraData={selectedId}
-        />
+      <View style={styles.appoinmentDivBg}>
+        <View style={styles.nameContainer}>
+          <View style={styles.nameTextContainer}>
+            <Text style={styles.inputLabelDiv}>
+              <Text style={styles.inputLabel}>
+                Make an {'\n'}Appointment for
+              </Text>
+              {'\n'}
+              {'\n'}
+              <Text style={styles.inputLabelSmall}>
+                Please select the family memebers u want to select.
+              </Text>
+            </Text>
+          </View>
+        </View>
+        <View style={styles.actionCertificateContainer}>
+          <FlatList
+            data={DATA}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+            extraData={selectedId}
+          />
+        </View>
       </View>
-    </View>
     </View>
   );
 };
@@ -130,22 +128,33 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8fbfa',
     flex: 1,
   },
-  mainMenuItems: {
-    flex: 1,
+  header: {
     flexDirection: 'row',
+    height: height * 0.1,
     alignItems: 'center',
-    paddingBottom: 15,
-    paddingTop: 25,
+    paddingTop:'7%',
+    width,
   },
-  appoinmentDivBg : {
-    borderTopLeftRadius:20,
-    borderTopRightRadius:20,
-    marginTop: 30,
-    backgroundColor:'white',
+  backIcon: {
+    flex: 1,
+    alignItems: 'flex-start',
+  },
+  headerTextView: {
+    flex: 9,
+    alignItems: 'center',
+    paddingRight: width * 0.1,
+  },
+  headerText: {
+    fontSize: RFValue(16, 580),
+  },
+  appoinmentDivBg: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    backgroundColor: 'white',
+    marginTop:'5%',
   },
   splashbackground: {
     flex: 1,
-    
   },
   nameTextContainer: {
     marginTop: 50,
@@ -159,10 +168,10 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 16,
     display: 'flex',
-    borderRadius:4,
+    borderRadius: 4,
     flexDirection: 'column',
-    backgroundColor:'#F9F9F9',
-    padding:10,
+    backgroundColor: '#F9F9F9',
+    padding: 10,
   },
   actionCertificateContainer: {
     marginTop: 32,
@@ -192,10 +201,10 @@ const styles = StyleSheet.create({
   },
   inputLabelDiv: {
     display: 'flex',
-    
+
     flexDirection: 'column',
     alignItems: 'center',
-    paddingRight:'10%',
+    paddingRight: '10%',
   },
   inputLabel: {
     fontSize: RFValue(20, 580),
@@ -205,7 +214,7 @@ const styles = StyleSheet.create({
   inputLabelSmall: {
     fontSize: RFValue(12, 580),
     color: GRAY_COLOR,
-    lineHeight:20,
+    lineHeight: 20,
   },
 });
 

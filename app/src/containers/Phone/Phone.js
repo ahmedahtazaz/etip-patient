@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
   mainMenu : {
     position: 'absolute',
     zIndex: 2000,
-    top: 0,
+    top: '5%',
     width: '100%',
     display: 'flex',
     alignItems: 'center',
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
     paddingTop:'5%',
   },
   innerDiv: {
-    paddingTop: '30%',
+    paddingTop: '35%',
     paddingBottom: '10%',
     paddingLeft: '5%',
     paddingRight: '5%',

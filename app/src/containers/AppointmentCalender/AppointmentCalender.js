@@ -20,38 +20,33 @@ import {width, height, totalSize} from 'react-native-dimension';
 import {ScrollView} from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
 import {moveToTestCentersAction, moveToTimeSlotsAction} from './Actions';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import {RFValue} from 'react-native-responsive-fontsize';
+import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
-
+const regionSelectedIcon = require('../../assets/images/region-selected-icon.png');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const DATA = [
   {
-    id: 'Modifiy Personal Information',
-    title: 'Modifiy Personal Information',
+    id: 1,
+    title: 'Bavaria',
   },
   {
-    id: 'Modify Email',
-    title: 'Modify Email',
+    id: 2,
+    title: 'Munich',
   },
   {
-    id: 'Modify Sim',
-    title: 'Modify Sim',
+    id: 3,
+    title: 'Augsburg',
   },
   {
-    id: 'About App',
-    title: 'About App',
+    id: 4,
+    title: 'Frankfurt',
   },
   {
-    id: 'Need Assistance',
-    title: 'Need Assistance',
-  },
-  {
-    id: 'Privacy Policy',
-    title: 'Privacy Policy',
-  },
-  {
-    id: 'Terms & Conditions',
-    title: 'Terms & Conditions',
+    id: 5,
+    title: 'Hamburg',
   },
 ];
 
@@ -73,8 +68,32 @@ const AppointmentCalender = ({
   const onDateChange = () => moveToTimeSlots(navigation);
 
   const renderItem = ({item}) => {
+    let imgsource = require('../../assets/images/bavaria.png');
+    switch (item.id) {
+      case 1:
+        imgsource = require('../../assets/images/bavaria.png');
+        break;
+      case 2:
+        imgsource = require('../../assets/images/munich.png');
+        break;
+      case 3:
+        imgsource = require('../../assets/images/augsburg.png');
+        break;
+      case 4:
+        imgsource = require('../../assets/images/frankfurt.png');
+        break;
+      case 5:
+        imgsource = require('../../assets/images/hamburg.png');
+        break;
+      default:
+        imgsource = require('../../assets/images/bavaria.png');
+        break;
+    }
     return (
-      <View style={{marginStart: 8}}>
+      <TouchableOpacity
+        style={{marginStart: 8}}
+        style={styles.imgShadow}
+        onPress={() => setSelectedId(item.id)}>
         <Image
           style={{
             height: window.height / 5,
@@ -82,84 +101,95 @@ const AppointmentCalender = ({
             marginEnd: 8,
             borderRadius: 10,
           }}
-          source={{uri: 'https://picsum.photos/200/300'}}
+          source={imgsource}
         />
+        {item.id == selectedId ? (
+          <View style={styles.regionSelectedDiv}>
+            <Image source={regionSelectedIcon} />
+          </View>
+        ) : null}
         <View
           style={{
             position: 'absolute',
             left: 0,
-            bottom: 0,
+            bottom: 8,
             justifyContent: 'center',
             alignItems: 'center',
             marginBottom: 8,
             marginStart: 8,
           }}>
-          <Text>Centered text</Text>
+          <Text style={styles.regionImgText}>{item.title}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.mainMenu}>
-        <TouchableOpacity
-          style={styles.mainMenuItems}
-          onPress={() => navigation.goBack()}>
-          <Image source={menuArrowIcon} style={{marginLeft: 10, marginTop:5}} />
-        </TouchableOpacity>
+      <View style={styles.header}>
+        <View style={styles.backIcon}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <EvilIcons
+              name="chevron-left"
+              color="#000"
+              size={40}
+              style={{fontWeight: 'bold'}}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.headerTextView}>
+          <Text style={styles.headerText}>Make an Appointment</Text>
+        </View>
       </View>
-      <ScrollView>
-        <View style={styles.nameContainer}>
-          <View style={styles.parentNameContainer}>
+      <View style={styles.appoinmentDivBg}>
+        <ScrollView>
+          <View style={styles.nameContainer}>
+            <View style={styles.parentNameContainer}>
+              <View style={styles.nameTextContainer}>
+                <Text style={{marginStart: 8, color: '#adadad'}}>
+                  Appointment For
+                </Text>
+                <Text
+                  style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
+                  Jenny White
+                </Text>
+              </View>
+              <View>
+                <Icon name="cancel" color="red" size={25} style={{margin: 8}} />
+              </View>
+            </View>
+          </View>
+          <View style={styles.actionCertificateContainer}>
+            <Text style={styles.regionText}>Region</Text>
+            <FlatList
+              horizontal
+              data={DATA}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
+              extraData={selectedId}
+            />
+          </View>
+
+          <TouchableOpacity
+            style={styles.parentNameContainer}
+            onPress={() => moveToTestCenters(navigation)}>
             <View style={styles.nameTextContainer}>
-              <Text style={{marginStart: 8, color: '#adadad'}}>
-                Appointment For
-              </Text>
               <Text
                 style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
-                Jenny White
+                Test Center
               </Text>
             </View>
             <View>
-              <Icon name="cancel" color="red" size={25} style={{margin: 8}} />
+              <Icon name="right" size={25} color="#adadad" />
             </View>
-          </View>
-        </View>
-        <View style={styles.actionCertificateContainer}>
-          <Text style={{marginBottom: 8, marginStart: 8}}>Region</Text>
-          <FlatList
-            horizontal
-            data={DATA}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-            extraData={selectedId}
-          />
-        </View>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.parentNameContainer}
-          onPress={() => moveToTestCenters(navigation)}>
-          <View style={styles.nameTextContainer}>
-            <Text style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
-              Test Center
-            </Text>
+          <View style={styles.calenderContainer}>
+            <Text style={styles.regionText1}>Appointment Date</Text>
+            <Calendar onDateChange={onDateChange} />
           </View>
-          <View>
-            <Icon
-              name="right"
-              size={25}
-              color="#adadad"
-              style={{marginTop: 16}}
-            />
-          </View>
-        </TouchableOpacity>
-
-        <View style={styles.calenderContainer}>
-          <Text style={{marginBottom: 8, marginStart: 8}}>Region</Text>
-          <Calendar onDateChange={onDateChange} />
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     </View>
   );
 };
@@ -177,16 +207,60 @@ const mapStateToProps = state => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: '#f8fbfa',
     flex: 1,
     flexDirection: 'column',
   },
-  mainMenuItems: {
-    flex: 1,
+  header: {
     flexDirection: 'row',
+    height: windowHeight * 0.1,
     alignItems: 'center',
-    paddingBottom: 15,
-    paddingTop: 25,
+    paddingTop: '7%',
+  },
+  backIcon: {
+    flex: 1,
+    alignItems: 'flex-start',
+  },
+  headerTextView: {
+    flex: 9,
+    alignItems: 'center',
+    paddingRight: windowWidth * 0.1,
+  },
+  headerText: {
+    fontSize: RFValue(16, 580),
+  },
+  regionText: {
+    color: '#322929',
+    fontSize: RFValue(12, 580),
+    fontWeight: '500',
+    marginBottom: 8,
+  },
+  regionText1: {
+    color: '#322929',
+    fontSize: RFValue(12, 580),
+    fontWeight: '500',
+    marginStart: 8,
+    marginBottom: 8,
+  },
+  appoinmentDivBg: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    backgroundColor: 'white',
+    marginTop: '5%',
+  },
+  imgShadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.35,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  regionImgText: {
+    color: WHITE_COLOR,
+    fontSize: RFValue(12, 580),
   },
   nameTextContainer: {
     justifyContent: 'center',
@@ -216,11 +290,14 @@ const styles = StyleSheet.create({
   parentNameContainer: {
     margin: 16,
     backgroundColor: '#ededed',
-    height: height(10),
-
+    height: height(8),
+    borderRadius: 4,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingLeft: 10,
+    paddingRight: 10,
   },
 
   bottom: {
@@ -228,6 +305,13 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     marginBottom: 16,
     borderRadius: 10,
+  },
+  regionSelectedDiv: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    width: 15,
+    height: 15,
   },
 });
 

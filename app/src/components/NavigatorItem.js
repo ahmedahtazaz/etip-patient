@@ -103,7 +103,6 @@ function NavigatorItem({ item, isSelected, navigation }) {
               style={{
                 width: '100%',
                 fontSize: RFValue(10, 580),
-                fontFamily: 'Gotham-Medium',
                 color: '#036167',
                 textAlign: 'center',
                 paddingTop: 10,

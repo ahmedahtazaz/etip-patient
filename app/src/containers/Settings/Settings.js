@@ -14,7 +14,10 @@ import {
 import {RFValue} from 'react-native-responsive-fontsize';
 import {WHITE_COLOR} from '../../theme/Colors';
 import {connect} from 'react-redux';
-import {moveToUserUpdateSettingScreenAction} from './Actions';
+import {
+  moveToAppointmentDetailsAction,
+  moveToUserUpdateSettingScreenAction,
+} from './Actions';
 const settingHeaderBg = require('../../assets/images/setting-header-bg.png');
 const settingTopIcon = require('../../assets/images/setting-top-icon.png');
 const menuArrowWhiteIcon = require('../../assets/images/menu-arrow-white-icon.png');
@@ -22,14 +25,17 @@ const DATA = [
   {
     id: 'Modifiy Personal Information',
     title: 'Modifiy Personal Information',
+    path: 'UpdateSettingsScreen',
   },
   {
     id: 'Modify Email',
     title: 'Modify Email',
+    path: 'UpdateOtherSettingsScreen',
   },
   {
     id: 'Modify Sim',
     title: 'Modify Sim',
+    path: 'UpdateOtherSettingsScreen',
   },
   {
     id: 'About App',
@@ -55,7 +61,11 @@ const Item = ({item, onPress, backgroundColor, textColor}) => (
   </TouchableOpacity>
 );
 
-const Settings = ({navigation, movetoUpdateScreen}) => {
+const Settings = ({
+  navigation,
+  movetoUpdateScreen,
+  moveToAppointmentDetails,
+}) => {
   const [selectedId, setSelectedId] = useState(null);
 
   const renderItem = ({item}) => {
@@ -64,7 +74,7 @@ const Settings = ({navigation, movetoUpdateScreen}) => {
         item={item}
         onPress={() => {
           setSelectedId(item.id);
-          movetoUpdateScreen(navigation, item.title);
+          if (item.path) movetoUpdateScreen(item.path, navigation, item.title);
         }}
         backgroundColor={'white'}
         textColor={'black'}
@@ -80,7 +90,10 @@ const Settings = ({navigation, movetoUpdateScreen}) => {
             <Image source={menuArrowWhiteIcon} style={{marginRight: 10}} />
           </TouchableOpacity>
           <Text style={styles.profileName}>Jenny White</Text>
-          <Image source={settingTopIcon} />
+          <TouchableOpacity
+            onPress={() => moveToAppointmentDetails(navigation, 'personal')}>
+            <Image source={settingTopIcon} />
+          </TouchableOpacity>
         </View>
       </ImageBackground>
       <FlatList
@@ -92,7 +105,7 @@ const Settings = ({navigation, movetoUpdateScreen}) => {
 
       <TouchableOpacity
         style={[styles.container, styles.submitButton]}
-        onPress={() => goBack()}>
+        onPress={() => navigation.goBack()}>
         <Text style={styles.submitText} style={{color: '#F20000'}}>
           Logout
         </Text>
@@ -158,8 +171,10 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
   return {
-    movetoUpdateScreen: (navigation, title) =>
-      moveToUserUpdateSettingScreenAction(navigation, title),
+    movetoUpdateScreen: (path, navigation, title) =>
+      moveToUserUpdateSettingScreenAction(path, navigation, title),
+    moveToAppointmentDetails: (navigation, path) =>
+      moveToAppointmentDetailsAction(navigation, path),
   };
 };
 

@@ -15,37 +15,40 @@ import {
   ImageBackground,
 } from 'react-native';
 import {Dimensions} from 'react-native';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Calendar from '../../components/Calendar';
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+import {RFValue} from 'react-native-responsive-fontsize';
+import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
+const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
+const { width, height } = Dimensions.get('window');
 const DATA = [
   {
-    id: 'Modifiy Personal Information',
-    title: 'Modifiy Personal Information',
+    id: 1,
+    title: 'Test Center 1',
   },
   {
-    id: 'Modify Email',
-    title: 'Modify Email',
+    id: 2,
+    title: 'Test Center 2',
   },
   {
-    id: 'Modify Sim',
-    title: 'Modify Sim',
+    id: 3,
+    title: 'Modify SimTest Center 3',
   },
   {
-    id: 'About App',
-    title: 'About App',
+    id: 4,
+    title: 'Test Center 4',
   },
   {
-    id: 'Need Assistance',
-    title: 'Need Assistance',
+    id: 5,
+    title: 'Test Center 5',
   },
   {
-    id: 'Privacy Policy',
-    title: 'Privacy Policy',
+    id: 6,
+    title: 'Test Center 6',
   },
   {
-    id: 'Terms & Conditions',
-    title: 'Terms & Conditions',
+    id: 7,
+    title: 'Test Center 7',
   },
 ];
 
@@ -62,17 +65,13 @@ const TestCenter = ({navigation: {goBack}}) => {
 
   const renderItem = ({item}) => {
     return (
-      <View
-        style={{
-          marginVertical: 8,
-          marginHorizontal: 16,
-        }}>
+      <View>
         <View style={styles.nameTextContainer}>
-          <Text style={{marginStart: 8, color: '#adadad'}}>
+          <Text style={{marginStart: 8, color: '#027279', fontSize:15, fontWeight:'600'}}>
             Appointment For
           </Text>
-          <Text style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
-            Jenny White
+          <Text style={{color: '#606060', fontSize:13, paddingTop:5, marginStart: 8}}>
+          {item.title}
           </Text>
         </View>
       </View>
@@ -81,27 +80,41 @@ const TestCenter = ({navigation: {goBack}}) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+            <View style={styles.backIcon}>
+              <TouchableOpacity onPress={() => goBack()}>
+                <EvilIcons name="chevron-left" color="#000" size={40} style={{fontWeight:'bold'}} />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.headerTextView}>
+              <Text style={styles.headerText}>Make an Appointment</Text>
+            </View>
+          </View>
+      <View style={styles.appoinmentDivBg}>
       <SearchBar
         containerStyle={{
           backgroundColor: 'white',
           borderWidth: 0,
           borderRadius: 10,
           marginStart: 8,
+          fontSize:11,
           marginEnd: 8,
           marginTop: 32,
           borderBottomColor: 'transparent',
           borderTopColor: 'transparent',
         }}
-        inputContainerStyle={{backgroundColor: '#d3d3d3'}}
+        inputContainerStyle={{backgroundColor: '#F9F9F9', fontSize:11, borderRadius: 4,}}
         placeholder="Type Here..."
       />
-      <View style={styles.actionCertificateContainer}>
+      
         <FlatList
+          style={styles.appointmentlistContainer}
           data={DATA}
           renderItem={renderItem}
           keyExtractor={item => item.id}
           extraData={selectedId}
         />
+ 
       </View>
     </View>
   );
@@ -109,13 +122,46 @@ const TestCenter = ({navigation: {goBack}}) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: '#f8fbfa',
     flex: 1,
     flexDirection: 'column',
+  },
+  header: {
+    flexDirection: "row",
+    height: height * 0.1,
+    paddingTop:'7%',
+    alignItems: "center",
+    width,
+  },
+  backIcon: {
+    flex: 1,
+    alignItems: "flex-start"
+  },
+  headerTextView: {
+    flex: 9,
+    alignItems: "center",
+    paddingRight: width * 0.1
+  },
+  headerText: {
+    fontSize: RFValue(16, 580),
+
+  },
+  appoinmentDivBg : {
+    borderRadius:20,
+    backgroundColor:'white',
+    height:'90%',
+    marginTop:'5%',
   },
   nameTextContainer: {
     display: 'flex',
     flexDirection: 'column',
+    marginVertical: 8,
+    marginHorizontal: 16,
+    display: 'flex',
+    borderRadius:4,
+    flexDirection: 'column',
+    backgroundColor:'#F9F9F9',
+    padding:10,
   },
   actionCertificateContainer: {
     marginTop: 8,

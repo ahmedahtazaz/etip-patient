@@ -19,6 +19,7 @@ import Orientation from 'react-native-orientation-locker';
 import {WHITE_COLOR} from '../../theme/Colors';
 import {RFValue} from 'react-native-responsive-fontsize';
 import BottomNavigator from '../../components/BottomNavigator';
+import {width, height, totalSize} from 'react-native-dimension';
 import {
   moveToAppointmentDetailsAction,
   moveToMakeAppointsAction,
@@ -33,6 +34,7 @@ const activeAppoinmentsBg = require('../../assets/images/active-appoinments-bg.p
 const plusIcon = require('../../assets/images/plus-icon.png');
 const appoinmentRedBg = require('../../assets/images/appoinment-red-bg.png');
 const rightHandFinger = require('../../assets/images/right-hand-finger.png');
+const previousAppoinmentBg = require('../../assets/images/previous-appoinment-bg.png');
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -103,7 +105,7 @@ const MainScreen = ({
         <View style={styles.appoinmentRedDiv}>
           <ImageBackground
             source={appoinmentRedBg}
-            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
+            style={styles.appoinmentRedDiv1}>
             <View style={styles.contentPadding1}>
               <View style={styles.redDivTop}>
                 <Text style={styles.boxHeading}>You are Covid Positive</Text>
@@ -133,11 +135,13 @@ const MainScreen = ({
         }}>
         <View style={styles.activeCertificationDiv}>
           <ImageBackground
-            source={activeCertificationBg}
+            source={previousAppoinmentBg}
             style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
             <View style={styles.contentPadding}>
-              <Text style={styles.boxHeading}>No Active Certificate</Text>
-              <Text style={styles.boxText}>
+              <Text style={styles.boxHeadingDisable}>
+                No Active Certificate
+              </Text>
+              <Text style={styles.boxTextDisable}>
                 You don’t have any active certificate at the moment
               </Text>
             </View>
@@ -150,20 +154,36 @@ const MainScreen = ({
   const renderItemAppointment = ({item}) => {
     if (route.params && route.params.booked) {
       return (
-        <View>
-          <View style={styles.activeAppoinmentsDiv}>
+        <View
+          style={{
+            width: width(95),
+          }}>
+          <TouchableOpacity
+            style={styles.activeAppoinmentsDiv}
+            onPress={() => moveToAppointmentDetails(navigation, 'appointment')}>
             <ImageBackground
-              source={activeAppoinmentsBg}
-              style={styles.activeAppoinmentsDiv}
+              source={activeCertificationBg}
               style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
               <View style={styles.contentPadding}>
-                <Text style={styles.boxHeading}>Citizen Antigen Test</Text>
-                <Text style={styles.boxText}>
-                  You don’t have any active certificate at the moment
-                </Text>
+                <View style={styles.parentNameContainer}>
+                  <View style={styles.nameTextContainer}>
+                    <Text style={styles.boxHeading}>SARS-COV-2</Text>
+                    <Text style={styles.boxTestText}>Citigen Antizen Test</Text>
+                  </View>
+                  <View style={styles.nameTextContainer}>
+                    <Text style={styles.boxHeading}>12-may-2021</Text>
+                    <Text style={styles.boxText}>10:00-10:15</Text>
+                  </View>
+                </View>
+                <View style={styles.parentNameContainer}>
+                  <View style={styles.bottomTextContainer}>
+                    <Text style={styles.boxHeading}>SARS-COV-2</Text>
+                    <Text style={styles.boxText}>Citigen Antizen Test</Text>
+                  </View>
+                </View>
               </View>
             </ImageBackground>
-          </View>
+          </TouchableOpacity>
         </View>
       );
     }
@@ -171,13 +191,15 @@ const MainScreen = ({
       <View>
         <View style={styles.activeAppoinmentsDiv}>
           <ImageBackground
-            source={activeAppoinmentsBg}
+            source={previousAppoinmentBg}
             style={styles.activeAppoinmentsDiv}
             style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
             <View style={styles.contentPadding}>
-              <Text style={styles.boxHeading}>No Active Certificate</Text>
-              <Text style={styles.boxText}>
-                You don’t have any active certificate at the moment
+              <Text style={styles.boxHeadingDisable}>
+                No Active Appointments
+              </Text>
+              <Text style={styles.boxTextDisable}>
+                You don’t have any active appointment at the moment
               </Text>
             </View>
           </ImageBackground>
@@ -202,46 +224,50 @@ const MainScreen = ({
           </View>
         </View>
       </View>
-      <View style={styles.mainDivPad}>
-        <View style={styles.nameContainer}>
-          <View style={styles.parentNameContainer}>
-            <View style={styles.nameTextContainer}>
-              <Text style={{fontSize: 25, fontWeight: 'bold', marginStart: 8}}>
-                Hi Jenny
-              </Text>
-              <Text style={{textColor: 'grey', marginStart: 8}}>
-                Hope u r feeling healthy today
-              </Text>
-            </View>
+      <View style={styles.appoinmentDivBg}>
+        <View style={styles.mainDivPad}>
+          <View style={styles.nameContainer}>
+            <View style={styles.parentNameContainer}>
+              <View style={styles.nameTextContainer}>
+                <Text
+                  style={{fontSize: 25, fontWeight: 'bold', marginStart: 8}}>
+                  Hi Jenny
+                </Text>
+                <Text style={{textColor: 'grey', marginStart: 8}}>
+                  Hope u r feeling healthy today
+                </Text>
+              </View>
 
-            <TouchableOpacity
-              onPress={() => moveToAppointmentDetails(navigation)}>
-              <Image
-                style={{height: 50, width: 50, marginEnd: 8}}
-                source={mainScreenIcon}
-              />
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() =>
+                  moveToAppointmentDetails(navigation, 'personal')
+                }>
+                <Image
+                  style={{height: 50, width: 50, marginEnd: 8}}
+                  source={mainScreenIcon}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-        <View style={styles.actionCertificateContainer}>
-          <Text style={styles.boxTopHeading}>ACTIVE CERTIFICATES</Text>
-          <FlatList
-            horizontal
-            data={DATA}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-            extraData={selectedId}
-          />
-        </View>
-        <View style={styles.actionCertificateContainer}>
-          <Text style={styles.boxTopHeading}>APPOINTMENTS</Text>
-          <FlatList
-            vertical
-            data={route.params && route.params.booked ? DATA1 : DATA}
-            renderItem={renderItemAppointment}
-            keyExtractor={item => item.id}
-            extraData={selectedId}
-          />
+          <View style={styles.actionCertificateContainer}>
+            <Text style={styles.boxTopHeading}>ACTIVE CERTIFICATES</Text>
+            <FlatList
+              horizontal
+              data={DATA}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
+              extraData={selectedId}
+            />
+          </View>
+          <View style={styles.actionCertificateContainer}>
+            <Text style={styles.boxTopHeading}>APPOINTMENTS</Text>
+            <FlatList
+              data={route.params && route.params.booked ? DATA1 : DATA}
+              renderItem={renderItemAppointment}
+              keyExtractor={item => item.id}
+              extraData={selectedId}
+            />
+          </View>
         </View>
       </View>
       <TouchableOpacity
@@ -261,8 +287,8 @@ const mapDispatchToProps = dispatch => {
     movetoSettingsScreen: navigation => moveToSettingsScreenAction(navigation),
     movetoMakeAnAppointmentScreen: navigation =>
       moveToMakeAppointsAction(navigation),
-    moveToAppointmentDetails: navigation =>
-      moveToAppointmentDetailsAction(navigation),
+    moveToAppointmentDetails: (navigation, path) =>
+      moveToAppointmentDetailsAction(navigation, path),
   };
 };
 
@@ -273,17 +299,22 @@ const mapStateToProps = state => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#f8fbfa',
   },
   mainDivPad: {
     paddingLeft: '3%',
     paddingRight: '3%',
-    paddingTop: '10%',
+  },
+  appoinmentDivBg: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    backgroundColor: 'white',
+    marginTop: '25%',
   },
   mainMenu: {
     position: 'absolute',
     zIndex: 2000,
-    top: 0,
+    top: '3%',
     left: '3%',
     width: '100%',
   },
@@ -347,6 +378,20 @@ const styles = StyleSheet.create({
 
     lineHeight: 20,
   },
+  boxHeadingDisable: {
+    fontSize: RFValue(14, 580),
+    color: '#595050',
+    fontWeight: '800',
+
+    paddingBottom: 10,
+  },
+  boxTextDisable: {
+    fontSize: RFValue(13, 580),
+    color: '#595050',
+    fontWeight: '400',
+
+    lineHeight: 20,
+  },
   nameTextContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -400,14 +445,18 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     overflow: 'hidden',
     marginEnd: 10,
-    maxHeight: 198,
+  },
+  appoinmentRedDiv1: {
+    maxWidth: 400,
+    maxHeight: 280,
+    borderRadius: 10,
   },
   redDivBottom: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    paddingBottom: 35,
+    paddingBottom: 15,
   },
   redDivBottomLeft: {
     fontSize: RFValue(10, 580),

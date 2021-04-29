@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { connect } from 'react-redux';
+import React, {useEffect, useRef, useState} from 'react';
+import {connect} from 'react-redux';
 import {
   WHITE_COLOR,
   PRIMARY_COLOR,
@@ -8,7 +8,7 @@ import {
 } from '../../theme/Colors';
 
 import Orientation from 'react-native-orientation-locker';
-import { useIsFocused } from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 import {
   ActivityIndicator,
   Image,
@@ -18,38 +18,39 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
 } from 'react-native';
-import { RFValue } from 'react-native-responsive-fontsize';
+import {RFValue} from 'react-native-responsive-fontsize';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import RadioButton from '../../components/RadioButton';
-import { moveToMainScreenAction } from './Actions';
+import {moveToMainScreenAction} from './Actions';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import UpdateOtherSettings from '../UpdateOtherSettings/UpdateOtherSettings';
 const welcomeLogo = require('../../assets/images/welcome-logo.png');
 const welcomeImg = require('../../assets/images/welcome-image.png');
 const currentDate = new Date();
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 function UpdateSettings({
   route: {
-    params: { title },
+    params: {title},
   },
-  navigation: { goBack },
-  loader
+  navigation,
+  loader,
 }) {
   const [isFamily, setIsFamily] = useState(false);
   const [fName, setFName] = useState('');
   const [lName, setLName] = useState('');
-  const [male, setMale] = useState(true);
-  const [female, setFemale] = useState(false);
+  const [male, setMale] = useState(false);
+  const [female, setFemale] = useState(true);
   const [other, setOther] = useState(false);
   const [dob, setDob] = useState(
     currentDate.getDate() +
-    '-' +
-    currentDate.getMonth() +
-    '-' +
-    currentDate.getFullYear(),
+      '-' +
+      currentDate.getMonth() +
+      '-' +
+      currentDate.getFullYear(),
   );
   const [showCalender, setShowCalender] = useState(false);
   const [calDate, setCalDate] = useState(new Date());
@@ -80,13 +81,18 @@ function UpdateSettings({
   };
 
   return (
-    <ScrollView style={{ height: '100%' }} ref={scrollRef}>
+    <ScrollView style={{height: '100%', paddingTop: '9%'}} ref={scrollRef}>
       <View style={styles.background}>
         <View style={styles.innerDiv}>
           <View style={styles.header}>
             <View style={styles.backIcon}>
-              <TouchableOpacity onPress={() => goBack()}>
-                <EvilIcons name="chevron-left" color="#000" size={27} />
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <EvilIcons
+                  name="chevron-left"
+                  color="#000"
+                  size={40}
+                  style={{fontWeight: 'bold'}}
+                />
               </TouchableOpacity>
             </View>
             <View style={styles.headerTextView}>
@@ -94,8 +100,7 @@ function UpdateSettings({
             </View>
           </View>
 
-          <View style={{ paddingHorizontal: 10 }}>
-
+          <View style={{paddingHorizontal: 10}}>
             <View style={styles.formContainer}>
               <View style={styles.userName}>
                 <TextInput
@@ -128,7 +133,7 @@ function UpdateSettings({
                   widthFactorMain="25"></RadioButton>
                 <RadioButton
                   checked={female}
-                  data="FeMale"
+                  data="Female"
                   setChecked={value => {
                     if (value) {
                       setMale(false);
@@ -183,7 +188,7 @@ function UpdateSettings({
                   },
                 ]}
                 defaultValue={relation}
-                containerStyle={{ height: '6%', marginBottom: '4%' }}
+                containerStyle={{height: '6%', marginBottom: '4%'}}
                 style={{
                   backgroundColor: '#F5F9F8',
                   fontSize: RFValue(14, 580),
@@ -289,7 +294,7 @@ function UpdateSettings({
                 },
               ]}
               defaultValue={city}
-              containerStyle={{ height: '5%' }}
+              containerStyle={{height: '5%'}}
               style={{
                 backgroundColor: '#F5F9F8',
                 fontSize: RFValue(14, 580),
@@ -314,25 +319,24 @@ function UpdateSettings({
               style={styles.inputStyle2}
               onChangeText={value => setPostalCode(value)}></TextInput>
             <TouchableOpacity
-              style={[styles.container, styles.submitButtonDark]}
-              onPress={() => moveToMainScreen(navigation)}>
+              style={[styles.container, styles.submitButtonDark]}>
               <Text style={styles.saveCloseText}>Continue</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={{ marginTop: '4%', alignContent: 'center' }}
+              style={{marginTop: '4%', alignContent: 'center'}}
               onPress={() => {
                 setIsFamily(true);
                 setFName('');
                 setLName('');
-                setMale(true);
-                setFemale(false);
+                setMale(false);
+                setFemale(true);
                 setOther(false);
                 setDob(
                   currentDate.getDate() +
-                  '-' +
-                  currentDate.getMonth() +
-                  '-' +
-                  currentDate.getFullYear(),
+                    '-' +
+                    currentDate.getMonth() +
+                    '-' +
+                    currentDate.getFullYear(),
                 );
                 setCalDate(new Date());
                 setCity('Bavaria');
@@ -363,7 +367,11 @@ function UpdateSettings({
                   position: 'absolute',
                   zIndex: 1000,
                 }}>
-                <ActivityIndicator size="large" color="grey" animating={loader} />
+                <ActivityIndicator
+                  size="large"
+                  color="grey"
+                  animating={loader}
+                />
               </View>
             ) : null}
           </View>
@@ -377,24 +385,112 @@ export default UpdateSettings;
 
 // Style for "Background"
 const styles = StyleSheet.create({
+  backIcon: {
+    marginHorizontal: 5,
+  },
+  inputMain: {
+    paddingHorizontal: 20,
+  },
+  infoSec: {
+    height: '50%',
+    justifyContent: 'center',
+  },
+  updateBtnMain: {
+    height: '50%',
+    justifyContent: 'flex-end',
+    paddingBottom: 20,
+    alignItems: 'center',
+  },
+  switchView: {
+    width: width * 0.2,
+  },
+  switchText: {
+    color: '#243E3B',
+    fontSize: RFValue(12, 580),
+  },
+  switchTextView: {
+    width: width * 0.7,
+  },
+  switchMain: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  container: {
+    height,
+  },
   header: {
-    flexDirection: "row",
+    flexDirection: 'row',
+    height: height * 0.2,
+    paddingTop: '10%',
+    alignItems: 'center',
+  },
+  fields: {
+    height: height * 0.8,
+  },
+  headerText: {
+    fontSize: RFValue(16, 580),
+  },
+  btnStyle: {
+    backgroundColor: '#212826',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.35,
+    shadowRadius: 5,
+    elevation: 2,
+    height: 50,
+    paddingHorizontal: 5,
+    width: width * 0.9,
+  },
+  submitButtonDark: {
     height: height * 0.1,
-    alignItems: "center",
+    borderRadius: 3,
+    backgroundColor: '#000',
+    color: WHITE_COLOR,
+    paddingTop: 15,
+    paddingBottom: 15,
+    fontSize: RFValue(14, 580),
+  },
+  submitText: {
+    color: WHITE_COLOR,
+    fontSize: RFValue(14, 580),
+  },
+  inputStyle1: {
+    display: 'flex',
+
+    backgroundColor: '#F5F9F8',
+    borderRadius: 6,
+    fontSize: RFValue(14, 580),
+    color: '#243E3B',
+    paddingTop: '4%',
+    paddingBottom: '4%',
+    paddingLeft: '5%',
+    paddingRight: '5%',
+    marginBottom: 14,
+  },
+  header: {
+    flexDirection: 'row',
+    height: height * 0.1,
+    alignItems: 'center',
     width,
   },
   backIcon: {
     flex: 1,
-    alignItems: "flex-start"
+    alignItems: 'flex-start',
   },
   headerTextView: {
     flex: 9,
-    alignItems: "center",
-    paddingRight: width * 0.1
+    alignItems: 'center',
+    paddingRight: width * 0.1,
   },
   headerText: {
     fontSize: RFValue(16, 580),
-
   },
   background: {
     backgroundColor: WHITE_COLOR,
