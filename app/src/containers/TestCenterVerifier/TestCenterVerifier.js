@@ -90,7 +90,7 @@ function TestCenterVerifier({navigation}) {
         <View style={styles.innerDiv}>
           <View style={{marginBottom: '5%'}}>
             <View>
-              <Text style={styles.heading}>Your test point</Text>
+              <Text style={styles.heading}>Your test center</Text>
             </View>
           </View>
           {renderItem({item: DATA[0], index: 0})}
