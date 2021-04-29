@@ -5,6 +5,7 @@ import {
   PRIMARY_COLOR,
   GRAY_COLOR,
   BLACK_COLOR,
+  LIGHT_GREY,
 } from '../../theme/Colors';
 
 import Orientation from 'react-native-orientation-locker';
@@ -38,8 +39,8 @@ function VerifierUserInfo({
   const [isFamily, setIsFamily] = useState(false);
   const [fName, setFName] = useState('');
   const [lName, setLName] = useState('');
-  const [male, setMale] = useState(true);
-  const [female, setFemale] = useState(false);
+  const [male, setMale] = useState(false);
+  const [female, setFemale] = useState(true);
   const [other, setOther] = useState(false);
   const [dob, setDob] = useState(
     currentDate.getDate() +
@@ -91,96 +92,207 @@ function VerifierUserInfo({
             </View>
           </View>
 
-          <View style={{ paddingHorizontal: 10 }}>
 
-            <View style={styles.formContainer}>
+          <View style={{ backgroundColor: "#F5F9F8" }}>
+
+            <View style={styles.infoContainerChild}>
+              <View style={styles.mainHeading}>
+                <Text style={styles.mainHeadingText}>
+                  USER INFORMATION
+              </Text>
+              </View>
+              <View style={styles.formContainer}>
+                <View style={styles.userName}>
+                  <TextInput
+                    placeholderTextColor={BLACK_COLOR}
+                    value={fName}
+                    textContentType="givenName"
+                    underlineColorAndroid="transparent"
+                    placeholder="First Name"
+                    style={styles.inputStyle}
+                    onChangeText={value => setFName(value)}></TextInput>
+                  <TextInput
+                    placeholderTextColor={BLACK_COLOR}
+                    value={lName}
+                    textContentType="familyName"
+                    placeholder="Last Name"
+                    style={styles.inputStyle}
+                    onChangeText={value => setLName(value)}></TextInput>
+                </View>
+                <View style={styles.gender}>
+                  <RadioButton
+                    checked={male}
+                    data="Male"
+                    setChecked={value => {
+                      if (value) {
+                        setFemale(false);
+                        setOther(false);
+                      }
+                      setMale(value);
+                    }}
+                    widthFactorMain="25"></RadioButton>
+                  <RadioButton
+                    checked={female}
+                    data="Female"
+                    setChecked={value => {
+                      if (value) {
+                        setMale(false);
+                        setOther(false);
+                      }
+                      setFemale(value);
+                    }}
+                    widthFactorMain="25"></RadioButton>
+                  <RadioButton
+                    checked={other}
+                    data="Other"
+                    setChecked={value => {
+                      if (value) {
+                        setMale(false);
+                        setFemale(false);
+                      }
+                      setOther(value);
+                    }}
+                    widthFactorMain="25"></RadioButton>
+                </View>
+              </View>
+              {isFamily ? (
+                <DropDownPicker
+                  items={[
+                    {
+                      label: 'Brother',
+                      value: 'Brother',
+                    },
+                    {
+                      label: 'Sister',
+                      value: 'Sister',
+                    },
+                    {
+                      label: 'Mother',
+                      value: 'Mother',
+                    },
+                    {
+                      label: 'Father',
+                      value: 'Father',
+                    },
+                    {
+                      label: 'Son',
+                      value: 'Son',
+                    },
+                    {
+                      label: 'Daughter',
+                      value: 'Daughter',
+                    },
+                    {
+                      label: 'Wife',
+                      value: 'Wife',
+                    },
+                  ]}
+                  defaultValue={relation}
+                  containerStyle={{ height: '6%', marginBottom: '4%' }}
+                  style={{
+                    backgroundColor: '#F5F9F8',
+                    fontSize: RFValue(14, 580),
+                    color: '#243E3B',
+                  }}
+                  itemStyle={{
+                    justifyContent: 'flex-start',
+                  }}
+                  dropDownStyle={{
+                    backgroundColor: '#F5F9F8',
+                    fontSize: RFValue(14, 580),
+                    color: '#243E3B',
+                  }}
+                  onChangeItem={item => setRelation(item.value)}
+                />
+              ) : null}
+              <TextInput
+                placeholderTextColor={BLACK_COLOR}
+                value={dob}
+                textContentType="none"
+                placeholder="Date"
+                style={styles.inputStyle1}
+                onPressIn={() => {
+                  setShowCalender(true);
+                }}></TextInput>
+              {showCalender ? (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  mode={'date'}
+                  value={calDate}
+                  is24Hour={true}
+                  display="default"
+                  onChange={_handleDatePicked}
+                />
+              ) : null}
+              <TextInput
+                placeholderTextColor={BLACK_COLOR}
+                value={taxId}
+                textContentType="taxId"
+                underlineColorAndroid="transparent"
+                placeholder="Tax ID"
+                style={styles.inputStyle1}
+                onChangeText={value => setTaxId(value)}></TextInput>
+              <TextInput
+                placeholderTextColor={BLACK_COLOR}
+                value={email}
+                textContentType="email"
+                underlineColorAndroid="transparent"
+                placeholder="Email"
+                style={styles.inputStyle1}
+                onChangeText={value => setEmail(value)}></TextInput>
+              <TextInput
+                placeholderTextColor={BLACK_COLOR}
+                value={mobileNo}
+                textContentType="mobileNo"
+                underlineColorAndroid="transparent"
+                placeholder="Mobile No"
+                style={styles.inputStyle1}
+                onChangeText={value => setMobileNo(value)}></TextInput>
+              <View style={styles.secondaryHeading}>
+                <Text style={styles.secondaryHeadingText}>ADDRESS</Text>
+              </View>
               <View style={styles.userName}>
                 <TextInput
                   placeholderTextColor={BLACK_COLOR}
-                  value={fName}
-                  textContentType="givenName"
+                  value={schiller}
+                  textContentType="schiller"
                   underlineColorAndroid="transparent"
-                  placeholder="First Name"
+                  placeholder="Schiller"
                   style={styles.inputStyle}
-                  onChangeText={value => setFName(value)}></TextInput>
+                  onChangeText={value => setSchiller(value)}></TextInput>
                 <TextInput
                   placeholderTextColor={BLACK_COLOR}
-                  value={lName}
-                  textContentType="familyName"
-                  placeholder="Last Name"
+                  value={schiller}
+                  textContentType="schiller"
+                  placeholder="zimmer"
                   style={styles.inputStyle}
-                  onChangeText={value => setLName(value)}></TextInput>
+                  onChangeText={value => setZimmer(value)}></TextInput>
               </View>
-              <View style={styles.gender}>
-                <RadioButton
-                  checked={male}
-                  data="Male"
-                  setChecked={value => {
-                    if (value) {
-                      setFemale(false);
-                      setOther(false);
-                    }
-                    setMale(value);
-                  }}
-                  widthFactorMain="25"></RadioButton>
-                <RadioButton
-                  checked={female}
-                  data="FeMale"
-                  setChecked={value => {
-                    if (value) {
-                      setMale(false);
-                      setOther(false);
-                    }
-                    setFemale(value);
-                  }}
-                  widthFactorMain="25"></RadioButton>
-                <RadioButton
-                  checked={other}
-                  data="Other"
-                  setChecked={value => {
-                    if (value) {
-                      setMale(false);
-                      setFemale(false);
-                    }
-                    setOther(value);
-                  }}
-                  widthFactorMain="25"></RadioButton>
-              </View>
-            </View>
-            {isFamily ? (
               <DropDownPicker
                 items={[
                   {
-                    label: 'Brother',
-                    value: 'Brother',
+                    label: 'Bavaria',
+                    value: 'Bavaria',
                   },
                   {
-                    label: 'Sister',
-                    value: 'Sister',
+                    label: 'Berlin',
+                    value: 'Berlin',
                   },
                   {
-                    label: 'Mother',
-                    value: 'Mother',
+                    label: 'Munich',
+                    value: 'Munich',
                   },
                   {
-                    label: 'Father',
-                    value: 'Father',
+                    label: 'Frankfurt',
+                    value: 'Frankfurt',
                   },
                   {
-                    label: 'Son',
-                    value: 'Son',
-                  },
-                  {
-                    label: 'Daughter',
-                    value: 'Daughter',
-                  },
-                  {
-                    label: 'Wife',
-                    value: 'Wife',
+                    label: 'Leipzig',
+                    value: 'Leipzig',
                   },
                 ]}
-                defaultValue={relation}
-                containerStyle={{ height: '6%', marginBottom: '4%' }}
+                defaultValue={city}
+                containerStyle={{ height: '5%' }}
                 style={{
                   backgroundColor: '#F5F9F8',
                   fontSize: RFValue(14, 580),
@@ -194,175 +306,63 @@ function VerifierUserInfo({
                   fontSize: RFValue(14, 580),
                   color: '#243E3B',
                 }}
-                onChangeItem={item => setRelation(item.value)}
+                onChangeItem={item => setCity(item.value)}
               />
-            ) : null}
-            <TextInput
-              placeholderTextColor={BLACK_COLOR}
-              value={dob}
-              textContentType="none"
-              placeholder="Date"
-              style={styles.inputStyle1}
-              onPressIn={() => {
-                setShowCalender(true);
-              }}></TextInput>
-            {showCalender ? (
-              <DateTimePicker
-                testID="dateTimePicker"
-                mode={'date'}
-                value={calDate}
-                is24Hour={true}
-                display="default"
-                onChange={_handleDatePicked}
-              />
-            ) : null}
-            <TextInput
-              placeholderTextColor={BLACK_COLOR}
-              value={taxId}
-              textContentType="taxId"
-              underlineColorAndroid="transparent"
-              placeholder="Tax ID"
-              style={styles.inputStyle1}
-              onChangeText={value => setTaxId(value)}></TextInput>
-            <TextInput
-              placeholderTextColor={BLACK_COLOR}
-              value={email}
-              textContentType="email"
-              underlineColorAndroid="transparent"
-              placeholder="Email"
-              style={styles.inputStyle1}
-              onChangeText={value => setEmail(value)}></TextInput>
-            {isFamily ? (
               <TextInput
                 placeholderTextColor={BLACK_COLOR}
-                value={mobileNo}
-                textContentType="mobileNo"
+                value={fName}
+                textContentType="postalCode"
                 underlineColorAndroid="transparent"
-                placeholder="Mobile No"
-                style={styles.inputStyle1}
-                onChangeText={value => setMobileNo(value)}></TextInput>
-            ) : null}
-            <View style={styles.secondaryHeading}>
-              <Text style={styles.secondaryHeadingText}>Address</Text>
-            </View>
-            <View style={styles.userName}>
-              <TextInput
-                placeholderTextColor={BLACK_COLOR}
-                value={schiller}
-                textContentType="schiller"
-                underlineColorAndroid="transparent"
-                placeholder="Schiller"
-                style={styles.inputStyle}
-                onChangeText={value => setSchiller(value)}></TextInput>
-              <TextInput
-                placeholderTextColor={BLACK_COLOR}
-                value={schiller}
-                textContentType="schiller"
-                placeholder="zimmer"
-                style={styles.inputStyle}
-                onChangeText={value => setZimmer(value)}></TextInput>
-            </View>
-            <DropDownPicker
-              items={[
-                {
-                  label: 'Bavaria',
-                  value: 'Bavaria',
-                },
-                {
-                  label: 'Berlin',
-                  value: 'Berlin',
-                },
-                {
-                  label: 'Munich',
-                  value: 'Munich',
-                },
-                {
-                  label: 'Frankfurt',
-                  value: 'Frankfurt',
-                },
-                {
-                  label: 'Leipzig',
-                  value: 'Leipzig',
-                },
-              ]}
-              defaultValue={city}
-              containerStyle={{ height: '5%' }}
-              style={{
-                backgroundColor: '#F5F9F8',
-                fontSize: RFValue(14, 580),
-                color: '#243E3B',
-              }}
-              itemStyle={{
-                justifyContent: 'flex-start',
-              }}
-              dropDownStyle={{
-                backgroundColor: '#F5F9F8',
-                fontSize: RFValue(14, 580),
-                color: '#243E3B',
-              }}
-              onChangeItem={item => setCity(item.value)}
-            />
-            <TextInput
-              placeholderTextColor={BLACK_COLOR}
-              value={fName}
-              textContentType="postalCode"
-              underlineColorAndroid="transparent"
-              placeholder="Postal Code"
-              style={styles.inputStyle2}
-              onChangeText={value => setPostalCode(value)}></TextInput>
-            <TouchableOpacity
-              style={[styles.container, styles.submitButtonDark]}
-              onPress={() => navigation.navigate("TestInformationScreen")}>
-              <Text style={styles.saveCloseText}>Continue</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{ marginTop: '4%', alignContent: 'center' }}
-              onPress={() => {
-                setIsFamily(true);
-                setFName('');
-                setLName('');
-                setMale(true);
-                setFemale(false);
-                setOther(false);
-                setDob(
-                  currentDate.getDate() +
-                  '-' +
-                  currentDate.getMonth() +
-                  '-' +
-                  currentDate.getFullYear(),
-                );
-                setCalDate(new Date());
-                setCity('Bavaria');
-                setEmail('');
-                setTaxId('');
-                setPostalCode('');
-                setMobileNo('');
-                setSchiller('');
-                setzimmer('');
-                setRelation('Son');
-
-                scrollRef.current.scrollTo({
-                  y: 0,
-                  animated: true,
-                });
-              }}>
-              <Text style={styles.saveAddText}>
-                {isFamily ? 'Save & add another member' : 'Save & Add Family'}
-              </Text>
-            </TouchableOpacity>
-            {loader ? (
-              <View
-                style={{
-                  alignSelf: 'center',
-                  height: '100%',
-                  width: '100%',
-                  justifyContent: 'center',
-                  position: 'absolute',
-                  zIndex: 1000,
+                placeholder="Postal Code"
+                style={styles.inputStyle2}
+                onChangeText={value => setPostalCode(value)}></TextInput>
+              <TouchableOpacity
+                style={[styles.container, styles.submitButtonDark]}
+                onPress={() => {
+                  setIsFamily(true);
+                  setFName('');
+                  setLName('');
+                  setMale(true);
+                  setFemale(false);
+                  setOther(false);
+                  setDob(
+                    currentDate.getDate() +
+                    '-' +
+                    currentDate.getMonth() +
+                    '-' +
+                    currentDate.getFullYear(),
+                  );
+                  setCalDate(new Date());
+                  setCity('Bavaria');
+                  setEmail('');
+                  setTaxId('');
+                  setPostalCode('');
+                  setMobileNo('');
+                  setSchiller('');
+                  setzimmer('');
+                  setRelation('Son');
+                  scrollRef.current.scrollTo({
+                    y: 0,
+                    animated: true,
+                  });
+                  navigation.navigate("TestInformationScreen")
                 }}>
-                <ActivityIndicator size="large" color="grey" animating={loader} />
-              </View>
-            ) : null}
+                <Text style={styles.saveCloseText}>Continue</Text>
+              </TouchableOpacity>
+              {loader ? (
+                <View
+                  style={{
+                    alignSelf: 'center',
+                    height: '100%',
+                    width: '100%',
+                    justifyContent: 'center',
+                    position: 'absolute',
+                    zIndex: 1000,
+                  }}>
+                  <ActivityIndicator size="large" color="grey" animating={loader} />
+                </View>
+              ) : null}
+            </View>
           </View>
         </View>
       </View>
@@ -379,6 +379,7 @@ const styles = StyleSheet.create({
     height: height * 0.1,
     alignItems: "center",
     width,
+    backgroundColor: "#F5F9F8"
   },
   backIcon: {
     flex: 1,
@@ -401,9 +402,10 @@ const styles = StyleSheet.create({
   },
 
   mainHeadingText: {
-    fontSize: RFValue(16, 580),
-    color: PRIMARY_COLOR,
-    fontWeight: '700',
+    fontSize: RFValue(13, 580),
+    color: LIGHT_GREY,
+    marginTop: 10,
+    marginBottom: 13
   },
   smallHeadingText: {
     fontSize: RFValue(12, 580),
@@ -413,8 +415,8 @@ const styles = StyleSheet.create({
     paddingBottom: '7%',
   },
   secondaryHeadingText: {
-    fontSize: RFValue(16, 580),
-    color: GRAY_COLOR,
+    fontSize: RFValue(13, 580),
+    color: LIGHT_GREY,
     fontWeight: '500',
     paddingBottom: '3%',
   },
@@ -512,5 +514,16 @@ const styles = StyleSheet.create({
     color: '#006970',
     marginBottom: 180,
     textAlign: 'center',
+  },
+  infoContainerChild: {
+    paddingTop: 30,
+    borderWidth: 1,
+    borderColor: "#f2f4f3",
+    // height: height * 0.9,
+    width,
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
+    paddingHorizontal: 10,
+    backgroundColor: "#fff"
   },
 });
