@@ -24,15 +24,15 @@ function NavigatorItem({ item, isSelected, navigation }) {
   };
 
   const getImage = (item, isSelected) => {
-    if(IS_VERIFIER_APP){
-      getVerifierImages(item, isSelected)
-    }else{
-      getPatientImages(item, isSelected);
+    if (IS_VERIFIER_APP) {
+      return getVerifierImage(item, isSelected);
     }
+    return getPatientImage(item, isSelected)
   };
 
-  //verifier images
-  const getVerifierImages = () => {
+
+  //verifier images goes here
+  const getVerifierImage = (item, isSelected) => {
     switch (item.id) {
       case 1:
         if (isSelected) return require('../assets/images/home-icon.png');
@@ -50,8 +50,7 @@ function NavigatorItem({ item, isSelected, navigation }) {
     }
   }
 
-
-  const getPatientImages = (item, isSelected) => {
+  const getPatientImage = (item, isSelected) => {
     switch (item.id) {
       case 1:
         if (isSelected) return require('../assets/images/home-icon.png');
