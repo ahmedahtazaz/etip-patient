@@ -141,7 +141,7 @@ function TestInformation({moveToMainScreen, navigation}) {
             </View>
           </View>
 
-          <View style={{marginTop: '20%'}}>
+          <View style={{marginTop: '10%'}}>
             <TouchableOpacity
               style={[styles.btnStyle, styles.submitButton]}
               onPress={() => moveToMainScreen(navigation)}>

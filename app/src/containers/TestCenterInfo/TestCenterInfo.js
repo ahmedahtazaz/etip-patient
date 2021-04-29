@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     width: '100%',
     borderRadius: 8,
-    marginTop: '15%',
+    marginTop: '5%',
   },
   scanAnotherQRcode: {
     fontSize: RFValue(14, 580),
