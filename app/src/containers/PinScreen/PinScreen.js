@@ -33,9 +33,7 @@ function PinScreen({ navigation }) {
     return (
         <View style={styles.MainContainer}>
             <View style={styles.mainMenu}>
-       
             <Image source={headerLogo}  />
-      
             </View>
             <ImageBackground source={phoneDivBg} style={styles.splashbackground}>
             <View style={styles.pinSection}>
@@ -50,6 +48,7 @@ function PinScreen({ navigation }) {
 
                 <View style={{ marginTop: 10 }}>
                     <TextInput
+                        placeholderTextColor={'#dfe1e1'}
                         placeholder={"0000000"}
                         style={styles.pinStyle}
                         value={pin}
@@ -106,7 +105,7 @@ const styles = StyleSheet.create({
         paddingBottom: '1.5%',
         fontSize: RFValue(24, 580),
         fontWeight: 'bold',
-        color:'#DADDDD',
+        color:'#319085',
         marginTop: '10%',
         marginBottom: '10%',
     },

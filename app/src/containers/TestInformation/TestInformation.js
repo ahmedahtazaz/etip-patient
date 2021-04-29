@@ -48,7 +48,7 @@ function TestInformation( { goBack, moveToMainScreen, navigation } ) {
             <View style={styles.header}>
                 <View style={styles.backIcon}>
                     <TouchableOpacity onPress={() => goBack()}>
-                        <EvilIcons name="chevron-left" color="#000" size={27} />
+                        <EvilIcons name="chevron-left" color="#000" size={40} />
                     </TouchableOpacity>
                 </View>
                 <View >
@@ -196,6 +196,7 @@ const styles = StyleSheet.create({
         paddingTop: 30,
         borderWidth: 1,
         borderColor: "#f2f4f3",
+        backgroundColor:'#fff',
         height: height * 0.9,
         width,
         borderTopRightRadius: 20,
@@ -214,7 +215,7 @@ const styles = StyleSheet.create({
     infoContainer: {
         height: height * 0.9,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
     },
     sectionContainer: {
         backgroundColor: Colors.black,
@@ -223,7 +224,7 @@ const styles = StyleSheet.create({
     MainContainer: {
         height,
         width,
-        backgroundColor: "#f8fbfa",
+        backgroundColor: "#F5F9F8",
     },
 
     patientInfo: {
@@ -253,17 +254,17 @@ const styles = StyleSheet.create({
     inputStyle1: {
         display: 'flex',
 
-        backgroundColor: '#F5F9F8',
+        backgroundColor: '#ffffff',
         borderRadius: 6,
         fontSize: RFValue(14, 580),
-        color: '#243E3B',
+        color: '#1d1c1c',
         paddingTop: '4%',
         paddingBottom: '4%',
         paddingLeft: '5%',
         paddingRight: '5%',
         marginBottom: 14,
         borderWidth: 1,
-        borderColor: "#c0c0c0"
+        borderColor: "#f3f3f3"
     },
     btnStyle: {
         backgroundColor: GREEN_COLOR,
