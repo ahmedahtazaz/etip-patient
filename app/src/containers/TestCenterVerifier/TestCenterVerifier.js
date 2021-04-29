@@ -60,7 +60,7 @@ function TestCenterVerifier({ navigation }) {
 
 
     const renderItem = ({ item, index }) => (
-        <TouchableOpacity style={styles.item} key={index} onPress={()=>navigation.navigate("TestCenterInfo")}>
+        <TouchableOpacity style={styles.item} key={index} onPress={()=>navigation.replace("TestCenterInfo")}>
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.address}>{item.address}</Text>
         </TouchableOpacity>

@@ -16,6 +16,11 @@ target 'EtipClient' do
 
   pod 'react-native-camera', :path => '../node_modules/react-native-camera'
 
+  permissions_path = '../node_modules/react-native-permissions/ios'
+
+  pod 'Permission-Calendars', :path => "#{permissions_path}/Calendars"
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
+
   target 'EtipClientTests' do
     inherit! :complete
     # Pods for testing

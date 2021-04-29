@@ -30,6 +30,7 @@
     "react-native-gesture-handler": "^1.10.3",
     "react-native-orientation-locker": "^1.2.0",
     "react-native-paper": "^4.8.1",
+    "react-native-permissions": "^3.0.3",
     "react-native-popup-dialog": "^0.18.3",
     "react-native-qrcode-generator": "^1.2.2",
     "react-native-qrcode-scanner": "^1.5.4",
