@@ -280,6 +280,7 @@ const styles = StyleSheet.create({
     height: height(40),
     display: 'flex',
     flexDirection: 'column',
+    marginBottom:150,
   },
   nameContainer: {
     alignSelf: 'stretch',
