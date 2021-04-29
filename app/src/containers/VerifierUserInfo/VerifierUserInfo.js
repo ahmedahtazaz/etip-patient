@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { connect } from 'react-redux';
+import React, {useEffect, useRef, useState} from 'react';
+import {connect} from 'react-redux';
 import {
   WHITE_COLOR,
   PRIMARY_COLOR,
@@ -9,7 +9,7 @@ import {
 } from '../../theme/Colors';
 
 import Orientation from 'react-native-orientation-locker';
-import { useIsFocused } from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 import {
   ActivityIndicator,
   Image,
@@ -19,23 +19,20 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
 } from 'react-native';
-import { RFValue } from 'react-native-responsive-fontsize';
+import {RFValue} from 'react-native-responsive-fontsize';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import RadioButton from '../../components/RadioButton';
-import { moveToMainScreenAction } from './Actions';
+import {moveToMainScreenAction} from './Actions';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 const welcomeLogo = require('../../assets/images/welcome-logo.png');
 const welcomeImg = require('../../assets/images/welcome-image.png');
 const currentDate = new Date();
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
-function VerifierUserInfo({
-  navigation,
-  loader
-}) {
+function VerifierUserInfo({navigation, loader}) {
   const [isFamily, setIsFamily] = useState(false);
   const [fName, setFName] = useState('');
   const [lName, setLName] = useState('');
@@ -44,10 +41,10 @@ function VerifierUserInfo({
   const [other, setOther] = useState(false);
   const [dob, setDob] = useState(
     currentDate.getDate() +
-    '-' +
-    currentDate.getMonth() +
-    '-' +
-    currentDate.getFullYear(),
+      '-' +
+      currentDate.getMonth() +
+      '-' +
+      currentDate.getFullYear(),
   );
   const [showCalender, setShowCalender] = useState(false);
   const [calDate, setCalDate] = useState(new Date());
@@ -78,13 +75,18 @@ function VerifierUserInfo({
   };
 
   return (
-    <ScrollView style={{ height: '100%' }} ref={scrollRef}>
+    <ScrollView style={{height: '100%'}} ref={scrollRef}>
       <View style={styles.background}>
         <View style={styles.innerDiv}>
           <View style={styles.header}>
             <View style={styles.backIcon}>
               <TouchableOpacity onPress={() => navigation.goBack()}>
-                <EvilIcons name="chevron-left" color="#000" fontWeight='bold' size={40} />
+                <EvilIcons
+                  name="chevron-left"
+                  color="#000"
+                  fontWeight="bold"
+                  size={40}
+                />
               </TouchableOpacity>
             </View>
             <View style={styles.headerTextView}>
@@ -92,14 +94,10 @@ function VerifierUserInfo({
             </View>
           </View>
 
-
-          <View style={{ backgroundColor: "#F5F9F8" }}>
-
+          <View style={{backgroundColor: '#F5F9F8'}}>
             <View style={styles.infoContainerChild}>
               <View style={styles.mainHeading}>
-                <Text style={styles.mainHeadingText}>
-                  USER INFORMATION
-              </Text>
+                <Text style={styles.mainHeadingText}>USER INFORMATION</Text>
               </View>
               <View style={styles.formContainer}>
                 <View style={styles.userName}>
@@ -188,7 +186,7 @@ function VerifierUserInfo({
                     },
                   ]}
                   defaultValue={relation}
-                  containerStyle={{ height: '6%', marginBottom: '4%' }}
+                  containerStyle={{height: '6%', marginBottom: '4%'}}
                   style={{
                     backgroundColor: '#F5F9F8',
                     fontSize: RFValue(14, 580),
@@ -292,7 +290,7 @@ function VerifierUserInfo({
                   },
                 ]}
                 defaultValue={city}
-                containerStyle={{ height: '5%' }}
+                containerStyle={{height: '5%'}}
                 style={{
                   backgroundColor: '#F5F9F8',
                   fontSize: RFValue(14, 580),
@@ -327,10 +325,10 @@ function VerifierUserInfo({
                   setOther(false);
                   setDob(
                     currentDate.getDate() +
-                    '-' +
-                    currentDate.getMonth() +
-                    '-' +
-                    currentDate.getFullYear(),
+                      '-' +
+                      currentDate.getMonth() +
+                      '-' +
+                      currentDate.getFullYear(),
                   );
                   setCalDate(new Date());
                   setCity('Bavaria');
@@ -345,7 +343,7 @@ function VerifierUserInfo({
                     y: 0,
                     animated: true,
                   });
-                  navigation.navigate("TestInformationScreen")
+                  navigation.navigate('TestCenterInfo');
                 }}>
                 <Text style={styles.saveCloseText}>Continue</Text>
               </TouchableOpacity>
@@ -359,7 +357,11 @@ function VerifierUserInfo({
                     position: 'absolute',
                     zIndex: 1000,
                   }}>
-                  <ActivityIndicator size="large" color="grey" animating={loader} />
+                  <ActivityIndicator
+                    size="large"
+                    color="grey"
+                    animating={loader}
+                  />
                 </View>
               ) : null}
             </View>
@@ -375,25 +377,24 @@ export default VerifierUserInfo;
 // Style for "Background"
 const styles = StyleSheet.create({
   header: {
-    flexDirection: "row",
+    flexDirection: 'row',
     height: height * 0.1,
-    alignItems: "center",
-    paddingTop:30,
+    alignItems: 'center',
+    paddingTop: 30,
     width,
-    backgroundColor: "#F5F9F8"
+    backgroundColor: '#F5F9F8',
   },
   backIcon: {
     flex: 1,
-    alignItems: "flex-start"
+    alignItems: 'flex-start',
   },
   headerTextView: {
     flex: 9,
-    alignItems: "center",
-    paddingRight: width * 0.1
+    alignItems: 'center',
+    paddingRight: width * 0.1,
   },
   headerText: {
     fontSize: RFValue(16, 580),
-
   },
   background: {
     backgroundColor: WHITE_COLOR,
@@ -406,7 +407,7 @@ const styles = StyleSheet.create({
     fontSize: RFValue(13, 580),
     color: LIGHT_GREY,
     marginTop: 10,
-    marginBottom: 13
+    marginBottom: 13,
   },
   smallHeadingText: {
     fontSize: RFValue(12, 580),
@@ -519,13 +520,13 @@ const styles = StyleSheet.create({
   infoContainerChild: {
     paddingTop: 30,
     borderWidth: 1,
-    marginTop:20,
-    borderColor: "#f2f4f3",
+    marginTop: 20,
+    borderColor: '#f2f4f3',
     // height: height * 0.9,
     width,
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     paddingHorizontal: 10,
-    backgroundColor: "#fff"
+    backgroundColor: '#fff',
   },
 });

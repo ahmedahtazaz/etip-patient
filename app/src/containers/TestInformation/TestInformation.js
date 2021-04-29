@@ -30,7 +30,7 @@ const plusIcon = require('../../assets/images/plus-icon.png');
 import {BLACK_COLOR, GREEN_COLOR, WHITE_COLOR} from '../../theme/Colors';
 const {width, height} = Dimensions.get('window');
 
-function TestInformation({goBack, moveToMainScreen, navigation}) {
+function TestInformation({moveToMainScreen, navigation}) {
   const [result, setResult] = useState('positive');
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
@@ -44,7 +44,7 @@ function TestInformation({goBack, moveToMainScreen, navigation}) {
     <View style={styles.MainContainer}>
       <View style={styles.header}>
         <View style={styles.backIcon}>
-          <TouchableOpacity onPress={() => goBack()}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <EvilIcons name="chevron-left" color="#000" size={40} />
           </TouchableOpacity>
         </View>
