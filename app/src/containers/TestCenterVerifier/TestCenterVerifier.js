@@ -15,8 +15,10 @@ import { useIsFocused } from '@react-navigation/native';
 
 import { RFValue } from 'react-native-responsive-fontsize';
 import { GREEN_COLOR } from '../../theme/Colors';
-const headerLogo = require('../../assets/images/header-logo.png');
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+const headerLogo = require('../../assets/images/small-header-logo.png');
 const phoneDivBg = require('../../assets/images/phone-div-bg.png');
+const menuIcon = require('../../assets/images/menu-arrow-icon.png');
 const { width, height } = Dimensions.get('window')
 const DATA = [
     {
@@ -66,8 +68,18 @@ function TestCenterVerifier({ navigation }) {
     return (
         <View style={styles.MainContainer}>
             <View style={styles.mainMenu}>
-            <Image source={headerLogo}  />
-            </View>
+        <View style={styles.mainMenuItems}>
+        <TouchableOpacity
+            style={styles.menuItemsLeft}
+            onPress={() => navigation.goBack()}>
+            <Image source={menuIcon} style={{marginLeft: 10}} />
+          </TouchableOpacity>
+        
+          <View style={styles.menuItemsCenter}>
+            <Image source={headerLogo} style={{marginLeft: 5}} />
+          </View>
+        </View>
+      </View>
             <ImageBackground source={phoneDivBg} style={styles.splashbackground}>
             <View style={styles.innerDiv}>
             <View style={styles.header}>
@@ -96,35 +108,40 @@ function TestCenterVerifier({ navigation }) {
 const styles = StyleSheet.create({
     MainContainer: {
         backgroundColor: '#ffffff',
-        height,
-        width
+        flex:1,
     },
     splashbackground: {
         flex: 1,
         resizeMode: 'cover',
      
       },
-    mainMenu : {
+      mainMenu: {
         position: 'absolute',
         zIndex: 2000,
-        top: '5%',
+        top: '3%',
+        left: '3%',
         width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent:'center',
-        paddingTop:'5%',
       },
-    header: {
-        flexDirection: "row",
-        height: height * 0.15,
-        alignItems: "flex-end",
-        marginTop: 80,
-        width,
-        
-    },
+      mainMenuItems: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingBottom: 15,
+        paddingTop: 15,
+      },
+      menuItemsLeft: {
+        justifyContent: 'flex-start',
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: '45%',
+      },
+      menuItemsCenter: {
+        justifyContent: 'center',
+      },
     innerDiv: {
         paddingLeft: '5%',
         paddingRight: '5%',
+        paddingTop:'20%',
       },
     listView: {
         marginTop: 30
