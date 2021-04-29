@@ -120,8 +120,7 @@ const styles = StyleSheet.create({
     },
     MainContainer: {
         backgroundColor:WHITE_COLOR,
-        height,
-        width
+        flex:1,
     },
     splashbackground: {
         flex: 1,

@@ -279,9 +279,11 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.35,
         shadowRadius: 5,
         elevation: 2,
-        height: 50,
+       
         paddingHorizontal: 5,
         width: "100%",
+        paddingTop: 20,
+        paddingBottom: 20,
         borderRadius: 8,
         marginTop: 15
     },

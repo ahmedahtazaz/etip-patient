@@ -161,12 +161,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    marginTop: -15,
+
+    
   },
   slectedNavBg: {
     flex: 1,
     justifyContent: 'center',
     resizeMode: 'cover',
+
     alignItems: 'center',
     width: '100%',
     paddingBottom: 15,

@@ -153,8 +153,7 @@ const styles = StyleSheet.create({
         borderColor: "#f9f9f9"
     },
     MainContainer: {
-        height,
-        width,
+        flex:1,
         backgroundColor: "#f8fbfa",
     },
     header: {
@@ -170,7 +169,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     infoContainer: {
-        height: height * 0.9,
+        height: height * 0.8,
         alignItems: "center",
         justifyContent: "center",
         backgroundColor:"#f8fbfa"
@@ -180,7 +179,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#f2f4f3",
         backgroundColor: "#fff",
-        height: height * 0.9,
+        height: height * 0.8,
         width,
         borderTopRightRadius: 20,
         borderTopLeftRadius: 20,
