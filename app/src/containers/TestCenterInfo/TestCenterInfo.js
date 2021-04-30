@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   splashbackground1: {
    
     resizeMode: 'cover',
-    height: '100%',
+    height: '82%',
   },
   mainMenu: {
     position: 'absolute',
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     marginTop: -30,
     paddingTop: 5,
     paddingBottom: 5,
-    height: '13%',
+    height: '18%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
