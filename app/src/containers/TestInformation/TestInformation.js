@@ -141,7 +141,7 @@ function TestInformation({moveToMainScreen, navigation}) {
             </View>
           </View>
 
-          <View style={{marginTop: '10%'}}>
+          <View>
             <TouchableOpacity
               style={[styles.btnStyle, styles.submitButton]}
               onPress={() => moveToMainScreen(navigation)}>
@@ -151,7 +151,7 @@ function TestInformation({moveToMainScreen, navigation}) {
 
           <View>
             <TouchableOpacity
-              style={{width: '100%', marginTop: 16}}
+              style={{width: '100%'}}
               onPress={() => navigation.navigate('QRScreen')}>
               <Text style={styles.scanAnotherQRcode}>Scan Another QR Code</Text>
             </TouchableOpacity>
@@ -166,11 +166,11 @@ const styles = StyleSheet.create({
   switchMain: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 10,
+    marginTop: 30,
   },
   switchTextView: {
     // width: width * 0.7
-    flex: 5,
+   width:'88%',
   },
   switchText: {
     color: '#c0c0c0',
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   },
   switchView: {
     // width: width * 0.2
-    flex: 1,
+
   },
   testOption: {
     flexDirection: 'row',
@@ -212,11 +212,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     borderColor: '#f2f4f3',
     backgroundColor: '#fff',
-    height: height * 0.9,
-    width,
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
-    paddingHorizontal: 10,
+    paddingLeft:15,
+    paddingRight:15,
+    height:'100%'
   },
   backIcon: {
     marginHorizontal: 5,
@@ -228,25 +228,24 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   infoContainer: {
-    height: height * 0.9,
-    alignItems: 'center',
-    justifyContent: 'center',
+   
   },
   sectionContainer: {
     backgroundColor: Colors.black,
   },
 
   MainContainer: {
-    height,
-    width,
+    width: '100%',
+    height: '100%',
     backgroundColor: '#F5F9F8',
   },
 
   patientInfo: {
     borderRadius: 10,
-
+    backgroundColor:'red',
     display: 'flex',
     flexDirection: 'column',
+    width:'100%',
     resizeMode: 'cover',
     overflow: 'hidden',
   },
@@ -254,12 +253,12 @@ const styles = StyleSheet.create({
   imagepatientInfo: {
     borderRadius: 10,
     padding: 10,
-
     display: 'flex',
+    
     flexDirection: 'column',
     resizeMode: 'cover',
     overflow: 'hidden',
-    marginEnd: 10,
+   paddingBottom:15,
   },
   patientId: {
     marginVertical: 12,
@@ -289,7 +288,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 2,
     },
     shadowOpacity: 0.35,
     shadowRadius: 5,
@@ -300,7 +299,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 20,
     borderRadius: 8,
-    marginTop: '20%',
+    marginTop: '15%',
   },
   submitText: {
     color: WHITE_COLOR,

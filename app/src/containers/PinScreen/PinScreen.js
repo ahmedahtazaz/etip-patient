@@ -79,9 +79,9 @@ function PinScreen({navigation}) {
 
 const styles = StyleSheet.create({
   MainContainer: {
+    width: '100%',
+    height: '100%',
     backgroundColor: '#ffffff',
-    height,
-    width,
   },
   splashbackground: {
     flex: 1,
@@ -110,7 +110,6 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    height: height * 0.1,
     alignItems: 'flex-end',
     justifyContent: 'center',
     width,
@@ -143,7 +142,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 2,
     },
     shadowOpacity: 0.35,
     shadowRadius: 5,

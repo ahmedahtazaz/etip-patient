@@ -523,10 +523,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     borderColor: '#f2f4f3',
     // height: height * 0.9,
-    width,
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
     backgroundColor: '#fff',
   },
 });

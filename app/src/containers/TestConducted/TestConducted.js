@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     marginBottom: 15,
     borderRadius: 5,
-    borderColor: '#f9f9f9',
+    borderColor: '#e0dfdf',
   },
   name: {
     fontSize: RFValue(12, 580),
@@ -164,22 +164,20 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   infoContainer: {
-    height: height * 0.8,
-    alignItems: 'center',
-    justifyContent: 'center',
+    
     backgroundColor: '#f8fbfa',
   },
   infoContainerChild: {
     paddingTop: 30,
     borderWidth: 1,
     marginTop: 20,
+    height:'100%',
     borderColor: '#f2f4f3',
     backgroundColor: '#fff',
-    height: height * 0.8,
-    width,
+   
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
   },
   btnStyle: {
     backgroundColor: GREEN_COLOR,
@@ -189,7 +187,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 2,
     },
     shadowOpacity: 0.35,
     shadowRadius: 5,

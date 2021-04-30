@@ -101,7 +101,6 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     flexDirection: 'column',
     paddingBottom: 50,
-    width,
   },
   header: {
     flexDirection: 'row',
@@ -123,7 +122,7 @@ const styles = StyleSheet.create({
     fontSize: RFValue(16, 580),
   },
   scanner: {
-    height: height * 0.9,
+    height:'95%',
     alignItems: 'center',
     justifyContent: 'center',
     borderTopLeftRadius: 20,
@@ -160,8 +159,9 @@ const styles = StyleSheet.create({
   },
 
   MainContainer: {
-    backgroundColor: '#ffffff',
-    width,
+    backgroundColor: '#F5F9F8',
+    width: '100%',
+    height: '100%',
     // flex: 1,
     // justifyContent: 'center',
     // alignItems: 'center',

@@ -134,7 +134,7 @@ function TestCenterInfo({navigation}) {
 const styles = StyleSheet.create({
   patientList: {
     marginTop: 30,
-    height: '55%',
+    height: '46%',
   },
   MainContainer: {
     backgroundColor: WHITE_COLOR,
@@ -147,7 +147,6 @@ const styles = StyleSheet.create({
     paddingBottom: '15%',
     flexDirection: 'column',
     paddingLeft: 20,
-    width,
   },
   mainMenu: {
     position: 'absolute',
@@ -169,7 +168,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   testCenterList: {
-    height: height * 0.7,
     paddingHorizontal: 5,
   },
   listView: {
@@ -242,7 +240,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 2,
     },
     shadowOpacity: 0.35,
     shadowRadius: 5,
