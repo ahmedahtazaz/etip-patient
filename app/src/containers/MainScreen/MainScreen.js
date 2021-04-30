@@ -1,6 +1,6 @@
-import {useIsFocused} from '@react-navigation/core';
-import React, {useEffect, useState} from 'react';
-import {connect} from 'react-redux';
+import { useIsFocused } from '@react-navigation/core';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import {
   FlatList,
   SafeAreaView,
@@ -12,16 +12,16 @@ import {
   Image,
   useWindowDimensions,
   ImageBackground,
+  Dimensions
 } from 'react-native';
 import I18n from '../../translations/I18n';
 
-import {Dimensions} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Orientation from 'react-native-orientation-locker';
-import {WHITE_COLOR} from '../../theme/Colors';
-import {RFValue} from 'react-native-responsive-fontsize';
+import { WHITE_COLOR } from '../../theme/Colors';
+import { RFValue } from 'react-native-responsive-fontsize';
 import BottomNavigator from '../../components/BottomNavigator';
-import {width, height, totalSize} from 'react-native-dimension';
+import { width, height, totalSize } from 'react-native-dimension';
 import {
   moveToAppointmentDetailsAction,
   moveToMakeAppointsAction,
@@ -78,7 +78,7 @@ const DATA1 = [
   },
 ];
 
-const Item = ({item, onPress, backgroundColor, textColor}) => (
+const Item = ({ item, onPress, backgroundColor, textColor, }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <Text style={[styles.title, textColor]}>{item.title}</Text>
   </TouchableOpacity>
@@ -90,6 +90,7 @@ const MainScreen = ({
   movetoMakeAnAppointmentScreen,
   moveToAppointmentDetails,
   route,
+  userInfo
 }) => {
   const window = useWindowDimensions();
 
@@ -102,7 +103,7 @@ const MainScreen = ({
     Orientation.lockToPortrait();
   }, [isFocused]);
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     if (route.params && route.params.booked) {
       return (
         <View style={styles.appoinmentRedDiv}>
@@ -122,7 +123,7 @@ const MainScreen = ({
                   We have added few tips in your dashbaord that may help you in
                   these times. Swipe to view them
                 </Text>
-                <Image source={rightHandFinger} style={{marginTop: 30}} />
+                <Image source={rightHandFinger} style={{ marginTop: 30 }} />
               </View>
             </View>
           </ImageBackground>
@@ -139,7 +140,7 @@ const MainScreen = ({
         <View style={styles.activeCertificationDiv}>
           <ImageBackground
             source={previousAppoinmentBg}
-            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
+            style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
             <View style={styles.contentPadding}>
               <Text style={styles.boxHeadingDisable}>
                 No Active Certificate
@@ -154,7 +155,7 @@ const MainScreen = ({
     );
   };
 
-  const renderItemAppointment = ({item}) => {
+  const renderItemAppointment = ({ item }) => {
     if (route.params && route.params.booked) {
       return (
         <View
@@ -166,7 +167,7 @@ const MainScreen = ({
             onPress={() => moveToAppointmentDetails(navigation, 'appointment')}>
             <ImageBackground
               source={activeCertificationBg}
-              style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
+              style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
               <View style={styles.contentPadding}>
                 <View style={styles.parentNameContainer}>
                   <View style={styles.nameTextContainer}>
@@ -196,7 +197,7 @@ const MainScreen = ({
           <ImageBackground
             source={previousAppoinmentBg}
             style={styles.activeAppoinmentsDiv}
-            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
+            style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
             <View style={styles.contentPadding}>
               <Text style={styles.boxHeadingDisable}>
                 No Active Appointments
@@ -220,10 +221,10 @@ const MainScreen = ({
             onPress={() => {
               movetoSettingsScreen(navigation);
             }}>
-            <Image source={menuIcon} style={{marginLeft: 10}} />
+            <Image source={menuIcon} style={{ marginLeft: 10 }} />
           </TouchableOpacity>
           <View style={styles.menuItemsCenter}>
-            <Image source={smallHeaderLogo} style={{marginLeft: 5}} />
+            <Image source={smallHeaderLogo} style={{ marginLeft: 5 }} />
           </View>
         </View>
       </View>
@@ -233,20 +234,25 @@ const MainScreen = ({
             <View style={styles.parentNameContainer}>
               <View style={styles.nameTextContainer}>
                 <Text
-                  style={{fontSize: 25, fontWeight: 'bold', marginStart: 8}}>
-                  Hi Jenny
+                  style={{ fontSize: 25, fontWeight: 'bold', marginStart: 8 }}>
+                  {
+                    Object.keys(userInfo).length ?
+                      `${userInfo.firstName} ${userInfo.lastName}`
+                      :
+                      "Hi Jenny"
+                  }
                 </Text>
-                <Text style={{textColor: 'grey', marginStart: 8}}>
+                <Text style={{ textColor: 'grey', marginStart: 8 }}>
                   Hope u r feeling healthy today
                 </Text>
               </View>
 
               <TouchableOpacity
                 onPress={() =>
-                  moveToAppointmentDetails(navigation, 'personal')
+                  moveToAppointmentDetails(navigation, 'personal', `${userInfo.firstName} ${userInfo.lastName}`, userInfo)
                 }>
                 <Image
-                  style={{height: 50, width: 50, marginEnd: 8}}
+                  style={{ height: 50, width: 50, marginEnd: 8 }}
                   source={mainScreenIcon}
                 />
               </TouchableOpacity>
@@ -280,7 +286,7 @@ const MainScreen = ({
       </TouchableOpacity>
       <BottomNavigator
         navigation={navigation}
-        selectedItem={{id: 1, label: 'Home'}}></BottomNavigator>
+        selectedItem={{ id: 1, label: 'Home' }}></BottomNavigator>
     </View>
   );
 };
@@ -290,13 +296,15 @@ const mapDispatchToProps = dispatch => {
     movetoSettingsScreen: navigation => moveToSettingsScreenAction(navigation),
     movetoMakeAnAppointmentScreen: navigation =>
       moveToMakeAppointsAction(navigation),
-    moveToAppointmentDetails: (navigation, path) =>
-      moveToAppointmentDetailsAction(navigation, path),
+    moveToAppointmentDetails: (navigation, path, title, qrObj) =>
+      moveToAppointmentDetailsAction(navigation, path, title, qrObj),
   };
 };
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    userInfo: state.userInfoReducer.userInfo
+  };
 };
 
 const styles = StyleSheet.create({

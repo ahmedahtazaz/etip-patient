@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import {Icon, SearchBar} from 'react-native-elements';
-import {connect} from 'react-redux';
+import React, { useState } from 'react';
+import { Icon, SearchBar } from 'react-native-elements';
+import { connect } from 'react-redux';
 
 import {
   Button,
@@ -15,10 +15,10 @@ import {
   useWindowDimensions,
   ImageBackground,
 } from 'react-native';
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
 import Calendar from '../../components/Calendar';
 import BottomNavigator from '../../components/BottomNavigator';
-import {SwipeListView} from 'react-native-swipe-list-view';
+import { SwipeListView } from 'react-native-swipe-list-view';
 
 const menuIcon = require('../../assets/images/menu-icon.png');
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
@@ -60,7 +60,7 @@ const DATA = [
   },
 ];
 
-const Item = ({item, onPress, backgroundColor, textColor}) => (
+const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <Text style={[styles.title, textColor]}>{item.title}</Text>
   </TouchableOpacity>
@@ -72,31 +72,32 @@ const FamilyMain = ({
   movetoMakeAnAppointmentScreen,
   moveToAppointmentDetails,
   route,
+  userInfo
 }) => {
   const window = useWindowDimensions();
 
   const [selectedId, setSelectedId] = useState(null);
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     return (
       <View style={styles.nameContainer}>
         <View style={styles.parentNameContainer}>
           <View style={styles.nameTextContainer}>
-            <Text style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
-              {item.id}
+            <Text style={{ color: '#20B2AA', textColor: 'grey', marginStart: 8 }}>
+              {`${item.firstName} ${item.lastName}`}
             </Text>
-            <Text style={{marginStart: 8, color: '#adadad'}}>{item.title}</Text>
+            <Text style={{ marginStart: 8, color: '#adadad' }}>{item.relation}</Text>
           </View>
           <View style={styles.qrCodeandEditConatiner}>
             <TouchableOpacity
               style={styles.qrEditContainer}
               onPress={() =>
-                moveToAppointmentDetails(navigation, 'personal', item.id)
+                moveToAppointmentDetails(navigation, 'personal', `${item.firstName} ${item.lastName}`, item)
               }>
-              <Image source={greenQrCode} style={{marginLeft: 5}} />
+              <Image source={greenQrCode} style={{ marginLeft: 5 }} />
             </TouchableOpacity>
             <View style={styles.editContainer}>
-              <Image source={greyEdit} style={{marginLeft: 5}} />
+              <Image source={greyEdit} style={{ marginLeft: 5 }} />
             </View>
           </View>
         </View>
@@ -113,10 +114,10 @@ const FamilyMain = ({
             onPress={() => {
               movetoSettingsScreen(navigation);
             }}>
-            <Image source={menuIcon} style={{marginLeft: 10}} />
+            <Image source={menuIcon} style={{ marginLeft: 10 }} />
           </TouchableOpacity>
           <View style={styles.menuItemsCenter}>
-            <Image source={smallHeaderLogo} style={{marginLeft: 5}} />
+            <Image source={smallHeaderLogo} style={{ marginLeft: 5 }} />
           </View>
         </View>
       </View>
@@ -130,7 +131,7 @@ const FamilyMain = ({
           extraData={selectedId}
         /> */}
             <SwipeListView
-              data={DATA}
+              data={userInfo.familyMembers}
               renderItem={renderItem}
               keyExtractor={item => item.id}
               renderHiddenItem={(data, rowMap) => (
@@ -149,14 +150,12 @@ const FamilyMain = ({
       </View>
       <BottomNavigator
         navigation={navigation}
-        selectedItem={{id: 3, label: 'Family'}}></BottomNavigator>
+        selectedItem={{ id: 3, label: 'Family' }}></BottomNavigator>
     </View>
   );
 };
 
-const mapStateToProps = state => {
-  return {};
-};
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#F9F9F9',
@@ -278,8 +277,14 @@ const mapDispatchToProps = dispatch => {
     movetoSettingsScreen: navigation => moveToSettingsScreenAction(navigation),
     movetoMakeAnAppointmentScreen: navigation =>
       moveToMakeAppointsAction(navigation),
-    moveToAppointmentDetails: (navigation, path, title) =>
-      moveToAppointmentDetailsAction(navigation, path, title),
+    moveToAppointmentDetails: (navigation, path, title, qrObj) =>
+      moveToAppointmentDetailsAction(navigation, path, title, qrObj),
+  };
+};
+
+const mapStateToProps = state => {
+  return {
+    userInfo: state.userInfoReducer.userInfo
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(FamilyMain);

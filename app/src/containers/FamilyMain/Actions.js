@@ -6,9 +6,10 @@ export const moveToMakeAppointsAction = navigation => {
   return navigation.navigate('Make an Appointment');
 };
 
-export const moveToAppointmentDetailsAction = (navigation, path, title) => {
+export const moveToAppointmentDetailsAction = (navigation, path, title, qrObj) => {
   return navigation.navigate('AppointmentDetailsScreen', {
     path: path,
     title: title,
+    qrObj: qrObj
   });
 };

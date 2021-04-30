@@ -1,8 +1,10 @@
 import React from 'react';
-import {ImageBackground, Text, View, StyleSheet, Image} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {RFValue} from 'react-native-responsive-fontsize';
-import {WHITE_COLOR} from '../../theme/Colors';
+import { connect } from 'react-redux';
+import { ImageBackground, Text, View, StyleSheet, Image } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { WHITE_COLOR } from '../../theme/Colors';
+import QRCode from 'react-native-qrcode-svg';
 const mainScreenIcon = require('../../assets/images/main-screen-icon.png');
 const qrBig = require('../../assets/images/qr-big.png');
 const activeCertificationBg = require('../../assets/images/active-certification-bg.png');
@@ -15,16 +17,16 @@ const issuedRedIcon = require('../../assets/images/issued-by-red-icon.png');
 const AppointmentDetails = ({
   navigation,
   route: {
-    params: {path, title},
+    params: { path, title, qrObj },
   },
 }) => {
   return (
-    <View style={{height: '100%', width: '100%', flexDirection: 'column'}}>
+    <View style={{ height: '100%', width: '100%', flexDirection: 'column' }}>
       <View style={styles.mainMenu}>
         <TouchableOpacity
           style={styles.mainMenuItems}
           onPress={() => navigation.goBack()}>
-          <Image source={menuArrowIcon} style={{marginLeft: 5}} />
+          <Image source={menuArrowIcon} style={{ marginLeft: 5 }} />
         </TouchableOpacity>
       </View>
 
@@ -33,7 +35,7 @@ const AppointmentDetails = ({
           <View style={styles.activeCertificationDiv}>
             <ImageBackground
               source={previousAppoinmentsBg}
-              style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
+              style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
               <View style={styles.contentPadding}>
                 <Text style={styles.boxHeading1}>
                   {title ? title : 'Jenny White'}
@@ -48,7 +50,7 @@ const AppointmentDetails = ({
           <View style={styles.activeAppoinmentsDiv}>
             <ImageBackground
               source={activeCertificationBg}
-              style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
+              style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
               <View style={styles.parentNameContainer}>
                 <View style={styles.nameTextContainer}>
                   <Text style={styles.boxHeading}>SARS-COV-2</Text>
@@ -58,7 +60,7 @@ const AppointmentDetails = ({
                   <TouchableOpacity
                     style={[styles.buttonStyle, styles.submitButtonDark]}
                     onPress={() => moveToMainScreen(navigation)}>
-                    <Text style={{color: 'white'}}>24 hours</Text>
+                    <Text style={{ color: 'white' }}>24 hours</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -86,7 +88,7 @@ const AppointmentDetails = ({
           <View style={styles.activeAppoinmentsDiv}>
             <ImageBackground
               source={activeCertificationBg}
-              style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
+              style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
               <View style={styles.parentNameContainer}>
                 <View style={styles.nameTextContainer}>
                   <Text style={styles.boxHeading}>SARS-COV-2</Text>
@@ -107,11 +109,26 @@ const AppointmentDetails = ({
           </View>
         ) : null}
         <View style={styles.qrDiv}>
-          <Image style={{marginEnd: 8}} source={qrBig}></Image>
+          <QRCode
+            value={JSON.stringify(qrObj)}
+            size={250}
+          />
+          {/* <Image style={{ marginEnd: 8 }} source={qrBig}></Image> */}
         </View>
       </View>
     </View>
   );
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+  };
+};
+
+const mapStateToProps = state => {
+  return {
+    userInfo: state.userInfoReducer.userInfo
+  };
 };
 
 const styles = StyleSheet.create({
@@ -283,4 +300,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AppointmentDetails;
+export default connect(mapStateToProps, mapDispatchToProps)(AppointmentDetails);
