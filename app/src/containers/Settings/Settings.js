@@ -38,6 +38,11 @@ const DATA = [
     path: 'UpdateOtherSettingsScreen',
   },
   {
+    id: 'Change Language',
+    title: 'Change Language',
+    path: 'ChangeLanguage',
+  },
+  {
     id: 'About App',
     title: 'About App',
   },
