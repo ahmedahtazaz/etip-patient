@@ -138,11 +138,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingBottom: 15,
     paddingTop: 15,
+    paddingLeft:10,
   },
   menuItemsLeft: {
     position: 'relative',
     alignSelf: 'flex-start',
-    width: '45%',
+    width: '43%',
   },
   menuItemsCenter: {
     position: 'relative',
@@ -163,7 +164,7 @@ const styles = StyleSheet.create({
   },
 
   testCenterList: {
-    height: height * 0.85,
+    height: '95%',
     paddingHorizontal: 5,
   },
   heading: {

@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    height: height * 0.1,
+    height: '11%',
     alignItems: 'center',
     paddingTop: '9%',
     width,

@@ -56,13 +56,15 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
 
-    shadowRadius: 2,
-    shadowOffset: {
-      width: 0,
-      height: -3,
-    },
-    shadowColor: '#000000',
-    elevation: 4,
+    shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 1,
+},
+shadowOpacity: 0.35,
+shadowRadius: 3.84,
+
+elevation: 15,
   },
   rowHorizontalScreenListContainer: {
     flexGrow: 0,
