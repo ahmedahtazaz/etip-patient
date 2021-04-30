@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -11,9 +11,9 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
-import {RFValue} from 'react-native-responsive-fontsize';
-import {WHITE_COLOR} from '../../theme/Colors';
-import {connect} from 'react-redux';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { WHITE_COLOR } from '../../theme/Colors';
+import { connect } from 'react-redux';
 import {
   moveToAppointmentDetailsAction,
   moveToUserUpdateSettingScreenAction,
@@ -55,7 +55,7 @@ const DATA = [
   },
 ];
 
-const Item = ({item, onPress, backgroundColor, textColor}) => (
+const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <Text style={[styles.title, textColor]}>{item.title}</Text>
   </TouchableOpacity>
@@ -65,10 +65,11 @@ const Settings = ({
   navigation,
   movetoUpdateScreen,
   moveToAppointmentDetails,
+  userInfo
 }) => {
   const [selectedId, setSelectedId] = useState(null);
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     return (
       <Item
         item={item}
@@ -87,11 +88,13 @@ const Settings = ({
       <ImageBackground source={settingHeaderBg} style={styles.settingHeaderBg}>
         <View style={styles.SettingHeaderDiv}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Image source={menuArrowWhiteIcon} style={{marginRight: 10}} />
+            <Image source={menuArrowWhiteIcon} style={{ marginRight: 10 }} />
           </TouchableOpacity>
-          <Text style={styles.profileName}>Jenny White</Text>
+          <Text style={styles.profileName}>
+            {`${userInfo.firstName} ${userInfo.lastName}`}
+          </Text>
           <TouchableOpacity
-            onPress={() => moveToAppointmentDetails(navigation, 'personal')}>
+            onPress={() => moveToAppointmentDetails(navigation, 'personal', `${userInfo.firstName} ${userInfo.lastName}`, userInfo)}>
             <Image source={settingTopIcon} />
           </TouchableOpacity>
         </View>
@@ -106,7 +109,7 @@ const Settings = ({
       <TouchableOpacity
         style={[styles.container, styles.submitButton]}
         onPress={() => navigation.goBack()}>
-        <Text style={styles.submitText} style={{color: '#F20000'}}>
+        <Text style={styles.submitText} style={{ color: '#F20000' }}>
           Logout
         </Text>
       </TouchableOpacity>
@@ -173,13 +176,15 @@ const mapDispatchToProps = dispatch => {
   return {
     movetoUpdateScreen: (path, navigation, title) =>
       moveToUserUpdateSettingScreenAction(path, navigation, title),
-    moveToAppointmentDetails: (navigation, path) =>
-      moveToAppointmentDetailsAction(navigation, path),
+    moveToAppointmentDetails: (navigation, path, title, qrObj) =>
+      moveToAppointmentDetailsAction(navigation, path, title, qrObj),
   };
 };
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    userInfo: state.userInfoReducer.userInfo
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);

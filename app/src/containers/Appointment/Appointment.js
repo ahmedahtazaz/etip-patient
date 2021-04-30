@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -11,15 +11,15 @@ import {
   useWindowDimensions,
   ImageBackground,
 } from 'react-native';
-import {Dimensions} from 'react-native';
-import {connect} from 'react-redux';
-import {moveToAppointmentCalenderAction} from './Actions';
-import {RFValue} from 'react-native-responsive-fontsize';
+import { Dimensions } from 'react-native';
+import { connect } from 'react-redux';
+import { moveToAppointmentCalenderAction } from './Actions';
+import { RFValue } from 'react-native-responsive-fontsize';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
+import { PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR } from '../../theme/Colors';
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const appointmentBg1 = require('../../assets/images/appointment-bg1.png');
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 const DATA = [
   {
     id: 'Jenny White',
@@ -37,31 +37,31 @@ const DATA = [
     id: 'Julia',
     title: 'Daughter',
   },
-  
- 
+
+
 ];
 
-const Item = ({item, onPress, backgroundColor, textColor}) => (
+const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <Text style={[styles.title, textColor]}>{item.title}</Text>
   </TouchableOpacity>
 );
 
-const Appointment = ({movetoAppointmentCalenderScreen, navigation}) => {
+const Appointment = ({ movetoAppointmentCalenderScreen, navigation, userInfo }) => {
   const window = useWindowDimensions();
 
   const [selectedId, setSelectedId] = useState(null);
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     return (
       <TouchableOpacity
         style={styles.appointmentlistContainer}
         onPress={() => movetoAppointmentCalenderScreen(navigation)}>
-        <Text style={{fontWeight: 'bold', marginStart: 8, color: '#20B2AA'}}>
-        {item.id}
+        <Text style={{ fontWeight: 'bold', marginStart: 8, color: '#20B2AA' }}>
+        {`${item.firstName} ${item.lastName}`}
         </Text>
-        <Text style={{color: '#d3d3d3', marginStart: 8, fontSize: 16}}>
-        {item.title}
+        <Text style={{ color: '#d3d3d3', marginStart: 8, fontSize: 16 }}>
+          {item.relation}
         </Text>
       </TouchableOpacity>
     );
@@ -76,7 +76,7 @@ const Appointment = ({movetoAppointmentCalenderScreen, navigation}) => {
               name="chevron-left"
               color="#000"
               size={40}
-              style={{fontWeight: 'bold'}}
+              style={{ fontWeight: 'bold' }}
             />
           </TouchableOpacity>
         </View>
@@ -101,7 +101,7 @@ const Appointment = ({movetoAppointmentCalenderScreen, navigation}) => {
         </View>
         <View style={styles.actionCertificateContainer}>
           <FlatList
-            data={DATA}
+            data={userInfo.familyMembers}
             renderItem={renderItem}
             keyExtractor={item => item.id}
             extraData={selectedId}
@@ -120,7 +120,9 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    userInfo: state.userInfoReducer.userInfo
+  };
 };
 
 const styles = StyleSheet.create({
@@ -132,7 +134,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: height * 0.1,
     alignItems: 'center',
-    paddingTop:'7%',
+    paddingTop: '7%',
     width,
   },
   backIcon: {
@@ -151,7 +153,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
-    marginTop:'5%',
+    marginTop: '5%',
   },
   splashbackground: {
     flex: 1,
