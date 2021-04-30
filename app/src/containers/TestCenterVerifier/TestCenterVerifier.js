@@ -164,8 +164,7 @@ const styles = StyleSheet.create({
   },
 
   testCenterList: {
-    height: '95%',
-    paddingHorizontal: 5,
+    height: '70%',
   },
   heading: {
     fontSize: RFValue(18, 580),
