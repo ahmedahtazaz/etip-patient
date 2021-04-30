@@ -141,15 +141,15 @@ function TestInformation({moveToMainScreen, navigation}) {
             </View>
           </View>
 
-          <View>
+          <View style={styles.bottomBtnDiv}>
             <TouchableOpacity
               style={[styles.btnStyle, styles.submitButton]}
               onPress={() => moveToMainScreen(navigation)}>
               <Text style={styles.submitText}>Issue Certificate</Text>
             </TouchableOpacity>
-          </View>
+          
 
-          <View>
+          
             <TouchableOpacity
               style={{width: '100%'}}
               onPress={() => navigation.navigate('QRScreen')}>
@@ -157,6 +157,7 @@ function TestInformation({moveToMainScreen, navigation}) {
             </TouchableOpacity>
           </View>
         </View>
+        
       </View>
     </View>
   );
@@ -201,7 +202,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    height: height * 0.1,
+    height: '11%',
     paddingTop: 30,
     alignItems: 'center',
     width,
@@ -211,12 +212,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 20,
     borderColor: '#f2f4f3',
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     paddingLeft:15,
     paddingRight:15,
-    height:'100%'
+    height:'95%'
   },
   backIcon: {
     marginHorizontal: 5,
@@ -228,7 +229,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   infoContainer: {
-   
+    
   },
   sectionContainer: {
     backgroundColor: Colors.black,
@@ -265,6 +266,13 @@ const styles = StyleSheet.create({
     fontSize: RFValue(20, 580),
     color: WHITE_COLOR,
   },
+  bottomBtnDiv : {
+    position:'absolute',
+    width:'98%',
+    left:'5%',
+    bottom:'12%'
+
+  },
   inputStyle1: {
     display: 'flex',
 
@@ -294,12 +302,12 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 2,
 
-    paddingHorizontal: 5,
+    height: '65%',
+    
     width: '100%',
     paddingTop: 20,
     paddingBottom: 20,
     borderRadius: 8,
-    marginTop: '15%',
   },
   submitText: {
     color: WHITE_COLOR,

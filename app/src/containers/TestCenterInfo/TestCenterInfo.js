@@ -106,7 +106,10 @@ function TestCenterInfo({navigation}) {
             />
           </View>
 
+            
           
+        </View>
+        <View style={styles.bottomBtnDiv}>
             <TouchableOpacity
               style={[styles.btnStyle, styles.submitButton]}
               onPress={() => navigation.navigate('QRScreen')}>
@@ -121,8 +124,7 @@ function TestCenterInfo({navigation}) {
               onPress={() => navigation.navigate('VerifierUserInfoScreen')}>
               <Text style={styles.scanAnotherQRcode}>Insert Person Info</Text>
             </TouchableOpacity>
-          
-        </View>
+            </View>
       </View>
       <BottomNavigator
         navigation={navigation}
@@ -137,8 +139,8 @@ const styles = StyleSheet.create({
     height: '46%',
   },
   MainContainer: {
-    backgroundColor: WHITE_COLOR,
     flex: 1,
+    backgroundColor:'#fff',
   },
   splashbackground: {
     flex: 1,
@@ -167,7 +169,7 @@ const styles = StyleSheet.create({
     height: '30%',
   },
   testCenterList: {
-    paddingHorizontal: 5,
+    
   },
   listView: {
     marginTop: 30,
@@ -209,7 +211,7 @@ const styles = StyleSheet.create({
     marginTop: -30,
     paddingTop: 5,
     paddingBottom: 5,
-    height: '12%',
+    height: '17%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -231,6 +233,13 @@ const styles = StyleSheet.create({
     fontSize: RFValue(12, 580),
     color: '#919e9c',
   },
+  bottomBtnDiv : {
+    position:'absolute',
+    width:'90%',
+    left:'5%',
+    bottom:'12%'
+
+  },
   btnStyle: {
     backgroundColor: GREEN_COLOR,
     justifyContent: 'center',
@@ -246,11 +255,10 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 20,
     elevation: 2,
-    height: 60,
-    paddingHorizontal: 5,
+    height: '70%',
+    
     width: '100%',
     borderRadius: 8,
-    marginTop: '10%',
   },
   scanAnotherQRcode: {
     fontSize: RFValue(14, 580),
