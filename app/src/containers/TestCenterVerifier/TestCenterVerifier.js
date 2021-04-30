@@ -18,7 +18,7 @@ import {GREEN_COLOR} from '../../theme/Colors';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 const headerLogo = require('../../assets/images/small-header-logo.png');
 const phoneDivBg = require('../../assets/images/phone-div-bg.png');
-const menuIcon = require('../../assets/images/menu-arrow-icon.png');
+const menuIcon = require('../../assets/images/menu-arrow-icon1.png');
 const {width, height} = Dimensions.get('window');
 const DATA = [
   {

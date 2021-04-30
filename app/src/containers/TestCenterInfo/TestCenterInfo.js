@@ -21,6 +21,7 @@ import BottomNavigator from '../../components/BottomNavigator';
 const testCenterInfoBg = require('../../assets/images/test-center-info-bg.png');
 const headerLogo = require('../../assets/images/splash-logo1.png');
 const btnQrCode = require('../../assets/images/btn-qr-code.png');
+const testInfoBg = require('../../assets/images/test-info-bg.png');
 const {width, height} = Dimensions.get('window');
 
 const DATA = [
@@ -72,6 +73,7 @@ function TestCenterInfo({navigation}) {
         </ImageBackground>
       </View>
       <View style={styles.testCenterList}>
+      <ImageBackground source={testInfoBg} style={styles.splashbackground1}>
         <View style={styles.innerDiv}>
           <TouchableOpacity
             style={styles.centerLabel}
@@ -125,6 +127,7 @@ function TestCenterInfo({navigation}) {
               <Text style={styles.scanAnotherQRcode}>Insert Person Info</Text>
             </TouchableOpacity>
             </View>
+            </ImageBackground>
       </View>
       <BottomNavigator
         navigation={navigation}
@@ -149,6 +152,11 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     height: '100%',
   },
+  splashbackground1: {
+   
+    resizeMode: 'cover',
+    height: '100%',
+  },
   mainMenu: {
     position: 'absolute',
     zIndex: 2000,
@@ -169,7 +177,7 @@ const styles = StyleSheet.create({
     height: '30%',
   },
   testCenterList: {
-    
+    backgroundColor:'white',
   },
   listView: {
     marginTop: 30,
