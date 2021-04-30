@@ -16,7 +16,6 @@ import {
 } from 'react-native';
 import I18n from '../../translations/I18n';
 
-import {Dimensions} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Orientation from 'react-native-orientation-locker';
 import { WHITE_COLOR } from '../../theme/Colors';
