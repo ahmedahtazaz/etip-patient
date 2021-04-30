@@ -106,22 +106,22 @@ function TestCenterInfo({navigation}) {
             />
           </View>
 
-          <View>
+          
             <TouchableOpacity
               style={[styles.btnStyle, styles.submitButton]}
               onPress={() => navigation.navigate('QRScreen')}>
               <Image source={btnQrCode} />
               <Text style={styles.submitText}>Scan QR Code</Text>
             </TouchableOpacity>
-          </View>
+          
 
-          <View>
+          
             <TouchableOpacity
               style={{width: '100%'}}
               onPress={() => navigation.navigate('VerifierUserInfoScreen')}>
               <Text style={styles.scanAnotherQRcode}>Insert Person Info</Text>
             </TouchableOpacity>
-          </View>
+          
         </View>
       </View>
       <BottomNavigator
@@ -133,7 +133,7 @@ function TestCenterInfo({navigation}) {
 
 const styles = StyleSheet.create({
   patientList: {
-    marginTop: 30,
+    marginTop: 10,
     height: '46%',
   },
   MainContainer: {
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
     marginTop: -30,
     paddingTop: 5,
     paddingBottom: 5,
-    height: 60,
+    height: '12%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     width: '100%',
     borderRadius: 8,
-    marginTop: '5%',
+    marginTop: '10%',
   },
   scanAnotherQRcode: {
     fontSize: RFValue(14, 580),
