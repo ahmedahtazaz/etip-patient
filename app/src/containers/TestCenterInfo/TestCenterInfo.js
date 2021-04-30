@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     marginTop: -30,
     paddingTop: 5,
     paddingBottom: 5,
-    height: '17%',
+    height: '13%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
