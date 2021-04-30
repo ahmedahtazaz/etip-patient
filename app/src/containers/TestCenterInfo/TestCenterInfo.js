@@ -63,7 +63,7 @@ function TestCenterInfo({navigation}) {
           <View style={styles.mainMenu}>
             <Image source={headerLogo} />
           </View>
-          <View>
+          <View style={{height: '100%', top: '50%'}}>
             <Text style={styles.heading}>Hello, Jone!</Text>
             <Text style={styles.subHeading}>
               Hope you are having a good day
@@ -143,15 +143,14 @@ const styles = StyleSheet.create({
   splashbackground: {
     flex: 1,
     resizeMode: 'cover',
-    paddingTop: '25%',
-    paddingBottom: '15%',
     flexDirection: 'column',
     paddingLeft: 20,
+    height: '100%',
   },
   mainMenu: {
     position: 'absolute',
     zIndex: 2000,
-    top: '40%',
+    top: '20%',
     width: '100%',
     display: 'flex',
     alignItems: 'center',
@@ -163,9 +162,9 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 20,
     flexDirection: 'row',
     overflow: 'hidden',
-
     backgroundColor: 'gray',
     alignItems: 'center',
+    height: '30%',
   },
   testCenterList: {
     paddingHorizontal: 5,
