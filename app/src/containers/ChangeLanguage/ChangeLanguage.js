@@ -128,6 +128,8 @@ function ChangeLanguage({LanguageChangeAction,GetLanguage,navigation}) {
           <Text style={styles.headerText}>Change Language</Text>
         </View>
       </View>
+
+      
             <TouchableOpacity
               style={styles.inputStyle1}
               onPress={englishClick}>

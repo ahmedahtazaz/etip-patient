@@ -12,16 +12,16 @@ import {
   Image,
   useWindowDimensions,
   ImageBackground,
-  Dimensions
 } from 'react-native';
-import I18n from '../../translations/I18n';
-
-import {Icon} from 'react-native-elements';
+import { Dimensions } from 'react-native';
+import { Icon } from 'react-native-elements';
 import Orientation from 'react-native-orientation-locker';
 import { WHITE_COLOR } from '../../theme/Colors';
 import { RFValue } from 'react-native-responsive-fontsize';
 import BottomNavigator from '../../components/BottomNavigator';
 import { width, height, totalSize } from 'react-native-dimension';
+import { ScrollView } from 'react-native-gesture-handler';
+
 import {
   moveToAppointmentDetailsAction,
   moveToMakeAppointsAction,
@@ -44,6 +44,38 @@ const DATA = [
   {
     id: 'Modifiy Personal Information',
     title: 'Modifiy Personal Information',
+  },
+  {
+    id: 'About App',
+    title: 'About App',
+  },
+  {
+    id: 'Need Assistance',
+    title: 'Need Assistance',
+  },
+  {
+    id: 'Privacy Policy',
+    title: 'Privacy Policy',
+  },
+  {
+    id: 'Terms & Conditions',
+    title: 'Terms & Conditions',
+  },
+   {
+    id: 'About App',
+    title: 'About App',
+  },
+  {
+    id: 'Need Assistance',
+    title: 'Need Assistance',
+  },
+  {
+    id: 'Privacy Policy',
+    title: 'Privacy Policy',
+  },
+  {
+    id: 'Terms & Conditions',
+    title: 'Terms & Conditions',
   },
 ];
 
@@ -78,7 +110,7 @@ const DATA1 = [
   },
 ];
 
-const Item = ({ item, onPress, backgroundColor, textColor, }) => (
+const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <Text style={[styles.title, textColor]}>{item.title}</Text>
   </TouchableOpacity>
@@ -90,7 +122,6 @@ const MainScreen = ({
   movetoMakeAnAppointmentScreen,
   moveToAppointmentDetails,
   route,
-  userInfo
 }) => {
   const window = useWindowDimensions();
 
@@ -99,7 +130,6 @@ const MainScreen = ({
   const isFocused = useIsFocused();
 
   useEffect(() => {
-
     Orientation.lockToPortrait();
   }, [isFocused]);
 
@@ -230,34 +260,29 @@ const MainScreen = ({
       </View>
       <View style={styles.appoinmentDivBg}>
         <View style={styles.mainDivPad}>
-          <View style={styles.nameContainer}>
+          {/* <View style={styles.nameContainer}>
             <View style={styles.parentNameContainer}>
               <View style={styles.nameTextContainer}>
                 <Text
-                  style={{ fontSize: 25, fontWeight: 'bold', marginStart: 8 }}>
-                  {
-                    Object.keys(userInfo).length ?
-                      `${userInfo.firstName} ${userInfo.lastName}`
-                      :
-                      "Hi Jenny"
-                  }
+                  style={{fontSize: 25, fontWeight: 'bold', marginStart: 8}}>
+                  Hi Jenny
                 </Text>
-                <Text style={{ textColor: 'grey', marginStart: 8 }}>
+                <Text style={{textColor: 'grey', marginStart: 8}}>
                   Hope u r feeling healthy today
                 </Text>
               </View>
-
               <TouchableOpacity
                 onPress={() =>
-                  moveToAppointmentDetails(navigation, 'personal', `${userInfo.firstName} ${userInfo.lastName}`, userInfo)
+                  moveToAppointmentDetails(navigation, 'personal')
                 }>
                 <Image
-                  style={{ height: 50, width: 50, marginEnd: 8 }}
+                  style={{height: 50, width: 50, marginEnd: 8}}
                   source={mainScreenIcon}
                 />
               </TouchableOpacity>
             </View>
-          </View>
+          </View> */}
+         
           <View style={styles.actionCertificateContainer}>
             <Text style={styles.boxTopHeading}>ACTIVE CERTIFICATES</Text>
             <FlatList
@@ -270,12 +295,15 @@ const MainScreen = ({
           </View>
           <View style={styles.actionCertificateContainer}>
             <Text style={styles.boxTopHeading}>APPOINTMENTS</Text>
-            <FlatList
-              data={route.params && route.params.booked ? DATA1 : DATA}
-              renderItem={renderItemAppointment}
-              keyExtractor={item => item.id}
-              extraData={selectedId}
-            />
+              <FlatList
+                contentContainerStyle={{
+                  flexGrow: 1,
+                }}
+                data={ DATA}
+                renderItem={renderItemAppointment}
+                keyExtractor={item => item.id}
+                extraData={selectedId}
+              />
           </View>
         </View>
       </View>
@@ -296,15 +324,13 @@ const mapDispatchToProps = dispatch => {
     movetoSettingsScreen: navigation => moveToSettingsScreenAction(navigation),
     movetoMakeAnAppointmentScreen: navigation =>
       moveToMakeAppointsAction(navigation),
-    moveToAppointmentDetails: (navigation, path, title, qrObj) =>
-      moveToAppointmentDetailsAction(navigation, path, title, qrObj),
+    moveToAppointmentDetails: (navigation, path) =>
+      moveToAppointmentDetailsAction(navigation, path),
   };
 };
 
 const mapStateToProps = state => {
-  return {
-    userInfo: state.userInfoReducer.userInfo
-  };
+  return {};
 };
 
 const styles = StyleSheet.create({
@@ -408,9 +434,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   actionCertificateContainer: {
-    marginTop: 42,
-    display: 'flex',
-    flexDirection: 'column',
+    marginTop: 30,
+   
   },
   boxTopHeading: {
     marginBottom: 8,
