@@ -42,10 +42,7 @@ const DATA = [
     title: 'Change Language',
     path: 'ChangeLanguage',
   },
-  {
-    id: 'About App',
-    title: 'About App',
-  },
+ 
   {
     id: 'Need Assistance',
     title: 'Need Assistance',
@@ -53,11 +50,19 @@ const DATA = [
   {
     id: 'Privacy Policy',
     title: 'Privacy Policy',
+    path: 'aboutApp',
   },
   {
     id: 'Terms & Conditions',
     title: 'Terms & Conditions',
+    path: 'terms',
+
   },
+  {
+    id: 'About App',
+    title: 'About App',
+    path: 'aboutApp',
+   },
 ];
 
 const Item = ({ item, onPress, backgroundColor, textColor }) => (

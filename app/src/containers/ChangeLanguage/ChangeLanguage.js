@@ -1,10 +1,21 @@
 import React, { useEffect,useState } from 'react';
-import { Platform, StyleSheet, TouchableOpacity, Text, ScrollView, View } from 'react-native';
+import { Platform, StyleSheet, TouchableOpacity, Text, ScrollView, View,SafeAreaView, FlatList,Checkbox,Dimensions,
+  Image } from 'react-native';
 import { exp } from 'react-native-reanimated';
 import I18n from '../../translations/I18n';
 import {connect} from 'react-redux';
-import {LanguageChangeAction} from './Actions';
+import {LanguageChangeAction,GetLanguage} from './Actions';
+import { get_lang_url } from '../../commons/environment';
 
+import {BLACK_COLOR, GREEN_COLOR, WHITE_COLOR} from '../../theme/Colors';
+const {width, height} = Dimensions.get('window');
+
+
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import Orientation from 'react-native-orientation-locker';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 
 // Enable fallbacks if you want `en-US`
@@ -15,15 +26,19 @@ const language = [
      
     ]
 
-function ChangeLanguage({LanguageChangeAction}) {
+function ChangeLanguage({LanguageChangeAction,GetLanguage,navigation}) {
     const [languages, setlanguages] = useState([]);
     const [value, setvalue] = useState(false);
     const [select, setselect] = useState('Select Language');
     const [langValue, setlangValue] = useState('en');
+    const [checked, setChecked] = React.useState(false);
+  const [result, setResult] = useState('positive');
 
+    const [selectedId, setSelectedId] = useState(null);
 
   useEffect(() => {
        I18n.locale = "en";
+       GetLanguage(get_lang_url);
 
   }, []);
 
@@ -55,37 +70,104 @@ function ChangeLanguage({LanguageChangeAction}) {
           setvalue(true);
         
       }
-      
+      const englishClick=()=>{
+        I18n.locale ='en';
+        setResult('positive')
+      }
 
-  
-    return (
-      <View style={styles.container}>
-        <View style={styles.subContainer}>
-          <View style={styles.block}>
-            <Text style={styles.title}>Change Langauge</Text>
-            <Text style={styles.textStyle}>{I18n.t('hello world')}</Text>
-            <Text style={styles.textStyle}>{I18n.t('thank you')}</Text>
-            <Text style={styles.textStyle}>{I18n.t('Bye')}</Text>
-          </View>
+      const germanClick=()=>{
+        I18n.locale ='fr';
+        setResult('negative')
+      }
+      const renderItem = ({item}) => {
+        return (
           <View>
-            <TouchableOpacity onPress={onLanguage}>
-              <View style={styles.buttonView}>
-                <Text style={styles.buttontext}>{select}</Text>
-              </View>
-           </TouchableOpacity>
-           <View>
-            {(value) ? onSelectLanguage() : null}
-           </View>
+            <View style={styles.nameTextContainer}>
+              <Text style={{marginStart: 8, color: '#027279', fontSize:15, fontWeight:'600'}}>
+                {item.lang}
+              </Text>
+ 
+              {/* <Checkbox
+      status={checked ? 'checked' : 'unchecked'}
+      onPress={() => {
+        setChecked(!checked);
+      }}
+    /> */}
+
+
+            </View>
+          </View>
+        );
+      };
+    
+    return (
+    //   <View style={styles.container}>
+    //     <View style={styles.subContainer}>
+      
+    //       <View>
+    //         <TouchableOpacity onPress={onLanguage}>
+    //           <View style={styles.buttonView}>
+    //             <Text style={styles.buttontext}>{select}</Text>
+    //           </View>
+    //        </TouchableOpacity>
+    //        <View>
+    //         {(value) ? onSelectLanguage() : null}
+    //        </View>
+    //     </View>
+    //  </View>
+    // </View>
+    <View style={styles.container}>
+
+              <View style={styles.header}>
+        <View style={styles.backIcon}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <EvilIcons name="chevron-left" color="#000" size={30} />
+          </TouchableOpacity>
         </View>
-     </View>
-    </View>
+        <View>
+          <Text style={styles.headerText}>Change Language</Text>
+        </View>
+      </View>
+            <TouchableOpacity
+              style={styles.inputStyle1}
+              onPress={englishClick}>
+              <View style={styles.testOption}>
+                <Text>English</Text>
+                {result === 'positive' && (
+                  <Ionicons
+                    name="checkmark-circle"
+                    color={GREEN_COLOR}
+                    size={15}
+                  />
+                )}
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.inputStyle1}
+              onPress={germanClick}>
+              <View style={styles.testOption}>
+                <Text>German</Text>
+                {result === 'negative' && (
+                  <Ionicons
+                    name="checkmark-circle"
+                    color={GREEN_COLOR}
+                    size={15}
+                  />
+                )}
+              </View>
+            </TouchableOpacity>
+          
+          </View>
+
    );
   }
 
   
 const mapDispatchToProps = dispatch => {
     return {
-        LanguageChangeAction: lang =>dispatch( LanguageChangeAction(lang)),
+      
+      GetLanguage: lang =>dispatch( GetLanguage(lang)),
+LanguageChangeAction: lang =>dispatch( LanguageChangeAction(lang)),
     };
   };
   
@@ -96,10 +178,19 @@ const mapDispatchToProps = dispatch => {
   export default connect(mapStateToProps, mapDispatchToProps)(ChangeLanguage);
 
 const styles = StyleSheet.create({
+  // container: {
+  //   flex: 1,
+  //   backgroundColor: '#F5FCFF',
+  //   padding: 24,
+  // },
   container: {
-    flex: 1,
-    backgroundColor: '#F5FCFF',
-    padding: 24,
+    height,
+    backgroundColor: 'white',
+  },
+  imageThumbnail: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
   },
   subContainer: {
     flexDirection: "row",
@@ -134,5 +225,171 @@ const styles = StyleSheet.create({
   dropDownText: {
     paddingTop: 2,
     color: "#fff",
-  }
+  },
+  nameTextContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginVertical: 8,
+    marginHorizontal: 16,
+    display: 'flex',
+    borderRadius:4,
+    flexDirection: 'column',
+    backgroundColor:'#F9F9F9',
+    padding:10,
+  },
+  switchMain: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 30,
+  },
+  switchTextView: {
+    // width: width * 0.7
+   width:'88%',
+  },
+  switchText: {
+    color: '#c0c0c0',
+    fontSize: RFValue(14, 580),
+  },
+  switchView: {
+    // width: width * 0.2
+
+  },
+  testOption: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  textSize: {
+    fontSize: RFValue(12, 580),
+    color: WHITE_COLOR,
+  },
+  nameAndTestPoint: {
+    flex: 1,
+  },
+  dateAndTime: {
+    flex: 1,
+    alignItems: 'flex-end',
+  },
+  patientInfoR2: {
+    flexDirection: 'row',
+  },
+  header: {
+    flexDirection: 'row',
+    height: '11%',
+    paddingTop: 30,
+    alignItems: 'center',
+    width,
+  },
+  infoContainerChild: {
+    paddingTop: 30,
+    borderWidth: 1,
+    marginTop: 20,
+    borderColor: '#f2f4f3',
+    backgroundColor: '#ffffff',
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
+    paddingLeft:15,
+    paddingRight:15,
+    height:'95%'
+  },
+  backIcon: {
+    marginHorizontal: 5,
+    width: width * 0.1,
+  },
+  headerText: {
+    fontSize: RFValue(16, 580),
+    width: width * 0.8,
+    textAlign: 'center',
+  },
+  infoContainer: {
+    
+  },
+  sectionContainer: {
+    backgroundColor: Colors.black,
+  },
+
+  MainContainer: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#F5F9F8',
+  },
+
+  patientInfo: {
+    borderRadius: 10,
+    backgroundColor:'red',
+    display: 'flex',
+    flexDirection: 'column',
+    width:'100%',
+    resizeMode: 'cover',
+    overflow: 'hidden',
+  },
+
+  imagepatientInfo: {
+    borderRadius: 10,
+    padding: 10,
+    display: 'flex',
+    
+    flexDirection: 'column',
+    resizeMode: 'cover',
+    overflow: 'hidden',
+   paddingBottom:15,
+  },
+  patientId: {
+    marginVertical: 12,
+    fontSize: RFValue(20, 580),
+    color: WHITE_COLOR,
+  },
+  bottomBtnDiv : {
+    position:'absolute',
+    width:'98%',
+    left:'5%',
+    bottom:'12%'
+
+  },
+  inputStyle1: {
+    display: 'flex',
+
+    backgroundColor: '#ffffff',
+    borderRadius: 6,
+    fontSize: RFValue(14, 580),
+    color: '#1d1c1c',
+    paddingTop: '4%',
+    paddingBottom: '4%',
+    paddingLeft: '5%',
+    paddingRight: '5%',
+    marginBottom: 14,
+    borderWidth: 1,
+    borderColor: '#e0dfdf',
+  },
+  btnStyle: {
+    backgroundColor: GREEN_COLOR,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.35,
+    shadowRadius: 5,
+    elevation: 2,
+
+    height: '65%',
+    
+    width: '100%',
+    paddingTop: 20,
+    paddingBottom: 20,
+    borderRadius: 8,
+  },
+  submitText: {
+    color: WHITE_COLOR,
+    fontSize: RFValue(14, 580),
+  },
+  scanAnotherQRcode: {
+    fontSize: RFValue(14, 580),
+    color: GREEN_COLOR,
+    textAlign: 'center',
+    marginTop: 5,
+  },
 });

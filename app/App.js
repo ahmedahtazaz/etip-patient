@@ -19,6 +19,8 @@ import {Provider} from 'react-redux';
 import {Icon} from 'react-native-elements';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import Policy from './src/containers/Policy/Policy';
+import Terms from './src/containers/Terms/Terms';
 
 import Welcome from './src/containers/Welcome/Welcome';
 import Splash from './src/containers/Splash/Splash';
@@ -37,6 +39,7 @@ import FamilyMain from './src/containers/FamilyMain/FamilyMain';
 import AppointmentDetails from './src/containers/AppointmentDetails.js/AppointmentDetails';
 import UpdateOtherSettings from './src/containers/UpdateOtherSettings/UpdateOtherSettings';
 import ChangeLanguage from './src/containers/ChangeLanguage/ChangeLanguage';
+import AboutApp from './src/containers/AboutApp/AboutApp';
 
 
 const menuIcon = require('../app/src/assets/images/menu-icon.png');
@@ -146,6 +149,21 @@ const App: () => React$Node = () => {
             <Stack.Screen
               name="ChangeLanguage"
               component={ChangeLanguage}
+              options={{headerShown: false}}
+            />
+                 <Stack.Screen
+              name="aboutApp"
+              component={AboutApp}
+              options={{headerShown: false}}
+            />
+               <Stack.Screen
+              name="policy"
+              component={Policy}
+              options={{headerShown: false}}
+            />
+               <Stack.Screen
+              name="terms"
+              component={Terms}
               options={{headerShown: false}}
             />
           </Stack.Navigator>
