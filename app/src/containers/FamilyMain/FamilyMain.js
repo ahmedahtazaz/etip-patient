@@ -16,25 +16,17 @@ import {
   ImageBackground,
 } from 'react-native';
 import { Dimensions } from 'react-native';
-import Calendar from '../../components/Calendar';
 import BottomNavigator from '../../components/BottomNavigator';
 import { SwipeListView } from 'react-native-swipe-list-view';
 
 const menuIcon = require('../../assets/images/menu-icon.png');
-const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
-const mainScreenIcon = require('../../assets/images/main-screen-icon.png');
-const activeCertificationBg = require('../../assets/images/active-certification-bg.png');
-const activeAppoinmentsBg = require('../../assets/images/active-appoinments-bg.png');
-const plusIcon = require('../../assets/images/plus-icon.png');
-const appoinmentRedBg = require('../../assets/images/appoinment-red-bg.png');
-const rightHandFinger = require('../../assets/images/right-hand-finger.png');
 const deleteIcon = require('../../assets/images/delete-icon-red.png');
-const issuedWhiteQr = require('../../assets/images/issued-white-qr.png');
 const greenQrCode = require('../../assets/images/green-qr-code.png');
 const greyEdit = require('../../assets/images/edit-gray-icon.png');
 
 import {
+  moveToUserinfScreenAction,
   moveToAppointmentDetailsAction,
   moveToMakeAppointsAction,
   moveToSettingsScreenAction,
@@ -72,7 +64,8 @@ const FamilyMain = ({
   movetoMakeAnAppointmentScreen,
   moveToAppointmentDetails,
   route,
-  userInfo
+  userInfo,
+  familyMembers
 }) => {
   const window = useWindowDimensions();
 
@@ -96,9 +89,9 @@ const FamilyMain = ({
               }>
               <Image source={greenQrCode} style={{ marginLeft: 5 }} />
             </TouchableOpacity>
-            <View style={styles.editContainer}>
+            <TouchableOpacity onPress={() => moveToUserinfScreenAction(navigation, item)} style={styles.editContainer}>
               <Image source={greyEdit} style={{ marginLeft: 5 }} />
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -131,7 +124,7 @@ const FamilyMain = ({
           extraData={selectedId}
         /> */}
             <SwipeListView
-              data={userInfo.familyMembers}
+              data={familyMembers}
               renderItem={renderItem}
               keyExtractor={item => item.id}
               renderHiddenItem={(data, rowMap) => (
@@ -284,7 +277,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    userInfo: state.userInfoReducer.userInfo
+    userInfo: state.userInfoReducer.userInfo,
+    familyMembers: state.userInfoReducer.familyMembers
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(FamilyMain);

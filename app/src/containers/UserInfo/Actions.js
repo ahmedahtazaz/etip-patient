@@ -1,16 +1,23 @@
-import { LOAD_INIT, ADD_USER_INFO, ADD_FAMILY_MEMBER } from '../../commons/Constants';
+import { LOAD_INIT, ADD_FAMILY_MEMBER, SIGNUP, EDIT_FAMILY_MEMBER } from '../../commons/Constants';
 
-export const addUserInfo = userObj => {
+export const signUpAction = payload => {
   return {
-    type: ADD_USER_INFO,
-    payload: userObj,
+    type: SIGNUP,
+    payload,
   };
 };
 
-export const addFamilyMember = familyMember => {
+export const addFamilyMemberAction = payload => {
   return {
     type: ADD_FAMILY_MEMBER,
-    payload: familyMember,
+    payload,
+  };
+};
+
+export const updateFamilyMemberAction = payload => {
+  return {
+    type: EDIT_FAMILY_MEMBER,
+    payload,
   };
 };
 
