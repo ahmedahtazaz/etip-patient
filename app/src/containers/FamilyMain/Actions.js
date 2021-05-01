@@ -13,3 +13,9 @@ export const moveToAppointmentDetailsAction = (navigation, path, title, qrObj) =
     qrObj: qrObj
   });
 };
+
+export const moveToUserinfScreenAction = (navigation, data) => {
+  return navigation.navigate("UserInfoScreen", {
+    data
+  })
+}

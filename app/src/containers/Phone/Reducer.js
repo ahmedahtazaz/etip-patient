@@ -1,7 +1,10 @@
 import {
     SEND_OTP,
     SEND_OTP_FAILURE,
-    SEND_OTP_SUCCESS
+    SEND_OTP_SUCCESS,
+    VERIFY_OTP,
+    VERIFY_OTP_FAILURE,
+    VERIFY_OTP_SUCCESS
 } from '../../commons/Constants';
 
 const INITIAL_STATE = {
@@ -9,7 +12,8 @@ const INITIAL_STATE = {
     loader: false,
     errMessage: undefined,
     initPayLoad: undefined,
-    otpSend: false
+    otpSend: false,
+    otpVerified: false
 };
 
 export default function phoneReducer() {
@@ -20,8 +24,7 @@ export default function phoneReducer() {
                     ...state,
                     loader: false,
                     errMessage: undefined,
-                    initPayLoad: action.payload,
-
+                    otpSend: true
                 };
 
             case SEND_OTP_FAILURE:
@@ -29,14 +32,33 @@ export default function phoneReducer() {
                     ...state,
                     loader: false,
                     errMessage: action.errMessage,
-                    initPayLoad: undefined,
+                    otpSend: false
                 };
 
             case SEND_OTP:
+            case VERIFY_OTP:
                 return {
                     ...state,
                     loader: true,
                 };
+
+
+            case VERIFY_OTP_SUCCESS:
+                return {
+                    ...state,
+                    loader: false,
+                    errMessage: undefined,
+                    otpVerified: true
+                };
+
+            case VERIFY_OTP_FAILURE:
+                return {
+                    ...state,
+                    loader: false,
+                    errMessage: action.errMessage,
+                    otpVerified: false
+                };
+
 
             default:
                 return state;

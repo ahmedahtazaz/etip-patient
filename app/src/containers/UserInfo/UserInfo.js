@@ -24,13 +24,14 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import RadioButton from '../../components/RadioButton';
-import { moveToMainScreenAction, addUserInfo, addFamilyMember } from './Actions';
+import { moveToMainScreenAction, signUpAction, updateFamilyMemberAction, addFamilyMemberAction } from './Actions';
 import { emailRegex } from '../../commons/Constants';
+import { organizationName, signup_url, add_family_url, edit_family_url } from '../../commons/environment';
 const welcomeLogo = require('../../assets/images/welcome-logo.png');
 const welcomeImg = require('../../assets/images/welcome-image.png');
 const currentDate = new Date();
-function UserInfo({ loader, moveToMainScreen, navigation, addUserInfo, addFamilyMember, userInfo }) {
-  const [isFamily, setIsFamily] = useState(false);
+function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFamilyMember, userInfo }) {
+  const [isFamily, setIsFamily] = useState(true);
   const [fName, setFName] = useState('');
   const [lName, setLName] = useState('');
   const [male, setMale] = useState(false);
@@ -54,8 +55,44 @@ function UserInfo({ loader, moveToMainScreen, navigation, addUserInfo, addFamily
   const [zimmer, setZimmer] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [relation, setRelation] = useState('Wife');
+  const [editMode, setEditMode] = useState(false);
 
   const scrollRef = useRef();
+
+  // const data = route.param && route.param.data || "";
+
+
+  useEffect(() => {
+    const data = route.params && route.params.data || "null";
+    console.log('route12: ', data);
+    if (data !== "null") {
+      setEditMode(true);
+      setFName(data.firstName);
+      setLName(data.lastName);
+      if (data.gender === 'male') {
+        setMale(true);
+        setFemale(false);
+        setOther(false);
+      } else if (data.gender === "female") {
+        setMale(false);
+        setFemale(true);
+        setOther(false);
+      } else {
+        setMale(false);
+        setFemale(false);
+        setOther(true);
+      }
+      setRelation(capitalizeFirstLetter(data.relation));
+      setDob(data.dateOfBirth);
+      setTaxId(data.taxId);
+      setEmail(data.email);
+      setMobileNo(data.mobileNumber);
+      setSchiller(data.address.street);
+      setZimmer(data.address.houseNo);
+      setCity(capitalizeFirstLetter(data.address.city));
+      setPostalCode(data.address.zipCode)
+    }
+  }, [])
 
   useEffect(() => {
     Orientation.lockToPortrait();
@@ -73,11 +110,11 @@ function UserInfo({ loader, moveToMainScreen, navigation, addUserInfo, addFamily
 
 
   const submit = () => {
+    moveToMainScreen(navigation)
     if (!Object.keys(userInfo).length) {
       addData();
       return;
     }
-    moveToMainScreen(navigation)
   }
 
 
@@ -157,27 +194,63 @@ function UserInfo({ loader, moveToMainScreen, navigation, addUserInfo, addFamily
       return;
     }
 
-    let user = {
-      firstName: fName,
-      lastName: lName,
-      taxId,
-      email,
-      schiller,
-      zimmer,
-      postalCode,
-      dob,
-      gender: male ? "male" : female ? "female" : "other",
-      city,
-      familyMembers: []
+    let data = {
+      url: signup_url,
+      body: {
+        organizationName: organizationName,
+        firstName: fName,
+        lastName: lName,
+        taxId,
+        email,
+        mobileNumber: mobileNo,
+        dateOfBirth: dob,
+        gender: male ? "male" : female ? "female" : "other",
+        address: {
+          street: schiller,
+          houseNo: zimmer,
+          city,
+          zipCode: postalCode,
+        },
+      }
     }
 
+    console.log('isFamily: ', isFamily)
     if (!isFamily) {
-      addUserInfo(user);
+      // addUserInfo(data);
+      signUp(data)
     } else {
-      let familyMember = { ...user, relation, mobileNo };
-      delete familyMember.familyMembers;
-      addFamilyMember(familyMember);
+      let data = {
+        url: editMode ? edit_family_url : add_family_url,
+        body: {
+          organizationName: organizationName,
+          relation,
+          familyId: userInfo.familyId,
+          firstName: fName,
+          lastName: lName,
+          taxId,
+          email,
+          mobileNumber: mobileNo,
+          dateOfBirth: dob,
+          gender: male ? "male" : female ? "female" : "other",
+          address: {
+            street: schiller,
+            houseNo: zimmer,
+            city,
+            zipCode: postalCode,
+          },
+        }
+      }
+      if (!editMode) {
+        addFamilyMember(data);
+      } else {
+        updateFamilyMember(data);
+      }
     }
+  }
+
+
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
 
@@ -187,7 +260,12 @@ function UserInfo({ loader, moveToMainScreen, navigation, addUserInfo, addFamily
         <View style={styles.innerDiv}>
           <View style={styles.mainHeading}>
             <Text style={styles.mainHeadingText}>
-              {isFamily ? 'Add Family' : 'User Information'}
+              {
+                !editMode ?
+                  isFamily ? 'Add Family' : 'User Information'
+                  :
+                  "Edit Family"
+              }
             </Text>
           </View>
           <View style={styles.smallHeading}>
@@ -341,16 +419,14 @@ function UserInfo({ loader, moveToMainScreen, navigation, addUserInfo, addFamily
             placeholder="Email"
             style={styles.inputStyle1}
             onChangeText={value => setEmail(value)}></TextInput>
-          {isFamily ? (
-            <TextInput
-              placeholderTextColor={'#a29d9d'}
-              value={mobileNo}
-              textContentType="mobileNo"
-              underlineColorAndroid="transparent"
-              placeholder="Mobile No"
-              style={styles.inputStyle1}
-              onChangeText={value => setMobileNo(value)}></TextInput>
-          ) : null}
+          <TextInput
+            placeholderTextColor={'#a29d9d'}
+            value={mobileNo}
+            textContentType="mobileNo"
+            underlineColorAndroid="transparent"
+            placeholder="Mobile No"
+            style={styles.inputStyle1}
+            onChangeText={value => setMobileNo(value)}></TextInput>
           <View style={styles.secondaryHeading}>
             <Text style={styles.secondaryHeadingText}>Address</Text>
           </View>
@@ -393,6 +469,7 @@ function UserInfo({ loader, moveToMainScreen, navigation, addUserInfo, addFamily
                 label: 'Leipzig',
                 value: 'Leipzig',
               },
+
             ]}
             defaultValue={city}
             containerStyle={{ height: '5%' }}
@@ -419,21 +496,33 @@ function UserInfo({ loader, moveToMainScreen, navigation, addUserInfo, addFamily
             placeholder="Postal Code"
             style={styles.inputStyle2}
             onChangeText={value => setPostalCode(value)}></TextInput>
-          <TouchableOpacity
-            style={[styles.container, styles.submitButtonDark]}
-            onPress={() => submit()}>
-            <Text style={styles.saveCloseText}>Continue</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{ marginTop: '4%', alignContent: 'center' }}
-            onPress={() => {
-              saveAndAddAnotherFamilyMember()
-
-            }}>
-            <Text style={styles.saveAddText}>
-              {isFamily ? 'Save & add another member' : 'Save & Add Family'}
-            </Text>
-          </TouchableOpacity>
+          {
+            editMode ?
+              <TouchableOpacity
+                disabled={loader}
+                style={[styles.container, styles.submitButtonDark]}
+                onPress={() => submit()}>
+                <Text style={styles.saveCloseText}>Update</Text>
+              </TouchableOpacity> :
+              <>
+                <TouchableOpacity
+                  disabled={loader}
+                  style={[styles.container, styles.submitButtonDark]}
+                  onPress={() => submit()}>
+                  <Text style={styles.saveCloseText}>Continue</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  disabled={!Object.keys(userInfo).length}
+                  style={{ marginTop: '4%', alignContent: 'center' }}
+                  onPress={() => {
+                    saveAndAddAnotherFamilyMember()
+                  }}>
+                  <Text style={styles.saveAddText}>
+                    {isFamily ? 'Save & add another member' : 'Save & Add Family'}
+                  </Text>
+                </TouchableOpacity>
+              </>
+          }
           {loader ? (
             <View
               style={{
@@ -456,15 +545,17 @@ function UserInfo({ loader, moveToMainScreen, navigation, addUserInfo, addFamily
 const mapDispatchToProps = dispatch => {
   return {
     moveToMainScreen: navigation => moveToMainScreenAction(navigation),
-    addUserInfo: user => dispatch(addUserInfo(user)),
-    addFamilyMember: familyMember => dispatch(addFamilyMember(familyMember)),
+    signUp: user => dispatch(signUpAction(user)),
+    addFamilyMember: data => dispatch(addFamilyMemberAction(data)),
+    updateFamilyMember: data => dispatch(updateFamilyMemberAction(data))
   };
 };
 
 const mapStateToProps = state => {
 
   return {
-    userInfo: state.userInfoReducer.userInfo
+    userInfo: state.userInfoReducer.userInfo,
+    loader: state.userInfoReducer.loader
   };
 };
 
