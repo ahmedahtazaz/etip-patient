@@ -11,7 +11,7 @@ import {LanguageChangeAction} from './Actions';
 // and `en-GB` to fallback to `en`
 const language = [
       {lang: "English", code: "en"},
-      {lang: "French", code: "fr"},
+      {lang: "German", code: "fr"},
      
     ]
 
@@ -62,7 +62,7 @@ function ChangeLanguage({LanguageChangeAction}) {
       <View style={styles.container}>
         <View style={styles.subContainer}>
           <View style={styles.block}>
-            <Text style={styles.title}>Langauge Translation</Text>
+            <Text style={styles.title}>Change Langauge</Text>
             <Text style={styles.textStyle}>{I18n.t('hello world')}</Text>
             <Text style={styles.textStyle}>{I18n.t('thank you')}</Text>
             <Text style={styles.textStyle}>{I18n.t('Bye')}</Text>
