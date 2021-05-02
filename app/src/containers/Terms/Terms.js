@@ -42,7 +42,7 @@ const greenQrCode = require('../../assets/images/green-qr-code.png');
 const greyEdit = require('../../assets/images/edit-gray-icon.png');
 
 import {
-    Getterms
+  getterms
 } from './Actions';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -54,7 +54,7 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
 );
 
 const Terms = ({
-    Getterms,
+    getterms,
     navigation
 }) => {
   const window = useWindowDimensions();
@@ -64,7 +64,7 @@ const Terms = ({
 
 useEffect(() => {
     I18n.locale = "en";
-    Getterms(get_terms_url+I18n.locale);
+    getterms(get_terms_url);
 
 }, []);
   return (
@@ -223,14 +223,18 @@ const styles = StyleSheet.create({
 });
 const mapDispatchToProps = dispatch => {
   return {
-    Getterms: data =>dispatch( Getterms(data)),
+    getterms: data =>dispatch(getterms(data)),
 
   };
+
 };
 
 const mapStateToProps = state => {
+  console.log('datatata');
+   console.log(state.getTermsReducer);
+
   return {
-    initLoaded: state.welcomeReducer.initLoaded,
+    initLoaded: state.getTermsReducer.initPayLoad,
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Terms);

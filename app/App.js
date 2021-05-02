@@ -59,7 +59,7 @@ const App: () => React$Node = () => {
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen
+            {/* <Stack.Screen
               name="SplashScreen"
               component={Splash}
               options={{headerShown: false}}
@@ -78,7 +78,7 @@ const App: () => React$Node = () => {
               name="UserInfoScreen"
               component={UserInfo}
               options={{headerShown: false}}
-            />
+            /> */}
 
             <Stack.Screen
               name="Settings"

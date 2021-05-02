@@ -2,9 +2,9 @@
 
 
 import {
-    GET_TERM_APP,
-    GET_TERM_APP_FAILURE,
-    GET_TERM_APP_SUCCESS
+  GET_TERMS,
+  GET_TERMS_FAILURE,
+  GET_TERMS_SUCCESS
   } from '../../commons/Constants';
   
   const INITIAL_STATE = {
@@ -17,11 +17,17 @@ import {
     
     };
     
-  export default function getAboutApp() {
+  export default function getTermsReducer() {
+    
       return function reducer(state = INITIAL_STATE, action) {
+        console.log(action.payload);
+
         switch (action.type) {
         
-            case GET_TERM_APP_SUCCESS:
+            case GET_TERMS_SUCCESS:
+              console.log('initPayLoad');
+
+              console.log(action);
               return {
                   ...state,
                   loader: false,
@@ -30,7 +36,7 @@ import {
   
               };
   
-          case GET_TERM_APP_FAILURE:
+          case GET_TERMS_FAILURE:
               return {
                   ...state,
                   loader: false,
@@ -38,7 +44,9 @@ import {
                   initPayLoad: undefined,
               };
   
-          case GET_TERM_APP:
+          case GET_TERMS:
+            console.log('initPayLoad only');
+
               return {
                   ...state,
                   loader: true,
