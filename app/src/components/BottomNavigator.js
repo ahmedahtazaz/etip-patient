@@ -1,14 +1,24 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, FlatList} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, FlatList } from 'react-native';
+import { IS_VERIFIER_APP } from '../commons/Constants';
 import NavigatorItem from './NavigatorItem';
 
-function BottomNavigator({navigation, selectedItem}) {
-  const [items, setItems] = useState([
-    {id: 1, label: 'Home'},
-    {id: 2, label: 'Appointments'},
-    {id: 3, label: 'Family'},
-    {id: 4, label: 'Certificates'},
-  ]);
+const verifierNavOptions = [
+  { id: 1, label: 'Home' },
+  { id: 2, label: 'Test Conducted' },
+  { id: 3, label: 'Settings' },
+]
+
+const patientNavOptions = [
+  { id: 1, label: 'Home' },
+  { id: 2, label: 'Appointments' },
+  { id: 3, label: 'Family' },
+  { id: 4, label: 'Certificates' },
+]
+
+
+function BottomNavigator({ navigation, selectedItem }) {
+  const [items, setItems] = useState(IS_VERIFIER_APP ? verifierNavOptions : patientNavOptions);
 
   return (
     <View style={styles.container}>
@@ -19,8 +29,8 @@ function BottomNavigator({navigation, selectedItem}) {
         contentContainerStyle={styles.rowHorizontalScreenListContainer}
         style={styles.rowHorizontalScreenList}
         data={items}
-        viewabilityConfig={{itemVisiblePercentThreshold: 50}}
-        renderItem={({item, index, separators}) => (
+        viewabilityConfig={{ itemVisiblePercentThreshold: 50 }}
+        renderItem={({ item, index, separators }) => (
           <NavigatorItem
             item={item}
             isSelected={selectedItem.id == item.id}
@@ -41,17 +51,21 @@ const styles = StyleSheet.create({
     height: '10%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#fff',
+    borderColor:'#ececec',
+    borderWidth:1,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
 
-    shadowRadius: 2,
-    shadowOffset: {
-      width: 0,
-      height: -3,
-    },
-    shadowColor: '#000000',
-    elevation: 4,
+    shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 1,
+},
+shadowOpacity: 0.85,
+shadowRadius: 3.84,
+
+elevation: 15,
   },
   rowHorizontalScreenListContainer: {
     flexGrow: 0,

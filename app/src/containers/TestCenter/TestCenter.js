@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     height: height * 0.1,
     paddingTop:'7%',
     alignItems: "center",
-    width,
+
   },
   backIcon: {
     flex: 1,
@@ -140,7 +140,6 @@ const styles = StyleSheet.create({
   headerTextView: {
     flex: 9,
     alignItems: "center",
-    paddingRight: width * 0.1
   },
   headerText: {
     fontSize: RFValue(16, 580),

@@ -1,6 +1,6 @@
-import { useIsFocused } from '@react-navigation/core';
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import {useIsFocused} from '@react-navigation/core';
+import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
 import {
   FlatList,
   SafeAreaView,
@@ -13,20 +13,21 @@ import {
   useWindowDimensions,
   ImageBackground,
 } from 'react-native';
-import { Dimensions } from 'react-native';
-import { Icon } from 'react-native-elements';
+import {Dimensions} from 'react-native';
+import {Icon} from 'react-native-elements';
 import Orientation from 'react-native-orientation-locker';
-import { WHITE_COLOR } from '../../theme/Colors';
-import { RFValue } from 'react-native-responsive-fontsize';
+import {WHITE_COLOR} from '../../theme/Colors';
+import {RFValue} from 'react-native-responsive-fontsize';
 import BottomNavigator from '../../components/BottomNavigator';
-import { width, height, totalSize } from 'react-native-dimension';
-import { ScrollView } from 'react-native-gesture-handler';
+import {width, height, totalSize} from 'react-native-dimension';
+import {ScrollView} from 'react-native-gesture-handler';
 
 import {
   moveToAppointmentDetailsAction,
   moveToMakeAppointsAction,
   moveToSettingsScreenAction,
 } from './Actions';
+import {ScrollView} from 'react-native-gesture-handler';
 const menuIcon = require('../../assets/images/menu-icon.png');
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
@@ -46,22 +47,18 @@ const DATA = [
     title: 'Modifiy Personal Information',
   },
   {
-    id: 'About App',
-    title: 'About App',
+    id: 'Modifiy Personal Information',
+    title: 'Modifiy Personal Information',
   },
   {
-    id: 'Need Assistance',
-    title: 'Need Assistance',
+    id: 'Modify Email',
+    title: 'Modify Email',
   },
   {
-    id: 'Privacy Policy',
-    title: 'Privacy Policy',
+    id: 'Modify Sim',
+    title: 'Modify Sim',
   },
   {
-    id: 'Terms & Conditions',
-    title: 'Terms & Conditions',
-  },
-   {
     id: 'About App',
     title: 'About App',
   },
@@ -110,7 +107,7 @@ const DATA1 = [
   },
 ];
 
-const Item = ({ item, onPress, backgroundColor, textColor }) => (
+const Item = ({item, onPress, backgroundColor, textColor}) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <Text style={[styles.title, textColor]}>{item.title}</Text>
   </TouchableOpacity>
@@ -133,7 +130,7 @@ const MainScreen = ({
     Orientation.lockToPortrait();
   }, [isFocused]);
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({item}) => {
     if (route.params && route.params.booked) {
       return (
         <View style={styles.appoinmentRedDiv}>
@@ -153,7 +150,7 @@ const MainScreen = ({
                   We have added few tips in your dashbaord that may help you in
                   these times. Swipe to view them
                 </Text>
-                <Image source={rightHandFinger} style={{ marginTop: 30 }} />
+                <Image source={rightHandFinger} style={{marginTop: 30}} />
               </View>
             </View>
           </ImageBackground>
@@ -170,7 +167,7 @@ const MainScreen = ({
         <View style={styles.activeCertificationDiv}>
           <ImageBackground
             source={previousAppoinmentBg}
-            style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
+            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
             <View style={styles.contentPadding}>
               <Text style={styles.boxHeadingDisable}>
                 No Active Certificate
@@ -185,19 +182,20 @@ const MainScreen = ({
     );
   };
 
-  const renderItemAppointment = ({ item }) => {
+  const renderItemAppointment = ({item}) => {
     if (route.params && route.params.booked) {
       return (
         <View
           style={{
             width: width(95),
+            marginBottom: 8,
           }}>
           <TouchableOpacity
             style={styles.activeAppoinmentsDiv}
             onPress={() => moveToAppointmentDetails(navigation, 'appointment')}>
             <ImageBackground
               source={activeCertificationBg}
-              style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
+              style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
               <View style={styles.contentPadding}>
                 <View style={styles.parentNameContainer}>
                   <View style={styles.nameTextContainer}>
@@ -222,12 +220,17 @@ const MainScreen = ({
       );
     }
     return (
-      <View>
-        <View style={styles.activeAppoinmentsDiv}>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}>
+        <View style={styles.activeCertificationDiv}>
           <ImageBackground
             source={previousAppoinmentBg}
             style={styles.activeAppoinmentsDiv}
-            style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
+            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
             <View style={styles.contentPadding}>
               <Text style={styles.boxHeadingDisable}>
                 No Active Appointments
@@ -251,38 +254,39 @@ const MainScreen = ({
             onPress={() => {
               movetoSettingsScreen(navigation);
             }}>
-            <Image source={menuIcon} style={{ marginLeft: 10 }} />
+            <Image source={menuIcon} style={{marginLeft: 10}} />
           </TouchableOpacity>
           <View style={styles.menuItemsCenter}>
-            <Image source={smallHeaderLogo} style={{ marginLeft: 5 }} />
+            <Image source={smallHeaderLogo} style={{marginLeft: 5}} />
           </View>
         </View>
       </View>
       <View style={styles.appoinmentDivBg}>
         <View style={styles.mainDivPad}>
-          {/* <View style={styles.nameContainer}>
-            <View style={styles.parentNameContainer}>
-              <View style={styles.nameTextContainer}>
-                <Text
-                  style={{fontSize: 25, fontWeight: 'bold', marginStart: 8}}>
-                  Hi Jenny
-                </Text>
-                <Text style={{textColor: 'grey', marginStart: 8}}>
-                  Hope u r feeling healthy today
-                </Text>
+          {
+            <View style={styles.nameContainer}>
+              <View style={styles.parentNameContainer}>
+                <View style={styles.nameTextContainer}>
+                  <Text
+                    style={{fontSize: 25, fontWeight: 'bold', marginStart: 8}}>
+                    Hi Jenny
+                  </Text>
+                  <Text style={{textColor: 'grey', marginStart: 8}}>
+                    Hope u r feeling healthy today
+                  </Text>
+                </View>
+                <TouchableOpacity
+                  onPress={() =>
+                    moveToAppointmentDetails(navigation, 'personal')
+                  }>
+                  <Image
+                    style={{height: 50, width: 50, marginEnd: 8}}
+                    source={mainScreenIcon}
+                  />
+                </TouchableOpacity>
               </View>
-              <TouchableOpacity
-                onPress={() =>
-                  moveToAppointmentDetails(navigation, 'personal')
-                }>
-                <Image
-                  style={{height: 50, width: 50, marginEnd: 8}}
-                  source={mainScreenIcon}
-                />
-              </TouchableOpacity>
             </View>
-          </View> */}
-         
+          }
           <View style={styles.actionCertificateContainer}>
             <Text style={styles.boxTopHeading}>ACTIVE CERTIFICATES</Text>
             <FlatList
@@ -295,15 +299,14 @@ const MainScreen = ({
           </View>
           <View style={styles.actionCertificateContainer}>
             <Text style={styles.boxTopHeading}>APPOINTMENTS</Text>
+            <ScrollView>
               <FlatList
-                contentContainerStyle={{
-                  flexGrow: 1,
-                }}
-                data={ DATA}
+                data={DATA1}
                 renderItem={renderItemAppointment}
                 keyExtractor={item => item.id}
                 extraData={selectedId}
               />
+            </ScrollView>
           </View>
         </View>
       </View>
@@ -314,7 +317,7 @@ const MainScreen = ({
       </TouchableOpacity>
       <BottomNavigator
         navigation={navigation}
-        selectedItem={{ id: 1, label: 'Home' }}></BottomNavigator>
+        selectedItem={{id: 1, label: 'Home'}}></BottomNavigator>
     </View>
   );
 };
@@ -380,6 +383,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     overflow: 'hidden',
     marginEnd: 10,
+    marginBottom: 10,
     maxHeight: 153,
   },
   activeAppoinmentsDiv: {
@@ -435,7 +439,6 @@ const styles = StyleSheet.create({
   },
   actionCertificateContainer: {
     marginTop: 30,
-   
   },
   boxTopHeading: {
     marginBottom: 8,

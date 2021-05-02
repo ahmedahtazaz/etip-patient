@@ -29,6 +29,13 @@ import UserInfo from './src/containers/UserInfo/UserInfo';
 import UpdateSettings from './src/containers/UpdateSettings/UpdateSettings';
 import MainScreen from './src/containers/MainScreen/MainScreen';
 import Settings from './src/containers/Settings/Settings';
+import {IS_VERIFIER_APP} from './src/commons/Constants';
+import QRScreen from './src/containers/QRScreen/QRScreen';
+import TestInformation from './src/containers/TestInformation/TestInformation';
+import TestConducted from './src/containers/TestConducted/TestConducted';
+import PinScreen from './src/containers/PinScreen/PinScreen';
+import TestCenter from './src/containers/TestCenter/TestCenter';
+import TestCenterInfo from './src/containers/TestCenterInfo/TestCenterInfo';
 import Appointment from './src/containers/Appointment/Appointment';
 import AppointmentCalender from './src/containers/AppointmentCalender/AppointmentCalender';
 import TestCenter from './src/containers/TestCenter/TestCenter';
@@ -40,7 +47,9 @@ import AppointmentDetails from './src/containers/AppointmentDetails.js/Appointme
 import UpdateOtherSettings from './src/containers/UpdateOtherSettings/UpdateOtherSettings';
 import ChangeLanguage from './src/containers/ChangeLanguage/ChangeLanguage';
 import AboutApp from './src/containers/AboutApp/AboutApp';
-
+import TestCenterVerifier from './src/containers/TestCenterVerifier/TestCenterVerifier';
+import VerifierSettings from './src/containers/VerifierSettings/VerifierSettings';
+import VerifierUserInfo from './src/containers/VerifierUserInfo/VerifierUserInfo';
 
 const menuIcon = require('../app/src/assets/images/menu-icon.png');
 
@@ -58,115 +67,168 @@ const App: () => React$Node = () => {
     <>
       <Provider store={store}>
         <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen
-              name="SplashScreen"
-              component={Splash}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="WelcomeScreen"
-              component={Welcome}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="PhoneScreen"
-              component={Phone}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="UserInfoScreen"
-              component={UserInfo}
-              options={{headerShown: false}}
-            />
+          {IS_VERIFIER_APP ? (
+            <Stack.Navigator>
+              {/* verifier app screens goes here */}
+              <Stack.Screen
+                name="SplashScreen"
+                component={Splash}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="TestCenterInfo"
+                component={TestCenterInfo}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="TestCenter"
+                component={TestCenterVerifier}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="PincodeScreen"
+                component={PinScreen}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="QRScreen"
+                component={QRScreen}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="TestInformationScreen"
+                component={TestInformation}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="TestConductedScreen"
+                component={TestConducted}
+                options={{headerShown: false}}
+              />
 
-            <Stack.Screen
-              name="Settings"
-              component={Settings}
-              options={{headerShown: false}}
-            />
+              <Stack.Screen
+                name="VerifierUserInfoScreen"
+                component={VerifierUserInfo}
+                options={{headerShown: false}}
+              />
 
-            <Stack.Screen
-              name="MainScreen"
-              component={MainScreen}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="Make an Appointment"
-              component={Appointment}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="AppointmentCalender"
-              component={AppointmentCalender}
-              options={{headerShown: false}}
-            />
+              <Stack.Screen
+                name="Settings"
+                component={VerifierSettings}
+                options={{headerShown: false}}
+              />
+            </Stack.Navigator>
+          ) : (
+            <Stack.Navigator>
+              <Stack.Screen
+                name="SplashScreen"
+                component={Splash}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="WelcomeScreen"
+                component={Welcome}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="PhoneScreen"
+                component={Phone}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="UserInfoScreen"
+                component={UserInfo}
+                options={{headerShown: false}}
+              />
 
-            <Stack.Screen
-              name="testCenter"
-              component={TestCenter}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="appointmentSlot"
-              component={AppointmentTimeSlot}
-              options={{headerShown: false}}
-            />
+              <Stack.Screen
+                name="Settings"
+                component={Settings}
+                options={{headerShown: false}}
+              />
 
-            <Stack.Screen
-              name="appointmentMainScreen"
-              component={AppointmentMainScreen}
-              options={{headerShown: false}}
-            />
+              <Stack.Screen
+                name="MainScreen"
+                component={MainScreen}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="Make an Appointment"
+                component={Appointment}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="AppointmentCalender"
+                component={AppointmentCalender}
+                options={{headerShown: false}}
+              />
 
-            <Stack.Screen
-              name="certificateMain"
-              component={Certificates}
-              options={{headerShown: false}}
-            />
+              <Stack.Screen
+                name="testCenter"
+                component={TestCenter}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="appointmentSlot"
+                component={AppointmentTimeSlot}
+                options={{headerShown: false}}
+              />
 
-            <Stack.Screen
-              name="familyMain"
-              component={FamilyMain}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="AppointmentDetailsScreen"
-              component={AppointmentDetails}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="UpdateSettingsScreen"
-              component={UpdateSettings}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="UpdateOtherSettingsScreen"
-              component={UpdateOtherSettings}
-              options={{headerShown: false}}
-            />
-            
-            <Stack.Screen
-              name="ChangeLanguage"
-              component={ChangeLanguage}
-              options={{headerShown: false}}
-            />
-                 <Stack.Screen
-              name="aboutApp"
-              component={AboutApp}
-              options={{headerShown: false}}
-            />
-               <Stack.Screen
-              name="policy"
-              component={Policy}
-              options={{headerShown: false}}
-            />
-               <Stack.Screen
-              name="terms"
-              component={Terms}
-              options={{headerShown: false}}
-            />
-          </Stack.Navigator>
+              <Stack.Screen
+                name="appointmentMainScreen"
+                component={AppointmentMainScreen}
+                options={{headerShown: false}}
+              />
+
+              <Stack.Screen
+                name="certificateMain"
+                component={Certificates}
+                options={{headerShown: false}}
+              />
+
+              <Stack.Screen
+                name="familyMain"
+                component={FamilyMain}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="AppointmentDetailsScreen"
+                component={AppointmentDetails}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="UpdateSettingsScreen"
+                component={UpdateSettings}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="UpdateOtherSettingsScreen"
+                component={UpdateOtherSettings}
+                options={{headerShown: false}}
+              />
+
+              <Stack.Screen
+                name="ChangeLanguage"
+                component={ChangeLanguage}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="aboutApp"
+                component={AboutApp}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="policy"
+                component={Policy}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="terms"
+                component={Terms}
+                options={{headerShown: false}}
+              />
+            </Stack.Navigator>
+          )}
         </NavigationContainer>
       </Provider>
     </>
