@@ -1,4 +1,4 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { put, takeLatest, call } from 'redux-saga/effects';
 import {
     SEND_OTP,
     SEND_OTP_SUCCESS,
@@ -6,56 +6,32 @@ import {
     VERIFY_OTP_SUCCESS,
     VERIFY_OTP_FAILURE,
     VERIFY_OTP,
+    postCall
 } from '../../commons/Constants';
+import axios from 'axios';
 
+import AxiosInstance from '../../commons/AxiosInstance';
 
 function* sendOTP(action) {
-    console.log('action: ', action)
-    let error = undefined;
-    let res = undefined;
-
-    yield fetch(action.payload.url, {
-        method: 'POST',
-        body: action.payload.body,
-    })
-        .then(response => {
-            res = response;
-        })
-        .catch(err => {
-            error = err;
-        });
-
-    if (res) {
-        res = yield res.json();
+    try {
+        const { data: res } = yield call(AxiosInstance.post, action.payload.url, action.payload.body);
+        if (res.message === "OTP sent to phone number")
+            yield put({ type: SEND_OTP_SUCCESS, payload: res })
+    } catch (error) {
+        console.log("error: ", error);
+        yield put({ type: SEND_OTP_FAILURE, errMessage: error });
     }
-
-    if (res) yield put({ type: SEND_OTP_SUCCESS, payload: res });
-    else yield put({ type: SEND_OTP_FAILURE, errMessage: error });
 }
 
 
 function* verifyOTP(action) {
-    console.log('action: ', action)
-    let error = undefined;
-    let res = undefined;
-
-    yield fetch(action.payload.url, {
-        method: 'POST',
-        body: action.payload.body,
-    })
-        .then(response => {
-            res = response;
-        })
-        .catch(err => {
-            error = err;
-        });
-
-    if (res) {
-        res = yield res.json();
+    try {
+        const { data: res } = yield call(AxiosInstance.post, action.payload.url, action.payload.body);
+        yield put({ type: VERIFY_OTP_SUCCESS, payload: res });
+    } catch (error) {
+        console.log("error: ", error);
+        yield put({ type: VERIFY_OTP_FAILURE, errMessage: error });
     }
-
-    if (res) yield put({ type: VERIFY_OTP_SUCCESS, payload: res });
-    else yield put({ type: VERIFY_OTP_FAILURE, errMessage: error });
 }
 
 export function* sendOTPActionWatcher() {

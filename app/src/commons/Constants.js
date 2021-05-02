@@ -43,3 +43,21 @@ export const APP_INIT_LINK = '';
 
 export const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 export const IS_VERIFIER_APP = false;
+
+
+export const postCall = ({ url, body: data }) => {
+    return axios({ url, method: "post", data })
+        .then(data => ({ data }))
+        .catch(ex => {
+            return ex;
+        });
+}
+
+
+function* createPostSaga({ url, data }) {
+    try {
+        const result = yield call(axios.post, url, { ...data });
+    } catch (error) {
+        console.log(error);
+    }
+}
