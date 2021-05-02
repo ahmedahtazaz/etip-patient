@@ -38,7 +38,6 @@ import TestCenter from './src/containers/TestCenter/TestCenter';
 import TestCenterInfo from './src/containers/TestCenterInfo/TestCenterInfo';
 import Appointment from './src/containers/Appointment/Appointment';
 import AppointmentCalender from './src/containers/AppointmentCalender/AppointmentCalender';
-import TestCenter from './src/containers/TestCenter/TestCenter';
 import AppointmentTimeSlot from './src/containers/AppointmentTimeSlot/AppointmentTimeSlot';
 import AppointmentMainScreen from './src/containers/AppointmentMainScreen/AppointmentMainScreen';
 import Certificates from './src/containers/Certificates/Certificates';

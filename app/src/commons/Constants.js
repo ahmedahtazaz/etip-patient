@@ -42,4 +42,4 @@ export const GET_POLICY_FAILURE = 'GET_POLICY_FAILURE ';
 export const APP_INIT_LINK = '';
 
 export const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-export const IS_VERIFIER_APP = true;
+export const IS_VERIFIER_APP = false;

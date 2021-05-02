@@ -27,7 +27,7 @@ import {
   moveToMakeAppointsAction,
   moveToSettingsScreenAction,
 } from './Actions';
-import {ScrollView} from 'react-native-gesture-handler';
+
 const menuIcon = require('../../assets/images/menu-icon.png');
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
