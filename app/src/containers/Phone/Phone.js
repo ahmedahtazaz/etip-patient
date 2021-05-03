@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import I18n from '../../translations/I18n';
 
 import Orientation from 'react-native-orientation-locker';
 import { useIsFocused } from '@react-navigation/native';
@@ -113,7 +114,8 @@ function Phone({ loader, movetoUserInfoScreen, navigation, sendOTP, otpSend, ver
                 {'\n'}
                 {'\n'}
                 <Text style={styles.inputLabelSmall}>
-                  Please enter your valid phone number to continue
+                  {/* Please enter your valid phone number to continue */}
+                 { I18n.t('Please enter a valid phone number')}
               </Text>
               </Text>
               <TextInput

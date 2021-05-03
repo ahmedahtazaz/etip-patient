@@ -31,7 +31,7 @@ const welcomeLogo = require('../../assets/images/welcome-logo.png');
 const welcomeImg = require('../../assets/images/welcome-image.png');
 const currentDate = new Date();
 function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFamilyMember, userInfo }) {
-  const [isFamily, setIsFamily] = useState(true);
+  const [isFamily, setIsFamily] = useState(false);
   const [fName, setFName] = useState('');
   const [lName, setLName] = useState('');
   const [male, setMale] = useState(false);
@@ -110,7 +110,7 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
 
 
   const submit = () => {
-    moveToMainScreen(navigation)
+    // moveToMainScreen(navigation)
     if (!Object.keys(userInfo).length) {
       addData();
       return;

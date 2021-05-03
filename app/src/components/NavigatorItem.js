@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, { useRef } from 'react';
 import {
   StyleSheet,
   TouchableOpacity,
@@ -7,10 +7,11 @@ import {
   ImageBackground,
   View,
 } from 'react-native';
-import {RFValue} from 'react-native-responsive-fontsize';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { IS_VERIFIER_APP } from '../commons/Constants';
 const selectedBottomNav = require('../assets/images/selected-bottom-nav.png');
 
-function NavigatorItem({item, isSelected, navigation}) {
+function NavigatorItem({ item, isSelected, navigation }) {
   const isSelectedRef = useRef(isSelected);
   isSelectedRef.current = isSelected;
 
@@ -23,6 +24,33 @@ function NavigatorItem({item, isSelected, navigation}) {
   };
 
   const getImage = (item, isSelected) => {
+    if (IS_VERIFIER_APP) {
+      return getVerifierImage(item, isSelected);
+    }
+    return getPatientImage(item, isSelected)
+  };
+
+
+  //verifier images goes here
+  const getVerifierImage = (item, isSelected) => {
+    switch (item.id) {
+      case 1:
+        if (isSelected) return require('../assets/images/home-icon.png');
+        else return require('../assets/images/home-icon.png');
+      case 2:
+        if (isSelected)
+          return require('../assets/images/test-conducted-icon.png');
+        else return require('../assets/images/test-conducted-icon.png');
+      case 3:
+        if (isSelected) return require('../assets/images/settings-icon.png');
+        else return require('../assets/images/settings-icon.png');
+      default:
+        if (isSelected) return require('../assets/images/home-icon.png');
+        else return require('../assets/images/home-icon.png');
+    }
+  }
+
+  const getPatientImage = (item, isSelected) => {
     switch (item.id) {
       case 1:
         if (isSelected) return require('../assets/images/home-icon.png');
@@ -42,9 +70,18 @@ function NavigatorItem({item, isSelected, navigation}) {
         if (isSelected) return require('../assets/images/home-icon.png');
         else return require('../assets/images/home-icon.png');
     }
-  };
+  }
+
 
   const navigateToHome = item => {
+    if (IS_VERIFIER_APP) {
+      verifierNavigator(item);
+    } else {
+      patientNavigator(item);
+    }
+  };
+
+  const patientNavigator = (item) => {
     switch (item.id) {
       case 1:
         navigation.replace('MainScreen');
@@ -62,7 +99,24 @@ function NavigatorItem({item, isSelected, navigation}) {
         navigation.replace('MainScreen');
         break;
     }
-  };
+  }
+
+  const verifierNavigator = (item) => {
+    switch (item.id) {
+      case 1:
+        navigation.replace('TestCenterInfo');
+        break;
+      case 2:
+        navigation.replace('TestConductedScreen');
+        break;
+      case 3:
+        navigation.replace('Settings');
+        break;
+      default:
+        navigation.replace('TestCenterInfo');
+        break;
+    }
+  }
 
   return (
     <TouchableOpacity
@@ -107,11 +161,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
+
+    
   },
   slectedNavBg: {
     flex: 1,
     justifyContent: 'center',
     resizeMode: 'cover',
+
     alignItems: 'center',
     width: '100%',
     paddingBottom: 15,

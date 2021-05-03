@@ -5,6 +5,10 @@ import welcomeReducer from '../containers/Welcome/Reducer';
 import userInfoReducer from '../containers/UserInfo/Reducer';
 import phoneReducer from '../containers/Phone/Reducer';
 import getTermsReducer from '../containers/Terms/Reducers';
+import getPolicyReducer from '../containers/Policy/Reducers';
+import getAboutApp from '../containers/AboutApp/Reducers';
+
+
 
 const createRootReducer = () =>
   combineReducers({
@@ -14,6 +18,11 @@ const createRootReducer = () =>
     LanguageReducer:LanguageReducer(),
     phoneReducer: phoneReducer(),
     getTermsReducer:getTermsReducer(),
+    getPolicyReducer:getPolicyReducer(),
+    getPolicyReducer:getPolicyReducer(),
+    getAboutApp:getAboutApp(),
+    
+    
     
 
   });

@@ -1,4 +1,4 @@
-import {LOAD_INIT, SHOW_INIT_LOADER} from '../../commons/Constants';
+import {LOAD_INIT, SHOW_INIT_LOADER,GET_DEFAULT_LANG,GET_LANG_BY_SELECTED_KEY} from '../../commons/Constants';
 
 export const initialiseAppAction = url => {
   return {
@@ -28,4 +28,23 @@ export const moveToPhoneScreenAction = navigation => {
 
 export const moveToUserInfoScreenAction = navigation => {
   return navigation.replace('UserInfoScreen');
+};
+
+
+
+export const GetDefaultLanguage = (payload) => {
+  return {
+    type: GET_DEFAULT_LANG,
+    payload
+  };
+};
+
+
+
+
+export const GetLanguageKeysByKey = (payload) => {
+  return {
+    type: GET_LANG_BY_SELECTED_KEY,
+    payload
+  };
 };

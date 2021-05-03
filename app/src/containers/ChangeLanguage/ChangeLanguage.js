@@ -1,109 +1,130 @@
-import React, { useEffect,useState } from 'react';
-import { Platform, StyleSheet, TouchableOpacity, Text, ScrollView, View,SafeAreaView, FlatList,Checkbox,Dimensions,
-  Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  Platform, StyleSheet, TouchableOpacity, Text, ScrollView, View, SafeAreaView, FlatList, Checkbox, Dimensions,
+  Image
+} from 'react-native';
 import { exp } from 'react-native-reanimated';
 import I18n from '../../translations/I18n';
-import {connect} from 'react-redux';
-import {LanguageChangeAction,GetLanguage} from './Actions';
-import { get_lang_url } from '../../commons/environment';
 
-import {BLACK_COLOR, GREEN_COLOR, WHITE_COLOR} from '../../theme/Colors';
-const {width, height} = Dimensions.get('window');
+import { connect } from 'react-redux';
+import { LanguageChangeAction, GetLanguage,GetLanguageByLang } from './Actions';
+import { get_lang_by_lang_url, get_lang_url } from '../../commons/environment';
 
+import { BLACK_COLOR, GREEN_COLOR, WHITE_COLOR } from '../../theme/Colors';
+const { width, height } = Dimensions.get('window');
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import AsyncStorage from '@react-native-community/async-storage'
+
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Orientation from 'react-native-orientation-locker';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {RFValue} from 'react-native-responsive-fontsize';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { STORAGE_KEY } from '../../commons/Constants';
 
 
 // Enable fallbacks if you want `en-US`
 // and `en-GB` to fallback to `en`
 const language = [
-      {lang: "English", code: "en"},
-      {lang: "German", code: "fr"},
-     
-    ]
+  { lang: "English", code: "en" },
+  { lang: "German", code: "fr" },
 
-function ChangeLanguage({LanguageChangeAction,GetLanguage,navigation}) {
-    const [languages, setlanguages] = useState([]);
-    const [value, setvalue] = useState(false);
-    const [select, setselect] = useState('Select Language');
-    const [langValue, setlangValue] = useState('en');
-    const [checked, setChecked] = React.useState(false);
-  const [result, setResult] = useState('positive');
+]
 
-    const [selectedId, setSelectedId] = useState(null);
+function ChangeLanguage({ LanguageChangeAction, GetLanguage, navigation, initLoaded ,GetLanguageByLang,langData}) {
+  const [languages, setlanguages] = useState([]);
+  const [languages2, setlanguages2] = useState([]);
+
+  const [value, setvalue] = useState(false);
+  const [select, setselect] = useState('Select Language');
+  const [langValue, setlangValue] = useState('en');
+  const [checked, setChecked] = React.useState(false);
+  const [result, setResult] = useState('false');
+  const [selectedIndex, setSelectedIndex] = useState([]);
+
+  const [selectedlang, setSelectedLang] = useState(null);
 
   useEffect(() => {
-       I18n.locale = "en";
-       GetLanguage(get_lang_url);
-
+    // I18n.locale = "en";
+    // i18n.defaultLocale = "en";
+    GetLanguage(get_lang_url);
+    setlanguages(initLoaded);
+  
   }, []);
+ 
 
 
-  const onSelectLanguage=()=> {
-    return(
-      language.map((data, i)=>{
+  const onSelectLanguage = () => {
+    return (
+      language.map((data, i) => {
         return (
-           <View key={i} style={styles.dropDownView}>
-             <TouchableOpacity onPress={()=>onSelectedLang(data)}>
-               <Text style={styles.dropDownText}>{data.lang}</Text>
-             </TouchableOpacity>
-           </View>
+          <View key={i} style={styles.dropDownView}>
+            <TouchableOpacity onPress={() => onSelectedLang(data)}>
+              <Text style={styles.dropDownText}>{data._id}</Text>
+            </TouchableOpacity>
+          </View>
         )
       })
     )
   }
+  const saveData = async (data) => {
+    try {
+      await AsyncStorage.setItem(STORAGE_KEY, data)
+    } catch (e) {
+    }
+  }
 
-  const onSelectedLang=(text)=> {
-  
+  const onSelectedLang = (text) => {
+
     setvalue(false);
 
     setselect(text.lang);
-        I18n.locale = text.code;
-        LanguageChangeAction(text.code);
+    // I18n.locale = text.code;
+    LanguageChangeAction(text.code);
   }
-     
-  const onLanguage=()=> {
-          setvalue(true);
-        
-      }
-      const englishClick=()=>{
-        I18n.locale ='en';
-        setResult('positive')
-      }
 
-      const germanClick=()=>{
-        I18n.locale ='fr';
-        setResult('negative')
-      }
-      const renderItem = ({item}) => {
-        return (
-          <View>
-            <View style={styles.nameTextContainer}>
-              <Text style={{marginStart: 8, color: '#027279', fontSize:15, fontWeight:'600'}}>
-                {item.lang}
-              </Text>
- 
-              {/* <Checkbox
-      status={checked ? 'checked' : 'unchecked'}
-      onPress={() => {
-        setChecked(!checked);
-      }}
-    /> */}
+  const onLanguage = () => {
+    setvalue(true);
 
+  }
+  const englishClick = (item) => {
+    item.status = 'false';
+    // I18n.locale = '';
 
-            </View>
-          </View>
-        );
-      };
-    
+    // I18n.locale = item.lang;
+    setSelectedLang(item.lang);
+    saveData(item.lang);
+    GetLanguageByLang(get_lang_by_lang_url+item.lang);
+  //  init();
+   
+  }
+
+  const renderItem = ({ item }) => {
     return (
+      <View>
+        <TouchableOpacity
+          style={styles.inputStyle1}
+          onPress={()=>englishClick(item)}>
+          <View style={styles.testOption}>
+            <Text>{item.description}</Text>
+            {item.status === 'true' && (
+              <Ionicons
+                name="checkmark-circle"
+                color={GREEN_COLOR}
+                size={15}
+              />
+            )}
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+
+  return (
     //   <View style={styles.container}>
     //     <View style={styles.subContainer}>
-      
+
     //       <View>
     //         <TouchableOpacity onPress={onLanguage}>
     //           <View style={styles.buttonView}>
@@ -118,7 +139,7 @@ function ChangeLanguage({LanguageChangeAction,GetLanguage,navigation}) {
     // </View>
     <View style={styles.container}>
 
-              <View style={styles.header}>
+      <View style={styles.header}>
         <View style={styles.backIcon}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <EvilIcons name="chevron-left" color="#000" size={30} />
@@ -129,8 +150,13 @@ function ChangeLanguage({LanguageChangeAction,GetLanguage,navigation}) {
         </View>
       </View>
 
-      
-            <TouchableOpacity
+      <FlatList
+        
+        data={languages}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+      />
+      {/* <TouchableOpacity
               style={styles.inputStyle1}
               onPress={englishClick}>
               <View style={styles.testOption}>
@@ -157,27 +183,34 @@ function ChangeLanguage({LanguageChangeAction,GetLanguage,navigation}) {
                   />
                 )}
               </View>
-            </TouchableOpacity>
-          
-          </View>
+            </TouchableOpacity> */}
 
-   );
-  }
+    </View>
 
-  
+  );
+}
+
+
 const mapDispatchToProps = dispatch => {
-    return {
-      
-      GetLanguage: lang =>dispatch( GetLanguage(lang)),
-LanguageChangeAction: lang =>dispatch( LanguageChangeAction(lang)),
-    };
+  return {
+
+    GetLanguage: lang => dispatch(GetLanguage(lang)),
+    LanguageChangeAction: lang => dispatch(LanguageChangeAction(lang)),
+    GetLanguageByLang: lang => dispatch(GetLanguageByLang(lang)),
+
+    
   };
-  
-  const mapStateToProps = state => {
-    return {};
+};
+
+const mapStateToProps = state => {
+ 
+  return {
+    initLoaded: state.LanguageReducer.initPayLoad,
+    langData: state.LanguageReducer.langData,
   };
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(ChangeLanguage);
+};  
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChangeLanguage);
 
 const styles = StyleSheet.create({
   // container: {
@@ -234,10 +267,10 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 16,
     display: 'flex',
-    borderRadius:4,
+    borderRadius: 4,
     flexDirection: 'column',
-    backgroundColor:'#F9F9F9',
-    padding:10,
+    backgroundColor: '#F9F9F9',
+    padding: 10,
   },
   switchMain: {
     flexDirection: 'row',
@@ -246,7 +279,7 @@ const styles = StyleSheet.create({
   },
   switchTextView: {
     // width: width * 0.7
-   width:'88%',
+    width: '88%',
   },
   switchText: {
     color: '#c0c0c0',
@@ -290,9 +323,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
-    paddingLeft:15,
-    paddingRight:15,
-    height:'95%'
+    paddingLeft: 15,
+    paddingRight: 15,
+    height: '95%'
   },
   backIcon: {
     marginHorizontal: 5,
@@ -304,7 +337,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   infoContainer: {
-    
+
   },
   sectionContainer: {
     backgroundColor: Colors.black,
@@ -318,10 +351,10 @@ const styles = StyleSheet.create({
 
   patientInfo: {
     borderRadius: 10,
-    backgroundColor:'red',
+    backgroundColor: 'red',
     display: 'flex',
     flexDirection: 'column',
-    width:'100%',
+    width: '100%',
     resizeMode: 'cover',
     overflow: 'hidden',
   },
@@ -330,22 +363,22 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     display: 'flex',
-    
+
     flexDirection: 'column',
     resizeMode: 'cover',
     overflow: 'hidden',
-   paddingBottom:15,
+    paddingBottom: 15,
   },
   patientId: {
     marginVertical: 12,
     fontSize: RFValue(20, 580),
     color: WHITE_COLOR,
   },
-  bottomBtnDiv : {
-    position:'absolute',
-    width:'98%',
-    left:'5%',
-    bottom:'12%'
+  bottomBtnDiv: {
+    position: 'absolute',
+    width: '98%',
+    left: '5%',
+    bottom: '12%'
 
   },
   inputStyle1: {
@@ -378,7 +411,7 @@ const styles = StyleSheet.create({
     elevation: 2,
 
     height: '65%',
-    
+
     width: '100%',
     paddingTop: 20,
     paddingBottom: 20,

@@ -2,6 +2,7 @@ import React, { useEffect,useState } from 'react';
 import { Icon, SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import {RFValue} from 'react-native-responsive-fontsize';
+import HTML from 'react-native-render-html';
 
 import {
   Button,
@@ -15,6 +16,7 @@ import {
   Image,
   useWindowDimensions,
   ImageBackground,
+  ScrollView
   
 } from 'react-native';
 import { Dimensions } from 'react-native';
@@ -22,10 +24,11 @@ import Calendar from '../../components/Calendar';
 import BottomNavigator from '../../components/BottomNavigator';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import I18n from '../../translations/I18n';
-import { get_about_app_url, get_terms_url } from '../../commons/environment';
+import { get_about_app_url, get_policy_url } from '../../commons/environment';
 const menuArrowWhiteIcon = require('../../assets/images/menu-arrow-white-icon.png');
 const {width, height} = Dimensions.get('window');
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import { WebView } from 'react-native-webview';
 
 const menuIcon = require('../../assets/images/menu-icon.png');
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
@@ -42,19 +45,25 @@ const greenQrCode = require('../../assets/images/green-qr-code.png');
 const greyEdit = require('../../assets/images/edit-gray-icon.png');
 
 import {
-  GetABoutApp
+  getAbout
 } from './Actions';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-
+const htmlContent = `
+    <h1>VR Lorem ipsum dolor sit amet, consectetur adipiscing elit. !</h1>
+    <em>By <b class="author">React Native Master</b></em>
+    <img src="https://image.freepik.com/free-photo/young-woman-using-vr-glasses-with-neon-lights_155003-17747.jpg" />
+    <p>Vivamus bibendum feugiat pretium. <a href="https://reactnativemaster.com/">Vestibulum ultricies rutrum ornare</a>. Donec eget suscipit tortor. Nullam pellentesque nibh sagittis, pharetra quam a, varius sapien. Pellentesque ut leo id mauris hendrerit ultrices et non mauris. Quisque gravida erat at felis tincidunt tincidunt. Etiam sit amet egestas leo. Cras mollis mi sed lorem finibus, interdum molestie magna mollis. Sed venenatis lorem nec magna convallis iaculis.</p>
+    <iframe height="315" src="https://www.youtube.com/embed/fnCmUWqKo6g" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+`;
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <Text style={[styles.title, textColor]}>{item.title}</Text>
   </TouchableOpacity>
 );
 
-const Terms = ({
-  GetABoutApp,
+const AboutApp = ({
+  getAbout,
     navigation
 }) => {
   const window = useWindowDimensions();
@@ -64,7 +73,7 @@ const Terms = ({
 
 useEffect(() => {
     I18n.locale = "en";
-    GetABoutApp(get_about_app_url+I18n.locale);
+    getAbout(get_about_app_url);
 
 }, []);
   return (
@@ -76,18 +85,41 @@ useEffect(() => {
           </TouchableOpacity>
         </View>
         <View>
-          <Text style={styles.headerText}>Acout App</Text>
+          <Text style={styles.headerText}>{I18n.t(Terms & Condition)}</Text>
         </View>
       </View>
     <View style={styles.appoinmentDivBg}>
-     <Text>hahahah</Text>
-    </View>
+    <HTML 
+  html={htmlContent} 
+  tagsStyles={tagsStyles}
+  classesStyles={classesStyles}
+  imagesMaxWidth={Dimensions.get('window').width * .9 } 
+  staticContentMaxWidth={Dimensions.get('window').width * .9 }
+/>
+             </View>
    
   </View>
   );
 };
 
+const tagsStyles = {
+  h1: {
+    color: '#6728C7',
+    textAlign: 'center',
+    marginBottom: 10
+  },
+  img: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 20
+  }
+}
 
+const classesStyles = {
+  'author': {
+    color: '#CA43AC',
+  },
+}
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
@@ -190,12 +222,7 @@ const styles = StyleSheet.create({
     paddingRight: '3%',
   },
   appoinmentDivBg: {
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    backgroundColor: 'white',
-    marginTop: '25%',
-    marginStart:16,
-    marginBottom:16,
+  
   },
   mainMenu: {
     position: 'absolute',
@@ -223,14 +250,15 @@ const styles = StyleSheet.create({
 });
 const mapDispatchToProps = dispatch => {
   return {
-    GetABoutApp: data =>dispatch( GetABoutApp(data)),
+    getAbout: data =>dispatch(getAbout(data)),
 
   };
+
 };
 
 const mapStateToProps = state => {
   return {
-    initLoaded: state.welcomeReducer.initLoaded,
+    initLoaded: state.getTermsReducer.initPayLoad,
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Terms);
+export default connect(mapStateToProps, mapDispatchToProps)(AboutApp);

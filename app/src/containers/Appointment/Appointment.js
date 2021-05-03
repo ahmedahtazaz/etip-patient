@@ -11,6 +11,8 @@ import {
   useWindowDimensions,
   ImageBackground,
 } from 'react-native';
+import I18n from '../../translations/I18n';
+
 import { Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { moveToAppointmentCalenderAction } from './Actions';
@@ -81,7 +83,7 @@ const Appointment = ({ movetoAppointmentCalenderScreen, navigation, userInfo }) 
           </TouchableOpacity>
         </View>
         <View style={styles.headerTextView}>
-          <Text style={styles.headerText}>Make an Appointment</Text>
+          <Text style={styles.headerText}>{I18n.t('Make an Appointment')}</Text>
         </View>
       </View>
       <View style={styles.appoinmentDivBg}>
@@ -89,13 +91,13 @@ const Appointment = ({ movetoAppointmentCalenderScreen, navigation, userInfo }) 
           <View style={styles.nameTextContainer}>
             <Text style={styles.inputLabelDiv}>
               <Text style={styles.inputLabel}>
-                Make an {'\n'}Appointment for
+              {I18n.t('Make an Appointment for')}
               </Text>
               {'\n'}
               {'\n'}
               <Text style={styles.inputLabelSmall}>
-                Please select the family memebers u want to select.
-              </Text>
+'              {I18n.t('Please select the family memebers u want to select.')}
+'              </Text>
             </Text>
           </View>
         </View>

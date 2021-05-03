@@ -1,10 +1,10 @@
 
-
-
 import {
   GET_LANG,
   GET_LANG_FAILURE,
-  GET_LANG_SUCCESS
+  GET_LANG_SUCCESS,
+
+  GET_LANG_BY_LANG,GET_LANG_BY_LANG_SUCCESS,GET_LANG_BY_LANG_FAILURE
 } from '../../commons/Constants';
 
 const INITIAL_STATE = {
@@ -13,7 +13,9 @@ const INITIAL_STATE = {
     loader: false,
     errMessage: undefined,
     initPayLoad: undefined,
-    getLang: false
+    getLang: false,
+    langData:undefined,
+    langCode:'',
   
   };
   
@@ -49,6 +51,31 @@ export default function LanguageReducer() {
                 loader: true,
             };
 
+
+            case GET_LANG_BY_LANG_SUCCESS:
+              return {
+                  ...state,
+                  loader: false,
+                  errMessage: undefined,
+                  langData: action.langData,
+                  langCode:action.langData.lang
+  
+              };
+  
+          case GET_LANG_BY_LANG_FAILURE:
+              return {
+                  ...state,
+                  loader: false,
+                  errMessage: action.errMessage,
+                  langData: 'error',
+                  langCode:'error'
+              };
+  
+          case GET_LANG_BY_LANG:
+              return {
+                  ...state,
+                  loader: true,
+              };
   
         default:
           return state;

@@ -1,4 +1,4 @@
-import {put, takeLatest} from 'redux-saga/effects';
+import { put, takeLatest, call } from 'redux-saga/effects';
 
 import {
   GET_TERMS,
@@ -8,6 +8,9 @@ import {
   
 import DeviceInfo from 'react-native-device-info';
 
+import axios from 'axios';
+
+import AxiosInstance from '../../commons/AxiosInstance';
 function* loadInit(action) {
   let error = undefined;
   let payLoad = undefined;
@@ -32,8 +35,7 @@ function* loadInit(action) {
 
   if (payLoad)
   {
-    console.log('payload true');
-    console.log(payLoad1);
+  
     yield put({type: GET_TERMS_SUCCESS, payLoad: payLoad1});
   }
   else 
@@ -42,6 +44,16 @@ function* loadInit(action) {
   }
 }
 
+function* termSaga(action) {
+ 
+  try {
+      const { data: res } = yield call(AxiosInstance.get, action.payload);
+      yield put({ type: GET_TERMS_SUCCESS, payload: res });
+  } catch (error) {
+      yield put({ type: GET_TERMS_FAILURE, errMessage: error });
+  }
+}
+
 export default function* getTermsData() {
-  yield takeLatest(GET_TERMS, loadInit);
+  yield takeLatest(GET_TERMS, termSaga);
 }

@@ -15,6 +15,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import {Dimensions} from 'react-native';
+import I18n from '../../translations/I18n';
 import Calendar from '../../components/Calendar';
 import {width, height, totalSize} from 'react-native-dimension';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -138,7 +139,7 @@ const AppointmentCalender = ({
           </TouchableOpacity>
         </View>
         <View style={styles.headerTextView}>
-          <Text style={styles.headerText}>Make an Appointment</Text>
+          <Text style={styles.headerText}>{I18n.t('Make an Appointment')}</Text>
         </View>
       </View>
       <View style={styles.appoinmentDivBg}>
@@ -147,7 +148,7 @@ const AppointmentCalender = ({
             <View style={styles.parentNameContainer}>
               <View style={styles.nameTextContainer}>
                 <Text style={{marginStart: 8, color: '#adadad'}}>
-                  Appointment For
+                {I18n.t('Appointment For')}
                 </Text>
                 <Text
                   style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
@@ -160,7 +161,7 @@ const AppointmentCalender = ({
             </View>
           </View>
           <View style={styles.actionCertificateContainer}>
-            <Text style={styles.regionText}>Region</Text>
+            <Text style={styles.regionText}>{I18n.t('Region')}</Text>
             <FlatList
               horizontal
               data={DATA}
@@ -176,7 +177,7 @@ const AppointmentCalender = ({
             <View style={styles.nameTextContainer}>
               <Text
                 style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
-                Test Center
+               {I18n.t('Test Center')}
               </Text>
             </View>
             <View>
@@ -185,7 +186,7 @@ const AppointmentCalender = ({
           </TouchableOpacity>
 
           <View style={styles.calenderContainer}>
-            <Text style={styles.regionText1}>Appointment Date</Text>
+            <Text style={styles.regionText1}>{I18n.t('Appointment Date')}</Text>
             <Calendar onDateChange={onDateChange} />
           </View>
         </ScrollView>
@@ -280,6 +281,7 @@ const styles = StyleSheet.create({
     height: height(40),
     display: 'flex',
     flexDirection: 'column',
+    marginBottom:150,
   },
   nameContainer: {
     alignSelf: 'stretch',

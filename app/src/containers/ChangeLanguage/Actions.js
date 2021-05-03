@@ -1,5 +1,5 @@
 
-import { GET_LANG } from "../../commons/Constants";
+import { GET_LANG,GET_LANG_BY_LANG } from "../../commons/Constants";
 
 export const LanguageChangeAction = text_code => {
      return {
@@ -9,9 +9,17 @@ export const LanguageChangeAction = text_code => {
     
   };
 
-  export const GetLanguage = (url) => {
-    return {
-      type: GET_LANG,
-      url
-    };
+ 
+export const GetLanguage = (payload) => {
+  return {
+    type: GET_LANG,
+    payload
   };
+};
+
+export const GetLanguageByLang = (payload) => {
+  return {
+    type: GET_LANG_BY_LANG,
+    payload
+  };
+};

@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
-import {APP_INIT_LINK} from '../../commons/Constants';
+import {APP_INIT_LINK, STORAGE_KEY} from '../../commons/Constants';
 import {PRIMARY_COLOR, WHITE_COLOR} from '../../theme/Colors';
 import PrimaryButton from '../../components/PrimaryButton';
 import Slider from 'react-native-slide-to-unlock';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-community/async-storage'
 
 import {
   moveToMainScreenAction,
@@ -13,12 +14,14 @@ import {
   moveToSignInAction,
   moveToPhoneScreenAction,
   moveToUserInfoScreenAction,
+  GetDefaultLanguage
 } from './Actions';
 
 import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
-import {ActivityIndicator, Image, View, StyleSheet, Text, ImageBackground,Alert,} from 'react-native';
+import {ActivityIndicator, Image, View, StyleSheet, Text, ImageBackground,Alert } from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
+import { get_def_lang_url,get_lang_by_lang_url } from '../../commons/environment';
 const splashBg = require('../../assets/images/splash-bg.png');
 const splashLogoSmall = require('../../assets/images/splash-logo-small.png');
 function Welcome({
@@ -30,25 +33,63 @@ function Welcome({
   loader,
   moveToPhoneScreen,
   moveToUserInfoScreen,
+  GetDefaultLanguage,
+  defaultLangData,
+  GetLanguageKeysByKey,
+  languageBySelectedKey
   
 }) {
   const isFocused = useIsFocused();
 
   useEffect(() => {
+    readData();
+    //GetDefaultLanguage(get_def_lang_url);
+  
     Orientation.lockToPortrait();
   }, [isFocused]);
 
   useEffect(() => {
+    readData();
+
+   // GetDefaultLanguage(get_def_lang_url);
+  //  saveData(DefaultlangData);
+  
     showLoader(true);
     initialiseApp(APP_INIT_LINK);
   }, []);
 
+
+
+  const readData = async () => {
+  
+    try {
+      const savedLangKey = await AsyncStorage.getItem(STORAGE_KEY)
+  
+      if (savedLangKey !== null) {
+        GetDefaultLanguage(get_lang_by_lang_url+'en')
+  
+      }
+      else{
+        GetDefaultLanguage(get_def_lang_url);
+  
+      }
+    } catch (e) {
+      alert('Failed to fetch the data from storage')
+    }
+  }
+
+
+
+
   useEffect(() => {
+    readData();
+
+  
     if (initLoaded) {
       moveToMainScreen(navigation);
     }
   }, [initLoaded]);
-
+  
   return (
     <ImageBackground source={splashBg} style={styles.splashbackground}>
     <View style={styles.background}>
@@ -140,10 +181,24 @@ const mapDispatchToProps = dispatch => {
     moveToMainScreen: navigation => moveToMainScreenAction(navigation),
     moveToPhoneScreen: navigation => moveToPhoneScreenAction(navigation),
     moveToUserInfoScreen: navigation => moveToUserInfoScreenAction(navigation),
+    GetDefaultLanguage: navigation => dispatch(GetDefaultLanguage(navigation)),
+    GetLanguageKeysByKey: navigation => dispatch(GetLanguageKeysByKey(navigation)),
+
+    
+    
   };
 };
+const saveData = async (data) => {
+  try {
+    await AsyncStorage.setItem(STORAGE_KEY,  JSON.stringify(data))
+  } catch (e) {
+  }
+}
+
+
 
 const mapStateToProps = state => {
+
   return {
     initLoaded: state.welcomeReducer.initLoaded,
     loader: state.welcomeReducer.loader,

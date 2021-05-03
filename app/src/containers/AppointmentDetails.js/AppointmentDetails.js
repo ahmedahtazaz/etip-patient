@@ -5,6 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { WHITE_COLOR } from '../../theme/Colors';
 import QRCode from 'react-native-qrcode-svg';
+import I18n from '../../translations/I18n';
 const mainScreenIcon = require('../../assets/images/main-screen-icon.png');
 const qrBig = require('../../assets/images/qr-big.png');
 const activeCertificationBg = require('../../assets/images/active-certification-bg.png');
@@ -13,7 +14,6 @@ const previousAppoinmentsBg = require('../../assets/images/previous-appoinment-b
 const issuedWhiteQr = require('../../assets/images/issued-white-qr.png');
 const issuedGrayeQr = require('../../assets/images/issued-gray-qr.png');
 const issuedRedIcon = require('../../assets/images/issued-by-red-icon.png');
-
 const AppointmentDetails = ({
   navigation,
   route: {
@@ -41,7 +41,7 @@ const AppointmentDetails = ({
                   {title ? title : 'Jenny White'}
                 </Text>
                 <Text style={styles.boxText1}>
-                  This is my personal QR code.
+                {I18n.t('This is my personal QR code.')}
                 </Text>
               </View>
             </ImageBackground>
@@ -53,14 +53,14 @@ const AppointmentDetails = ({
               style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
               <View style={styles.parentNameContainer}>
                 <View style={styles.nameTextContainer}>
-                  <Text style={styles.boxHeading}>SARS-COV-2</Text>
-                  <Text style={styles.boxTestText}>Citigen Antizen Test</Text>
+                  <Text style={styles.boxHeading}>{I18n.t('SARS-COV-2')}</Text>
+                  <Text style={styles.boxTestText}>{I18n.t('Citigen Antizen Test')}</Text>
                 </View>
                 <View style={styles.nameTextContainer}>
                   <TouchableOpacity
                     style={[styles.buttonStyle, styles.submitButtonDark]}
                     onPress={() => moveToMainScreen(navigation)}>
-                    <Text style={{ color: 'white' }}>24 hours</Text>
+                    <Text style={{ color: 'white' }}>{I18n.t('24 hours')}</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -71,8 +71,8 @@ const AppointmentDetails = ({
                       <Image source={issuedRedIcon} />
                     </View>
                     <View>
-                      <Text style={styles.boxHeading}>issued by</Text>
-                      <Text style={styles.boxText}>Citigen Antizen Test</Text>
+                      <Text style={styles.boxHeading}>{I18n.t('issued by')}</Text>
+                      <Text style={styles.boxText}>{I18n.t('Citigen Antizen Test')}</Text>
                     </View>
                   </View>
                 </View>
@@ -91,8 +91,8 @@ const AppointmentDetails = ({
               style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
               <View style={styles.parentNameContainer}>
                 <View style={styles.nameTextContainer}>
-                  <Text style={styles.boxHeading}>SARS-COV-2</Text>
-                  <Text style={styles.boxTestText}>Citigen Antizen Test</Text>
+                <Text style={styles.boxHeading}>{I18n.t('SARS-COV-2')}</Text>
+                  <Text style={styles.boxTestText}>{I18n.t('Citigen Antizen Test')}</Text>
                 </View>
                 <View style={styles.nameTextContainer}>
                   <Text style={styles.boxHeading}>12-may-2021</Text>
@@ -101,8 +101,8 @@ const AppointmentDetails = ({
               </View>
               <View style={styles.parentNameContainer}>
                 <View style={styles.bottomTextContainer}>
-                  <Text style={styles.boxHeading}>SARS-COV-2</Text>
-                  <Text style={styles.boxText}>Citigen Antizen Test</Text>
+                <Text style={styles.boxHeading}>{I18n.t('SARS-COV-2')}</Text>
+                  <Text style={styles.boxTestText}>{I18n.t('Citigen Antizen Test')}</Text>
                 </View>
               </View>
             </ImageBackground>

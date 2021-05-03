@@ -20,14 +20,11 @@ import {
   export default function getTermsReducer() {
     
       return function reducer(state = INITIAL_STATE, action) {
-        console.log(action.payload);
 
         switch (action.type) {
         
             case GET_TERMS_SUCCESS:
-              console.log('initPayLoad');
-
-              console.log(action);
+            
               return {
                   ...state,
                   loader: false,
@@ -45,7 +42,6 @@ import {
               };
   
           case GET_TERMS:
-            console.log('initPayLoad only');
 
               return {
                   ...state,

@@ -2,9 +2,9 @@
 import { GET_TERMS } from "../../commons/Constants";
 
 
-export const getterms = url => {
+export const getterms = (payload) => {
   return {
     type: GET_TERMS,
-    url
+    payload
   };
 };

@@ -2,9 +2,14 @@
 import { GET_POLICY } from "../../commons/Constants";
 
 
-export const getPolicy = (url) => {
+
+
+
+
+
+export const getpolicy = (payload) => {
   return {
     type: GET_POLICY,
-    url
+    payload
   };
 };

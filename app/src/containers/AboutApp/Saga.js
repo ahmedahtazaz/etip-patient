@@ -1,39 +1,32 @@
-import {put, takeLatest} from 'redux-saga/effects';
 
-import {
+  
+  import { put, takeLatest, call } from 'redux-saga/effects';
+
+  import {
     GET_ABOUT_APP,
     GET_ABOUT_APP_FAILURE,
     GET_ABOUT_APP_SUCCESS
   } from '../../commons/Constants';
   
-import DeviceInfo from 'react-native-device-info';
-
-function* loadInit(action) {
-  let error = undefined;
-  let payLoad = undefined;
-  let deviceId = DeviceInfo.getUniqueId();
-
-  yield fetch(action.url, {
-    method: 'GET',
-    headers: {
-      device_id: deviceId,
-    },
-  })
-    .then(response => {
-      payLoad = response;
-    })
-    .catch(err => {
-      error = err;
-    });
-
-  if (payLoad) {
-    payLoad = yield payLoad.json();
+  import DeviceInfo from 'react-native-device-info';
+  
+  import axios from 'axios';
+  
+  import AxiosInstance from '../../commons/AxiosInstance';
+ 
+  
+  function* AboutAppSaga(action) {
+   
+    try {
+        const { data: res } = yield call(AxiosInstance.get, action.payload);
+        yield put({ type: GET_ABOUT_APP_SUCCESS, payload: res });
+    } catch (error) {
+        console.log("error: ", error);
+        yield put({ type: GET_ABOUT_APP_FAILURE, errMessage: error });
+    }
   }
-
-  if (payLoad) yield put({type: GET_ABOUT_APP_SUCCESS, payLoad: payLoad});
-  else yield put({type: GET_ABOUT_APP_FAILURE, errMessage: error});
-}
-
-export default function* welcomeActionWatcher() {
-  yield takeLatest(`${GET_ABOUT_APP}`, loadInit);
-}
+  
+  export default function* getABoutData() {
+    yield takeLatest(GET_ABOUT_APP, AboutAppSaga);
+  }
+  
