@@ -42,7 +42,7 @@ import AppointmentTimeSlot from './src/containers/AppointmentTimeSlot/Appointmen
 import AppointmentMainScreen from './src/containers/AppointmentMainScreen/AppointmentMainScreen';
 import Certificates from './src/containers/Certificates/Certificates';
 import FamilyMain from './src/containers/FamilyMain/FamilyMain';
-import AppointmentDetails from './src/containers/AppointmentDetails.js/AppointmentDetails';
+import AppointmentDetails from './src/containers/AppointmentDetails/AppointmentDetails';
 import UpdateOtherSettings from './src/containers/UpdateOtherSettings/UpdateOtherSettings';
 import ChangeLanguage from './src/containers/ChangeLanguage/ChangeLanguage';
 import AboutApp from './src/containers/AboutApp/AboutApp';

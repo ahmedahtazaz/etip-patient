@@ -24,13 +24,13 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import RadioButton from '../../components/RadioButton';
-import { moveToMainScreenAction, signUpAction, updateFamilyMemberAction, addFamilyMemberAction } from './Actions';
+import { moveToMainScreenAction, signUpAction, updateFamilyMemberAction, addFamilyMemberAction, resetIsUserCreatedAction, resetIsFamilyMemberAddedAction } from './Actions';
 import { emailRegex } from '../../commons/Constants';
 import { organizationName, signup_url, add_family_url, edit_family_url } from '../../commons/environment';
 const welcomeLogo = require('../../assets/images/welcome-logo.png');
 const welcomeImg = require('../../assets/images/welcome-image.png');
 const currentDate = new Date();
-function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFamilyMember, userInfo }) {
+function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFamilyMember, userInfo, isUserCreated, resetIsUserCreated, resetIsFamilyMemberAdded, isFamilyMemberAdded, updateFamilyMember }) {
   const [isFamily, setIsFamily] = useState(false);
   const [fName, setFName] = useState('');
   const [lName, setLName] = useState('');
@@ -63,9 +63,11 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
 
 
   useEffect(() => {
-    const data = route.params && route.params.data || "null";
+    const data = route.params && route.params.data || "";
     console.log('route12: ', data);
-    if (data !== "null") {
+    // console.log("isFamilyAdded: ", isFamilyMemberAdded)
+    // console.log('isuserCreated: ', isUserCreated)
+    if (data) {
       setEditMode(true);
       setFName(data.firstName);
       setLName(data.lastName);
@@ -82,14 +84,17 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
         setFemale(false);
         setOther(true);
       }
-      setRelation(capitalizeFirstLetter(data.relation));
+      if (data.relation) {
+        setRelation(capitalizeFirstLetter(data.relation));
+        setIsFamily(true);
+      }
       setDob(data.dateOfBirth);
       setTaxId(data.taxId);
       setEmail(data.email);
       setMobileNo(data.mobileNumber);
       setSchiller(data.address.street);
       setZimmer(data.address.houseNo);
-      setCity(capitalizeFirstLetter(data.address.city));
+      data.address.city && setCity(capitalizeFirstLetter(data.address.city));
       setPostalCode(data.address.zipCode)
     }
   }, [])
@@ -97,6 +102,22 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
   useEffect(() => {
     Orientation.lockToPortrait();
   }, [isFocused]);
+
+  useEffect(() => {
+    if (isUserCreated) {
+      resetForm(true)
+      resetIsUserCreated();
+
+    }
+  }, [isUserCreated])
+
+
+  useEffect(() => {
+    if (isFamilyMemberAdded) {
+      resetIsFamilyMemberAdded()
+      resetForm(true);
+    }
+  }, [isFamilyMemberAdded])
 
   const _handleDatePicked = (e, pickeddate) => {
     const date = new Date(pickeddate);
@@ -110,11 +131,11 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
 
 
   const submit = () => {
-    // moveToMainScreen(navigation)
     if (!Object.keys(userInfo).length) {
       addData();
       return;
     }
+    moveToMainScreen(navigation)
   }
 
 
@@ -126,25 +147,22 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
     }
   };
 
-  const saveAndAddAnotherFamilyMember = () => {
-    // if (!Object.keys(userInfo).length) {
-    //   showToast("Add user info first");
-    //   return;
-    // }
-    addData();
-    setIsFamily(true);
+  const resetForm = (isFamily = false) => {
+    console.log("reset form called: ", isFamily)
+    setIsFamily(isFamily);
     setFName('');
     setLName('');
     setMale(false);
     setFemale(true);
     setOther(false);
-    setDob(
-      currentDate.getDate() +
-      '-' +
-      currentDate.getMonth() +
-      '-' +
-      currentDate.getFullYear(),
-    );
+    if (currentDate)
+      setDob(
+        currentDate.getDate() +
+        '-' +
+        currentDate.getMonth() +
+        '-' +
+        currentDate.getFullYear(),
+      );
     setCalDate(new Date());
     setCity('Bavaria');
     setEmail('');
@@ -159,6 +177,18 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
       y: 0,
       animated: true,
     });
+  }
+
+
+  const saveAndAddAnotherFamilyMember = () => {
+    // if (!Object.keys(userInfo).length) {
+    //   showToast("Add user info first");
+    //   return;
+    // }
+    if (!isFamily) {
+      setIsFamily(true);
+    }
+    setTimeout(() => addData())
   }
 
   const addData = () => {
@@ -215,16 +245,17 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
     }
 
     console.log('isFamily: ', isFamily)
-    if (!isFamily) {
+    if (!isFamily && !editMode) {
       // addUserInfo(data);
       signUp(data)
     } else {
+      const dataObj = route.params && route.params.data || "";
       let data = {
-        url: editMode ? edit_family_url : add_family_url,
+        url: editMode ? edit_family_url : `${add_family_url}`,
         body: {
-          organizationName: organizationName,
+          userId: userInfo._id,
           relation,
-          familyId: userInfo.familyId,
+          familyId: userInfo.family.id,
           firstName: fName,
           lastName: lName,
           taxId,
@@ -243,6 +274,7 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
       if (!editMode) {
         addFamilyMember(data);
       } else {
+        data.body["id"] = dataObj["_id"]
         updateFamilyMember(data);
       }
     }
@@ -250,6 +282,7 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
 
 
   const capitalizeFirstLetter = (string) => {
+    console.log("string: ", string)
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
@@ -501,7 +534,7 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
               <TouchableOpacity
                 disabled={loader}
                 style={[styles.container, styles.submitButtonDark]}
-                onPress={() => submit()}>
+                onPress={() => addData()}>
                 <Text style={styles.saveCloseText}>Update</Text>
               </TouchableOpacity> :
               <>
@@ -547,15 +580,19 @@ const mapDispatchToProps = dispatch => {
     moveToMainScreen: navigation => moveToMainScreenAction(navigation),
     signUp: user => dispatch(signUpAction(user)),
     addFamilyMember: data => dispatch(addFamilyMemberAction(data)),
-    updateFamilyMember: data => dispatch(updateFamilyMemberAction(data))
+    updateFamilyMember: data => dispatch(updateFamilyMemberAction(data)),
+    resetIsUserCreated: () => dispatch(resetIsUserCreatedAction()),
+    resetIsFamilyMemberAdded: () => dispatch(resetIsFamilyMemberAddedAction())
   };
 };
 
 const mapStateToProps = state => {
-
+  console.log('userInfo: ', state.userInfoReducer.userInfo)
   return {
     userInfo: state.userInfoReducer.userInfo,
-    loader: state.userInfoReducer.loader
+    loader: state.userInfoReducer.loader,
+    isUserCreated: state.userInfoReducer.isUserCreated,
+    isFamilyMemberAdded: state.userInfoReducer.isFamilyMemberAdded
   };
 };
 

@@ -1,4 +1,6 @@
 import { all } from 'redux-saga/effects';
+import { getProfileActionWatcher } from '../containers/AppointmentDetails/Saga';
+import { getFamilyMembersActionWatcher } from '../containers/FamilyMain/Saga';
 import { sendOTPActionWatcher, verifyOTPActionWatcher } from '../containers/Phone/Saga';
 import splashActionWatcher from '../containers/Splash/Saga';
 import { addFamilyMemberActionWatcher, editFamilyMemberActionWatcher, signupActionWatcher } from '../containers/UserInfo/Saga';
@@ -12,6 +14,8 @@ export default function* rootSaga() {
     verifyOTPActionWatcher(),
     signupActionWatcher(),
     addFamilyMemberActionWatcher(),
-    editFamilyMemberActionWatcher()
+    editFamilyMemberActionWatcher(),
+    getFamilyMembersActionWatcher(),
+    getProfileActionWatcher()
   ]);
 }

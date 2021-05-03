@@ -5,6 +5,8 @@ import {
     EDIT_FAMILY_MEMBER,
     EDIT_FAMILY_MEMBER_FAILURE,
     EDIT_FAMILY_MEMBER_SUCCES,
+    RESET_FAMILY_MEMBER_ADDED,
+    RESET_USER_CREATED,
     SIGNUP,
     SIGNUP_FAILURE,
     SIGNUP_SUCCES
@@ -12,28 +14,11 @@ import {
 
 const INITIAL_STATE = {
     userInfo: {},
-    familyMembers: [
-        {
-            "organizationName": "Systems Ltd",
-            "familyId": "608cb93509f619708a009242",
-            "firstName": "Asad",
-            "lastName": "Shah",
-            "gender": "male",
-            "dateOfBirth": "2000-01-01",
-            "mobileNumber": "+641111234445",
-            "email": "asad.shah@systemsltd.com",
-            "taxId": "TAX-1234567",
-            "relation": "brother",
-            "address": {
-                "street": "E-4/12",
-                "houseNo": "126",
-                "city": "Munich",
-                "zipCode": "25000"
-            }
-        },
-    ],
+    familyMembers: [],
     loader: false,
     errMessage: undefined,
+    isUserCreated: false,
+    isFamilyMemberAdded: false
 };
 
 export default function userInfoReducer() {
@@ -50,8 +35,15 @@ export default function userInfoReducer() {
                 return {
                     ...state,
                     loader: false,
-                    userInfo: action.payload
+                    userInfo: { ...action.payload },
+                    isUserCreated: true
                 };
+
+            case RESET_USER_CREATED:
+                return {
+                    ...state,
+                    isUserCreated: false
+                }
 
             case SIGNUP_FAILURE:
                 return {
@@ -71,8 +63,16 @@ export default function userInfoReducer() {
                 return {
                     ...state,
                     loader: false,
-                    familyMembers: [...state.familyMembers, action.payload]
+                    familyMembers: [...state.familyMembers, ...action.payload],
+                    isFamilyMemberAdded: true
                 }
+
+            case RESET_FAMILY_MEMBER_ADDED: {
+                return {
+                    ...state,
+                    isFamilyMemberAdded: false
+                }
+            }
 
             case ADD_FAMILY_MEMBER_FAILURE:
                 return {
@@ -89,7 +89,7 @@ export default function userInfoReducer() {
                 }
 
             case EDIT_FAMILY_MEMBER_SUCCES:
-                let index = familyMembers.find(member => member.email === action.payload.email);
+                let index = familyMembers.find(member => member.mobileNumber === action.payload.mobileNumber);
                 familyMembers[index] = action.payload;
                 return {
                     ...state,
