@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import {moveToMainScreenAction} from './Action';
-
+import I18n from '../../translations/I18n';
 import {Switch} from 'react-native-paper';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
@@ -49,7 +49,7 @@ function TestInformation({moveToMainScreen, navigation}) {
           </TouchableOpacity>
         </View>
         <View>
-          <Text style={styles.headerText}>Test Information</Text>
+          <Text style={styles.headerText}>{I18n.t('Test Information')}</Text>
         </View>
       </View>
       <View style={styles.infoContainer}>
@@ -63,8 +63,8 @@ function TestInformation({moveToMainScreen, navigation}) {
               </View>
               <View style={styles.patientInfoR2}>
                 <View style={styles.nameAndTestPoint}>
-                  <Text style={styles.textSize}>Zeitfenster auswahlen</Text>
-                  <Text style={styles.textSize}>Test Point 1</Text>
+                  <Text style={styles.textSize}>{I18n.t('Zeitfenster auswahlen')}</Text>
+                  <Text style={styles.textSize}>{I18n.t('Test Point 1')}</Text>
                 </View>
                 <View style={styles.dateAndTime}>
                   <Text style={styles.textSize}>12 May 2021</Text>

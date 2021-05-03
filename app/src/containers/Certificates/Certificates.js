@@ -15,7 +15,7 @@ import {
   Button,
 } from 'react-native';
 import {width, height, totalSize} from 'react-native-dimension';
-
+import I18n from '../../translations/I18n';
 import {Dimensions} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Orientation from 'react-native-orientation-locker';
@@ -111,14 +111,14 @@ const Certificates = ({
             style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
             <View style={styles.parentNameContainer}>
               <View style={styles.nameTextContainer}>
-                <Text style={styles.boxHeading}>SARS-COV-2</Text>
-                <Text style={styles.boxTestText}>Citigen Antizen Test</Text>
+                <Text style={styles.boxHeading}>{I18n.t('SARS-COV-2')}</Text>
+                <Text style={styles.boxTestText}>{I18n.t('Citigen Antizen Test')}</Text>
               </View>
               <View style={styles.nameTextContainer}>
                 <TouchableOpacity
                   style={[styles.buttonStyle, styles.submitButtonDark]}
                   onPress={() => moveToMainScreen(navigation)}>
-                  <Text style={{color: 'white'}}>24 hours</Text>
+                  <Text style={{color: 'white'}}>{I18n.t('24 hours')}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -129,8 +129,8 @@ const Certificates = ({
                     <Image source={issuedRedIcon} />
                   </View>
                   <View>
-                    <Text style={styles.boxHeading}>issued by</Text>
-                    <Text style={styles.boxText}>Citigen Antizen Test</Text>
+                    <Text style={styles.boxHeading}>{I18n.t('issued by')}</Text>
+                    <Text style={styles.boxText}>{I18n.t('Citigen Antizen Test')}</Text>
                   </View>
                 </View>
               </View>
@@ -158,14 +158,14 @@ const Certificates = ({
             style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
             <View style={styles.parentNameContainer}>
               <View style={styles.nameTextContainer}>
-                <Text style={styles.boxHeading1}>SARS-COV-2</Text>
-                <Text style={styles.boxTestText1}>Citigen Antizen Test</Text>
+              <Text style={styles.boxHeading1}>{I18n.t('SARS-COV-2')}</Text>
+                <Text style={styles.boxTestText1}>{I18n.t('Citigen Antizen Test')}</Text>
               </View>
               <View style={styles.nameTextContainer}>
                 <TouchableOpacity
                   style={[styles.buttonStyle, styles.submitButtonRed]}
                   onPress={() => moveToMainScreen(navigation)}>
-                  <Text style={{color: 'white'}}>24 hours</Text>
+                  <Text style={{color: 'white'}}>{I18n.t('24 hours')}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -176,8 +176,8 @@ const Certificates = ({
                     <Image source={issuedRedIcon} style={{marginBottom: 8}} />
                   </View>
                   <View>
-                    <Text style={styles.boxHeading1}>issued by</Text>
-                    <Text style={styles.boxText1}>Citigen Antizen Test</Text>
+                  <Text style={styles.boxHeading1}>{I18n.t('issued by')}</Text>
+                <Text style={styles.boxTestText1}>{I18n.t('Citigen Antizen Test')}</Text>
                   </View>
                 </View>
               </View>
@@ -211,7 +211,7 @@ const Certificates = ({
       <View style={styles.appoinmentDivBg}>
         <View style={styles.mainDivPad}>
           <View style={styles.actionCertificateContainer}>
-            <Text style={styles.boxTopHeading}>ACTIVE CERTIFICATES</Text>
+            <Text style={styles.boxTopHeading}>{I18n.t('ACTIVE CERTIFICATES')}</Text>
             <FlatList
               horizontal
               data={DATA}
@@ -221,7 +221,7 @@ const Certificates = ({
             />
           </View>
           <View style={styles.actionCertificateContainer}>
-            <Text style={styles.boxTopHeading}>PREVIOUS CERTIFICATES</Text>
+            <Text style={styles.boxTopHeading}>{I18n.t('PREVIOUS CERTIFICATES')}</Text>
             <FlatList
               vertical
               data={DATA}

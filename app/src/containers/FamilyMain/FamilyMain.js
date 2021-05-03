@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Icon, SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
+import I18n from '../../translations/I18n';
+
 
 import {
   Button,
@@ -30,7 +32,9 @@ import {
   moveToAppointmentDetailsAction,
   moveToMakeAppointsAction,
   moveToSettingsScreenAction,
+  getFamilyMembersAction
 } from './Actions';
+import { get_family_url } from '../../commons/environment';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const DATA = [
@@ -65,13 +69,19 @@ const FamilyMain = ({
   moveToAppointmentDetails,
   route,
   userInfo,
-  familyMembers
+  familyMembers,
+  getFamilyMembers
 }) => {
   const window = useWindowDimensions();
 
   const [selectedId, setSelectedId] = useState(null);
 
+  useEffect(() => {
+    getFamilyMembers({ url: `${get_family_url}/${userInfo.family.id}`, userId: userInfo._id, })
+  }, [])
+
   const renderItem = ({ item }) => {
+    console.log('item: ', item)
     return (
       <View style={styles.nameContainer}>
         <View style={styles.parentNameContainer}>
@@ -272,13 +282,14 @@ const mapDispatchToProps = dispatch => {
       moveToMakeAppointsAction(navigation),
     moveToAppointmentDetails: (navigation, path, title, qrObj) =>
       moveToAppointmentDetailsAction(navigation, path, title, qrObj),
+    getFamilyMembers: (data) => dispatch(getFamilyMembersAction(data))
   };
 };
 
 const mapStateToProps = state => {
   return {
     userInfo: state.userInfoReducer.userInfo,
-    familyMembers: state.userInfoReducer.familyMembers
+    familyMembers: state.familyReducer.familyMembers
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(FamilyMain);

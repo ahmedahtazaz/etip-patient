@@ -7,6 +7,7 @@ import {
   BLACK_COLOR,
   LIGHT_GREY,
 } from '../../theme/Colors';
+import I18n from '../../translations/I18n';
 
 import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
@@ -90,14 +91,14 @@ function VerifierUserInfo({navigation, loader}) {
               </TouchableOpacity>
             </View>
             <View style={styles.headerTextView}>
-              <Text style={styles.headerText}>User Information</Text>
+              <Text style={styles.headerText}>{I18n.t('User Information')}</Text>
             </View>
           </View>
 
           <View style={{backgroundColor: '#F5F9F8'}}>
             <View style={styles.infoContainerChild}>
               <View style={styles.mainHeading}>
-                <Text style={styles.mainHeadingText}>USER INFORMATION</Text>
+                <Text style={styles.mainHeadingText}>{I18n.t('USER INFORMATION')}</Text>
               </View>
               <View style={styles.formContainer}>
                 <View style={styles.userName}>
@@ -106,14 +107,14 @@ function VerifierUserInfo({navigation, loader}) {
                     value={fName}
                     textContentType="givenName"
                     underlineColorAndroid="transparent"
-                    placeholder="First Name"
+                    placeholder={I18n.t("First Name")}
                     style={styles.inputStyle}
                     onChangeText={value => setFName(value)}></TextInput>
                   <TextInput
                     placeholderTextColor={'#a29d9d'}
                     value={lName}
                     textContentType="familyName"
-                    placeholder="Last Name"
+                    placeholder={I18n.t("Last Name")}
                     style={styles.inputStyle}
                     onChangeText={value => setLName(value)}></TextInput>
                 </View>

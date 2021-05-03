@@ -15,7 +15,7 @@ import {
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {DARK_GREEN_COLOR, WHITE_COLOR} from '../../theme/Colors';
-
+import I18n from '../../translations/I18n';
 const {width, height} = Dimensions.get('window');
 
 function UpdateOtherSettings({
@@ -41,7 +41,7 @@ function UpdateOtherSettings({
           </TouchableOpacity>
         </View>
         <View>
-          <Text style={styles.headerText}>Update {title}</Text>
+          <Text style={styles.headerText}>{I18n.t('Update')} {title}</Text>
         </View>
       </View>
       <View style={styles.fields}>
@@ -56,7 +56,7 @@ function UpdateOtherSettings({
           <View style={styles.switchMain}>
             <View style={styles.switchTextView}>
               <Text style={styles.switchText}>
-                Associate my information as a family number with another number
+              {I18n.t('Associate my information as a family number with another number')}
               </Text>
             </View>
             <View style={styles.switchView}>
@@ -72,7 +72,7 @@ function UpdateOtherSettings({
         </View>
         <View style={styles.updateBtnMain}>
           <TouchableOpacity style={[styles.btnStyle, styles.submitButton]}>
-            <Text style={styles.submitText}>Update</Text>
+            <Text style={styles.submitText}>{I18n.t('Update')}</Text>
           </TouchableOpacity>
         </View>
       </View>

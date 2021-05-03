@@ -16,6 +16,7 @@ import {
   moveToUserInfoScreenAction,
   GetDefaultLanguage
 } from './Actions';
+import I18n from '../../translations/I18n';
 
 import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
@@ -99,12 +100,12 @@ function Welcome({
       
       <View style={styles.buttonDiv}>
       <View style={styles.welcomeBottomText}>
-        <Text style={styles.bottomTextBig}>I have read and accept the following</Text>
+        <Text style={styles.bottomTextBig}>{I18n.t('I have read and accept the following')}</Text>
         <Text style={styles.bottomTextSmall}>
-        Terms & Conditions
+        {I18n.t('Terms & Conditions')}
         </Text>
         <Text style={styles.bottomTextSmall}>
-        Privacy policy of Application
+        {I18n.t('Privacy policy of Application')}
         </Text>
       </View>
         {/* <PrimaryButton

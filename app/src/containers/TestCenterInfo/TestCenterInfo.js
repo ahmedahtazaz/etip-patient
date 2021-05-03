@@ -11,6 +11,7 @@ import {
   TextInput,
   FlatList,
 } from 'react-native';
+import I18n from '../../translations/I18n';
 import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -67,7 +68,7 @@ function TestCenterInfo({navigation}) {
           <View style={{height: '100%', top: '50%'}}>
             <Text style={styles.heading}>Hello, Jone!</Text>
             <Text style={styles.subHeading}>
-              Hope you are having a good day
+            {I18n.t('Hope you are having a good day')}
             </Text>
           </View>
         </ImageBackground>
@@ -79,8 +80,8 @@ function TestCenterInfo({navigation}) {
             style={styles.centerLabel}
             onPress={() => navigation.navigate('TestCenter')}>
             <View>
-              <Text style={styles.centerTitle}>Test Center</Text>
-              <Text style={styles.centerName}>Zeitfenster auswahlen</Text>
+              <Text style={styles.centerTitle}>{I18n.t('Test Center')}</Text>
+              <Text style={styles.centerName}>{I18n.t('Zeitfenster auswahlen')}</Text>
             </View>
             <View>
               <Entypo
@@ -116,7 +117,7 @@ function TestCenterInfo({navigation}) {
               style={[styles.btnStyle, styles.submitButton]}
               onPress={() => navigation.navigate('QRScreen')}>
               <Image source={btnQrCode} />
-              <Text style={styles.submitText}>Scan QR Code</Text>
+              <Text style={styles.submitText}>{I18n.t('Scan QR Code')}</Text>
             </TouchableOpacity>
           
 
@@ -124,7 +125,7 @@ function TestCenterInfo({navigation}) {
             <TouchableOpacity
               style={{width: '100%'}}
               onPress={() => navigation.navigate('VerifierUserInfoScreen')}>
-              <Text style={styles.scanAnotherQRcode}>Insert Person Info</Text>
+              <Text style={styles.scanAnotherQRcode}>{I18n.t('Insert Person Info')}</Text>
             </TouchableOpacity>
             </View>
             </ImageBackground>

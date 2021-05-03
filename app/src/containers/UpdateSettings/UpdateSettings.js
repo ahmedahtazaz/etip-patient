@@ -6,7 +6,7 @@ import {
   GRAY_COLOR,
   BLACK_COLOR,
 } from '../../theme/Colors';
-
+import I18n from '../../translations/I18n';
 import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
 import {
@@ -96,7 +96,7 @@ function UpdateSettings({
               </TouchableOpacity>
             </View>
             <View style={styles.headerTextView}>
-              <Text style={styles.headerText}>Modify Personal Information</Text>
+              <Text style={styles.headerText}>{I18n.t('Modify Personal Information')}</Text>
             </View>
           </View>
 
@@ -108,14 +108,14 @@ function UpdateSettings({
                   value={fName}
                   textContentType="givenName"
                   underlineColorAndroid="transparent"
-                  placeholder="First Name"
+                  placeholder={I18n.t("First Name")}
                   style={styles.inputStyle}
                   onChangeText={value => setFName(value)}></TextInput>
                 <TextInput
                   placeholderTextColor={BLACK_COLOR}
                   value={lName}
                   textContentType="familyName"
-                  placeholder="Last Name"
+                  placeholder={I18n.t("Last Name")}
                   style={styles.inputStyle}
                   onChangeText={value => setLName(value)}></TextInput>
               </View>
@@ -209,7 +209,7 @@ function UpdateSettings({
               placeholderTextColor={BLACK_COLOR}
               value={dob}
               textContentType="none"
-              placeholder="Date"
+              placeholder={I18n.t("Date")}
               style={styles.inputStyle1}
               onPressIn={() => {
                 setShowCalender(true);
@@ -320,7 +320,7 @@ function UpdateSettings({
               onChangeText={value => setPostalCode(value)}></TextInput>
             <TouchableOpacity
               style={[styles.container, styles.submitButtonDark]}>
-              <Text style={styles.saveCloseText}>Continue</Text>
+              <Text style={styles.saveCloseText}>{I18n.t('Continue')}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={{marginTop: '4%', alignContent: 'center'}}

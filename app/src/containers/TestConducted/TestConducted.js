@@ -10,6 +10,7 @@ import {
   TextInput,
   FlatList,
 } from 'react-native';
+import I18n from '../../translations/I18n';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import Orientation from 'react-native-orientation-locker';
@@ -69,7 +70,7 @@ function TestConducted({navigation}) {
     <View style={styles.MainContainer}>
       <View style={styles.header}>
         <View>
-          <Text style={styles.headerText}>Test Conducted</Text>
+          <Text style={styles.headerText}>{I18n.t('Test Conducted')}</Text>
         </View>
       </View>
       <View style={styles.infoContainer}>

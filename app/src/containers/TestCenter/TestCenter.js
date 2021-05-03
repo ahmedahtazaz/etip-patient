@@ -20,6 +20,7 @@ import Calendar from '../../components/Calendar';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
+import I18n from '../../translations/I18n';
 const { width, height } = Dimensions.get('window');
 const DATA = [
   {
@@ -68,7 +69,7 @@ const TestCenter = ({navigation: {goBack}}) => {
       <View>
         <View style={styles.nameTextContainer}>
           <Text style={{marginStart: 8, color: '#027279', fontSize:15, fontWeight:'600'}}>
-            Appointment For
+          {I18n.t('Appointment For')}
           </Text>
           <Text style={{color: '#606060', fontSize:13, paddingTop:5, marginStart: 8}}>
           {item.title}
@@ -87,7 +88,7 @@ const TestCenter = ({navigation: {goBack}}) => {
               </TouchableOpacity>
             </View>
             <View style={styles.headerTextView}>
-              <Text style={styles.headerText}>Make an Appointment</Text>
+              <Text style={styles.headerText}>{I18n.t('Make an Appointment')}</Text>
             </View>
           </View>
       <View style={styles.appoinmentDivBg}>

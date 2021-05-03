@@ -85,7 +85,7 @@ useEffect(() => {
           </TouchableOpacity>
         </View>
         <View>
-          <Text style={styles.headerText}>{I18n.t(Terms & Condition)}</Text>
+          <Text style={styles.headerText}>{I18n.t('Terms & Condition')}</Text>
         </View>
       </View>
     <View style={styles.appoinmentDivBg}>
@@ -258,7 +258,6 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    initLoaded: state.getTermsReducer.initPayLoad,
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AboutApp);

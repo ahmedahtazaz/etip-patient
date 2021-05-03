@@ -2,6 +2,8 @@ import { all } from 'redux-saga/effects';
 import getABoutData from '../containers/AboutApp/Saga';
 import getPolicyData from '../containers/AboutApp/Saga';
 import {getchangeLanguage,getLanguageByKeysSaga} from '../containers/ChangeLanguage/Saga';
+import { getProfileActionWatcher } from '../containers/AppointmentDetails/Saga';
+import { getFamilyMembersActionWatcher } from '../containers/FamilyMain/Saga';
 import { sendOTPActionWatcher, verifyOTPActionWatcher } from '../containers/Phone/Saga';
 import splashActionWatcher from '../containers/Splash/Saga';
 import getTermsData from '../containers/Terms/Saga';
@@ -25,5 +27,7 @@ export default function* rootSaga() {
     getSelectedLanguageByKeySaga(),
     getLanguageByKeysSaga(),
   
+    getFamilyMembersActionWatcher(),
+    getProfileActionWatcher()
   ]);
 }

@@ -10,7 +10,7 @@ import {
   TextInput,
   FlatList,
 } from 'react-native';
-
+import I18n from '../../translations/I18n';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
@@ -53,7 +53,7 @@ function VerifierSettings({navigation}) {
     <View style={styles.MainContainer}>
       <View style={styles.header}>
         <View>
-          <Text style={styles.headerText}>Settings</Text>
+          <Text style={styles.headerText}>{I18n.t('Settings')}</Text>
         </View>
       </View>
       <View style={styles.infoContainer}>

@@ -1,4 +1,4 @@
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 import LanguageReducer from '../containers/ChangeLanguage/Reducer';
 import splashReducer from '../containers/Splash/Reducer';
 import welcomeReducer from '../containers/Welcome/Reducer';
@@ -9,6 +9,8 @@ import getPolicyReducer from '../containers/Policy/Reducers';
 import getAboutApp from '../containers/AboutApp/Reducers';
 
 
+import familyReducer from '../containers/FamilyMain/Reducer'
+import appointmentDetailsReducer from "../containers/AppointmentDetails/Reducer"
 
 const createRootReducer = () =>
   combineReducers({
@@ -24,6 +26,10 @@ const createRootReducer = () =>
     
     
     
+    LanguageReducer: LanguageReducer(),
+    phoneReducer: phoneReducer(),
+    familyReducer: familyReducer(),
+    appointmentDetailsReducer: appointmentDetailsReducer()
 
   });
 

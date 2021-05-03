@@ -1,6 +1,7 @@
 import {useIsFocused} from '@react-navigation/core';
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
+import I18n from '../../translations/I18n';
 import {
   FlatList,
   SafeAreaView,
@@ -139,16 +140,14 @@ const MainScreen = ({
             style={styles.appoinmentRedDiv1}>
             <View style={styles.contentPadding1}>
               <View style={styles.redDivTop}>
-                <Text style={styles.boxHeading}>You are Covid Positive</Text>
+                <Text style={styles.boxHeading}>{I18n.t('You are Covid Positive')}</Text>
                 <Text style={styles.boxText}>
-                  Please donot panic, For any Medical Assistance you have +49 00
-                  000000 available 24/7.
+                  {I18n.t('Please donot panic, For any Medical Assistance you have +49 00 000000 available 24/7.')}
                 </Text>
               </View>
               <View style={styles.redDivBottom}>
                 <Text style={styles.redDivBottomLeft}>
-                  We have added few tips in your dashbaord that may help you in
-                  these times. Swipe to view them
+                {I18n.t( 'We have added few tips in your dashbaord that may help you in these times. Swipe to view them')}
                 </Text>
                 <Image source={rightHandFinger} style={{marginTop: 30}} />
               </View>

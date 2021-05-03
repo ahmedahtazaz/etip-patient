@@ -13,6 +13,7 @@ import {
   useWindowDimensions,
   ImageBackground,
 } from 'react-native';
+import I18n from '../../translations/I18n';
 import {Dimensions} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Orientation from 'react-native-orientation-locker';
@@ -116,8 +117,8 @@ const AppointmentMainScreen = ({
             style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
             <View style={styles.parentNameContainer} >
               <View style={styles.nameTextContainer}>
-                <Text style={styles.boxHeading}>SARS-COV-2</Text>
-                <Text style={styles.boxTestText}>Citigen Antizen Test</Text>
+                <Text style={styles.boxHeading}>{I18n.t('SARS-COV-2')}</Text>
+                <Text style={styles.boxTestText}>{I18n.t('Citigen Antizen Test')}</Text>
               </View>
               <View style={styles.nameTextContainer}>
                 <Text style={styles.boxHeading}>12-may-2021</Text>
@@ -126,8 +127,9 @@ const AppointmentMainScreen = ({
             </View>
             <View style={styles.parentNameContainer}>
               <View style={styles.bottomTextContainer}>
-                <Text style={styles.boxHeading}>SARS-COV-2</Text>
-                <Text style={styles.boxText}>Citigen Antizen Test</Text>
+              <Text style={styles.boxHeading}>{I18n.t('SARS-COV-2')}</Text>
+                <Text style={styles.boxText}>{I18n.t('Citigen Antizen Test')}</Text>
+              
               </View>
             </View>
           </ImageBackground>
@@ -149,8 +151,9 @@ const AppointmentMainScreen = ({
             style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
             <View style={styles.parentNameContainer}>
               <View style={styles.nameTextContainer}>
-                <Text style={styles.boxHeading1}>SARS-COV-2</Text>
-                <Text style={styles.boxTestText1}>Citigen Antizen Test</Text>
+                
+              <Text style={styles.boxHeading1}>{I18n.t('SARS-COV-2')}</Text>
+                <Text style={styles.boxTestText1}>{I18n.t('Citigen Antizen Test')}</Text>
               </View>
               <View style={styles.nameTextContainer}>
                 <Text style={styles.boxText1}>12-may-2021</Text>
@@ -159,8 +162,8 @@ const AppointmentMainScreen = ({
             </View>
             <View style={styles.parentNameContainer}>
               <View style={styles.bottomTextContainer}>
-                <Text style={styles.boxHeading2}>Zeitfenster auswählen</Text>
-                <Text style={styles.boxText1}>Citigen Antizen Test</Text>
+                <Text style={styles.boxHeading2}>{I18n.t('Zeitfenster auswählen')}</Text>
+                <Text style={styles.boxText1}>{I18n.t('Citigen Antizen Test')}</Text>
               </View>
             </View>
           </ImageBackground>
@@ -188,7 +191,7 @@ const AppointmentMainScreen = ({
       <View style={styles.appoinmentDivBg}>
         <View style={styles.mainDivPad}>
           <View style={styles.actionCertificateContainer}>
-            <Text style={styles.boxTopHeading}>ACTIVE APPOINTMENTS</Text>
+            <Text style={styles.boxTopHeading}>{I18n.t('ACTIVE APPOINTMENTS')}</Text>
             <FlatList
               horizontal
               data={DATA}
@@ -198,7 +201,7 @@ const AppointmentMainScreen = ({
             />
           </View>
           <View style={styles.actionCertificateContainer}>
-            <Text style={styles.boxTopHeading}>PREVIOUS APPOINTMENTS</Text>
+            <Text style={styles.boxTopHeading}>{I18n.t('PREVIOUS APPOINTMENTS')}</Text>
             <ScrollView>
               <FlatList
                 vertical

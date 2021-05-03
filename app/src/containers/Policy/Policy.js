@@ -3,7 +3,7 @@ import { Icon, SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import {RFValue} from 'react-native-responsive-fontsize';
 import HTML from 'react-native-render-html';
-
+import I18n from '../../translations/I18n';
 import {
   Button,
   FlatList,
@@ -23,7 +23,6 @@ import { Dimensions } from 'react-native';
 import Calendar from '../../components/Calendar';
 import BottomNavigator from '../../components/BottomNavigator';
 import { SwipeListView } from 'react-native-swipe-list-view';
-import I18n from '../../translations/I18n';
 import { get_about_app_url, get_policy_url } from '../../commons/environment';
 const menuArrowWhiteIcon = require('../../assets/images/menu-arrow-white-icon.png');
 const {width, height} = Dimensions.get('window');
@@ -85,7 +84,7 @@ useEffect(() => {
           </TouchableOpacity>
         </View>
         <View>
-          <Text style={styles.headerText}>Terms & Condition</Text>
+          <Text style={styles.headerText}>{I18n.t('Policy')}</Text>
         </View>
       </View>
     <View style={styles.appoinmentDivBg}>
@@ -257,8 +256,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = state => {
-  console.log('datatata');
-   console.log(state.getTermsReducer);
+  
 
   return {
     initLoaded: state.getTermsReducer.initPayLoad,

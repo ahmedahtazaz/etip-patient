@@ -134,7 +134,7 @@ function Phone({ loader, movetoUserInfoScreen, navigation, sendOTP, otpSend, ver
                 {'\n'}
                 {'\n'}
                 <Text style={styles.inputLabelSmall}>
-                  Please Enter the OTP we have sent over the numuber {' '}
+                {I18n.t('Please Enter the OTP we have sent over the numuber')}
                 </Text>
               </Text>
               <View
@@ -240,7 +240,7 @@ function Phone({ loader, movetoUserInfoScreen, navigation, sendOTP, otpSend, ver
                     .concat(otpValue4),
                 )
               }>
-              <Text style={styles.submitText}>Continue</Text>
+              <Text style={styles.submitText}>{I18n.t('Continue')}</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
@@ -256,7 +256,7 @@ function Phone({ loader, movetoUserInfoScreen, navigation, sendOTP, otpSend, ver
                     .concat(otpValue4),
                 )
               }>
-              <Text style={styles.submitText}>Continue</Text>
+              <Text style={styles.submitText}>{I18n.t('Continue')}</Text>
             </TouchableOpacity>
           )}
           {loader ? (

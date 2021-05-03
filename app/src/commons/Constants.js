@@ -1,3 +1,5 @@
+import { ToastAndroid } from 'react-native'
+
 export const LOAD_INIT = 'LOAD_INIT';
 export const LOAD_INIT_SUCCESS = 'LOAD_INIT_SUCCESS';
 export const LOAD_INIT_FAILURE = 'LOAD_INIT_FAILURE';
@@ -14,10 +16,22 @@ export const VERIFY_OTP_FAILURE = 'VERIFY_OTP_FAILURE';
 export const SIGNUP = 'SIGNUP';
 export const SIGNUP_SUCCES = 'SIGNUP_SUCCESS';
 export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
+export const RESET_USER_CREATED = "RESET_USER_CREATED";
+
+export const GET_PROFILE = "GET_PROFILE";
+export const GET_PROFILE_SUCCESS = "GET_PROFILE_SUCCESS";
+export const GET_PROFILE_FAILURE = "GET_PROFILE_FAILURE";
+
 
 export const ADD_FAMILY_MEMBER = 'ADD_FAMILY_MEMBER';
 export const ADD_FAMILY_MEMBER_SUCCES = 'ADD_FAMILY_MEMBER_SUCCES';
 export const ADD_FAMILY_MEMBER_FAILURE = 'ADD_FAMILY_MEMBER_FAILURE';
+export const RESET_FAMILY_MEMBER_ADDED = "RESET_FAMILY_MEMBER_ADDED";
+
+export const GET_FAMILY_MEMBER = "GET_FAMILY_MEMBER";
+export const GET_FAMILY_MEMBER_SUCCESS = "GET_FAMILY_MEMBER_SUCCESS";
+export const GET_FAMILY_MEMBER_FAILURE = "GET_FAMILY_MEMBER_FAILURE";
+
 
 export const EDIT_FAMILY_MEMBER = 'EDIT_FAMILY_MEMBER';
 export const EDIT_FAMILY_MEMBER_SUCCES = 'EDIT_FAMILY_MEMBER_SUCCES';
@@ -68,10 +82,10 @@ export const postCall = ({ url, body: data }) => {
 }
 
 
-function* createPostSaga({ url, data }) {
-    try {
-        const result = yield call(axios.post, url, { ...data });
-    } catch (error) {
-        console.log(error);
+export const showToast = msg => {
+    if (Platform.OS === 'android') {
+        ToastAndroid.show(msg, ToastAndroid.SHORT);
+    } else {
+        Alert.alert(msg);
     }
-}
+};

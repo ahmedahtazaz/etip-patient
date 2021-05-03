@@ -14,6 +14,7 @@ import {
 import { RFValue } from 'react-native-responsive-fontsize';
 import { WHITE_COLOR } from '../../theme/Colors';
 import { connect } from 'react-redux';
+import I18n from '../../translations/I18n';
 import {
   moveToAppointmentDetailsAction,
   moveToUserUpdateSettingScreenAction,
@@ -104,7 +105,7 @@ const Settings = ({
             {`${userInfo.firstName} ${userInfo.lastName}`}
           </Text>
           <TouchableOpacity
-            onPress={() => moveToAppointmentDetails(navigation, 'personal', `${userInfo.firstName} ${userInfo.lastName}`, userInfo)}>
+            onPress={() => moveToAppointmentDetails(navigation, 'personal', `${userInfo.firstName} ${userInfo.lastName}`, true)}>
             <Image source={settingTopIcon} />
           </TouchableOpacity>
         </View>
@@ -186,8 +187,8 @@ const mapDispatchToProps = dispatch => {
   return {
     movetoUpdateScreen: (path, navigation, title) =>
       moveToUserUpdateSettingScreenAction(path, navigation, title),
-    moveToAppointmentDetails: (navigation, path, title, qrObj) =>
-      moveToAppointmentDetailsAction(navigation, path, title, qrObj),
+    moveToAppointmentDetails: (navigation, path, title, getProfile) =>
+      moveToAppointmentDetailsAction(navigation, path, title, getProfile),
   };
 };
 

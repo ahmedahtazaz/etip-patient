@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
+import I18n from '../../translations/I18n';
 
 import {RFValue} from 'react-native-responsive-fontsize';
 import {GREEN_COLOR} from '../../theme/Colors';
@@ -90,7 +91,7 @@ function TestCenterVerifier({navigation}) {
         <View style={styles.innerDiv}>
           <View style={{marginBottom: '5%'}}>
             <View>
-              <Text style={styles.heading}>Your test center</Text>
+              <Text style={styles.heading}>{I18n.t('Your test center')}</Text>
             </View>
           </View>
           {renderItem({item: DATA[0], index: 0})}
@@ -98,9 +99,9 @@ function TestCenterVerifier({navigation}) {
         <View style={styles.innerDiv1}>
           <View style={styles.header}>
             <View>
-              <Text style={styles.heading}>Select test point</Text>
+              <Text style={styles.heading}>{I18n.t('Select test point')}</Text>
               <Text style={styles.subHeading}>
-                Select the test point you are working today
+              {I18n.t(' Select the test point you are working today')}
               </Text>
             </View>
           </View>

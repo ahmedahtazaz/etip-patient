@@ -14,6 +14,7 @@ import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
 import Foundation from 'react-native-vector-icons/Foundation';
 import {RFValue} from 'react-native-responsive-fontsize';
+import I18n from '../../translations/I18n';
 import {
   GREEN_COLOR,
   WHITE_COLOR,
@@ -40,12 +41,12 @@ function PinScreen({navigation}) {
       <ImageBackground source={phoneDivBg} style={styles.splashbackground}>
         <View style={styles.pinSection}>
           <View style={{marginTop: 20}}>
-            <Text style={styles.heading}>Enter Your</Text>
-            <Text style={styles.heading}>Secret Pin to continue</Text>
+            <Text style={styles.heading}>{I18n.t('Enter Your')}</Text>
+            <Text style={styles.heading}>{I18n.t('Secret Pin to continue')}</Text>
           </View>
           <View style={styles.lableView}>
-            <Text style={styles.labe}>Please Enter your Phone Number to</Text>
-            <Text style={styles.label}>continue</Text>
+            <Text style={styles.labe}>{I18n.t('Please Enter your Phone Number to')}</Text>
+            <Text style={styles.label}>{I18n.t('continue')}</Text>
           </View>
 
           <View style={{marginTop: 10}}>
@@ -68,7 +69,7 @@ function PinScreen({navigation}) {
                 ...styles.btnStyle,
                 backgroundColor: pin.length !== 7 ? '#4b9499' : GREEN_COLOR,
               }}>
-              <Text style={styles.submitText}>Continue</Text>
+              <Text style={styles.submitText}>{I18n.t('Continue')}</Text>
             </TouchableOpacity>
           </View>
         </View>

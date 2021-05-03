@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { ImageBackground, Text, View, StyleSheet, Image } from 'react-native';
+import { ImageBackground, Text, View, StyleSheet, Image, ActivityIndicator } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { WHITE_COLOR } from '../../theme/Colors';
 import QRCode from 'react-native-qrcode-svg';
 import I18n from '../../translations/I18n';
+import { get_user_url } from '../../commons/environment';
+import { getProfileInfoAction } from './Action';
 const mainScreenIcon = require('../../assets/images/main-screen-icon.png');
 const qrBig = require('../../assets/images/qr-big.png');
 const activeCertificationBg = require('../../assets/images/active-certification-bg.png');
@@ -17,9 +19,23 @@ const issuedRedIcon = require('../../assets/images/issued-by-red-icon.png');
 const AppointmentDetails = ({
   navigation,
   route: {
-    params: { path, title, qrObj },
+    params: { getProfile, path, title, qrObj },
   },
+  getProfileInfo,
+  userProfile,
+  userInfo,
+  loader
 }) => {
+
+  useEffect(() => {
+    if (getProfile) {
+      let data = {
+        url: get_user_url,
+        userId: userInfo._id,
+      }
+      getProfileInfo(data);
+    }
+  }, [])
   return (
     <View style={{ height: '100%', width: '100%', flexDirection: 'column' }}>
       <View style={styles.mainMenu}>
@@ -108,13 +124,27 @@ const AppointmentDetails = ({
             </ImageBackground>
           </View>
         ) : null}
-        <View style={styles.qrDiv}>
-          <QRCode
-            value={JSON.stringify(qrObj)}
-            size={250}
-          />
-          {/* <Image style={{ marginEnd: 8 }} source={qrBig}></Image> */}
-        </View>
+        {loader && getProfile ? (
+          <View
+            style={{
+              alignSelf: 'center',
+              height: '100%',
+              width: '100%',
+              justifyContent: 'center',
+              position: 'absolute',
+              zIndex: 1000,
+            }}>
+            <ActivityIndicator size="large" color="grey" animating={loader} />
+          </View>
+        ) :
+          <View style={styles.qrDiv}>
+            <QRCode
+              value={JSON.stringify(userProfile || qrObj)}
+              size={250}
+            />
+          </View>
+        }
+
       </View>
     </View>
   );
@@ -122,12 +152,15 @@ const AppointmentDetails = ({
 
 const mapDispatchToProps = dispatch => {
   return {
+    getProfileInfo: (data) => dispatch(getProfileInfoAction(data))
   };
 };
 
 const mapStateToProps = state => {
   return {
-    userInfo: state.userInfoReducer.userInfo
+    userInfo: state.userInfoReducer.userInfo,
+    userProfile: state.appointmentDetailsReducer.userProfile,
+    loader: state.appointmentDetailsReducer.loader
   };
 };
 
