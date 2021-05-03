@@ -9,6 +9,8 @@ import splashActionWatcher from '../containers/Splash/Saga';
 import getTermsData from '../containers/Terms/Saga';
 import { addFamilyMemberActionWatcher, editFamilyMemberActionWatcher, signupActionWatcher } from '../containers/UserInfo/Saga';
 import welcomeActionWatcher, { getDefaultLanguageSaga, getSelectedLanguageByKeySaga } from '../containers/Welcome/Saga';
+import { getTestCentersSaga } from '../containers/TestCenter/Saga';
+import { getRegionSaga } from '../containers/AppointmentCalender/Saga';
 
 export default function* rootSaga() {
   yield all([
@@ -28,6 +30,8 @@ export default function* rootSaga() {
     getLanguageByKeysSaga(),
   
     getFamilyMembersActionWatcher(),
-    getProfileActionWatcher()
+    getProfileActionWatcher(),
+    getTestCentersSaga(),
+    getRegionSaga(),
   ]);
 }

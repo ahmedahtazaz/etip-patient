@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {Icon, SearchBar} from 'react-native-elements';
+import { connect } from 'react-redux';
 
 import {
   Button,
@@ -21,6 +22,9 @@ import {RFValue} from 'react-native-responsive-fontsize';
 import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 import I18n from '../../translations/I18n';
+import { get_terms_url, get_test_centers } from '../../commons/environment';
+import {GETTestCenters} from './Action';
+
 const { width, height } = Dimensions.get('window');
 const DATA = [
   {
@@ -59,17 +63,31 @@ const Item = ({item, onPress, backgroundColor, textColor}) => (
   </TouchableOpacity>
 );
 
-const TestCenter = ({navigation: {goBack}}) => {
+const TestCenter = ({
+   route: {
+  params:{ region}
+  },
+  navigation: {goBack},
+  GETTestCenters,testCenterData,}) => {
   const window = useWindowDimensions();
 
   const [selectedId, setSelectedId] = useState(null);
+  const [testCenters, setTestCenters] = useState([]);
+
+  useEffect(() => {
+    GETTestCenters(get_test_centers+region);
+    setTestCenters(testCenterData);
+    console.log('region');
+    console.log(region);
+  },[]);
+ 
 
   const renderItem = ({item}) => {
     return (
       <View>
         <View style={styles.nameTextContainer}>
           <Text style={{marginStart: 8, color: '#027279', fontSize:15, fontWeight:'600'}}>
-          {I18n.t('Appointment For')}
+         Appointment For
           </Text>
           <Text style={{color: '#606060', fontSize:13, paddingTop:5, marginStart: 8}}>
           {item.title}
@@ -88,7 +106,7 @@ const TestCenter = ({navigation: {goBack}}) => {
               </TouchableOpacity>
             </View>
             <View style={styles.headerTextView}>
-              <Text style={styles.headerText}>{I18n.t('Make an Appointment')}</Text>
+              <Text style={styles.headerText}>{I18n.t('Test Centers')}</Text>
             </View>
           </View>
       <View style={styles.appoinmentDivBg}>
@@ -110,10 +128,10 @@ const TestCenter = ({navigation: {goBack}}) => {
       
         <FlatList
           style={styles.appointmentlistContainer}
-          data={DATA}
+          data={testCenters}
           renderItem={renderItem}
           keyExtractor={item => item.id}
-          extraData={selectedId}
+          extraData={testCenters}
         />
  
       </View>
@@ -208,4 +226,19 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TestCenter;
+const mapDispatchToProps = dispatch => {
+  return {
+    GETTestCenters: data => dispatch(GETTestCenters(data)),
+  };
+};
+
+const mapStateToProps = state => {
+  console.log('datatata');
+  console.log(state.TestCenterReducer.testCenterData);
+
+  return {
+    testCenterData: state.TestCenterReducer.testCenterData,
+  };
+};  
+
+export default connect(mapStateToProps, mapDispatchToProps)(TestCenter);

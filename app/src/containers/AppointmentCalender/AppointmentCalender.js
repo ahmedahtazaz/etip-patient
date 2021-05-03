@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import {
@@ -20,10 +20,11 @@ import Calendar from '../../components/Calendar';
 import {width, height, totalSize} from 'react-native-dimension';
 import {ScrollView} from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
-import {moveToTestCentersAction, moveToTimeSlotsAction} from './Actions';
+import {moveToTestCentersAction, moveToTimeSlotsAction,GetRegions,moveToTimeTestCenter} from './Actions';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
+import { get_regions } from '../../commons/environment';
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const regionSelectedIcon = require('../../assets/images/region-selected-icon.png');
 const windowWidth = Dimensions.get('window').width;
@@ -58,15 +59,28 @@ const Item = ({item, onPress, backgroundColor, textColor}) => (
 );
 
 const AppointmentCalender = ({
+ 
   navigation,
-  moveToTestCenters,
+ 
+  moveToTestCentersAction,
   moveToTimeSlots,
+  GetRegions,
+  regionData,
+  moveToTimeTestCenter
 }) => {
   const window = useWindowDimensions();
 
   const [selectedId, setSelectedId] = useState(null);
+  const [regions, setRegions] = useState([]);
 
   const onDateChange = () => moveToTimeSlots(navigation);
+
+  useEffect(() => {
+    GetRegions(get_regions);
+    setRegions(regionData);
+   
+  
+  },[]);
 
   const renderItem = ({item}) => {
     let imgsource = require('../../assets/images/bavaria.png');
@@ -94,7 +108,9 @@ const AppointmentCalender = ({
       <TouchableOpacity
         style={{marginStart: 8}}
         style={styles.imgShadow}
-        onPress={() => setSelectedId(item.id)}>
+        // onPress={() => setSelectedId(item.id)}
+        onPress={() => moveToTimeTestCenter(navigation, item.name)}
+        >
         <Image
           style={{
             height: window.height / 5,
@@ -119,7 +135,7 @@ const AppointmentCalender = ({
             marginBottom: 8,
             marginStart: 8,
           }}>
-          <Text style={styles.regionImgText}>{item.title}</Text>
+          <Text style={styles.regionImgText}>{item.countryName}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -164,10 +180,9 @@ const AppointmentCalender = ({
             <Text style={styles.regionText}>{I18n.t('Region')}</Text>
             <FlatList
               horizontal
-              data={DATA}
+              data={regions}
               renderItem={renderItem}
               keyExtractor={item => item.id}
-              extraData={selectedId}
             />
           </View>
 
@@ -197,13 +212,23 @@ const AppointmentCalender = ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    moveToTestCenters: navigation => moveToTestCentersAction(navigation),
+    moveToTimeTestCenter: navigation => moveToTimeTestCenter(navigation),
+    moveToTimeTestCenter: (navigation,region) => moveToTimeTestCenter(navigation,region),
     moveToTimeSlots: navigation => moveToTimeSlotsAction(navigation),
+    GetRegions: data => dispatch(GetRegions(data)),
+    
+
   };
 };
 
 const mapStateToProps = state => {
-  return {};
+  // console.log('dataa');
+  // console.log(state.RegionReducer.regionData);
+  return {
+    regionData: state.RegionReducer.regionData,
+
+
+  };
 };
 
 const styles = StyleSheet.create({

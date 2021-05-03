@@ -8,9 +8,12 @@ import getTermsReducer from '../containers/Terms/Reducers';
 import getPolicyReducer from '../containers/Policy/Reducers';
 import getAboutApp from '../containers/AboutApp/Reducers';
 
+import TestCenterReducer from '../containers/TestCenter/Reducer';
 
 import familyReducer from '../containers/FamilyMain/Reducer'
 import appointmentDetailsReducer from "../containers/AppointmentDetails/Reducer"
+import RegionReducer from "../containers/AppointmentCalender/Reducers"
+
 
 const createRootReducer = () =>
   combineReducers({
@@ -23,13 +26,14 @@ const createRootReducer = () =>
     getPolicyReducer:getPolicyReducer(),
     getPolicyReducer:getPolicyReducer(),
     getAboutApp:getAboutApp(),
-    
-    
-    
     LanguageReducer: LanguageReducer(),
     phoneReducer: phoneReducer(),
     familyReducer: familyReducer(),
-    appointmentDetailsReducer: appointmentDetailsReducer()
+    appointmentDetailsReducer: appointmentDetailsReducer(),
+    TestCenterReducer:TestCenterReducer(),
+    RegionReducer:RegionReducer()
+    
+
 
   });
 

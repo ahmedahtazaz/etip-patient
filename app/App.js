@@ -59,7 +59,7 @@ const App: () => React$Node = () => {
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen
+            {/* <Stack.Screen
               name="SplashScreen"
               component={Splash}
               options={{headerShown: false}}
@@ -84,9 +84,9 @@ const App: () => React$Node = () => {
               name="Settings"
               component={Settings}
               options={{headerShown: false}}
-            />
+            /> */}
 
-            <Stack.Screen
+            {/* <Stack.Screen
               name="MainScreen"
               component={MainScreen}
               options={{headerShown: false}}
@@ -95,7 +95,9 @@ const App: () => React$Node = () => {
               name="Make an Appointment"
               component={Appointment}
               options={{headerShown: false}}
-            />
+            /> */}
+
+
             <Stack.Screen
               name="AppointmentCalender"
               component={AppointmentCalender}
@@ -107,7 +109,9 @@ const App: () => React$Node = () => {
               component={TestCenter}
               options={{headerShown: false}}
             />
-            <Stack.Screen
+
+
+            {/* <Stack.Screen
               name="appointmentSlot"
               component={AppointmentTimeSlot}
               options={{headerShown: false}}
@@ -165,7 +169,7 @@ const App: () => React$Node = () => {
               name="terms"
               component={Terms}
               options={{headerShown: false}}
-            />
+            /> */}
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>
