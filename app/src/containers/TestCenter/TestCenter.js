@@ -24,6 +24,7 @@ const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 import I18n from '../../translations/I18n';
 import { get_terms_url, get_test_centers } from '../../commons/environment';
 import { GETTestCenters } from './Action';
+import { showToast } from '../../commons/Constants';
 
 const { width, height } = Dimensions.get('window');
 const DATA = [
@@ -65,7 +66,7 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
 
 const TestCenter = ({
   route: {
-    params: { region }
+    params: { region, setTestCenterValue }
   },
   navigation: { goBack },
   GETTestCenters, testCenterData, }) => {
@@ -73,27 +74,45 @@ const TestCenter = ({
 
   const [selectedId, setSelectedId] = useState(null);
   const [testCenters, setTestCenters] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [filteredTestCenters, setFilterTestCenters] = useState([]);
 
   useEffect(() => {
     GETTestCenters(get_test_centers + region);
     setTestCenters(testCenterData);
     console.log('region');
     console.log(region);
+    console.log('route.params: ', region, setFilterTestCenters)
   }, []);
 
 
+  const searchTestCenter = (text) => {
+    setSearchText(text);
+    let filteredTestCenters = testCenterData.filter(({ testCenter }) => testCenter.name.toLowerCase().indexOf(text.toLowerCase()) > -1);
+    setFilterTestCenters(filteredTestCenters);
+  }
+
+  const getTestCenterData = () => {
+    return searchText.length ? filteredTestCenters : testCenterData;
+  }
+
+  const selectTestCenter = (item) => {
+    setTestCenterValue(item);
+    showToast('Test center selected')
+  }
+
   const renderItem = ({ item }) => {
     return (
-      <View>
+      <TouchableOpacity onPress={() => selectTestCenter(item)}>
         <View style={styles.nameTextContainer}>
           <Text style={{ marginStart: 8, color: '#027279', fontSize: 15, fontWeight: '600' }}>
-          {item.testCenter.name}
+            {item.testCenter.name}
           </Text>
           <Text style={{ color: '#606060', fontSize: 13, paddingTop: 5, marginStart: 8 }}>
-          {item.testCenter.address}
+            {item.testCenter.address}
           </Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -124,14 +143,16 @@ const TestCenter = ({
           }}
           inputContainerStyle={{ backgroundColor: '#F9F9F9', fontSize: 11, borderRadius: 4, }}
           placeholder="Type Here..."
+          onChangeText={searchTestCenter}
+          value={searchText}
         />
 
         <FlatList
           style={styles.appointmentlistContainer}
-          data={testCenterData}
+          data={getTestCenterData()}
           renderItem={renderItem}
           keyExtractor={item => item.id}
-          extraData={testCenterData}
+          extraData={getTestCenterData()}
         />
 
       </View>
@@ -233,9 +254,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = state => {
-  console.log('datatata');
-  console.log(state.TestCenterReducer.testCenterData);
-
+  console.log('testcenters: ', state.TestCenterReducer.testCenterData)
   return {
     testCenterData: state.TestCenterReducer.testCenterData,
   };

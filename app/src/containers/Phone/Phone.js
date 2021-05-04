@@ -23,8 +23,23 @@ import {
 import { RFValue } from 'react-native-responsive-fontsize';
 import { moveToUserInfoScreenAction, sendOTPAction, verifyOTPAction } from './Actions';
 import { send_otp_url, verify_otp_url } from '../../commons/environment';
+import { getProfileInfoAction } from '../AppointmentDetails/Action';
+import { moveToMainScreenAction } from '../UserInfo/Actions';
 
-function Phone({ loader, movetoUserInfoScreen, navigation, sendOTP, otpSend, verifyOTP, otpVerified }) {
+function Phone({
+  loader,
+  movetoUserInfoScreen,
+  navigation,
+  sendOTP,
+  otpSend,
+  verifyOTP,
+  otpVerified,
+  errMessage,
+  verifyOtpPayload,
+  getProfileInfo,
+  moveToMainScreen,
+  userInfo
+}) {
   const [isPhone, setIsPhone] = useState(true);
   const [phoneValue, setPhoneValue] = useState('+49');
   const [otpValue, setOTPValue] = useState('');
@@ -55,8 +70,8 @@ function Phone({ loader, movetoUserInfoScreen, navigation, sendOTP, otpSend, ver
 
   const onSubmit = (isPhone, phone, otp) => {
     if (isPhone) {
-      if (phone && phone.match('^[+]49[0-9]{10}$')) {
-        setIsPhone(false);
+      if (true || phone && phone.match('^[+]49[0-9]{10}$')) {
+        // setIsPhone(false);
         let data = {
           url: send_otp_url,
           body: {
@@ -77,7 +92,7 @@ function Phone({ loader, movetoUserInfoScreen, navigation, sendOTP, otpSend, ver
           }
         }
         verifyOTP(data);
-        movetoUserInfoScreen(navigation);
+        // movetoUserInfoScreen(navigation);
       } else showToast('Please enter a valid OTP.');
     }
   };
@@ -93,7 +108,43 @@ function Phone({ loader, movetoUserInfoScreen, navigation, sendOTP, otpSend, ver
     if (!isPhone && otpVerified) {
       movetoUserInfoScreen(navigation);
     }
-  }, [otpVerified])
+  }, [otpVerified]);
+
+
+  useEffect(() => {
+    if (errMessage) {
+      showToast(errMessage)
+    }
+  }, [errMessage])
+
+
+  useEffect(() => {
+    if (verifyOtpPayload) {
+      console.log('verifyOtpPayload:', verifyOtpPayload?.data?.isNewAccount);
+    }
+    if (verifyOtpPayload?.data) {
+      if (verifyOtpPayload?.data?.isNewAccount) {
+        //navigate to userInfoScreen
+        movetoUserInfoScreen(navigation);
+      } else {
+        //get userInfo and navigate to MainScreen
+        let data = {
+          url: get_user_url,
+          userId: userInfo._id,
+        }
+        getProfileInfo(data);
+      }
+    } else {
+      //userInfo
+      // movetoUserInfoScreen(navigation);
+    }
+  }, [verifyOtpPayload]);
+
+
+  useEffect(() => {
+    if (userInfo)
+      moveToMainScreen();
+  }, [userInfo])
 
   return (
     <View style={styles.background}>
@@ -115,8 +166,8 @@ function Phone({ loader, movetoUserInfoScreen, navigation, sendOTP, otpSend, ver
                 {'\n'}
                 <Text style={styles.inputLabelSmall}>
                   {/* Please enter your valid phone number to continue */}
-                 { I18n.t('Please enter a valid phone number')}
-              </Text>
+                  {I18n.t('Please enter a valid phone number')}
+                </Text>
               </Text>
               <TextInput
                 value={phoneValue}
@@ -134,7 +185,7 @@ function Phone({ loader, movetoUserInfoScreen, navigation, sendOTP, otpSend, ver
                 {'\n'}
                 {'\n'}
                 <Text style={styles.inputLabelSmall}>
-                {I18n.t('Please Enter the OTP we have sent over the numuber')}
+                  {I18n.t('Please Enter the OTP we have sent over the numuber')}
                 </Text>
               </Text>
               <View
@@ -282,14 +333,19 @@ const mapDispatchToProps = dispatch => {
   return {
     movetoUserInfoScreen: navigation => moveToUserInfoScreenAction(navigation),
     sendOTP: data => dispatch(sendOTPAction(data)),
-    verifyOTP: data => dispatch(verifyOTPAction(data))
+    verifyOTP: data => dispatch(verifyOTPAction(data)),
+    getProfileInfo: (data) => dispatch(getProfileInfoAction(data)),
+    moveToMainScreen: (navigation) => moveToMainScreenAction(navigation)
   };
 };
 
 const mapStateToProps = state => {
   return {
     otpSend: state.phoneReducer.otpSend,
-    otpVerified: state.phoneReducer.otpVerified
+    otpVerified: state.phoneReducer.otpVerified,
+    errMessage: state.phoneReducer.errMessage,
+    verifyOtpPayload: state.phoneReducer.verifyOptPayload,
+    userInfo: state.userInfoReducer.userInfo
   };
 };
 

@@ -13,7 +13,8 @@ const INITIAL_STATE = {
     errMessage: undefined,
     initPayLoad: undefined,
     otpSend: false,
-    otpVerified: false
+    otpVerified: false,
+    verifyOptPayload: null
 };
 
 export default function phoneReducer() {
@@ -39,6 +40,7 @@ export default function phoneReducer() {
             case VERIFY_OTP:
                 return {
                     ...state,
+                    errMessage: undefined,
                     loader: true,
                 };
 
@@ -48,7 +50,8 @@ export default function phoneReducer() {
                     ...state,
                     loader: false,
                     errMessage: undefined,
-                    otpVerified: true
+                    otpVerified: true,
+                    verifyOptPayload: action.payload
                 };
 
             case VERIFY_OTP_FAILURE:

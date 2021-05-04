@@ -32,7 +32,8 @@ import {
   moveToAppointmentDetailsAction,
   moveToMakeAppointsAction,
   moveToSettingsScreenAction,
-  getFamilyMembersAction
+  getFamilyMembersAction,
+  removeFamilyMemberAction
 } from './Actions';
 import { get_family_url } from '../../commons/environment';
 const windowWidth = Dimensions.get('window').width;
@@ -70,7 +71,8 @@ const FamilyMain = ({
   route,
   userInfo,
   familyMembers,
-  getFamilyMembers
+  getFamilyMembers,
+  removeFamilyMember
 }) => {
   const window = useWindowDimensions();
 
@@ -79,6 +81,15 @@ const FamilyMain = ({
   useEffect(() => {
     getFamilyMembers({ url: `${get_family_url}/${userInfo.family.id}`, userId: userInfo._id, })
   }, [])
+
+  const removeMember = ({item}) => {
+    let data = {
+      url: `${get_family_url}/${userInfo.family.id}/remove-member/${item._id}`,
+      userId: userInfo._id,
+      id: item._id
+    }
+    removeFamilyMember(data);
+  }
 
   const renderItem = ({ item }) => {
     console.log('item: ', item)
@@ -138,11 +149,11 @@ const FamilyMain = ({
               renderItem={renderItem}
               keyExtractor={item => item.id}
               renderHiddenItem={(data, rowMap) => (
-                <View style={styles.rowDeleteImage}>
+                <TouchableOpacity onPress={() => removeMember(data)} style={styles.rowDeleteImage}>
                   <View style={styles.deleteItem}>
                     <Image source={deleteIcon} />
                   </View>
-                </View>
+                </TouchableOpacity>
               )}
               disableRightSwipe={true}
               leftOpenValue={75}
@@ -282,7 +293,8 @@ const mapDispatchToProps = dispatch => {
       moveToMakeAppointsAction(navigation),
     moveToAppointmentDetails: (navigation, path, title, qrObj) =>
       moveToAppointmentDetailsAction(navigation, path, title, qrObj),
-    getFamilyMembers: (data) => dispatch(getFamilyMembersAction(data))
+    getFamilyMembers: (data) => dispatch(getFamilyMembersAction(data)),
+    removeFamilyMember: (data) => dispatch(removeFamilyMemberAction(data))
   };
 };
 

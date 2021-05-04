@@ -20,4 +20,7 @@ export const get_test_centers = `/api/test-centers/`;
 
 export const get_regions = `/api/region/Germany`;
 
+
+export const get_appointment_slot_url = "/api/appointments/slots"
+
 export const organizationName = "eTip-german";

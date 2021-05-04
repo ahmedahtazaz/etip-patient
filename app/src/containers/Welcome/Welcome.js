@@ -57,6 +57,7 @@ function Welcome({
   
     showLoader(true);
     initialiseApp(APP_INIT_LINK);
+    setTimeout(()=>moveToPhoneScreen(navigation), 2000)
   }, []);
 
 

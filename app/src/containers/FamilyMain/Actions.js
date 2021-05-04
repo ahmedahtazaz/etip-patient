@@ -1,4 +1,4 @@
-import { GET_FAMILY_MEMBER } from "../../commons/Constants";
+import { GET_FAMILY_MEMBER, REMOVE_FAMILY_MEMBER } from "../../commons/Constants";
 
 export const moveToSettingsScreenAction = navigation => {
   return navigation.navigate('Settings');
@@ -25,6 +25,13 @@ export const moveToUserinfScreenAction = (navigation, data) => {
 export const getFamilyMembersAction = (data) => {
   return {
     type: GET_FAMILY_MEMBER,
+    payload: data
+  }
+}
+
+export const removeFamilyMemberAction = (data) => {
+  return {
+    type: REMOVE_FAMILY_MEMBER,
     payload: data
   }
 }

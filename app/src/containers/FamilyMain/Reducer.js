@@ -1,7 +1,10 @@
 import {
     GET_FAMILY_MEMBER_FAILURE,
     GET_FAMILY_MEMBER_SUCCESS,
-    GET_FAMILY_MEMBER
+    GET_FAMILY_MEMBER,
+    REMOVE_FAMILY_MEMBER,
+    REMOVE_FAMILY_MEMBER_SUCCESS,
+    REMOVE_FAMILY_MEMBER_FAILURE
 } from '../../commons/Constants';
 
 const INITIAL_STATE = {
@@ -23,15 +26,43 @@ export default function familyReducer() {
                 return {
                     ...state,
                     loader: false,
-                    familyMembers: action.payload
+                    familyMembers: action.payload,
+                    errMessage: undefined
                 }
 
             case GET_FAMILY_MEMBER_FAILURE:
                 return {
                     ...state,
                     loader: false,
+                    errMessage: action.errMessage,
+                    familyMembers: []
+                }
+
+
+            case REMOVE_FAMILY_MEMBER:
+                return {
+                    ...state,
+                    loader: true,
+                    errMessage: undefined
+                }
+
+            case REMOVE_FAMILY_MEMBER_SUCCESS:
+                let familyMembers = state.familyMembers;
+                familyMembers = familyMembers.filter(member => member._id !== action.payload.id)
+                console.log('member removed: ', familyMembers);
+                return {
+                    ...state,
+                    loader: false,
+                    familyMembers
+                }
+
+            case REMOVE_FAMILY_MEMBER_FAILURE:
+                return {
+                    ...state,
+                    loader: false,
                     errMessage: action.errMessage
                 }
+
 
 
             default:

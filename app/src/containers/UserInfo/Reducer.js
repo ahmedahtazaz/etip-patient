@@ -13,7 +13,7 @@ import {
 } from '../../commons/Constants';
 
 const INITIAL_STATE = {
-    userInfo: {},
+    userInfo: null,
     familyMembers: [],
     loader: false,
     errMessage: undefined,

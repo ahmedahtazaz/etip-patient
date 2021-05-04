@@ -16,13 +16,25 @@ AxiosInstance.interceptors.request.use((config) => {
 
 AxiosInstance.interceptors.response.use(
   response => {
-    return response;
+    return {
+      success: response
+    };
   },
   error => {
     if (!error.response) {
-      return Promise.reject('Network Error');
+      return {
+        error: {
+          status: -1,
+          message: "Network Error"
+        }
+      }
     } else {
-      return error.response;
+      return {
+        error: {
+          status: error.response.status,
+          message: error.response.data.message
+        }
+      }
     }
   },
 );

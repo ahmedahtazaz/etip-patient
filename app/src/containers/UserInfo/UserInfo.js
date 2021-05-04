@@ -106,7 +106,8 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
 
   useEffect(() => {
     if (isUserCreated) {
-      resetForm(true)
+      setIsFamily(true)
+      // resetForm(true)
       resetIsUserCreated();
 
     }
@@ -132,7 +133,7 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
 
 
   const submit = () => {
-    if (!Object.keys(userInfo).length) {
+    if (userInfo && !Object.keys(userInfo).length) {
       addData();
       return;
     }
@@ -546,7 +547,7 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
                   <Text style={styles.saveCloseText}>Continue</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  disabled={!Object.keys(userInfo).length}
+                  disabled={userInfo && !Object.keys(userInfo).length}
                   style={{ marginTop: '4%', alignContent: 'center' }}
                   onPress={() => {
                     saveAndAddAnotherFamilyMember()

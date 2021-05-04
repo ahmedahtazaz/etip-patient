@@ -20,11 +20,12 @@ import Calendar from '../../components/Calendar';
 import { width, height, totalSize } from 'react-native-dimension';
 import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
-import { moveToTestCentersAction, moveToTimeSlotsAction, GetRegions, moveToTimeTestCenter } from './Actions';
+import { moveToTestCentersAction, moveToTimeSlotsAction, GetRegions, moveToTimeTestCenter, getAppointmentSlotsAction } from './Actions';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR } from '../../theme/Colors';
-import { get_regions } from '../../commons/environment';
+import { get_appointment_slot_url, get_regions } from '../../commons/environment';
+import moment from 'moment';
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const regionSelectedIcon = require('../../assets/images/region-selected-icon.png');
 const windowWidth = Dimensions.get('window').width;
@@ -52,6 +53,21 @@ const DATA = [
   },
 ];
 
+const GRID_DATA = [
+  { key: '09:00-09:15', id: 1 },
+  { key: '09:15-09:30', id: 2 },
+  { key: '09:15-09:30', id: 3 },
+  { key: '09:15-09:30', id: 4 },
+  { key: '09:15-09:30', id: 5 },
+  { key: '09:15-09:30', id: 6 },
+  { key: '09:15-09:30', id: 7 },
+  { key: '09:15-09:30', id: 8 },
+  { key: '09:15-09:30', id: 9 },
+  { key: '09:15-09:30', id: 10 },
+  { key: '09:15-09:30', id: 11 },
+  { key: '09:15-09:30', id: 12 },
+];
+
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <Text style={[styles.title, textColor]}>{item.title}</Text>
@@ -66,20 +82,55 @@ const AppointmentCalender = ({
   moveToTimeSlots,
   GetRegions,
   regionData,
-  moveToTimeTestCenter
+  moveToTimeTestCenter,
+  route: {
+    params: { candidate }
+  },
+  getAppointmentSlots,
+  appointmentSlotsData
 }) => {
   const window = useWindowDimensions();
 
   const [selectedId, setSelectedId] = useState(null);
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [regions, setRegions] = useState([]);
+  const [testCenter, setTestCenter] = useState(null);
+  const [date, setDate] = useState(new Date());
+  const [showCalender, setShowCalender] = useState(true);
+  const [showSlots, setShowSlots] = useState(false);
+  const [selectedSlot, setSelectedSlot] = useState("")
 
-  const onDateChange = () => moveToTimeSlots(navigation);
+  const onDateChange = (date) => {
+    setDate(date);
+    setShowCalender(false);
+    setShowSlots(true);
+  };
+
+  const toggleCalendarView = () => {
+    setShowCalender(true);
+    setShowSlots(false);
+  }
 
   useEffect(() => {
     GetRegions(get_regions);
     // setRegions(regionData);
+    console.log('candidate: ', candidate)
   }, []);
+
+  const setTestCenterValue = (testCenter) => {
+    console.log('from set test center: ', testCenter)
+    setTestCenter(testCenter)
+    let data = {
+      url: `${get_appointment_slot_url}/${testCenter.testCenter._id}`,
+      body: {
+        date: moment(date).format("DD/MM/YYYY"),
+        timeZoneOffset: new Date().getTimezoneOffset()
+      }
+    }
+    console.log('data::::', data)
+    getAppointmentSlots(data);
+  }
+
 
   const renderItem = ({ item }) => {
     let imgsource = require('../../assets/images/bavaria.png');
@@ -167,7 +218,7 @@ const AppointmentCalender = ({
                 </Text>
                 <Text
                   style={{ color: '#20B2AA', textColor: 'grey', marginStart: 8 }}>
-                  Jenny White
+                  {`${candidate.firstName} ${candidate.lastName}`}
                 </Text>
               </View>
               <View>
@@ -187,7 +238,7 @@ const AppointmentCalender = ({
 
           <TouchableOpacity
             style={styles.parentNameContainer}
-            onPress={() =>moveToTimeTestCenter(navigation, selectedRegion.name)}>
+            onPress={() => moveToTimeTestCenter(navigation, selectedRegion.name, setTestCenterValue)}>
             <View style={styles.nameTextContainer}>
               <Text
                 style={{ color: '#20B2AA', textColor: 'grey', marginStart: 8 }}>
@@ -198,11 +249,69 @@ const AppointmentCalender = ({
               <Icon name="right" size={25} color="#adadad" />
             </View>
           </TouchableOpacity>
+          {
+            !showCalender && date ?
+              <TouchableOpacity onPress={toggleCalendarView} style={styles.parentNameContainer}>
+                <View style={styles.nameTextContainer}>
+                  <Text style={{ marginStart: 8, color: '#606060' }}>
+                    Appointment Date
+                </Text>
+                  <Text
+                    style={{ color: '#027279', textColor: 'grey', marginStart: 8 }}>
+                    {moment(date).format("DD MMM YYYY")}
+                  </Text>
+                </View>
+                <View>
+                  <Icon name="calendar" size={25} color="#016970" />
+                </View>
+              </TouchableOpacity>
+              :
+              <View style={styles.calenderContainer}>
+                <Text style={styles.regionText1}>{I18n.t('Appointment Date')}</Text>
+                <Calendar onDateChange={onDateChange} />
+              </View>
 
-          <View style={styles.calenderContainer}>
-            <Text style={styles.regionText1}>{I18n.t('Appointment Date')}</Text>
-            <Calendar onDateChange={onDateChange} />
-          </View>
+          }
+          {
+            showSlots ?
+              <View style={styles.calenderContainer}>
+                <Text style={{ marginStart: 8 }}>Time Slot</Text>
+                {/* <Calendar/> */}
+
+                <FlatList
+                  data={appointmentSlotsData?.slots}
+                  renderItem={({ item }) => {
+                    if (item.timeSlot === selectedSlot) {
+                      return (
+                        <TouchableOpacity
+                          style={styles.GridViewBlockStyleActive}
+                          onPress={() => setSelectedSlot(null)}>
+                          <Text style={styles.GridViewInsideTextItemStyleActive}>
+                            {' '}
+                            {item.timeSlot}{' '}
+                          </Text>
+                        </TouchableOpacity>
+                      );
+                    }
+                    return (
+                      <TouchableOpacity
+                        disabled={item.isBooked}
+                        style={styles.GridViewBlockStyle}
+                        onPress={() => setSelectedSlot(item.timeSlot)}>
+                        <Text style={styles.GridViewInsideTextItemStyle}>
+                          {' '}
+                          {item.timeSlot}{' '}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  }}
+                  numColumns={3}
+                />
+              </View>
+              : <View />
+          }
+
+
         </ScrollView>
       </View>
     </View>
@@ -212,22 +321,18 @@ const AppointmentCalender = ({
 const mapDispatchToProps = dispatch => {
   return {
     moveToTimeTestCenter: navigation => moveToTimeTestCenter(navigation),
-    moveToTimeTestCenter: (navigation, region) => moveToTimeTestCenter(navigation, region),
+    moveToTimeTestCenter: (navigation, region, setTestCenterValue) => moveToTimeTestCenter(navigation, region, setTestCenterValue),
     moveToTimeSlots: navigation => moveToTimeSlotsAction(navigation),
     GetRegions: data => dispatch(GetRegions(data)),
-
-
+    getAppointmentSlots: data => dispatch(getAppointmentSlotsAction(data))
   };
 };
 
 const mapStateToProps = state => {
-  // console.log('dataa');
-  // console.log(state.RegionReducer.regionData);
-  console.log('region data: ', state.RegionReducer.regionData)
+  console.log('state.appointmentSlotsData: ',state.RegionReducer.appointmentSlotsData)
   return {
     regionData: state.RegionReducer.regionData,
-
-
+    appointmentSlotsData: state.RegionReducer.appointmentSlotsData
   };
 };
 
@@ -339,6 +444,41 @@ const styles = StyleSheet.create({
     right: 10,
     width: 15,
     height: 15,
+  },
+  GridViewBlockStyle: {
+    borderRadius: 4,
+    borderWidth: 1,
+    justifyContent: 'center',
+    flex: 1,
+    alignItems: 'center',
+    height: 50,
+    margin: 5,
+    backgroundColor: 'white',
+    borderStyle: 'dotted',
+  },
+  GridViewBlockStyleActive: {
+    borderRadius: 4,
+    borderWidth: 1,
+    justifyContent: 'center',
+    flex: 1,
+    alignItems: 'center',
+    height: 50,
+    margin: 5,
+    backgroundColor: '#006970',
+    backgroundColor: '#006970',
+    borderStyle: 'solid',
+  },
+  GridViewInsideTextItemStyleActive: {
+    color: '#F4AC1F',
+    padding: 10,
+    fontSize: 14,
+    justifyContent: 'center',
+  },
+  GridViewInsideTextItemStyle: {
+    color: '#027279',
+    padding: 10,
+    fontSize: 14,
+    justifyContent: 'center',
   },
 });
 

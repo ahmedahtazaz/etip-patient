@@ -53,6 +53,7 @@ sagaMiddleware.run(rootSaga);
 
 const Stack = createStackNavigator();
 
+
 const App: () => React$Node = () => {
   return (
     <>

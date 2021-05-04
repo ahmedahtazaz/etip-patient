@@ -58,7 +58,7 @@ const Appointment = ({ movetoAppointmentCalenderScreen, navigation, userInfo, fa
     return (
       <TouchableOpacity
         style={styles.appointmentlistContainer}
-        onPress={() => movetoAppointmentCalenderScreen(navigation)}>
+        onPress={() => movetoAppointmentCalenderScreen(navigation, item)}>
         <Text style={{ fontWeight: 'bold', marginStart: 8, color: '#20B2AA' }}>
           {`${item.firstName} ${item.lastName}`}
         </Text>
@@ -116,8 +116,8 @@ const Appointment = ({ movetoAppointmentCalenderScreen, navigation, userInfo, fa
 
 const mapDispatchToProps = dispatch => {
   return {
-    movetoAppointmentCalenderScreen: navigation =>
-      moveToAppointmentCalenderAction(navigation),
+    movetoAppointmentCalenderScreen: (navigation, candidate) =>
+      moveToAppointmentCalenderAction(navigation, candidate),
   };
 };
 

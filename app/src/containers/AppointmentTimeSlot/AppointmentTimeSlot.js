@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import {
@@ -14,13 +14,13 @@ import {
   useWindowDimensions,
   ImageBackground,
 } from 'react-native';
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
 import Calendar from '../../components/Calendar';
-import {width, height, totalSize} from 'react-native-dimension';
+import { width, height, totalSize } from 'react-native-dimension';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import {ScrollView} from 'react-native-gesture-handler';
-import {RFValue} from 'react-native-responsive-fontsize';
-import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
+import { ScrollView } from 'react-native-gesture-handler';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR } from '../../theme/Colors';
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const regionSelectedIcon = require('../../assets/images/region-selected-icon.png');
 
@@ -49,33 +49,37 @@ const DATA = [
   },
 ];
 const GRID_DATA = [
-  {key: '09:00-09:15', id: 1},
-  {key: '09:15-09:30', id: 2},
-  {key: '09:15-09:30', id: 3},
-  {key: '09:15-09:30', id: 4},
-  {key: '09:15-09:30', id: 5},
-  {key: '09:15-09:30', id: 6},
-  {key: '09:15-09:30', id: 7},
-  {key: '09:15-09:30', id: 8},
-  {key: '09:15-09:30', id: 9},
-  {key: '09:15-09:30', id: 10},
-  {key: '09:15-09:30', id: 11},
-  {key: '09:15-09:30', id: 12},
+  { key: '09:00-09:15', id: 1 },
+  { key: '09:15-09:30', id: 2 },
+  { key: '09:15-09:30', id: 3 },
+  { key: '09:15-09:30', id: 4 },
+  { key: '09:15-09:30', id: 5 },
+  { key: '09:15-09:30', id: 6 },
+  { key: '09:15-09:30', id: 7 },
+  { key: '09:15-09:30', id: 8 },
+  { key: '09:15-09:30', id: 9 },
+  { key: '09:15-09:30', id: 10 },
+  { key: '09:15-09:30', id: 11 },
+  { key: '09:15-09:30', id: 12 },
 ];
 
-const Item = ({item, onPress, backgroundColor, textColor}) => (
+const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <Text style={[styles.title, textColor]}>{item.title}</Text>
   </TouchableOpacity>
 );
 
-const AppointmentTimeSlot = ({navigation}) => {
+const AppointmentTimeSlot = ({
+  navigation,
+  route: {
+    params: { candidate, testCenter, selectedRegion }
+  },
+}) => {
   const window = useWindowDimensions();
 
   const [selectedId, setSelectedId] = useState(null);
-  const [selectedIdRegion, setSelectedIdRegion] = useState(null);
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     let imgsource = require('../../assets/images/bavaria.png');
     switch (item.id) {
       case 1:
@@ -99,7 +103,7 @@ const AppointmentTimeSlot = ({navigation}) => {
     }
     return (
       <TouchableOpacity
-        style={{marginStart: 8}}
+        style={{ marginStart: 8 }}
         onPress={() => setSelectedIdRegion(item.id)}>
         <Image
           style={{
@@ -140,7 +144,7 @@ const AppointmentTimeSlot = ({navigation}) => {
               name="chevron-left"
               color="#000"
               size={40}
-              style={{fontWeight: 'bold'}}
+              style={{ fontWeight: 'bold' }}
             />
           </TouchableOpacity>
         </View>
@@ -155,7 +159,7 @@ const AppointmentTimeSlot = ({navigation}) => {
             <View style={styles.nameContainer}>
               <View style={styles.parentNameContainer}>
                 <View style={styles.nameTextContainer}>
-                  <Text style={{marginStart: 8, color: '#606060'}}>
+                  <Text style={{ marginStart: 8, color: '#606060' }}>
                     Appointment For
                   </Text>
                   <Text
@@ -172,13 +176,13 @@ const AppointmentTimeSlot = ({navigation}) => {
                     name="closecircleo"
                     color="red"
                     size={25}
-                    style={{margin: 8}}
+                    style={{ margin: 8 }}
                   />
                 </View>
               </View>
             </View>
             <View style={styles.actionCertificateContainer}>
-              <Text style={{marginBottom: 8, marginStart: 8}}>Region</Text>
+              <Text style={{ marginBottom: 8, marginStart: 8 }}>Region</Text>
               <FlatList
                 horizontal
                 data={DATA}
@@ -190,11 +194,11 @@ const AppointmentTimeSlot = ({navigation}) => {
 
             <View style={styles.parentNameContainer}>
               <View style={styles.nameTextContainer}>
-                <Text style={{marginStart: 8, color: '#606060'}}>
+                <Text style={{ marginStart: 8, color: '#606060' }}>
                   Appointment For
                 </Text>
                 <Text
-                  style={{color: '#027279', textColor: 'grey', marginStart: 8}}>
+                  style={{ color: '#027279', textColor: 'grey', marginStart: 8 }}>
                   Jenny White
                 </Text>
               </View>
@@ -210,11 +214,11 @@ const AppointmentTimeSlot = ({navigation}) => {
 
             <View style={styles.parentNameContainer}>
               <View style={styles.nameTextContainer}>
-                <Text style={{marginStart: 8, color: '#606060'}}>
+                <Text style={{ marginStart: 8, color: '#606060' }}>
                   Appointment Date
                 </Text>
                 <Text
-                  style={{color: '#027279', textColor: 'grey', marginStart: 8}}>
+                  style={{ color: '#027279', textColor: 'grey', marginStart: 8 }}>
                   12 May 2021
                 </Text>
               </View>
@@ -224,12 +228,12 @@ const AppointmentTimeSlot = ({navigation}) => {
             </View>
 
             <View style={styles.calenderContainer}>
-              <Text style={{marginStart: 8}}>Time Slot</Text>
+              <Text style={{ marginStart: 8 }}>Time Slot</Text>
               {/* <Calendar/> */}
 
               <FlatList
                 data={GRID_DATA}
-                renderItem={({item}) => {
+                renderItem={({ item }) => {
                   if (item.id == selectedId) {
                     return (
                       <TouchableOpacity
@@ -260,7 +264,7 @@ const AppointmentTimeSlot = ({navigation}) => {
               <TouchableOpacity
                 style={[styles.container1, styles.submitButton]}
                 onPress={() =>
-                  navigation.replace('MainScreen', {booked: true})
+                  navigation.replace('MainScreen', { booked: true })
                 }>
                 <Text style={styles.submitText}>Book Appointment</Text>
               </TouchableOpacity>
