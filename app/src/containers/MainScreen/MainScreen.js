@@ -1,6 +1,6 @@
-import { useIsFocused } from '@react-navigation/core';
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import {useIsFocused} from '@react-navigation/core';
+import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
 import I18n from '../../translations/I18n';
 import {
   FlatList,
@@ -14,22 +14,25 @@ import {
   useWindowDimensions,
   ImageBackground,
 } from 'react-native';
-import { Dimensions } from 'react-native';
-import { Icon } from 'react-native-elements';
+import {Dimensions} from 'react-native';
+import {Icon} from 'react-native-elements';
 import Orientation from 'react-native-orientation-locker';
-import { WHITE_COLOR } from '../../theme/Colors';
-import { RFValue } from 'react-native-responsive-fontsize';
+import {WHITE_COLOR} from '../../theme/Colors';
+import {RFValue} from 'react-native-responsive-fontsize';
 import BottomNavigator from '../../components/BottomNavigator';
-import { width, height, totalSize } from 'react-native-dimension';
-import { ScrollView } from 'react-native-gesture-handler';
+import {width, height, totalSize} from 'react-native-dimension';
+import {ScrollView} from 'react-native-gesture-handler';
 
 import {
+  getProfileAction,
   moveToAppointmentDetailsAction,
   moveToMakeAppointsAction,
   moveToSettingsScreenAction,
+  setLoaderAction,
 } from './Actions';
-import { getFamilyMembersAction } from '../FamilyMain/Actions';
-import { get_family_url } from '../../commons/environment';
+import {getFamilyMembersAction} from '../FamilyMain/Actions';
+import {get_family_url, get_user_url} from '../../commons/environment';
+import {ActivityIndicator} from 'react-native-paper';
 
 const menuIcon = require('../../assets/images/menu-icon.png');
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
@@ -110,7 +113,7 @@ const DATA1 = [
   },
 ];
 
-const Item = ({ item, onPress, backgroundColor, textColor }) => (
+const Item = ({item, onPress, backgroundColor, textColor}) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <Text style={[styles.title, textColor]}>{item.title}</Text>
   </TouchableOpacity>
@@ -122,12 +125,18 @@ const MainScreen = ({
   movetoMakeAnAppointmentScreen,
   moveToAppointmentDetails,
   route,
-  getFamilyMembers,
-  userInfo
+  userInfo,
+  loader,
+  errMessage,
+  verifyOptPayload,
+  getProfile,
+  setLoader,
+  userInfoSignUp,
 }) => {
   const window = useWindowDimensions();
 
   const [selectedId, setSelectedId] = useState(null);
+  const [userName, setUserName] = useState('');
 
   const isFocused = useIsFocused();
 
@@ -136,10 +145,40 @@ const MainScreen = ({
   }, [isFocused]);
 
   useEffect(() => {
-    getFamilyMembers({ url: `${get_family_url}/${userInfo.family.id}`, userId: userInfo._id, })
-  }, [])
+    if (
+      !userInfo &&
+      (verifyOptPayload?.data?.data?.userId || userInfoSignUp?.data?.data?._id)
+    ) {
+      setLoader(true);
+      const payload = {
+        url: get_user_url,
+        userId:
+          verifyOptPayload?.data?.data?.userId ||
+          userInfoSignUp?.data?.data?._id,
+      };
+      getProfile(payload);
+    }
+  }, [verifyOptPayload, userInfoSignUp]);
 
-  const renderItem = ({ item }) => {
+  // useEffect(() => {
+  //   if (!userInfo) {
+  //     setLoader(true);
+  //     const payload = {
+  //       url: get_user_url,
+  //       userId: '6091ad2575785f004429a410',
+  //     };
+  //     getProfile(payload);
+  //   }
+  // }, []);
+
+  useEffect(() => {
+    if (userInfo) {
+      setLoader(false);
+      setUserName(userInfo?.data?.data?.firstName);
+    }
+  }, [userInfo]);
+
+  const renderItem = ({item}) => {
     if (route.params && route.params.booked) {
       return (
         <View style={styles.appoinmentRedDiv}>
@@ -148,16 +187,22 @@ const MainScreen = ({
             style={styles.appoinmentRedDiv1}>
             <View style={styles.contentPadding1}>
               <View style={styles.redDivTop}>
-                <Text style={styles.boxHeading}>{I18n.t('You are Covid Positive')}</Text>
+                <Text style={styles.boxHeading}>
+                  {I18n.t('You are Covid Positive')}
+                </Text>
                 <Text style={styles.boxText}>
-                  {I18n.t('Please donot panic, For any Medical Assistance you have +49 00 000000 available 24/7.')}
+                  {I18n.t(
+                    'Please donot panic, For any Medical Assistance you have +49 00 000000 available 24/7.',
+                  )}
                 </Text>
               </View>
               <View style={styles.redDivBottom}>
                 <Text style={styles.redDivBottomLeft}>
-                  {I18n.t('We have added few tips in your dashbaord that may help you in these times. Swipe to view them')}
+                  {I18n.t(
+                    'We have added few tips in your dashbaord that may help you in these times. Swipe to view them',
+                  )}
                 </Text>
-                <Image source={rightHandFinger} style={{ marginTop: 30 }} />
+                <Image source={rightHandFinger} style={{marginTop: 30}} />
               </View>
             </View>
           </ImageBackground>
@@ -174,7 +219,7 @@ const MainScreen = ({
         <View style={styles.activeCertificationDiv}>
           <ImageBackground
             source={previousAppoinmentBg}
-            style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
+            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
             <View style={styles.contentPadding}>
               <Text style={styles.boxHeadingDisable}>
                 No Active Certificate
@@ -189,7 +234,7 @@ const MainScreen = ({
     );
   };
 
-  const renderItemAppointment = ({ item }) => {
+  const renderItemAppointment = ({item}) => {
     if (route.params && route.params.booked) {
       return (
         <View
@@ -202,7 +247,7 @@ const MainScreen = ({
             onPress={() => moveToAppointmentDetails(navigation, 'appointment')}>
             <ImageBackground
               source={activeCertificationBg}
-              style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
+              style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
               <View style={styles.contentPadding}>
                 <View style={styles.parentNameContainer}>
                   <View style={styles.nameTextContainer}>
@@ -237,7 +282,7 @@ const MainScreen = ({
           <ImageBackground
             source={previousAppoinmentBg}
             style={styles.activeAppoinmentsDiv}
-            style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
+            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
             <View style={styles.contentPadding}>
               <Text style={styles.boxHeadingDisable}>
                 No Active Appointments
@@ -261,10 +306,10 @@ const MainScreen = ({
             onPress={() => {
               movetoSettingsScreen(navigation);
             }}>
-            <Image source={menuIcon} style={{ marginLeft: 10 }} />
+            <Image source={menuIcon} style={{marginLeft: 10}} />
           </TouchableOpacity>
           <View style={styles.menuItemsCenter}>
-            <Image source={smallHeaderLogo} style={{ marginLeft: 5 }} />
+            <Image source={smallHeaderLogo} style={{marginLeft: 5}} />
           </View>
         </View>
       </View>
@@ -275,19 +320,23 @@ const MainScreen = ({
               <View style={styles.parentNameContainer}>
                 <View style={styles.nameTextContainer}>
                   <Text
-                    style={{ fontSize: 25, fontWeight: 'bold', marginStart: 8 }}>
-                    Hi Jenny
+                    style={{fontSize: 25, fontWeight: 'bold', marginStart: 8}}>
+                    Hi {userName}
                   </Text>
-                  <Text style={{ textColor: 'grey', marginStart: 8 }}>
+                  <Text style={{textColor: 'grey', marginStart: 8}}>
                     Hope u r feeling healthy today
                   </Text>
                 </View>
                 <TouchableOpacity
                   onPress={() =>
-                    moveToAppointmentDetails(navigation, 'personal')
+                    moveToAppointmentDetails(
+                      navigation,
+                      'personal',
+                      userInfo?.data?.data,
+                    )
                   }>
                   <Image
-                    style={{ height: 50, width: 50, marginEnd: 8 }}
+                    style={{height: 50, width: 50, marginEnd: 8}}
                     source={mainScreenIcon}
                   />
                 </TouchableOpacity>
@@ -324,7 +373,20 @@ const MainScreen = ({
       </TouchableOpacity>
       <BottomNavigator
         navigation={navigation}
-        selectedItem={{ id: 1, label: 'Home' }}></BottomNavigator>
+        selectedItem={{id: 1, label: 'Home'}}></BottomNavigator>
+      {loader ? (
+        <View
+          style={{
+            alignSelf: 'center',
+            height: '100%',
+            width: '100%',
+            justifyContent: 'center',
+            position: 'absolute',
+            zIndex: 1000,
+          }}>
+          <ActivityIndicator size="large" color="grey" animating={loader} />
+        </View>
+      ) : null}
     </View>
   );
 };
@@ -334,16 +396,21 @@ const mapDispatchToProps = dispatch => {
     movetoSettingsScreen: navigation => moveToSettingsScreenAction(navigation),
     movetoMakeAnAppointmentScreen: navigation =>
       moveToMakeAppointsAction(navigation),
-    moveToAppointmentDetails: (navigation, path) =>
-      moveToAppointmentDetailsAction(navigation, path),
-    getFamilyMembers: (data) => dispatch(getFamilyMembersAction(data))
+    moveToAppointmentDetails: (navigation, path, userInfo) =>
+      moveToAppointmentDetailsAction(navigation, path, userInfo),
+    getFamilyMembers: data => dispatch(getFamilyMembersAction(data)),
+    getProfile: payload => dispatch(getProfileAction(payload)),
+    setLoader: status => dispatch(setLoaderAction(status)),
   };
 };
 
 const mapStateToProps = state => {
   return {
-    familyMembers: state.familyReducer.familyMembers,
-    userInfo: state.userInfoReducer.userInfo,
+    userInfo: state.mainScreenReducer.userInfo,
+    loader: state.mainScreenReducer.loader,
+    errMessage: state.mainScreenReducer.errMessage,
+    verifyOptPayload: state.phoneReducer.verifyOptPayload,
+    userInfoSignUp: state.userInfoReducer.userInfo,
   };
 };
 

@@ -1,13 +1,20 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { ImageBackground, Text, View, StyleSheet, Image, ActivityIndicator } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { RFValue } from 'react-native-responsive-fontsize';
-import { WHITE_COLOR } from '../../theme/Colors';
+import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
+import {
+  ImageBackground,
+  Text,
+  View,
+  StyleSheet,
+  Image,
+  ActivityIndicator,
+} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {RFValue} from 'react-native-responsive-fontsize';
+import {WHITE_COLOR} from '../../theme/Colors';
 import QRCode from 'react-native-qrcode-svg';
 import I18n from '../../translations/I18n';
-import { get_user_url } from '../../commons/environment';
-import { getProfileInfoAction } from './Action';
+import {get_user_url} from '../../commons/environment';
+import {getProfileInfoAction} from './Action';
 const mainScreenIcon = require('../../assets/images/main-screen-icon.png');
 const qrBig = require('../../assets/images/qr-big.png');
 const activeCertificationBg = require('../../assets/images/active-certification-bg.png');
@@ -19,30 +26,43 @@ const issuedRedIcon = require('../../assets/images/issued-by-red-icon.png');
 const AppointmentDetails = ({
   navigation,
   route: {
-    params: { getProfile, path, title, qrObj },
+    params: {getProfile, path, userInfoParam},
   },
   getProfileInfo,
   userProfile,
   userInfo,
-  loader
+  loader,
 }) => {
+  const [title, setTitle] = useState('');
 
   useEffect(() => {
-    if (getProfile) {
+    if (!userInfoParam) {
       let data = {
         url: get_user_url,
         userId: userInfo._id,
-      }
+      };
       getProfileInfo(data);
+    } else {
+      setTitle(userInfoParam.firstName + ' ' + userInfoParam.lastName);
     }
-  }, [])
+  }, [userInfoParam]);
+
+  useEffect(() => {
+    if (userProfile)
+      setTitle(
+        userProfile.data?.data?.firstName +
+          ' ' +
+          userProfile.data?.data?.lastName,
+      );
+  }, [userProfile]);
+
   return (
-    <View style={{ height: '100%', width: '100%', flexDirection: 'column' }}>
+    <View style={{height: '100%', width: '100%', flexDirection: 'column'}}>
       <View style={styles.mainMenu}>
         <TouchableOpacity
           style={styles.mainMenuItems}
           onPress={() => navigation.goBack()}>
-          <Image source={menuArrowIcon} style={{ marginLeft: 5 }} />
+          <Image source={menuArrowIcon} style={{marginLeft: 5}} />
         </TouchableOpacity>
       </View>
 
@@ -51,13 +71,13 @@ const AppointmentDetails = ({
           <View style={styles.activeCertificationDiv}>
             <ImageBackground
               source={previousAppoinmentsBg}
-              style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
+              style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
               <View style={styles.contentPadding}>
                 <Text style={styles.boxHeading1}>
                   {title ? title : 'Jenny White'}
                 </Text>
                 <Text style={styles.boxText1}>
-                {I18n.t('This is my personal QR code.')}
+                  {I18n.t('This is my personal QR code.')}
                 </Text>
               </View>
             </ImageBackground>
@@ -66,17 +86,19 @@ const AppointmentDetails = ({
           <View style={styles.activeAppoinmentsDiv}>
             <ImageBackground
               source={activeCertificationBg}
-              style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
+              style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
               <View style={styles.parentNameContainer}>
                 <View style={styles.nameTextContainer}>
                   <Text style={styles.boxHeading}>{I18n.t('SARS-COV-2')}</Text>
-                  <Text style={styles.boxTestText}>{I18n.t('Citigen Antizen Test')}</Text>
+                  <Text style={styles.boxTestText}>
+                    {I18n.t('Citigen Antizen Test')}
+                  </Text>
                 </View>
                 <View style={styles.nameTextContainer}>
                   <TouchableOpacity
                     style={[styles.buttonStyle, styles.submitButtonDark]}
                     onPress={() => moveToMainScreen(navigation)}>
-                    <Text style={{ color: 'white' }}>{I18n.t('24 hours')}</Text>
+                    <Text style={{color: 'white'}}>{I18n.t('24 hours')}</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -87,8 +109,12 @@ const AppointmentDetails = ({
                       <Image source={issuedRedIcon} />
                     </View>
                     <View>
-                      <Text style={styles.boxHeading}>{I18n.t('issued by')}</Text>
-                      <Text style={styles.boxText}>{I18n.t('Citigen Antizen Test')}</Text>
+                      <Text style={styles.boxHeading}>
+                        {I18n.t('issued by')}
+                      </Text>
+                      <Text style={styles.boxText}>
+                        {I18n.t('Citigen Antizen Test')}
+                      </Text>
                     </View>
                   </View>
                 </View>
@@ -104,11 +130,13 @@ const AppointmentDetails = ({
           <View style={styles.activeAppoinmentsDiv}>
             <ImageBackground
               source={activeCertificationBg}
-              style={{ width: '100%', height: '100%', resizeMode: 'cover' }}>
+              style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
               <View style={styles.parentNameContainer}>
                 <View style={styles.nameTextContainer}>
-                <Text style={styles.boxHeading}>{I18n.t('SARS-COV-2')}</Text>
-                  <Text style={styles.boxTestText}>{I18n.t('Citigen Antizen Test')}</Text>
+                  <Text style={styles.boxHeading}>{I18n.t('SARS-COV-2')}</Text>
+                  <Text style={styles.boxTestText}>
+                    {I18n.t('Citigen Antizen Test')}
+                  </Text>
                 </View>
                 <View style={styles.nameTextContainer}>
                   <Text style={styles.boxHeading}>12-may-2021</Text>
@@ -117,8 +145,10 @@ const AppointmentDetails = ({
               </View>
               <View style={styles.parentNameContainer}>
                 <View style={styles.bottomTextContainer}>
-                <Text style={styles.boxHeading}>{I18n.t('SARS-COV-2')}</Text>
-                  <Text style={styles.boxTestText}>{I18n.t('Citigen Antizen Test')}</Text>
+                  <Text style={styles.boxHeading}>{I18n.t('SARS-COV-2')}</Text>
+                  <Text style={styles.boxTestText}>
+                    {I18n.t('Citigen Antizen Test')}
+                  </Text>
                 </View>
               </View>
             </ImageBackground>
@@ -136,15 +166,14 @@ const AppointmentDetails = ({
             }}>
             <ActivityIndicator size="large" color="grey" animating={loader} />
           </View>
-        ) :
+        ) : (
           <View style={styles.qrDiv}>
             <QRCode
-              value={JSON.stringify(userProfile || qrObj)}
+              value={JSON.stringify(userInfoParam || userProfile?.data.data)}
               size={250}
             />
           </View>
-        }
-
+        )}
       </View>
     </View>
   );
@@ -152,7 +181,7 @@ const AppointmentDetails = ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    getProfileInfo: (data) => dispatch(getProfileInfoAction(data))
+    getProfileInfo: data => dispatch(getProfileInfoAction(data)),
   };
 };
 
@@ -160,7 +189,7 @@ const mapStateToProps = state => {
   return {
     userInfo: state.userInfoReducer.userInfo,
     userProfile: state.appointmentDetailsReducer.userProfile,
-    loader: state.appointmentDetailsReducer.loader
+    loader: state.appointmentDetailsReducer.loader,
   };
 };
 

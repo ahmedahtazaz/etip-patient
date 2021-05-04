@@ -199,8 +199,8 @@
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				EAD1C5DED6C3C6E94176B769 /* [CP] Embed Pods Frameworks */,
 				4E1BE20A631DF108DE927A99 /* [CP] Copy Pods Resources */,
+				DB4D134377A80363B7483F17 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -222,8 +222,8 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				4BD4AF339E6743BEDC7A1228 /* [CP] Embed Pods Frameworks */,
 				822AD50EDEA337A394DD1BEB /* [CP] Copy Pods Resources */,
+				8FB7EE68C502A2709550164D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -304,23 +304,6 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		4BD4AF339E6743BEDC7A1228 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-EtipClient/Pods-EtipClient-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-EtipClient/Pods-EtipClient-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EtipClient/Pods-EtipClient-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		4E1BE20A631DF108DE927A99 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -355,7 +338,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EtipClient/Pods-EtipClient-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EAD1C5DED6C3C6E94176B769 /* [CP] Embed Pods Frameworks */ = {
+		8FB7EE68C502A2709550164D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EtipClient/Pods-EtipClient-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EtipClient/Pods-EtipClient-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EtipClient/Pods-EtipClient-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DB4D134377A80363B7483F17 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (

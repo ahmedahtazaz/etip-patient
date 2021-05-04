@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
 import I18n from '../../translations/I18n';
 
 import Orientation from 'react-native-orientation-locker';
-import { useIsFocused } from '@react-navigation/native';
-import { PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR } from '../../theme/Colors';
+import {useIsFocused} from '@react-navigation/native';
+import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
 const headerLogo = require('../../assets/images/header-logo.png');
 const phoneDivBg = require('../../assets/images/phone-div-bg.png');
 import {
@@ -20,11 +20,15 @@ import {
   Text,
   ImageBackground,
 } from 'react-native';
-import { RFValue } from 'react-native-responsive-fontsize';
-import { moveToUserInfoScreenAction, sendOTPAction, verifyOTPAction } from './Actions';
-import { send_otp_url, verify_otp_url } from '../../commons/environment';
-import { getProfileInfoAction } from '../AppointmentDetails/Action';
-import { moveToMainScreenAction } from '../UserInfo/Actions';
+import {RFValue} from 'react-native-responsive-fontsize';
+import {
+  moveToUserInfoScreenAction,
+  sendOTPAction,
+  verifyOTPAction,
+} from './Actions';
+import {send_otp_url, verify_otp_url} from '../../commons/environment';
+import {getProfileInfoAction} from '../AppointmentDetails/Action';
+import {moveToMainScreenAction} from '../UserInfo/Actions';
 
 function Phone({
   loader,
@@ -36,9 +40,8 @@ function Phone({
   otpVerified,
   errMessage,
   verifyOtpPayload,
-  getProfileInfo,
   moveToMainScreen,
-  userInfo
+  sendOptPayload,
 }) {
   const [isPhone, setIsPhone] = useState(true);
   const [phoneValue, setPhoneValue] = useState('+49');
@@ -69,32 +72,31 @@ function Phone({
   };
 
   const onSubmit = (isPhone, phone, otp) => {
-    if (isPhone) {
-      if (true || phone && phone.match('^[+]49[0-9]{10}$')) {
-        // setIsPhone(false);
-        let data = {
-          url: send_otp_url,
-          body: {
-            mobileNumber: phone
-          }
-        }
-        sendOTP(data)
-      } else showToast('Please enter a valid phone number.');
-    } else {
-      if (otp && otp.length == 5) {
-        console.log("otp: ", otp)
-        let data = {
-          url: verify_otp_url,
-          body: {
-            mobileNumber: phone,
-            otp,
-            referenceId: "608c899a94122fa7a3eeacfe"
-          }
-        }
-        verifyOTP(data);
-        // movetoUserInfoScreen(navigation);
-      } else showToast('Please enter a valid OTP.');
-    }
+    // if (isPhone) {
+    //   // Temporary check
+    //   if (true || (phone && phone.match('^[+]49[0-9]{10}$'))) {
+    //     let data = {
+    //       url: send_otp_url,
+    //       body: {
+    //         mobileNumber: phone,
+    //       },
+    //     };
+    //     sendOTP(data);
+    //   } else showToast('Please enter a valid phone number.');
+    // } else {
+    //   if (otp && otp.length == 5) {
+    //     let data = {
+    //       url: verify_otp_url,
+    //       body: {
+    //         mobileNumber: phone,
+    //         otp,
+    //         referenceId: sendOptPayload?.data?.data?.ref_id,
+    //       },
+    //     };
+    //     verifyOTP(data);
+    //   } else showToast('Please enter a valid OTP.');
+    // }
+    movetoUserInfoScreen(navigation)
   };
 
   useEffect(() => {
@@ -103,55 +105,40 @@ function Phone({
     }
   }, [otpSend]);
 
-
   useEffect(() => {
     if (!isPhone && otpVerified) {
       movetoUserInfoScreen(navigation);
     }
   }, [otpVerified]);
 
-
   useEffect(() => {
     if (errMessage) {
-      showToast(errMessage)
+      showToast(errMessage);
     }
-  }, [errMessage])
-
+  }, [errMessage]);
 
   useEffect(() => {
-    if (verifyOtpPayload) {
-      console.log('verifyOtpPayload:', verifyOtpPayload?.data?.isNewAccount);
-    }
     if (verifyOtpPayload?.data) {
-      if (verifyOtpPayload?.data?.isNewAccount) {
+      if (verifyOtpPayload?.data?.data) {
+        if (verifyOtpPayload?.data?.data?.isNewAccount) {
+          //navigate to userInfoScreen
+          movetoUserInfoScreen(navigation);
+        } else {
+          //get userInfo and navigate to MainScreen
+          moveToMainScreen(navigation);
+        }
+      } else {
+        Ï;
         //navigate to userInfoScreen
         movetoUserInfoScreen(navigation);
-      } else {
-        //get userInfo and navigate to MainScreen
-        let data = {
-          url: get_user_url,
-          userId: userInfo._id,
-        }
-        getProfileInfo(data);
       }
-    } else {
-      //userInfo
-      // movetoUserInfoScreen(navigation);
     }
   }, [verifyOtpPayload]);
-
-
-  useEffect(() => {
-    if (userInfo)
-      moveToMainScreen();
-  }, [userInfo])
 
   return (
     <View style={styles.background}>
       <View style={styles.mainMenu}>
-
         <Image source={headerLogo} />
-
       </View>
       <ImageBackground source={phoneDivBg} style={styles.splashbackground}>
         <View style={styles.innerDiv}>
@@ -160,8 +147,8 @@ function Phone({
               <Text style={styles.inputLabelDiv}>
                 <Text style={styles.inputLabel}>
                   Enter Your{'\n'}
-                Mobile Number
-              </Text>
+                  Mobile Number
+                </Text>
                 {'\n'}
                 {'\n'}
                 <Text style={styles.inputLabelSmall}>
@@ -272,12 +259,12 @@ function Phone({
             </>
           )}
           {(isPhone && phoneValue.match('^[+]49[0-9]{10}$')) ||
-            (!isPhone &&
-              otpValue
-                .concat(otpValue1)
-                .concat(otpValue2)
-                .concat(otpValue3)
-                .concat(otpValue4).length == 5) ? (
+          (!isPhone &&
+            otpValue
+              .concat(otpValue1)
+              .concat(otpValue2)
+              .concat(otpValue3)
+              .concat(otpValue4).length == 5) ? (
             <TouchableOpacity
               style={[styles.container, styles.submitButtonDark]}
               onPress={() =>
@@ -334,8 +321,8 @@ const mapDispatchToProps = dispatch => {
     movetoUserInfoScreen: navigation => moveToUserInfoScreenAction(navigation),
     sendOTP: data => dispatch(sendOTPAction(data)),
     verifyOTP: data => dispatch(verifyOTPAction(data)),
-    getProfileInfo: (data) => dispatch(getProfileInfoAction(data)),
-    moveToMainScreen: (navigation) => moveToMainScreenAction(navigation)
+    getProfileInfo: data => dispatch(getProfileInfoAction(data)),
+    moveToMainScreen: navigation => moveToMainScreenAction(navigation),
   };
 };
 
@@ -345,7 +332,8 @@ const mapStateToProps = state => {
     otpVerified: state.phoneReducer.otpVerified,
     errMessage: state.phoneReducer.errMessage,
     verifyOtpPayload: state.phoneReducer.verifyOptPayload,
-    userInfo: state.userInfoReducer.userInfo
+    userInfo: state.userInfoReducer.userInfo,
+    sendOptPayload: state.phoneReducer.sendOptPayload,
   };
 };
 
@@ -361,7 +349,6 @@ const styles = StyleSheet.create({
   splashbackground: {
     flex: 1,
     resizeMode: 'cover',
-
   },
   mainMenu: {
     position: 'absolute',

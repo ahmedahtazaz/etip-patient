@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { connect } from 'react-redux';
+import React, {useEffect, useRef, useState} from 'react';
+import {connect} from 'react-redux';
 import {
   WHITE_COLOR,
   PRIMARY_COLOR,
@@ -8,7 +8,7 @@ import {
 } from '../../theme/Colors';
 
 import Orientation from 'react-native-orientation-locker';
-import { useIsFocused } from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 import {
   ActivityIndicator,
   Image,
@@ -18,20 +18,45 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
-  ToastAndroid
+  ToastAndroid,
 } from 'react-native';
 import I18n from '../../translations/I18n';
-import { RFValue } from 'react-native-responsive-fontsize';
+import {RFValue} from 'react-native-responsive-fontsize';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import RadioButton from '../../components/RadioButton';
-import { moveToMainScreenAction, signUpAction, updateFamilyMemberAction, addFamilyMemberAction, resetIsUserCreatedAction, resetIsFamilyMemberAddedAction } from './Actions';
-import { emailRegex } from '../../commons/Constants';
-import { organizationName, signup_url, add_family_url, edit_family_url } from '../../commons/environment';
+import {
+  moveToMainScreenAction,
+  signUpAction,
+  updateFamilyMemberAction,
+  addFamilyMemberAction,
+  resetIsUserCreatedAction,
+  resetIsFamilyMemberAddedAction,
+} from './Actions';
+import {emailRegex} from '../../commons/Constants';
+import {
+  organizationName,
+  signup_url,
+  add_family_url,
+  edit_family_url,
+} from '../../commons/environment';
 const welcomeLogo = require('../../assets/images/welcome-logo.png');
 const welcomeImg = require('../../assets/images/welcome-image.png');
 const currentDate = new Date();
-function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFamilyMember, userInfo, isUserCreated, resetIsUserCreated, resetIsFamilyMemberAdded, isFamilyMemberAdded, updateFamilyMember }) {
+function UserInfo({
+  loader,
+  moveToMainScreen,
+  navigation,
+  route,
+  signUp,
+  addFamilyMember,
+  userInfo,
+  isUserCreated,
+  resetIsUserCreated,
+  resetIsFamilyMemberAdded,
+  isFamilyMemberAdded,
+  updateFamilyMember,
+}) {
   const [isFamily, setIsFamily] = useState(false);
   const [fName, setFName] = useState('');
   const [lName, setLName] = useState('');
@@ -40,10 +65,10 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
   const [other, setOther] = useState(false);
   const [dob, setDob] = useState(
     currentDate.getDate() +
-    '-' +
-    currentDate.getMonth() +
-    '-' +
-    currentDate.getFullYear(),
+      '-' +
+      currentDate.getMonth() +
+      '-' +
+      currentDate.getFullYear(),
   );
   const [showCalender, setShowCalender] = useState(false);
   const [calDate, setCalDate] = useState(new Date());
@@ -58,16 +83,12 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
   const [relation, setRelation] = useState('Wife');
   const [editMode, setEditMode] = useState(false);
 
+  const [isSaveOnly, setIsSaveOnly] = useState(false);
+
   const scrollRef = useRef();
 
-  // const data = route.param && route.param.data || "";
-
-
   useEffect(() => {
-    const data = route.params && route.params.data || "";
-    console.log('route12: ', data);
-    // console.log("isFamilyAdded: ", isFamilyMemberAdded)
-    // console.log('isuserCreated: ', isUserCreated)
+    const data = (route.params && route.params.data) || '';
     if (data) {
       setEditMode(true);
       setFName(data.firstName);
@@ -76,7 +97,7 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
         setMale(true);
         setFemale(false);
         setOther(false);
-      } else if (data.gender === "female") {
+      } else if (data.gender === 'female') {
         setMale(false);
         setFemale(true);
         setOther(false);
@@ -87,7 +108,6 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
       }
       if (data.relation) {
         setRelation(capitalizeFirstLetter(data.relation));
-        setIsFamily(true);
       }
       setDob(data.dateOfBirth);
       setTaxId(data.taxId);
@@ -96,9 +116,9 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
       setSchiller(data.address.street);
       setZimmer(data.address.houseNo);
       data.address.city && setCity(capitalizeFirstLetter(data.address.city));
-      setPostalCode(data.address.zipCode)
+      setPostalCode(data.address.zipCode);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     Orientation.lockToPortrait();
@@ -106,20 +126,19 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
 
   useEffect(() => {
     if (isUserCreated) {
-      setIsFamily(true)
-      // resetForm(true)
+      if (isSaveOnly) moveToMainScreen(navigation);
+      else setIsFamily(true);
+
       resetIsUserCreated();
-
     }
-  }, [isUserCreated])
-
+  }, [isUserCreated]);
 
   useEffect(() => {
     if (isFamilyMemberAdded) {
-      resetIsFamilyMemberAdded()
+      resetIsFamilyMemberAdded();
       resetForm(true);
     }
-  }, [isFamilyMemberAdded])
+  }, [isFamilyMemberAdded]);
 
   const _handleDatePicked = (e, pickeddate) => {
     const date = new Date(pickeddate);
@@ -131,15 +150,7 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
     if (day) setCalDate(date);
   };
 
-
-  const submit = () => {
-    if (userInfo && !Object.keys(userInfo).length) {
-      addData();
-      return;
-    }
-    moveToMainScreen(navigation)
-  }
-
+  const submit = () => addData();
 
   const showToast = msg => {
     if (Platform.OS === 'android') {
@@ -150,7 +161,6 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
   };
 
   const resetForm = (isFamily = false) => {
-    console.log("reset form called: ", isFamily)
     setIsFamily(isFamily);
     setFName('');
     setLName('');
@@ -160,10 +170,10 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
     if (currentDate)
       setDob(
         currentDate.getDate() +
-        '-' +
-        currentDate.getMonth() +
-        '-' +
-        currentDate.getFullYear(),
+          '-' +
+          currentDate.getMonth() +
+          '-' +
+          currentDate.getFullYear(),
       );
     setCalDate(new Date());
     setCity('Bavaria');
@@ -179,50 +189,38 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
       y: 0,
       animated: true,
     });
-  }
-
-
-  const saveAndAddAnotherFamilyMember = () => {
-    // if (!Object.keys(userInfo).length) {
-    //   showToast("Add user info first");
-    //   return;
-    // }
-    if (!isFamily) {
-      setIsFamily(true);
-    }
-    setTimeout(() => addData())
-  }
+  };
 
   const addData = () => {
     if (!fName) {
-      showToast("Please Enter First Name");
+      showToast('Please Enter First Name');
       return;
     }
     if (!lName) {
-      showToast("Please Enter Last Name");
+      showToast('Please Enter Last Name');
       return;
     }
     if (!taxId) {
-      showToast("Please Enter Tax ID");
+      showToast('Please Enter Tax ID');
       return;
     }
     if (!email || !email.match(emailRegex)) {
-      showToast("Please Enter a valid email");
+      showToast('Please Enter a valid email');
       return;
     }
     if (isFamily && (!mobileNo || !mobileNo.match('^[+]49[0-9]{10}$'))) {
-      showToast('Please enter a valid phone number.')
+      showToast('Please enter a valid phone number.');
     }
     if (!schiller) {
-      showToast("Please Enter schiller");
+      showToast('Please Enter schiller');
       return;
     }
     if (!zimmer) {
-      showToast("Please Enter zimmer");
+      showToast('Please Enter zimmer');
       return;
     }
     if (!postalCode) {
-      showToast("Please Enter postalcode");
+      showToast('Please Enter postalcode');
       return;
     }
 
@@ -236,22 +234,20 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
         email,
         mobileNumber: mobileNo,
         dateOfBirth: dob,
-        gender: male ? "male" : female ? "female" : "other",
+        gender: male ? 'male' : female ? 'female' : 'other',
         address: {
           street: schiller,
           houseNo: zimmer,
           city,
           zipCode: postalCode,
         },
-      }
-    }
+      },
+    };
 
-    console.log('isFamily: ', isFamily)
-    if (!isFamily && !editMode) {
-      // addUserInfo(data);
-      signUp(data)
+    if (!isFamily) {
+      signUp(data);
     } else {
-      const dataObj = route.params && route.params.data || "";
+      const dataObj = (route.params && route.params.data) || '';
       let data = {
         url: editMode ? edit_family_url : `${add_family_url}`,
         body: {
@@ -264,43 +260,39 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
           email,
           mobileNumber: mobileNo,
           dateOfBirth: dob,
-          gender: male ? "male" : female ? "female" : "other",
+          gender: male ? 'male' : female ? 'female' : 'other',
           address: {
             street: schiller,
             houseNo: zimmer,
             city,
             zipCode: postalCode,
           },
-        }
-      }
+        },
+      };
       if (!editMode) {
         addFamilyMember(data);
       } else {
-        data.body["id"] = dataObj["_id"]
+        data.body['id'] = dataObj['_id'];
         updateFamilyMember(data);
       }
     }
-  }
+  };
 
-
-  const capitalizeFirstLetter = (string) => {
-    console.log("string: ", string)
+  const capitalizeFirstLetter = string => {
     return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
+  };
 
   return (
-    <ScrollView style={{ height: '100%' }} ref={scrollRef}>
+    <ScrollView style={{height: '100%'}} ref={scrollRef}>
       <View style={styles.background}>
         <View style={styles.innerDiv}>
           <View style={styles.mainHeading}>
             <Text style={styles.mainHeadingText}>
-              {
-                !editMode ?
-                  isFamily ? 'Add Family' : 'User Information'
-                  :
-                  "Edit Family"
-              }
+              {!editMode
+                ? isFamily
+                  ? 'Add Family'
+                  : 'User Information'
+                : 'Edit Family'}
             </Text>
           </View>
           <View style={styles.smallHeading}>
@@ -402,7 +394,7 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
                 },
               ]}
               defaultValue={relation}
-              containerStyle={{ height: '6%', marginBottom: '4%' }}
+              containerStyle={{height: '6%', marginBottom: '4%'}}
               style={{
                 backgroundColor: '#F5F9F8',
                 fontSize: RFValue(14, 580),
@@ -504,10 +496,9 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
                 label: 'Leipzig',
                 value: 'Leipzig',
               },
-
             ]}
             defaultValue={city}
-            containerStyle={{ height: '5%' }}
+            containerStyle={{height: '5%'}}
             style={{
               backgroundColor: '#F5F9F8',
               fontSize: RFValue(14, 580),
@@ -531,33 +522,37 @@ function UserInfo({ loader, moveToMainScreen, navigation, route, signUp, addFami
             placeholder="Postal Code"
             style={styles.inputStyle2}
             onChangeText={value => setPostalCode(value)}></TextInput>
-          {
-            editMode ?
+          {editMode ? (
+            <TouchableOpacity
+              disabled={loader}
+              style={[styles.container, styles.submitButtonDark]}
+              onPress={() => addData()}>
+              <Text style={styles.saveCloseText}>Update</Text>
+            </TouchableOpacity>
+          ) : (
+            <>
               <TouchableOpacity
                 disabled={loader}
                 style={[styles.container, styles.submitButtonDark]}
-                onPress={() => addData()}>
-                <Text style={styles.saveCloseText}>Update</Text>
-              </TouchableOpacity> :
-              <>
-                <TouchableOpacity
-                  disabled={loader}
-                  style={[styles.container, styles.submitButtonDark]}
-                  onPress={() => submit()}>
-                  <Text style={styles.saveCloseText}>Continue</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  disabled={userInfo && !Object.keys(userInfo).length}
-                  style={{ marginTop: '4%', alignContent: 'center' }}
-                  onPress={() => {
-                    saveAndAddAnotherFamilyMember()
-                  }}>
-                  <Text style={styles.saveAddText}>
-                    {isFamily ? 'Save & add another member' : 'Save & Add Family'}
-                  </Text>
-                </TouchableOpacity>
-              </>
-          }
+                onPress={() => {
+                  setIsSaveOnly(true);
+                  submit();
+                }}>
+                <Text style={styles.saveCloseText}>Continue</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                disabled={userInfo && !Object.keys(userInfo).length}
+                style={{marginTop: '4%', alignContent: 'center'}}
+                onPress={() => {
+                  setIsSaveOnly(false);
+                  submit();
+                }}>
+                <Text style={styles.saveAddText}>
+                  {isFamily ? 'Save & add another member' : 'Save & Add Family'}
+                </Text>
+              </TouchableOpacity>
+            </>
+          )}
           {loader ? (
             <View
               style={{
@@ -584,17 +579,16 @@ const mapDispatchToProps = dispatch => {
     addFamilyMember: data => dispatch(addFamilyMemberAction(data)),
     updateFamilyMember: data => dispatch(updateFamilyMemberAction(data)),
     resetIsUserCreated: () => dispatch(resetIsUserCreatedAction()),
-    resetIsFamilyMemberAdded: () => dispatch(resetIsFamilyMemberAddedAction())
+    resetIsFamilyMemberAdded: () => dispatch(resetIsFamilyMemberAddedAction()),
   };
 };
 
 const mapStateToProps = state => {
-  console.log('userInfo: ', state.userInfoReducer.userInfo)
   return {
     userInfo: state.userInfoReducer.userInfo,
     loader: state.userInfoReducer.loader,
     isUserCreated: state.userInfoReducer.isUserCreated,
-    isFamilyMemberAdded: state.userInfoReducer.isFamilyMemberAdded
+    isFamilyMemberAdded: state.userInfoReducer.isFamilyMemberAdded,
   };
 };
 

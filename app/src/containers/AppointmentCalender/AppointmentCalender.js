@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import {
@@ -14,17 +14,23 @@ import {
   useWindowDimensions,
   ImageBackground,
 } from 'react-native';
-import { Dimensions } from 'react-native';
+import {Dimensions} from 'react-native';
 import I18n from '../../translations/I18n';
 import Calendar from '../../components/Calendar';
-import { width, height, totalSize } from 'react-native-dimension';
-import { ScrollView } from 'react-native-gesture-handler';
-import { connect } from 'react-redux';
-import { moveToTestCentersAction, moveToTimeSlotsAction, GetRegions, moveToTimeTestCenter, getAppointmentSlotsAction } from './Actions';
+import {width, height, totalSize} from 'react-native-dimension';
+import {ScrollView} from 'react-native-gesture-handler';
+import {connect} from 'react-redux';
+import {
+  moveToTestCentersAction,
+  moveToTimeSlotsAction,
+  GetRegions,
+  moveToTimeTestCenter,
+  getAppointmentSlotsAction,
+} from './Actions';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import { RFValue } from 'react-native-responsive-fontsize';
-import { PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR } from '../../theme/Colors';
-import { get_appointment_slot_url, get_regions } from '../../commons/environment';
+import {RFValue} from 'react-native-responsive-fontsize';
+import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
+import {get_appointment_slot_url, get_regions} from '../../commons/environment';
 import moment from 'moment';
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const regionSelectedIcon = require('../../assets/images/region-selected-icon.png');
@@ -54,28 +60,27 @@ const DATA = [
 ];
 
 const GRID_DATA = [
-  { key: '09:00-09:15', id: 1 },
-  { key: '09:15-09:30', id: 2 },
-  { key: '09:15-09:30', id: 3 },
-  { key: '09:15-09:30', id: 4 },
-  { key: '09:15-09:30', id: 5 },
-  { key: '09:15-09:30', id: 6 },
-  { key: '09:15-09:30', id: 7 },
-  { key: '09:15-09:30', id: 8 },
-  { key: '09:15-09:30', id: 9 },
-  { key: '09:15-09:30', id: 10 },
-  { key: '09:15-09:30', id: 11 },
-  { key: '09:15-09:30', id: 12 },
+  {key: '09:00-09:15', id: 1},
+  {key: '09:15-09:30', id: 2},
+  {key: '09:15-09:30', id: 3},
+  {key: '09:15-09:30', id: 4},
+  {key: '09:15-09:30', id: 5},
+  {key: '09:15-09:30', id: 6},
+  {key: '09:15-09:30', id: 7},
+  {key: '09:15-09:30', id: 8},
+  {key: '09:15-09:30', id: 9},
+  {key: '09:15-09:30', id: 10},
+  {key: '09:15-09:30', id: 11},
+  {key: '09:15-09:30', id: 12},
 ];
 
-const Item = ({ item, onPress, backgroundColor, textColor }) => (
+const Item = ({item, onPress, backgroundColor, textColor}) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <Text style={[styles.title, textColor]}>{item.title}</Text>
   </TouchableOpacity>
 );
 
 const AppointmentCalender = ({
-
   navigation,
 
   moveToTestCentersAction,
@@ -84,10 +89,10 @@ const AppointmentCalender = ({
   regionData,
   moveToTimeTestCenter,
   route: {
-    params: { candidate }
+    params: {candidate},
   },
   getAppointmentSlots,
-  appointmentSlotsData
+  appointmentSlotsData,
 }) => {
   const window = useWindowDimensions();
 
@@ -98,9 +103,9 @@ const AppointmentCalender = ({
   const [date, setDate] = useState(new Date());
   const [showCalender, setShowCalender] = useState(true);
   const [showSlots, setShowSlots] = useState(false);
-  const [selectedSlot, setSelectedSlot] = useState("")
+  const [selectedSlot, setSelectedSlot] = useState('');
 
-  const onDateChange = (date) => {
+  const onDateChange = date => {
     setDate(date);
     setShowCalender(false);
     setShowSlots(true);
@@ -109,30 +114,25 @@ const AppointmentCalender = ({
   const toggleCalendarView = () => {
     setShowCalender(true);
     setShowSlots(false);
-  }
+  };
 
   useEffect(() => {
     GetRegions(get_regions);
-    // setRegions(regionData);
-    console.log('candidate: ', candidate)
   }, []);
 
-  const setTestCenterValue = (testCenter) => {
-    console.log('from set test center: ', testCenter)
-    setTestCenter(testCenter)
+  const setTestCenterValue = testCenter => {
+    setTestCenter(testCenter);
     let data = {
       url: `${get_appointment_slot_url}/${testCenter.testCenter._id}`,
       body: {
-        date: moment(date).format("DD/MM/YYYY"),
-        timeZoneOffset: new Date().getTimezoneOffset()
-      }
-    }
-    console.log('data::::', data)
+        date: moment(date).format('DD/MM/YYYY'),
+        timeZoneOffset: new Date().getTimezoneOffset(),
+      },
+    };
     getAppointmentSlots(data);
-  }
+  };
 
-
-  const renderItem = ({ item }) => {
+  const renderItem = ({item}) => {
     let imgsource = require('../../assets/images/bavaria.png');
     switch (item.id) {
       case 1:
@@ -156,10 +156,10 @@ const AppointmentCalender = ({
     }
     return (
       <TouchableOpacity
-        style={{ marginStart: 8 }}
+        style={{marginStart: 8}}
         style={styles.imgShadow}
         onPress={() => setSelectedRegion(item)}
-      // onPress={() => moveToTimeTestCenter(navigation, item.name)}
+        // onPress={() => moveToTimeTestCenter(navigation, item.name)}
       >
         <Image
           style={{
@@ -200,7 +200,7 @@ const AppointmentCalender = ({
               name="chevron-left"
               color="#000"
               size={40}
-              style={{ fontWeight: 'bold' }}
+              style={{fontWeight: 'bold'}}
             />
           </TouchableOpacity>
         </View>
@@ -213,16 +213,16 @@ const AppointmentCalender = ({
           <View style={styles.nameContainer}>
             <View style={styles.parentNameContainer}>
               <View style={styles.nameTextContainer}>
-                <Text style={{ marginStart: 8, color: '#adadad' }}>
+                <Text style={{marginStart: 8, color: '#adadad'}}>
                   {I18n.t('Appointment For')}
                 </Text>
                 <Text
-                  style={{ color: '#20B2AA', textColor: 'grey', marginStart: 8 }}>
+                  style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
                   {`${candidate.firstName} ${candidate.lastName}`}
                 </Text>
               </View>
               <View>
-                <Icon name="cancel" color="red" size={25} style={{ margin: 8 }} />
+                <Icon name="cancel" color="red" size={25} style={{margin: 8}} />
               </View>
             </View>
           </View>
@@ -238,10 +238,16 @@ const AppointmentCalender = ({
 
           <TouchableOpacity
             style={styles.parentNameContainer}
-            onPress={() => moveToTimeTestCenter(navigation, selectedRegion.name, setTestCenterValue)}>
+            onPress={() =>
+              moveToTimeTestCenter(
+                navigation,
+                selectedRegion.name,
+                setTestCenterValue,
+              )
+            }>
             <View style={styles.nameTextContainer}>
               <Text
-                style={{ color: '#20B2AA', textColor: 'grey', marginStart: 8 }}>
+                style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
                 {I18n.t('Test Center')}
               </Text>
             </View>
@@ -249,69 +255,69 @@ const AppointmentCalender = ({
               <Icon name="right" size={25} color="#adadad" />
             </View>
           </TouchableOpacity>
-          {
-            !showCalender && date ?
-              <TouchableOpacity onPress={toggleCalendarView} style={styles.parentNameContainer}>
-                <View style={styles.nameTextContainer}>
-                  <Text style={{ marginStart: 8, color: '#606060' }}>
-                    Appointment Date
+          {!showCalender && date ? (
+            <TouchableOpacity
+              onPress={toggleCalendarView}
+              style={styles.parentNameContainer}>
+              <View style={styles.nameTextContainer}>
+                <Text style={{marginStart: 8, color: '#606060'}}>
+                  Appointment Date
                 </Text>
-                  <Text
-                    style={{ color: '#027279', textColor: 'grey', marginStart: 8 }}>
-                    {moment(date).format("DD MMM YYYY")}
-                  </Text>
-                </View>
-                <View>
-                  <Icon name="calendar" size={25} color="#016970" />
-                </View>
-              </TouchableOpacity>
-              :
-              <View style={styles.calenderContainer}>
-                <Text style={styles.regionText1}>{I18n.t('Appointment Date')}</Text>
-                <Calendar onDateChange={onDateChange} />
+                <Text
+                  style={{color: '#027279', textColor: 'grey', marginStart: 8}}>
+                  {moment(date).format('DD MMM YYYY')}
+                </Text>
               </View>
+              <View>
+                <Icon name="calendar" size={25} color="#016970" />
+              </View>
+            </TouchableOpacity>
+          ) : (
+            <View style={styles.calenderContainer}>
+              <Text style={styles.regionText1}>
+                {I18n.t('Appointment Date')}
+              </Text>
+              <Calendar onDateChange={onDateChange} />
+            </View>
+          )}
+          {showSlots ? (
+            <View style={styles.calenderContainer}>
+              <Text style={{marginStart: 8}}>Time Slot</Text>
+              {/* <Calendar/> */}
 
-          }
-          {
-            showSlots ?
-              <View style={styles.calenderContainer}>
-                <Text style={{ marginStart: 8 }}>Time Slot</Text>
-                {/* <Calendar/> */}
-
-                <FlatList
-                  data={appointmentSlotsData?.slots}
-                  renderItem={({ item }) => {
-                    if (item.timeSlot === selectedSlot) {
-                      return (
-                        <TouchableOpacity
-                          style={styles.GridViewBlockStyleActive}
-                          onPress={() => setSelectedSlot(null)}>
-                          <Text style={styles.GridViewInsideTextItemStyleActive}>
-                            {' '}
-                            {item.timeSlot}{' '}
-                          </Text>
-                        </TouchableOpacity>
-                      );
-                    }
+              <FlatList
+                data={appointmentSlotsData?.slots}
+                renderItem={({item}) => {
+                  if (item.timeSlot === selectedSlot) {
                     return (
                       <TouchableOpacity
-                        disabled={item.isBooked}
-                        style={styles.GridViewBlockStyle}
-                        onPress={() => setSelectedSlot(item.timeSlot)}>
-                        <Text style={styles.GridViewInsideTextItemStyle}>
+                        style={styles.GridViewBlockStyleActive}
+                        onPress={() => setSelectedSlot(null)}>
+                        <Text style={styles.GridViewInsideTextItemStyleActive}>
                           {' '}
                           {item.timeSlot}{' '}
                         </Text>
                       </TouchableOpacity>
                     );
-                  }}
-                  numColumns={3}
-                />
-              </View>
-              : <View />
-          }
-
-
+                  }
+                  return (
+                    <TouchableOpacity
+                      disabled={item.isBooked}
+                      style={styles.GridViewBlockStyle}
+                      onPress={() => setSelectedSlot(item.timeSlot)}>
+                      <Text style={styles.GridViewInsideTextItemStyle}>
+                        {' '}
+                        {item.timeSlot}{' '}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                }}
+                numColumns={3}
+              />
+            </View>
+          ) : (
+            <View />
+          )}
         </ScrollView>
       </View>
     </View>
@@ -321,18 +327,18 @@ const AppointmentCalender = ({
 const mapDispatchToProps = dispatch => {
   return {
     moveToTimeTestCenter: navigation => moveToTimeTestCenter(navigation),
-    moveToTimeTestCenter: (navigation, region, setTestCenterValue) => moveToTimeTestCenter(navigation, region, setTestCenterValue),
+    moveToTimeTestCenter: (navigation, region, setTestCenterValue) =>
+      moveToTimeTestCenter(navigation, region, setTestCenterValue),
     moveToTimeSlots: navigation => moveToTimeSlotsAction(navigation),
     GetRegions: data => dispatch(GetRegions(data)),
-    getAppointmentSlots: data => dispatch(getAppointmentSlotsAction(data))
+    getAppointmentSlots: data => dispatch(getAppointmentSlotsAction(data)),
   };
 };
 
 const mapStateToProps = state => {
-  console.log('state.appointmentSlotsData: ',state.RegionReducer.appointmentSlotsData)
   return {
     regionData: state.RegionReducer.regionData,
-    appointmentSlotsData: state.RegionReducer.appointmentSlotsData
+    appointmentSlotsData: state.RegionReducer.appointmentSlotsData,
   };
 };
 

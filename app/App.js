@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import {Button, Image} from 'react-native';
 import {compose, createStore, applyMiddleware} from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './src/commons/RootSaga';
@@ -16,7 +15,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {StyleSheet, Text, TextInput} from 'react-native';
 import {Provider} from 'react-redux';
-import {Icon} from 'react-native-elements';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import Policy from './src/containers/Policy/Policy';
@@ -41,7 +39,6 @@ import UpdateOtherSettings from './src/containers/UpdateOtherSettings/UpdateOthe
 import ChangeLanguage from './src/containers/ChangeLanguage/ChangeLanguage';
 import AboutApp from './src/containers/AboutApp/AboutApp';
 
-
 const menuIcon = require('../app/src/assets/images/menu-icon.png');
 
 const sagaMiddleware = createSagaMiddleware();
@@ -53,18 +50,12 @@ sagaMiddleware.run(rootSaga);
 
 const Stack = createStackNavigator();
 
-
 const App: () => React$Node = () => {
   return (
     <>
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen
-              name="SplashScreen"
-              component={Splash}
-              options={{headerShown: false}}
-            />
             <Stack.Screen
               name="WelcomeScreen"
               component={Welcome}
@@ -98,7 +89,6 @@ const App: () => React$Node = () => {
               options={{headerShown: false}}
             />
 
-
             <Stack.Screen
               name="AppointmentCalender"
               component={AppointmentCalender}
@@ -110,7 +100,6 @@ const App: () => React$Node = () => {
               component={TestCenter}
               options={{headerShown: false}}
             />
-
 
             <Stack.Screen
               name="appointmentSlot"
@@ -150,23 +139,23 @@ const App: () => React$Node = () => {
               component={UpdateOtherSettings}
               options={{headerShown: false}}
             />
-            
+
             <Stack.Screen
               name="ChangeLanguage"
               component={ChangeLanguage}
               options={{headerShown: false}}
             />
-                 <Stack.Screen
+            <Stack.Screen
               name="aboutApp"
               component={AboutApp}
               options={{headerShown: false}}
             />
-               <Stack.Screen
+            <Stack.Screen
               name="policy"
               component={Policy}
               options={{headerShown: false}}
             />
-               <Stack.Screen
+            <Stack.Screen
               name="terms"
               component={Terms}
               options={{headerShown: false}}

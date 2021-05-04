@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Icon, SearchBar } from 'react-native-elements';
-import { connect } from 'react-redux';
-import { RFValue } from 'react-native-responsive-fontsize';
+import React, {useEffect, useState} from 'react';
+import {Icon, SearchBar} from 'react-native-elements';
+import {connect} from 'react-redux';
+import {RFValue} from 'react-native-responsive-fontsize';
 import HTML from 'react-native-render-html';
 
 import {
@@ -16,20 +16,19 @@ import {
   Image,
   useWindowDimensions,
   ImageBackground,
-  ScrollView
-
+  ScrollView,
 } from 'react-native';
-import { Dimensions } from 'react-native';
+import {Dimensions} from 'react-native';
 import Calendar from '../../components/Calendar';
 import BottomNavigator from '../../components/BottomNavigator';
-import { SwipeListView } from 'react-native-swipe-list-view';
+import {SwipeListView} from 'react-native-swipe-list-view';
 import I18n from '../../translations/I18n';
-import { get_about_app_url, get_terms_url } from '../../commons/environment';
+import {get_about_app_url, get_terms_url} from '../../commons/environment';
 const menuArrowWhiteIcon = require('../../assets/images/menu-arrow-white-icon.png');
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import { WebView } from 'react-native-webview';
-import store from '../../../store'
+import {WebView} from 'react-native-webview';
+import store from '../../../store';
 
 const menuIcon = require('../../assets/images/menu-icon.png');
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
@@ -45,9 +44,7 @@ const issuedWhiteQr = require('../../assets/images/issued-white-qr.png');
 const greenQrCode = require('../../assets/images/green-qr-code.png');
 const greyEdit = require('../../assets/images/edit-gray-icon.png');
 
-import {
-  getterms
-} from './Actions';
+import {getterms} from './Actions';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const htmlContent = `
@@ -57,27 +54,20 @@ const htmlContent = `
     <p>Vivamus bibendum feugiat pretium. <a href="https://reactnativemaster.com/">Vestibulum ultricies rutrum ornare</a>. Donec eget suscipit tortor. Nullam pellentesque nibh sagittis, pharetra quam a, varius sapien. Pellentesque ut leo id mauris hendrerit ultrices et non mauris. Quisque gravida erat at felis tincidunt tincidunt. Etiam sit amet egestas leo. Cras mollis mi sed lorem finibus, interdum molestie magna mollis. Sed venenatis lorem nec magna convallis iaculis.</p>
     <iframe height="315" src="https://www.youtube.com/embed/fnCmUWqKo6g" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 `;
-const Item = ({ item, onPress, backgroundColor, textColor }) => (
+const Item = ({item, onPress, backgroundColor, textColor}) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <Text style={[styles.title, textColor]}>{item.title}</Text>
   </TouchableOpacity>
 );
 
-const Terms = ({
-  getterms,
-  navigation
-}) => {
+const Terms = ({getterms, navigation}) => {
   const window = useWindowDimensions();
 
   const [selectedId, setSelectedId] = useState(null);
 
-
   useEffect(() => {
-  
-   
-   // I18n.locale = "ar";
+    // I18n.locale = "ar";
     getterms(get_terms_url);
-
   }, []);
   return (
     <View style={styles.container}>
@@ -88,7 +78,6 @@ const Terms = ({
           </TouchableOpacity>
         </View>
         <View>
-
           <Text style={styles.headerText}>{I18n.t('Address')}</Text>
         </View>
       </View>
@@ -97,11 +86,10 @@ const Terms = ({
           html={htmlContent}
           tagsStyles={tagsStyles}
           classesStyles={classesStyles}
-          imagesMaxWidth={Dimensions.get('window').width * .9}
-          staticContentMaxWidth={Dimensions.get('window').width * .9}
+          imagesMaxWidth={Dimensions.get('window').width * 0.9}
+          staticContentMaxWidth={Dimensions.get('window').width * 0.9}
         />
       </View>
-
     </View>
   );
 };
@@ -110,20 +98,20 @@ const tagsStyles = {
   h1: {
     color: '#6728C7',
     textAlign: 'center',
-    marginBottom: 10
+    marginBottom: 10,
   },
   img: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginTop: 20
-  }
-}
+    marginTop: 20,
+  },
+};
 
 const classesStyles = {
-  'author': {
+  author: {
     color: '#CA43AC',
   },
-}
+};
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
@@ -225,9 +213,7 @@ const styles = StyleSheet.create({
     paddingLeft: '3%',
     paddingRight: '3%',
   },
-  appoinmentDivBg: {
-
-  },
+  appoinmentDivBg: {},
   mainMenu: {
     position: 'absolute',
     zIndex: 2000,
@@ -255,15 +241,10 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = dispatch => {
   return {
     getterms: data => dispatch(getterms(data)),
-
   };
-
 };
 
 const mapStateToProps = state => {
-  // console.log('datatata');
-  //  console.log(state.getTermsReducer);
-
   return {
     initLoaded: state.getTermsReducer.initPayLoad,
   };

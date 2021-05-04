@@ -1,61 +1,45 @@
-
-
-
 import {
   GET_ABOUT_APP,
   GET_ABOUT_APP_SUCCESS,
-  GET_ABOUT_APP_FAILURE
+  GET_ABOUT_APP_FAILURE,
 } from '../../commons/Constants';
 
-
 const INITIAL_STATE = {
-    textCode: 'en',
-    initLoaded: false,
-    loader: false,
-    errMessage: undefined,
-    initPayLoad: undefined,
-    getLang: false
-  
-  };
-  
+  textCode: 'en',
+  initLoaded: false,
+  loader: false,
+  errMessage: undefined,
+  initPayLoad: undefined,
+  getLang: false,
+};
+
 export default function getPolicyReducer() {
-  
-    return function reducer(state = INITIAL_STATE, action) {
-      console.log(action.payload);
+  return function reducer(state = INITIAL_STATE, action) {
+    switch (action.type) {
+      case GET_ABOUT_APP_SUCCESS:
+        return {
+          ...state,
+          loader: false,
+          errMessage: undefined,
+          initPayLoad: action.payload,
+        };
 
-      switch (action.type) {
-      
-          case GET_ABOUT_APP_SUCCESS:
-            console.log('initPayLoad');
+      case GET_ABOUT_APP_FAILURE:
+        return {
+          ...state,
+          loader: false,
+          errMessage: action.errMessage,
+          initPayLoad: undefined,
+        };
 
-            console.log(action);
-            return {
-                ...state,
-                loader: false,
-                errMessage: undefined,
-                initPayLoad: action.payload,
+      case GET_ABOUT_APP:
+        return {
+          ...state,
+          loader: true,
+        };
 
-            };
-
-        case GET_ABOUT_APP_FAILURE:
-            return {
-                ...state,
-                loader: false,
-                errMessage: action.errMessage,
-                initPayLoad: undefined,
-            };
-
-        case GET_ABOUT_APP:
-
-            return {
-                ...state,
-                loader: true,
-            };
-
-  
-        default:
-          return state;
-      }
-    };
-  }
-  
+      default:
+        return state;
+    }
+  };
+}

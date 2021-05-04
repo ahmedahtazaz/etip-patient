@@ -1,68 +1,66 @@
 import {
-    GET_FAMILY_MEMBER_FAILURE,
-    GET_FAMILY_MEMBER_SUCCESS,
-    GET_FAMILY_MEMBER,
-    GET_PROFILE,
-    GET_PROFILE_SUCCESS,
-    GET_PROFILE_FAILURE,
-    GET_APPOINTMENT_SLOT,
-    GET_APPOINTMENT_SLOT_SUCCESS,
-    GET_APPOINTMENT_SLOT_FAILURE
+  GET_FAMILY_MEMBER_FAILURE,
+  GET_FAMILY_MEMBER_SUCCESS,
+  GET_FAMILY_MEMBER,
+  GET_PROFILE,
+  GET_PROFILE_SUCCESS,
+  GET_PROFILE_FAILURE,
+  GET_APPOINTMENT_SLOT,
+  GET_APPOINTMENT_SLOT_SUCCESS,
+  GET_APPOINTMENT_SLOT_FAILURE,
 } from '../../commons/Constants';
 
 const INITIAL_STATE = {
-    userProfile: null,
-    loader: false,
-    errMessage: undefined,
-    appointmentSlotsData: null
+  userProfile: null,
+  loader: false,
+  errMessage: undefined,
+  appointmentSlotsData: null,
 };
 
 export default function appointmentDetailsReducer() {
-    return function reducer(state = INITIAL_STATE, action) {
-        switch (action.type) {
-            case GET_PROFILE:
-                return {
-                    ...state,
-                    loader: true
-                }
+  return function reducer(state = INITIAL_STATE, action) {
+    switch (action.type) {
+      case GET_PROFILE:
+        return {
+          ...state,
+          loader: true,
+        };
 
-            case GET_PROFILE_SUCCESS:
-                return {
-                    ...state,
-                    loader: false,
-                    userProfile: action.payload
-                }
+      case GET_PROFILE_SUCCESS:
+        return {
+          ...state,
+          loader: false,
+          userProfile: action.payload,
+        };
 
-            case GET_PROFILE_FAILURE:
-                return {
-                    ...state,
-                    loader: false,
-                    errMessage: action.errMessage
-                }
+      case GET_PROFILE_FAILURE:
+        return {
+          ...state,
+          loader: false,
+          errMessage: action.errMessage,
+        };
 
-            case GET_APPOINTMENT_SLOT:
-                return {
-                    ...state,
-                    loader: true
-                }
+      case GET_APPOINTMENT_SLOT:
+        return {
+          ...state,
+          loader: true,
+        };
 
-            case GET_APPOINTMENT_SLOT_SUCCESS:
-                console.log("action success: ", action)
-                return {
-                    ...state,
-                    loader: false,
-                    appointmentSlotsData: action.payload
-                }
+      case GET_APPOINTMENT_SLOT_SUCCESS:
+        return {
+          ...state,
+          loader: false,
+          appointmentSlotsData: action.payload,
+        };
 
-            case GET_APPOINTMENT_SLOT_FAILURE:
-                console.log("action fail: ", action)
-                return {
-                    ...state,
-                    loader: false
-                }
+      case GET_APPOINTMENT_SLOT_FAILURE:
+        return {
+          ...state,
+          loader: false,
+        };
 
-            default:
-                return state;
-        }
-    };
+      default:
+        return state;
+    }
+  };
 }
