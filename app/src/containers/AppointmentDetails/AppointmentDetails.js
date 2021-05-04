@@ -73,9 +73,7 @@ const AppointmentDetails = ({
               source={previousAppoinmentsBg}
               style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
               <View style={styles.contentPadding}>
-                <Text style={styles.boxHeading1}>
-                  {title ? title : 'Jenny White'}
-                </Text>
+                <Text style={styles.boxHeading1}>{title ? title : ''}</Text>
                 <Text style={styles.boxText1}>
                   {I18n.t('This is my personal QR code.')}
                 </Text>

@@ -1,4 +1,9 @@
-import {GET_PROFILE, SET_LOADER_MAIN_SCREEN} from '../../commons/Constants';
+import {
+  GET_ACTIVE_APPOINTMENTS,
+  GET_PROFILE,
+  RESET_ERROR_MAIN,
+  SET_LOADER_MAIN_SCREEN,
+} from '../../commons/Constants';
 
 export const moveToSettingsScreenAction = navigation => {
   return navigation.navigate('Settings');
@@ -9,7 +14,10 @@ export const moveToMakeAppointsAction = navigation => {
 };
 
 export const moveToAppointmentDetailsAction = (navigation, path, userInfo) => {
-  return navigation.navigate('AppointmentDetailsScreen', {path, userInfoParam: userInfo});
+  return navigation.navigate('AppointmentDetailsScreen', {
+    path,
+    userInfoParam: userInfo,
+  });
 };
 
 export const getProfileAction = payload => {
@@ -23,5 +31,18 @@ export const setLoaderAction = status => {
   return {
     type: SET_LOADER_MAIN_SCREEN,
     status,
+  };
+};
+
+export const getActiveAppointmentsAction = payload => {
+  return {
+    type: GET_ACTIVE_APPOINTMENTS,
+    payload,
+  };
+};
+
+export const resetErrorMainAction = () => {
+  return {
+    type: RESET_ERROR_MAIN,
   };
 };

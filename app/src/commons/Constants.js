@@ -1,4 +1,4 @@
-import {ToastAndroid} from 'react-native';
+import {Alert, Platform, ToastAndroid} from 'react-native';
 
 export const LOAD_INIT = 'LOAD_INIT';
 export const LOAD_INIT_SUCCESS = 'LOAD_INIT_SUCCESS';
@@ -75,6 +75,12 @@ export const GET_POLICY = 'GET_POLICY';
 export const GET_POLICY_SUCCESS = 'GET_POLICY_SUCCESS';
 export const GET_POLICY_FAILURE = 'GET_POLICY_FAILURE ';
 
+export const GET_ACTIVE_APPOINTMENTS = 'GET_ACTIVE_APPOINTMENTS';
+export const GET_ACTIVE_APPOINTMENTS_SUCCESS =
+  'GET_ACTIVE_APPOINTMENTS_SUCCESS';
+export const GET_ACTIVE_APPOINTMENTS_FAILURE =
+  'GET_ACTIVE_APPOINTMENTS_FAILURE ';
+
 export const APP_INIT_LINK = '';
 
 export const SET_LOADER_MAIN_SCREEN = 'SET_LOADER_MAIN_SCREEN';
@@ -88,6 +94,8 @@ export const GET_LANG_BY_SELECTED_KEY_SUCCESS =
   'GET_LANG_BY_SELECTED_KEY_SUCCESS';
 export const GET_LANG_BY_SELECTED_KEY_FAILURE =
   'GET_LANG_BY_SELECTED_KEY_FAILURE';
+
+export const RESET_ERROR_MAIN = 'RESET_ERROR_MAIN';
 
 export const postCall = ({url, body: data}) => {
   return axios({url, method: 'post', data})

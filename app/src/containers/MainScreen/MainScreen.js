@@ -24,15 +24,18 @@ import {width, height, totalSize} from 'react-native-dimension';
 import {ScrollView} from 'react-native-gesture-handler';
 
 import {
+  getActiveAppointmentsAction,
   getProfileAction,
   moveToAppointmentDetailsAction,
   moveToMakeAppointsAction,
   moveToSettingsScreenAction,
+  resetErrorMainAction,
   setLoaderAction,
 } from './Actions';
 import {getFamilyMembersAction} from '../FamilyMain/Actions';
-import {get_family_url, get_user_url} from '../../commons/environment';
+import {get_active_appointments, get_user_url} from '../../commons/environment';
 import {ActivityIndicator} from 'react-native-paper';
+import {showToast} from '../../commons/Constants';
 
 const menuIcon = require('../../assets/images/menu-icon.png');
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
@@ -82,43 +85,6 @@ const DATA = [
   },
 ];
 
-const DATA1 = [
-  {
-    id: 'Modifiy Personal Information',
-    title: 'Modifiy Personal Information',
-  },
-  {
-    id: 'Modify Email',
-    title: 'Modify Email',
-  },
-  {
-    id: 'Modify Sim',
-    title: 'Modify Sim',
-  },
-  {
-    id: 'About App',
-    title: 'About App',
-  },
-  {
-    id: 'Need Assistance',
-    title: 'Need Assistance',
-  },
-  {
-    id: 'Privacy Policy',
-    title: 'Privacy Policy',
-  },
-  {
-    id: 'Terms & Conditions',
-    title: 'Terms & Conditions',
-  },
-];
-
-const Item = ({item, onPress, backgroundColor, textColor}) => (
-  <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-    <Text style={[styles.title, textColor]}>{item.title}</Text>
-  </TouchableOpacity>
-);
-
 const MainScreen = ({
   navigation,
   movetoSettingsScreen,
@@ -132,6 +98,9 @@ const MainScreen = ({
   getProfile,
   setLoader,
   userInfoSignUp,
+  getActiveAppointments,
+  activeAppointments,
+  resetErrorMain,
 }) => {
   const window = useWindowDimensions();
 
@@ -173,10 +142,22 @@ const MainScreen = ({
 
   useEffect(() => {
     if (userInfo) {
-      setLoader(false);
       setUserName(userInfo?.data?.data?.firstName);
+      const payload = {
+        url: get_active_appointments,
+        userId: userInfo?.data?.data?._id,
+      };
+      setLoader(true);
+      getActiveAppointments(payload);
     }
   }, [userInfo]);
+
+  useEffect(() => {
+    if (errMessage) {
+      showToast(errMessage);
+      resetErrorMain();
+    }
+  }, [errMessage]);
 
   const renderItem = ({item}) => {
     if (route.params && route.params.booked) {
@@ -235,64 +216,38 @@ const MainScreen = ({
   };
 
   const renderItemAppointment = ({item}) => {
-    if (route.params && route.params.booked) {
-      return (
-        <View
-          style={{
-            width: width(95),
-            marginBottom: 8,
-          }}>
-          <TouchableOpacity
-            style={styles.activeAppoinmentsDiv}
-            onPress={() => moveToAppointmentDetails(navigation, 'appointment')}>
-            <ImageBackground
-              source={activeCertificationBg}
-              style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
-              <View style={styles.contentPadding}>
-                <View style={styles.parentNameContainer}>
-                  <View style={styles.nameTextContainer}>
-                    <Text style={styles.boxHeading}>SARS-COV-2</Text>
-                    <Text style={styles.boxTestText}>Citigen Antizen Test</Text>
-                  </View>
-                  <View style={styles.nameTextContainer}>
-                    <Text style={styles.boxHeading}>12-may-2021</Text>
-                    <Text style={styles.boxText}>10:00-10:15</Text>
-                  </View>
-                </View>
-                <View style={styles.parentNameContainer}>
-                  <View style={styles.bottomTextContainer}>
-                    <Text style={styles.boxHeading}>SARS-COV-2</Text>
-                    <Text style={styles.boxText}>Citigen Antizen Test</Text>
-                  </View>
-                </View>
-              </View>
-            </ImageBackground>
-          </TouchableOpacity>
-        </View>
-      );
-    }
     return (
       <View
         style={{
-          flex: 1,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
+          width: width(95),
+          marginBottom: 8,
         }}>
-        <View style={styles.activeCertificationDiv}>
+        <TouchableOpacity
+          style={styles.activeAppoinmentsDiv}
+          onPress={() => moveToAppointmentDetails(navigation, 'appointment')}>
           <ImageBackground
-            source={previousAppoinmentBg}
-            style={styles.activeAppoinmentsDiv}
+            source={activeCertificationBg}
             style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
             <View style={styles.contentPadding}>
-              <Text style={styles.boxHeadingDisable}>
-                No Active Appointments
-              </Text>
-              <Text style={styles.boxTextDisable}>
-                You don’t have any active appointment at the moment
-              </Text>
+              <View style={styles.parentNameContainer}>
+                <View style={styles.nameTextContainer}>
+                  <Text style={styles.boxHeading}>SARS-COV-2</Text>
+                  <Text style={styles.boxTestText}>Citigen Antizen Test</Text>
+                </View>
+                <View style={styles.nameTextContainer}>
+                  <Text style={styles.boxHeading}>12-may-2021</Text>
+                  <Text style={styles.boxText}>10:00-10:15</Text>
+                </View>
+              </View>
+              <View style={styles.parentNameContainer}>
+                <View style={styles.bottomTextContainer}>
+                  <Text style={styles.boxHeading}>SARS-COV-2</Text>
+                  <Text style={styles.boxText}>Citigen Antizen Test</Text>
+                </View>
+              </View>
             </View>
           </ImageBackground>
-        </View>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -355,14 +310,40 @@ const MainScreen = ({
           </View>
           <View style={styles.actionCertificateContainer}>
             <Text style={styles.boxTopHeading}>APPOINTMENTS</Text>
-            <ScrollView>
+            {activeAppointments ? (
               <FlatList
-                data={DATA1}
+                data={activeAppointments}
                 renderItem={renderItemAppointment}
                 keyExtractor={item => item.id}
                 extraData={selectedId}
               />
-            </ScrollView>
+            ) : (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
+                <View style={styles.activeCertificationDiv}>
+                  <ImageBackground
+                    source={previousAppoinmentBg}
+                    style={styles.activeAppoinmentsDiv}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      resizeMode: 'cover',
+                    }}>
+                    <View style={styles.contentPadding}>
+                      <Text style={styles.boxHeadingDisable}>
+                        No Active Appointments
+                      </Text>
+                      <Text style={styles.boxTextDisable}>
+                        You don’t have any active appointment at the moment
+                      </Text>
+                    </View>
+                  </ImageBackground>
+                </View>
+              </View>
+            )}
           </View>
         </View>
       </View>
@@ -401,6 +382,9 @@ const mapDispatchToProps = dispatch => {
     getFamilyMembers: data => dispatch(getFamilyMembersAction(data)),
     getProfile: payload => dispatch(getProfileAction(payload)),
     setLoader: status => dispatch(setLoaderAction(status)),
+    getActiveAppointments: payload =>
+      dispatch(getActiveAppointmentsAction(payload)),
+    resetErrorMain: () => dispatch(resetErrorMainAction()),
   };
 };
 
@@ -411,6 +395,7 @@ const mapStateToProps = state => {
     errMessage: state.mainScreenReducer.errMessage,
     verifyOptPayload: state.phoneReducer.verifyOptPayload,
     userInfoSignUp: state.userInfoReducer.userInfo,
+    activeAppointments: state.mainScreenReducer.activeAppointments,
   };
 };
 

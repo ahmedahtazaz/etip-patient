@@ -1,5 +1,4 @@
 import I18n from 'react-native-i18n';
-import store from '../../store'
 I18n.fallbacks = true;
 // const languageReducer = store.getState();
 // const language = languageReducer.LanguageReducer.langData;

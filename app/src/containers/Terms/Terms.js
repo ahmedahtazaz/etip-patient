@@ -27,8 +27,6 @@ import {get_about_app_url, get_terms_url} from '../../commons/environment';
 const menuArrowWhiteIcon = require('../../assets/images/menu-arrow-white-icon.png');
 const {width, height} = Dimensions.get('window');
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import {WebView} from 'react-native-webview';
-import store from '../../../store';
 
 const menuIcon = require('../../assets/images/menu-icon.png');
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
