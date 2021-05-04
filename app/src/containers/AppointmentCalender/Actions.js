@@ -8,13 +8,13 @@ export const moveToTimeSlotsAction = navigation => {
   return navigation.navigate('appointmentSlot');
 };
 
-export const moveToTimeTestCenter = (navigation,region) => {
-  return navigation.navigate('testCenter',{region: region});
+export const moveToTimeTestCenter = (navigation, region) => {
+  return navigation.navigate('testCenter', { region });
 };
 
 export const GetRegions = (payload) => {
-    return {
-      type: GET_REGION,
-      payload
-    };
+  return {
+    type: GET_REGION,
+    payload
   };
+};

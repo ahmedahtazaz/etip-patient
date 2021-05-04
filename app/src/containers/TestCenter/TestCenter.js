@@ -1,5 +1,5 @@
-import React, {useState,useEffect} from 'react';
-import {Icon, SearchBar} from 'react-native-elements';
+import React, { useState, useEffect } from 'react';
+import { Icon, SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 
 import {
@@ -15,15 +15,15 @@ import {
   useWindowDimensions,
   ImageBackground,
 } from 'react-native';
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Calendar from '../../components/Calendar';
-import {RFValue} from 'react-native-responsive-fontsize';
-import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR } from '../../theme/Colors';
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 import I18n from '../../translations/I18n';
 import { get_terms_url, get_test_centers } from '../../commons/environment';
-import {GETTestCenters} from './Action';
+import { GETTestCenters } from './Action';
 
 const { width, height } = Dimensions.get('window');
 const DATA = [
@@ -57,40 +57,40 @@ const DATA = [
   },
 ];
 
-const Item = ({item, onPress, backgroundColor, textColor}) => (
+const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <Text style={[styles.title, textColor]}>{item.title}</Text>
   </TouchableOpacity>
 );
 
 const TestCenter = ({
-   route: {
-  params:{ region}
+  route: {
+    params: { region }
   },
-  navigation: {goBack},
-  GETTestCenters,testCenterData,}) => {
+  navigation: { goBack },
+  GETTestCenters, testCenterData, }) => {
   const window = useWindowDimensions();
 
   const [selectedId, setSelectedId] = useState(null);
   const [testCenters, setTestCenters] = useState([]);
 
   useEffect(() => {
-    GETTestCenters(get_test_centers+region);
+    GETTestCenters(get_test_centers + region);
     setTestCenters(testCenterData);
     console.log('region');
     console.log(region);
-  },[]);
- 
+  }, []);
 
-  const renderItem = ({item}) => {
+
+  const renderItem = ({ item }) => {
     return (
       <View>
         <View style={styles.nameTextContainer}>
-          <Text style={{marginStart: 8, color: '#027279', fontSize:15, fontWeight:'600'}}>
-         Appointment For
+          <Text style={{ marginStart: 8, color: '#027279', fontSize: 15, fontWeight: '600' }}>
+          {item.testCenter.name}
           </Text>
-          <Text style={{color: '#606060', fontSize:13, paddingTop:5, marginStart: 8}}>
-          {item.title}
+          <Text style={{ color: '#606060', fontSize: 13, paddingTop: 5, marginStart: 8 }}>
+          {item.testCenter.address}
           </Text>
         </View>
       </View>
@@ -100,40 +100,40 @@ const TestCenter = ({
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-            <View style={styles.backIcon}>
-              <TouchableOpacity onPress={() => goBack()}>
-                <EvilIcons name="chevron-left" color="#000" size={40} style={{fontWeight:'bold'}} />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.headerTextView}>
-              <Text style={styles.headerText}>{I18n.t('Test Centers')}</Text>
-            </View>
-          </View>
+        <View style={styles.backIcon}>
+          <TouchableOpacity onPress={() => goBack()}>
+            <EvilIcons name="chevron-left" color="#000" size={40} style={{ fontWeight: 'bold' }} />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.headerTextView}>
+          <Text style={styles.headerText}>{I18n.t('Test Centers')}</Text>
+        </View>
+      </View>
       <View style={styles.appoinmentDivBg}>
-      <SearchBar
-        containerStyle={{
-          backgroundColor: 'white',
-          borderWidth: 0,
-          borderRadius: 10,
-          marginStart: 8,
-          fontSize:11,
-          marginEnd: 8,
-          marginTop: 32,
-          borderBottomColor: 'transparent',
-          borderTopColor: 'transparent',
-        }}
-        inputContainerStyle={{backgroundColor: '#F9F9F9', fontSize:11, borderRadius: 4,}}
-        placeholder="Type Here..."
-      />
-      
+        <SearchBar
+          containerStyle={{
+            backgroundColor: 'white',
+            borderWidth: 0,
+            borderRadius: 10,
+            marginStart: 8,
+            fontSize: 11,
+            marginEnd: 8,
+            marginTop: 32,
+            borderBottomColor: 'transparent',
+            borderTopColor: 'transparent',
+          }}
+          inputContainerStyle={{ backgroundColor: '#F9F9F9', fontSize: 11, borderRadius: 4, }}
+          placeholder="Type Here..."
+        />
+
         <FlatList
           style={styles.appointmentlistContainer}
-          data={testCenters}
+          data={testCenterData}
           renderItem={renderItem}
           keyExtractor={item => item.id}
-          extraData={testCenters}
+          extraData={testCenterData}
         />
- 
+
       </View>
     </View>
   );
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     height: height * 0.1,
-    paddingTop:'7%',
+    paddingTop: '7%',
     alignItems: "center",
 
   },
@@ -164,11 +164,11 @@ const styles = StyleSheet.create({
     fontSize: RFValue(16, 580),
 
   },
-  appoinmentDivBg : {
-    borderRadius:20,
-    backgroundColor:'white',
-    height:'90%',
-    marginTop:'5%',
+  appoinmentDivBg: {
+    borderRadius: 20,
+    backgroundColor: 'white',
+    height: '90%',
+    marginTop: '5%',
   },
   nameTextContainer: {
     display: 'flex',
@@ -176,10 +176,10 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 16,
     display: 'flex',
-    borderRadius:4,
+    borderRadius: 4,
     flexDirection: 'column',
-    backgroundColor:'#F9F9F9',
-    padding:10,
+    backgroundColor: '#F9F9F9',
+    padding: 10,
   },
   actionCertificateContainer: {
     marginTop: 8,
@@ -239,6 +239,6 @@ const mapStateToProps = state => {
   return {
     testCenterData: state.TestCenterReducer.testCenterData,
   };
-};  
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(TestCenter);

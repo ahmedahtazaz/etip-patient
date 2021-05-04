@@ -49,7 +49,7 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
   </TouchableOpacity>
 );
 
-const Appointment = ({ movetoAppointmentCalenderScreen, navigation, userInfo }) => {
+const Appointment = ({ movetoAppointmentCalenderScreen, navigation, userInfo, familyMembers }) => {
   const window = useWindowDimensions();
 
   const [selectedId, setSelectedId] = useState(null);
@@ -60,7 +60,7 @@ const Appointment = ({ movetoAppointmentCalenderScreen, navigation, userInfo }) 
         style={styles.appointmentlistContainer}
         onPress={() => movetoAppointmentCalenderScreen(navigation)}>
         <Text style={{ fontWeight: 'bold', marginStart: 8, color: '#20B2AA' }}>
-        {`${item.firstName} ${item.lastName}`}
+          {`${item.firstName} ${item.lastName}`}
         </Text>
         <Text style={{ color: '#d3d3d3', marginStart: 8, fontSize: 16 }}>
           {item.relation}
@@ -91,19 +91,19 @@ const Appointment = ({ movetoAppointmentCalenderScreen, navigation, userInfo }) 
           <View style={styles.nameTextContainer}>
             <Text style={styles.inputLabelDiv}>
               <Text style={styles.inputLabel}>
-              {I18n.t('Make an Appointment for')}
+                {I18n.t('Make an Appointment for')}
               </Text>
               {'\n'}
               {'\n'}
               <Text style={styles.inputLabelSmall}>
-'              {I18n.t('Please select the family memebers u want to select.')}
+                '              {I18n.t('Please select the family memebers u want to select.')}
 '              </Text>
             </Text>
           </View>
         </View>
         <View style={styles.actionCertificateContainer}>
           <FlatList
-            data={userInfo.familyMembers}
+            data={familyMembers}
             renderItem={renderItem}
             keyExtractor={item => item.id}
             extraData={selectedId}
@@ -123,7 +123,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    userInfo: state.userInfoReducer.userInfo
+    userInfo: state.userInfoReducer.userInfo,
+    familyMembers: state.familyReducer.familyMembers,
   };
 };
 
