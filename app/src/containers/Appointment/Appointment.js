@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -13,56 +13,56 @@ import {
 } from 'react-native';
 import I18n from '../../translations/I18n';
 
-import { Dimensions } from 'react-native';
-import { connect } from 'react-redux';
-import { moveToAppointmentCalenderAction } from './Actions';
-import { RFValue } from 'react-native-responsive-fontsize';
+import {Dimensions} from 'react-native';
+import {connect} from 'react-redux';
+import {moveToAppointmentCalenderAction} from './Actions';
+import {RFValue} from 'react-native-responsive-fontsize';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import { PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR } from '../../theme/Colors';
+import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
+import {getFamilyMembersAction} from '../FamilyMain/Actions';
+import {get_family_url} from '../../commons/environment';
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const appointmentBg1 = require('../../assets/images/appointment-bg1.png');
-const { width, height } = Dimensions.get('window');
-const DATA = [
-  {
-    id: 'Jenny White',
-    title: 'Myself',
-  },
-  {
-    id: 'Jhon Doe',
-    title: 'Husband',
-  },
-  {
-    id: 'Will Smith',
-    title: 'Son',
-  },
-  {
-    id: 'Julia',
-    title: 'Daughter',
-  },
+const {width, height} = Dimensions.get('window');
 
-
-];
-
-const Item = ({ item, onPress, backgroundColor, textColor }) => (
-  <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-    <Text style={[styles.title, textColor]}>{item.title}</Text>
-  </TouchableOpacity>
-);
-
-const Appointment = ({ movetoAppointmentCalenderScreen, navigation, userInfo, familyMembers }) => {
+const Appointment = ({
+  movetoAppointmentCalenderScreen,
+  navigation,
+  userInfo,
+  familyMembers,
+  getFamilyMembers,
+}) => {
   const window = useWindowDimensions();
 
   const [selectedId, setSelectedId] = useState(null);
+  const [family, setFamily] = useState([userInfo?.data?.data]);
 
-  const renderItem = ({ item }) => {
+  useEffect(() => {
+    if (!familyMembers || familyMembers.length == 0) {
+      if (userInfo) {
+        getFamilyMembers({
+          url: `${get_family_url}/${userInfo.data?.data?.family?.id}`,
+          userId: userInfo.data?.data?._id,
+        });
+      }
+    }
+  }, [getFamilyMembers]);
+
+  useEffect(() => {
+    if (familyMembers && familyMembers.length > 0) {
+      setFamily(familyMembers?.data?.data?.familyUsers);
+    }
+  }, [familyMembers]);
+
+  const renderItem = ({item}) => {
     return (
       <TouchableOpacity
         style={styles.appointmentlistContainer}
         onPress={() => movetoAppointmentCalenderScreen(navigation, item)}>
-        <Text style={{ fontWeight: 'bold', marginStart: 8, color: '#20B2AA' }}>
+        <Text style={{fontWeight: 'bold', marginStart: 8, color: '#20B2AA'}}>
           {`${item.firstName} ${item.lastName}`}
         </Text>
-        <Text style={{ color: '#d3d3d3', marginStart: 8, fontSize: 16 }}>
+        <Text style={{color: '#d3d3d3', marginStart: 8, fontSize: 16}}>
           {item.relation}
         </Text>
       </TouchableOpacity>
@@ -78,7 +78,7 @@ const Appointment = ({ movetoAppointmentCalenderScreen, navigation, userInfo, fa
               name="chevron-left"
               color="#000"
               size={40}
-              style={{ fontWeight: 'bold' }}
+              style={{fontWeight: 'bold'}}
             />
           </TouchableOpacity>
         </View>
@@ -96,14 +96,14 @@ const Appointment = ({ movetoAppointmentCalenderScreen, navigation, userInfo, fa
               {'\n'}
               {'\n'}
               <Text style={styles.inputLabelSmall}>
-                '              {I18n.t('Please select the family memebers u want to select.')}
-'              </Text>
+                {I18n.t('Please select the family memebers u want to select.')}
+              </Text>
             </Text>
           </View>
         </View>
         <View style={styles.actionCertificateContainer}>
           <FlatList
-            data={familyMembers}
+            data={family}
             renderItem={renderItem}
             keyExtractor={item => item.id}
             extraData={selectedId}
@@ -118,12 +118,13 @@ const mapDispatchToProps = dispatch => {
   return {
     movetoAppointmentCalenderScreen: (navigation, candidate) =>
       moveToAppointmentCalenderAction(navigation, candidate),
+    getFamilyMembers: payload => dispatch(getFamilyMembersAction(payload)),
   };
 };
 
 const mapStateToProps = state => {
   return {
-    userInfo: state.userInfoReducer.userInfo,
+    userInfo: state.mainScreenReducer.userInfo,
     familyMembers: state.familyReducer.familyMembers,
   };
 };

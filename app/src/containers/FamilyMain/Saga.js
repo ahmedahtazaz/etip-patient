@@ -19,18 +19,17 @@ function* getFamilyMembers(action) {
         userId,
       },
     };
-    const {data: res} = yield call(
-      AxiosInstance.get,
-      action.payload.url,
-      config,
-    );
-    if (res.data && res.data.familyUsers.length)
+    const res = yield call(AxiosInstance.get, action.payload.url, config);
+    if (res.success)
       yield put({
         type: GET_FAMILY_MEMBER_SUCCESS,
-        payload: res.data.familyUsers,
+        payload: res.success,
       });
     else {
-      showToast(res.data.message);
+      yield put({
+        type: GET_FAMILY_MEMBER_FAILURE,
+        errMessage: res.error.message,
+      });
     }
   } catch (error) {
     yield put({type: GET_FAMILY_MEMBER_FAILURE, errMessage: error});
