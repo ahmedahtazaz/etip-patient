@@ -101,7 +101,7 @@ const Certificates = ({
     return (
       <View
         style={{
-          width: width(95),
+          width: width(97),
         }}>
         <TouchableOpacity
           style={styles.activeCertificationDiv}
@@ -149,7 +149,7 @@ const Certificates = ({
     return (
       <View
         style={{
-          width: width(95),
+          width: width(97),
           marginTop: 8,
         }}>
         <View style={styles.activeCertificationDiv}>

@@ -104,7 +104,7 @@ const AppointmentMainScreen = ({
     return (
       <View
         style={{
-          width: width(95),
+          width: width(97),
         }}>
         <TouchableOpacity
           style={styles.activeCertificationDiv} 
@@ -139,10 +139,10 @@ const AppointmentMainScreen = ({
     return (
       <View
         style={{
-          width: width(95),
+          width: width(97),
           marginBottom: 8,
         }}>
-        <View style={styles.activeCertificationDiv}>
+        <View style={styles.activeCertificationDiv} >
           <ImageBackground
             source={previousAppoinmentsBg}
             style={styles.activeAppoinmentsDiv}
