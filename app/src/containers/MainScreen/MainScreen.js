@@ -165,7 +165,9 @@ const MainScreen = ({
         }}>
         <TouchableOpacity
           style={styles.activeAppoinmentsDiv}
-          onPress={() => moveToAppointmentDetails(navigation, 'appointment')}>
+          onPress={() =>
+            moveToAppointmentDetails(navigation, 'appointment', item)
+          }>
           <ImageBackground
             source={activeCertificationBg}
             style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
@@ -181,9 +183,9 @@ const MainScreen = ({
                 </View>
                 <View style={styles.nameTextContainer}>
                   <Text style={styles.boxHeading}>
-                    {moment(item.day).format('DD/MM/YYYY')}
+                    {moment(item?.day).format('DD/MM/YYYY')}
                   </Text>
-                  <Text style={styles.boxText}>{item.time}</Text>
+                  <Text style={styles.boxText}>{item?.time}</Text>
                 </View>
               </View>
               <View style={styles.parentNameContainer}>
