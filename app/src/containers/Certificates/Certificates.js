@@ -3,82 +3,41 @@ import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {
   FlatList,
-  SafeAreaView,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
   Image,
-  useWindowDimensions,
   ImageBackground,
-  Button,
 } from 'react-native';
-import {width, height, totalSize} from 'react-native-dimension';
+import {width} from 'react-native-dimension';
 import I18n from '../../translations/I18n';
-import {Dimensions} from 'react-native';
-import {Icon} from 'react-native-elements';
 import Orientation from 'react-native-orientation-locker';
 import {WHITE_COLOR, LIGHT_GREY} from '../../theme/Colors';
 import {RFValue} from 'react-native-responsive-fontsize';
 import BottomNavigator from '../../components/BottomNavigator';
-import color from 'color';
 import {
+  getExpiredCertificatesAction,
   moveToAppointmentDetailsAction,
   moveToMakeAppointsAction,
   moveToSettingsScreenAction,
+  setLoaderAction,
 } from './Actions';
+import {getActiveCertificatesAction} from '../MainScreen/Actions';
+import {
+  get_active_certificates,
+  get_expired_certificates,
+} from '../../commons/environment';
+import {ActivityIndicator} from 'react-native-paper';
 const menuIcon = require('../../assets/images/menu-icon.png');
-const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
-const mainScreenIcon = require('../../assets/images/main-screen-icon.png');
 const activeCertificationBg = require('../../assets/images/active-certification-bg.png');
-const activeAppoinmentsBg = require('../../assets/images/active-appoinments-bg.png');
 const plusIcon = require('../../assets/images/plus-icon.png');
-const familyIcon = require('../../assets/images/family-icon.png');
 const issuedWhiteQr = require('../../assets/images/issued-white-qr.png');
 const issuedGrayeQr = require('../../assets/images/issued-gray-qr.png');
 const issuedRedIcon = require('../../assets/images/issued-by-red-icon.png');
 const previousCertificateBg = require('../../assets/images/previous-certificate-bg.png');
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-const DATA = [
-  {
-    id: 'Modifiy Personal Information',
-    title: 'Modifiy Personal Information',
-  },
-  {
-    id: 'Modify Email',
-    title: 'Modify Email',
-  },
-  {
-    id: 'Modify Sim',
-    title: 'Modify Sim',
-  },
-  {
-    id: 'About App',
-    title: 'About App',
-  },
-  {
-    id: 'Need Assistance',
-    title: 'Need Assistance',
-  },
-  {
-    id: 'Privacy Policy',
-    title: 'Privacy Policy',
-  },
-  {
-    id: 'Terms & Conditions',
-    title: 'Terms & Conditions',
-  },
-];
-
-const Item = ({item, onPress, backgroundColor, textColor}) => (
-  <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-    <Text style={[styles.title, textColor]}>{item.title}</Text>
-  </TouchableOpacity>
-);
+const previousAppoinmentBg = require('../../assets/images/previous-appoinment-bg.png');
 
 const Certificates = ({
   navigation,
@@ -86,9 +45,14 @@ const Certificates = ({
   movetoMakeAnAppointmentScreen,
   moveToAppointmentDetails,
   route,
+  userInfo,
+  getActiveCertificates,
+  activeCertificates,
+  expiredCertificates,
+  setLoader,
+  getExpiredCertificates,
+  loader,
 }) => {
-  const window = useWindowDimensions();
-
   const [selectedId, setSelectedId] = useState(null);
 
   const isFocused = useIsFocused();
@@ -96,6 +60,18 @@ const Certificates = ({
   useEffect(() => {
     Orientation.lockToPortrait();
   }, [isFocused]);
+
+  useEffect(() => {
+    if (userInfo) {
+      setLoader(true);
+      getActiveCertificates({
+        url: get_active_certificates + '/' + userInfo?.data?.data?.family?.id,
+      });
+      getExpiredCertificates({
+        url: get_expired_certificates + '/' + userInfo?.data?.data?.family?.id,
+      });
+    }
+  }, [userInfo]);
 
   const renderItem = ({item}) => {
     return (
@@ -112,7 +88,9 @@ const Certificates = ({
             <View style={styles.parentNameContainer}>
               <View style={styles.nameTextContainer}>
                 <Text style={styles.boxHeading}>{I18n.t('SARS-COV-2')}</Text>
-                <Text style={styles.boxTestText}>{I18n.t('Citigen Antizen Test')}</Text>
+                <Text style={styles.boxTestText}>
+                  {I18n.t('Citigen Antizen Test')}
+                </Text>
               </View>
               <View style={styles.nameTextContainer}>
                 <TouchableOpacity
@@ -130,7 +108,9 @@ const Certificates = ({
                   </View>
                   <View>
                     <Text style={styles.boxHeading}>{I18n.t('issued by')}</Text>
-                    <Text style={styles.boxText}>{I18n.t('Citigen Antizen Test')}</Text>
+                    <Text style={styles.boxText}>
+                      {I18n.t('Citigen Antizen Test')}
+                    </Text>
                   </View>
                 </View>
               </View>
@@ -145,7 +125,8 @@ const Certificates = ({
       </View>
     );
   };
-  const renderItemAppointment = ({item}) => {
+
+  const renderItemPrevious = ({item}) => {
     return (
       <View
         style={{
@@ -158,8 +139,10 @@ const Certificates = ({
             style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
             <View style={styles.parentNameContainer}>
               <View style={styles.nameTextContainer}>
-              <Text style={styles.boxHeading1}>{I18n.t('SARS-COV-2')}</Text>
-                <Text style={styles.boxTestText1}>{I18n.t('Citigen Antizen Test')}</Text>
+                <Text style={styles.boxHeading1}>{I18n.t('SARS-COV-2')}</Text>
+                <Text style={styles.boxTestText1}>
+                  {I18n.t('Citigen Antizen Test')}
+                </Text>
               </View>
               <View style={styles.nameTextContainer}>
                 <TouchableOpacity
@@ -176,8 +159,12 @@ const Certificates = ({
                     <Image source={issuedRedIcon} style={{marginBottom: 8}} />
                   </View>
                   <View>
-                  <Text style={styles.boxHeading1}>{I18n.t('issued by')}</Text>
-                <Text style={styles.boxTestText1}>{I18n.t('Citigen Antizen Test')}</Text>
+                    <Text style={styles.boxHeading1}>
+                      {I18n.t('issued by')}
+                    </Text>
+                    <Text style={styles.boxTestText1}>
+                      {I18n.t('Citigen Antizen Test')}
+                    </Text>
                   </View>
                 </View>
               </View>
@@ -211,24 +198,82 @@ const Certificates = ({
       <View style={styles.appoinmentDivBg}>
         <View style={styles.mainDivPad}>
           <View style={styles.actionCertificateContainer}>
-            <Text style={styles.boxTopHeading}>{I18n.t('ACTIVE CERTIFICATES')}</Text>
-            <FlatList
-              horizontal
-              data={DATA}
-              renderItem={renderItem}
-              keyExtractor={item => item.id}
-              extraData={selectedId}
-            />
+            <Text style={styles.boxTopHeading}>
+              {I18n.t('ACTIVE CERTIFICATES')}
+            </Text>
+            {activeCertificates ? (
+              <FlatList
+                horizontal
+                data={activeCertificates}
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+                extraData={selectedId}
+              />
+            ) : (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
+                <View style={styles.activeCertificationDiv}>
+                  <ImageBackground
+                    source={previousAppoinmentBg}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      resizeMode: 'cover',
+                    }}>
+                    <View style={styles.contentPadding}>
+                      <Text style={styles.boxHeadingDisable}>
+                        No Active Certificate
+                      </Text>
+                      <Text style={styles.boxTextDisable}>
+                        You don’t have any active certificate at the moment
+                      </Text>
+                    </View>
+                  </ImageBackground>
+                </View>
+              </View>
+            )}
           </View>
           <View style={styles.actionCertificateContainer}>
-            <Text style={styles.boxTopHeading}>{I18n.t('PREVIOUS CERTIFICATES')}</Text>
-            <FlatList
-              vertical
-              data={DATA}
-              renderItem={renderItemAppointment}
-              keyExtractor={item => item.id}
-              extraData={selectedId}
-            />
+            <Text style={styles.boxTopHeading}>
+              {I18n.t('PREVIOUS CERTIFICATES')}
+            </Text>
+            {expiredCertificates ? (
+              <FlatList
+                vertical
+                data={expiredCertificates}
+                renderItem={renderItemPrevious}
+                keyExtractor={item => item.id}
+                extraData={selectedId}
+              />
+            ) : (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
+                <View style={styles.activeCertificationDiv}>
+                  <ImageBackground
+                    source={previousAppoinmentBg}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      resizeMode: 'cover',
+                    }}>
+                    <View style={styles.contentPadding}>
+                      <Text style={styles.boxHeadingDisable}>
+                        No Previous Certificate
+                      </Text>
+                      <Text style={styles.boxTextDisable}>
+                        You don’t have any previous certificate at the moment
+                      </Text>
+                    </View>
+                  </ImageBackground>
+                </View>
+              </View>
+            )}
           </View>
         </View>
       </View>
@@ -238,12 +283,30 @@ const Certificates = ({
       <BottomNavigator
         navigation={navigation}
         selectedItem={{id: 4, label: 'Certificates'}}></BottomNavigator>
+      {loader ? (
+        <View
+          style={{
+            alignSelf: 'center',
+            height: '100%',
+            width: '100%',
+            justifyContent: 'center',
+            position: 'absolute',
+            zIndex: 1000,
+          }}>
+          <ActivityIndicator size="large" color="grey" animating={loader} />
+        </View>
+      ) : null}
     </View>
   );
 };
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    userInfo: state.mainScreenReducer.userInfo,
+    activeCertificates: state.certificatesReducer.activeCertificates,
+    expiredCertificates: state.certificatesReducer.expiredCertificates,
+    loader: state.certificatesReducer.loader,
+  };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -253,6 +316,11 @@ const mapDispatchToProps = dispatch => {
       moveToMakeAppointsAction(navigation),
     moveToAppointmentDetails: (navigation, path) =>
       moveToAppointmentDetailsAction(navigation, path),
+    getActiveCertificates: payload =>
+      dispatch(getActiveCertificatesAction(payload)),
+    setLoader: status => dispatch(setLoaderAction(status)),
+    getExpiredCertificates: payload =>
+      dispatch(getExpiredCertificatesAction(payload)),
   };
 };
 

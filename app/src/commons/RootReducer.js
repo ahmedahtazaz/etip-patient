@@ -14,6 +14,7 @@ import familyReducer from '../containers/FamilyMain/Reducer';
 import appointmentDetailsReducer from '../containers/AppointmentDetails/Reducer';
 import RegionReducer from '../containers/AppointmentCalender/Reducers';
 import mainScreenReducer from '../containers/MainScreen/Reducer';
+import certificatesReducer from '../containers/Certificates/Reducer';
 
 const createRootReducer = () =>
   combineReducers({
@@ -33,6 +34,7 @@ const createRootReducer = () =>
     TestCenterReducer: TestCenterReducer(),
     RegionReducer: RegionReducer(),
     mainScreenReducer: mainScreenReducer(),
+    certificatesReducer: certificatesReducer(),
   });
 
 export default createRootReducer;
