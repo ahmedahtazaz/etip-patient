@@ -29,7 +29,6 @@ function* getRegion(action) {
 }
 
 function* getAppointmentSlots(action) {
-  console.log('getAppointmentSlots action: ', action);
   try {
     const res = yield call(
       AxiosInstance.post,

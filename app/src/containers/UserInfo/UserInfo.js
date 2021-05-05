@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { connect } from 'react-redux';
+import React, {useEffect, useRef, useState} from 'react';
+import {connect} from 'react-redux';
 import {
   WHITE_COLOR,
   PRIMARY_COLOR,
@@ -8,7 +8,7 @@ import {
 } from '../../theme/Colors';
 
 import Orientation from 'react-native-orientation-locker';
-import { useIsFocused } from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 import {
   ActivityIndicator,
   Image,
@@ -21,7 +21,7 @@ import {
   ToastAndroid,
 } from 'react-native';
 import I18n from '../../translations/I18n';
-import { RFValue } from 'react-native-responsive-fontsize';
+import {RFValue} from 'react-native-responsive-fontsize';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import RadioButton from '../../components/RadioButton';
@@ -33,7 +33,7 @@ import {
   resetIsUserCreatedAction,
   resetIsFamilyMemberAddedAction,
 } from './Actions';
-import { emailRegex } from '../../commons/Constants';
+import {emailRegex} from '../../commons/Constants';
 import {
   organizationName,
   signup_url,
@@ -56,7 +56,7 @@ function UserInfo({
   resetIsFamilyMemberAdded,
   isFamilyMemberAdded,
   updateFamilyMember,
-  errMessage
+  errMessage,
 }) {
   const [isFamily, setIsFamily] = useState(false);
   const [fName, setFName] = useState('');
@@ -66,10 +66,10 @@ function UserInfo({
   const [other, setOther] = useState(false);
   const [dob, setDob] = useState(
     currentDate.getDate() +
-    '-' +
-    currentDate.getMonth() +
-    '-' +
-    currentDate.getFullYear(),
+      '-' +
+      currentDate.getMonth() +
+      '-' +
+      currentDate.getFullYear(),
   );
   const [showCalender, setShowCalender] = useState(false);
   const [calDate, setCalDate] = useState(new Date());
@@ -92,7 +92,7 @@ function UserInfo({
     if (errMessage) {
       showToast(errMessage);
     }
-  }, [errMessage])
+  }, [errMessage]);
 
   useEffect(() => {
     const data = (route.params && route.params.data) || '';
@@ -178,10 +178,10 @@ function UserInfo({
     if (currentDate)
       setDob(
         currentDate.getDate() +
-        '-' +
-        currentDate.getMonth() +
-        '-' +
-        currentDate.getFullYear(),
+          '-' +
+          currentDate.getMonth() +
+          '-' +
+          currentDate.getFullYear(),
       );
     setCalDate(new Date());
     setCity('Bavaria');
@@ -251,8 +251,6 @@ function UserInfo({
         },
       },
     };
-    console.log("isFamily: ", isFamily);
-    console.log("editMode: ", editMode)
 
     if (!isFamily && !editMode) {
       signUp(data);
@@ -283,7 +281,6 @@ function UserInfo({
         addFamilyMember(data);
       } else {
         data.body['id'] = dataObj['_id'];
-        console.log('before dispatching edit: ', data)
         updateFamilyMember(data);
       }
     }
@@ -294,7 +291,7 @@ function UserInfo({
   };
 
   return (
-    <ScrollView style={{ height: '100%' }} ref={scrollRef}>
+    <ScrollView style={{height: '100%'}} ref={scrollRef}>
       <View style={styles.background}>
         <View style={styles.innerDiv}>
           <View style={styles.mainHeading}>
@@ -405,7 +402,7 @@ function UserInfo({
                 },
               ]}
               defaultValue={relation}
-              containerStyle={{ height: '6%', marginBottom: '4%' }}
+              containerStyle={{height: '6%', marginBottom: '4%'}}
               style={{
                 backgroundColor: '#F5F9F8',
                 fontSize: RFValue(14, 580),
@@ -509,7 +506,7 @@ function UserInfo({
               },
             ]}
             defaultValue={city}
-            containerStyle={{ height: '5%' }}
+            containerStyle={{height: '5%'}}
             style={{
               backgroundColor: '#F5F9F8',
               fontSize: RFValue(14, 580),
@@ -547,7 +544,7 @@ function UserInfo({
                 style={[styles.container, styles.submitButtonDark]}
                 onPress={() => {
                   if (userInfo) {
-                    moveToMainScreen(navigation)
+                    moveToMainScreen(navigation);
                   } else {
                     setIsSaveOnly(true);
                     submit();
@@ -557,7 +554,7 @@ function UserInfo({
               </TouchableOpacity>
               <TouchableOpacity
                 disabled={userInfo && !Object.keys(userInfo).length}
-                style={{ marginTop: '4%', alignContent: 'center' }}
+                style={{marginTop: '4%', alignContent: 'center'}}
                 onPress={() => {
                   setIsSaveOnly(false);
                   submit();
@@ -604,7 +601,7 @@ const mapStateToProps = state => {
     loader: state.userInfoReducer.loader,
     isUserCreated: state.userInfoReducer.isUserCreated,
     isFamilyMemberAdded: state.userInfoReducer.isFamilyMemberAdded,
-    errMessage: state.userInfoReducer.errMessage
+    errMessage: state.userInfoReducer.errMessage,
   };
 };
 

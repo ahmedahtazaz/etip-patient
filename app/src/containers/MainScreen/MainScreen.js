@@ -36,6 +36,7 @@ import {
 } from '../../commons/environment';
 import {ActivityIndicator} from 'react-native-paper';
 import {showToast} from '../../commons/Constants';
+import moment from 'moment';
 
 const menuIcon = require('../../assets/images/menu-icon.png');
 const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
@@ -171,18 +172,26 @@ const MainScreen = ({
             <View style={styles.contentPadding}>
               <View style={styles.parentNameContainer}>
                 <View style={styles.nameTextContainer}>
-                  <Text style={styles.boxHeading}>SARS-COV-2</Text>
-                  <Text style={styles.boxTestText}>Citigen Antizen Test</Text>
+                  <Text style={styles.boxHeading}>
+                    {item?.testPoint?.testCenter?.test?.testType}
+                  </Text>
+                  <Text style={styles.boxTestText}>
+                    {item?.testPoint?.name}
+                  </Text>
                 </View>
                 <View style={styles.nameTextContainer}>
-                  <Text style={styles.boxHeading}>12-may-2021</Text>
-                  <Text style={styles.boxText}>10:00-10:15</Text>
+                  <Text style={styles.boxHeading}>
+                    {moment(item.day).format('DD/MM/YYYY')}
+                  </Text>
+                  <Text style={styles.boxText}>{item.time}</Text>
                 </View>
               </View>
               <View style={styles.parentNameContainer}>
                 <View style={styles.bottomTextContainer}>
-                  <Text style={styles.boxHeading}>SARS-COV-2</Text>
-                  <Text style={styles.boxText}>Citigen Antizen Test</Text>
+                  <Text style={styles.boxHeading}>
+                    {item?.testPoint?.testCenter?.name}
+                  </Text>
+                  <Text style={styles.boxText}>{item?.region}</Text>
                 </View>
               </View>
             </View>
@@ -279,7 +288,7 @@ const MainScreen = ({
             <Text style={styles.boxTopHeading}>APPOINTMENTS</Text>
             {activeAppointments ? (
               <FlatList
-                data={activeAppointments}
+                data={activeAppointments?.data?.data}
                 renderItem={renderItemAppointment}
                 keyExtractor={item => item.id}
                 extraData={selectedId}
