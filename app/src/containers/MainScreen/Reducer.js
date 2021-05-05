@@ -5,12 +5,15 @@ import {
   GET_ACTIVE_APPOINTMENTS_SUCCESS,
   GET_ACTIVE_APPOINTMENTS_FAILURE,
   RESET_ERROR_MAIN,
+  GET_ACTIVE_CERTIFICATES_SUCCESS,
+  GET_ACTIVE_CERTIFICATES_FAILURE,
 } from '../../commons/Constants';
 const INITIAL_STATE = {
   loader: false,
   errMessage: undefined,
   userInfo: null,
   activeAppointments: null,
+  activeCertificates: null,
 };
 
 export default function mainScreenReducer() {
@@ -46,6 +49,21 @@ export default function mainScreenReducer() {
           loader: false,
           errMessage: undefined,
           activeAppointments: null,
+        };
+      case GET_ACTIVE_CERTIFICATES_SUCCESS:
+        return {
+          ...state,
+          loader: false,
+          errMessage: undefined,
+          activeCertificates: action.payload,
+        };
+
+      case GET_ACTIVE_CERTIFICATES_FAILURE:
+        return {
+          ...state,
+          loader: false,
+          errMessage: undefined,
+          activeCertificates: null,
         };
 
       case SET_LOADER_MAIN_SCREEN:

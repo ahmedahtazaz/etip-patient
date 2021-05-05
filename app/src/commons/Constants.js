@@ -1,4 +1,4 @@
-import { Alert, Platform, ToastAndroid } from 'react-native';
+import {Alert, Platform, ToastAndroid} from 'react-native';
 
 export const LOAD_INIT = 'LOAD_INIT';
 export const LOAD_INIT_SUCCESS = 'LOAD_INIT_SUCCESS';
@@ -67,10 +67,9 @@ export const GET_APPOINTMENT_SLOT = 'GET_APPOINTMENT_SLOT';
 export const GET_APPOINTMENT_SLOT_SUCCESS = 'GET_APPOINTMENT_SLOT_SUCCESS';
 export const GET_APPOINTMENT_SLOT_FAILURE = 'GET_APPOINTMENT_SLOT_FAILURE';
 
-export const CREATE_APPOINTMENT = "CREATE_APPOINTMENT";
-export const CREATE_APPOINTMENT_SUCCESS = "CREATE_APPOINTMENT_SUCCESS";
-export const CREATE_APPOINTMENT_FAILURE = "CREATE_APPOINTMENT_FAILURE";
-
+export const CREATE_APPOINTMENT = 'CREATE_APPOINTMENT';
+export const CREATE_APPOINTMENT_SUCCESS = 'CREATE_APPOINTMENT_SUCCESS';
+export const CREATE_APPOINTMENT_FAILURE = 'CREATE_APPOINTMENT_FAILURE';
 
 export const GET_REGION = 'GET_REGION';
 export const GET_REGION_SUCCESS = 'GET_REGION_SUCCESS';
@@ -86,6 +85,18 @@ export const GET_ACTIVE_APPOINTMENTS_SUCCESS =
 export const GET_ACTIVE_APPOINTMENTS_FAILURE =
   'GET_ACTIVE_APPOINTMENTS_FAILURE ';
 
+export const GET_ACTIVE_CERTIFICATES = 'GET_ACTIVE_CERTIFICATES';
+export const GET_ACTIVE_CERTIFICATES_SUCCESS =
+  'GET_ACTIVE_CERTIFICATES_SUCCESS';
+export const GET_ACTIVE_CERTIFICATES_FAILURE =
+  'GET_ACTIVE_CERTIFICATES_FAILURE ';
+
+export const GET_EXPIRED_CERTIFICATES = 'GET_EXPIRED_CERTIFICATES';
+export const GET_EXPIRED_CERTIFICATES_SUCCESS =
+  'GET_EXPIRED_CERTIFICATES_SUCCESS';
+export const GET_EXPIRED_CERTIFICATES_FAILURE =
+  'GET_EXPIRED_CERTIFICATES_FAILURE ';
+
 export const APP_INIT_LINK = '';
 
 export const SET_LOADER_MAIN_SCREEN = 'SET_LOADER_MAIN_SCREEN';
@@ -100,11 +111,14 @@ export const GET_LANG_BY_SELECTED_KEY_SUCCESS =
 export const GET_LANG_BY_SELECTED_KEY_FAILURE =
   'GET_LANG_BY_SELECTED_KEY_FAILURE';
 
-export const RESET_ERROR_MAIN = 'RESET_ERROR_MAIN';
+export const SET_LOADER_CERTIFICATES_SCREEN = 'SET_LOADER_CERTIFICATES_SCREEN';
 
-export const postCall = ({ url, body: data }) => {
-  return axios({ url, method: 'post', data })
-    .then(data => ({ data }))
+export const RESET_ERROR_MAIN = 'RESET_ERROR_MAIN';
+export const RESET_ERROR_CERTIFICATES = 'RESET_ERROR_CERTIFICATES';
+
+export const postCall = ({url, body: data}) => {
+  return axios({url, method: 'post', data})
+    .then(data => ({data}))
     .catch(ex => {
       return ex;
     });

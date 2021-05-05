@@ -1,4 +1,4 @@
-import { put, takeLatest, call } from 'redux-saga/effects';
+import {put, takeLatest, call} from 'redux-saga/effects';
 import {
   CREATE_APPOINTMENT,
   CREATE_APPOINTMENT_FAILURE,
@@ -16,12 +16,15 @@ function* getRegion(action) {
   try {
     const res = yield call(AxiosInstance.get, action.payload);
     if (res.error) {
-      yield put({ type: GET_REGION_FAILURE, errMessage: res.error?.message });
+      yield put({type: GET_REGION_FAILURE, errMessage: res.error?.message});
     } else {
-      yield put({ type: GET_REGION_SUCCESS, regionData: res?.success?.data?.data });
+      yield put({
+        type: GET_REGION_SUCCESS,
+        regionData: res?.success?.data?.data,
+      });
     }
   } catch (error) {
-    yield put({ type: GET_REGION_FAILURE, errMessage: error });
+    yield put({type: GET_REGION_FAILURE, errMessage: error});
   }
 }
 
@@ -35,19 +38,22 @@ function* getAppointmentSlots(action) {
     );
     console.log("getAppointmentSlots res: ", res?.success?.data?.data)
     if (res.error) {
-      yield put({ type: GET_APPOINTMENT_SLOT_FAILURE, errMessage: res.error.message });
+      yield put({
+        type: GET_APPOINTMENT_SLOT_FAILURE,
+        errMessage: res.error.message,
+      });
     } else {
-      yield put({ type: GET_APPOINTMENT_SLOT_SUCCESS, payload: res?.success?.data?.data });
+      yield put({
+        type: GET_APPOINTMENT_SLOT_SUCCESS,
+        payload: res?.success?.data?.data,
+      });
     }
   } catch (error) {
-    yield put({ type: GET_APPOINTMENT_SLOT_FAILURE, errMessage: error });
+    yield put({type: GET_APPOINTMENT_SLOT_FAILURE, errMessage: error});
   }
 }
 
 function* createAppointment(action) {
-  console.log('createAppointment action: ', action);
-  console.log('action.body.testCenter: ', action.payload.body.testCenter);
-  console.log("action.body.testCenter.lab: ", action.payload.body.testCenter.lab)
   let userId = action.payload.userId;
   delete action.payload.userId;
   try {
@@ -60,21 +66,24 @@ function* createAppointment(action) {
       AxiosInstance.post,
       action.payload.url,
       action.payload.body,
-      config
+      config,
     );
-    console.log('createAppointment res: ', res?.success?.data?.data);
+
     if (res.error) {
-      console.log('createAppointment error: ', res?.error);
-      yield put({ type: CREATE_APPOINTMENT_FAILURE, errMessage: res.error.message });
+      yield put({
+        type: CREATE_APPOINTMENT_FAILURE,
+        errMessage: res.error.message,
+      });
     } else {
-      yield put({ type: CREATE_APPOINTMENT_SUCCESS, payload: res?.success?.data?.data });
+      yield put({
+        type: CREATE_APPOINTMENT_SUCCESS,
+        payload: res?.success?.data?.data,
+      });
     }
   } catch (error) {
-    yield put({ type: CREATE_APPOINTMENT_FAILURE, errMessage: error });
+    yield put({type: CREATE_APPOINTMENT_FAILURE, errMessage: error});
   }
 }
-
-
 
 export function* getRegionSaga() {
   yield takeLatest(GET_REGION, getRegion);

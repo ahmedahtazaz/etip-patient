@@ -4,8 +4,6 @@ import {connect} from 'react-redux';
 import I18n from '../../translations/I18n';
 import {
   FlatList,
-  SafeAreaView,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -14,17 +12,15 @@ import {
   useWindowDimensions,
   ImageBackground,
 } from 'react-native';
-import {Dimensions} from 'react-native';
-import {Icon} from 'react-native-elements';
 import Orientation from 'react-native-orientation-locker';
 import {WHITE_COLOR} from '../../theme/Colors';
 import {RFValue} from 'react-native-responsive-fontsize';
 import BottomNavigator from '../../components/BottomNavigator';
-import {width, height, totalSize} from 'react-native-dimension';
-import {ScrollView} from 'react-native-gesture-handler';
+import {width} from 'react-native-dimension';
 
 import {
   getActiveAppointmentsAction,
+  getActiveCertificatesAction,
   getProfileAction,
   moveToAppointmentDetailsAction,
   moveToMakeAppointsAction,
@@ -33,57 +29,22 @@ import {
   setLoaderAction,
 } from './Actions';
 import {getFamilyMembersAction} from '../FamilyMain/Actions';
-import {get_active_appointments, get_user_url} from '../../commons/environment';
+import {
+  get_active_appointments,
+  get_user_url,
+  get_active_certificates,
+} from '../../commons/environment';
 import {ActivityIndicator} from 'react-native-paper';
 import {showToast} from '../../commons/Constants';
 
 const menuIcon = require('../../assets/images/menu-icon.png');
-const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
 const mainScreenIcon = require('../../assets/images/main-screen-icon.png');
 const activeCertificationBg = require('../../assets/images/active-certification-bg.png');
-const activeAppoinmentsBg = require('../../assets/images/active-appoinments-bg.png');
 const plusIcon = require('../../assets/images/plus-icon.png');
 const appoinmentRedBg = require('../../assets/images/appoinment-red-bg.png');
 const rightHandFinger = require('../../assets/images/right-hand-finger.png');
 const previousAppoinmentBg = require('../../assets/images/previous-appoinment-bg.png');
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-const DATA = [
-  {
-    id: 'Modifiy Personal Information',
-    title: 'Modifiy Personal Information',
-  },
-  {
-    id: 'Modifiy Personal Information',
-    title: 'Modifiy Personal Information',
-  },
-  {
-    id: 'Modify Email',
-    title: 'Modify Email',
-  },
-  {
-    id: 'Modify Sim',
-    title: 'Modify Sim',
-  },
-  {
-    id: 'About App',
-    title: 'About App',
-  },
-  {
-    id: 'Need Assistance',
-    title: 'Need Assistance',
-  },
-  {
-    id: 'Privacy Policy',
-    title: 'Privacy Policy',
-  },
-  {
-    id: 'Terms & Conditions',
-    title: 'Terms & Conditions',
-  },
-];
 
 const MainScreen = ({
   navigation,
@@ -101,6 +62,8 @@ const MainScreen = ({
   getActiveAppointments,
   activeAppointments,
   resetErrorMain,
+  getActiveCertificates,
+  activeCertificates,
 }) => {
   const window = useWindowDimensions();
 
@@ -143,12 +106,14 @@ const MainScreen = ({
   useEffect(() => {
     if (userInfo) {
       setUserName(userInfo?.data?.data?.firstName);
-      const payload = {
+      setLoader(true);
+      getActiveAppointments({
         url: get_active_appointments,
         userId: userInfo?.data?.data?._id,
-      };
-      setLoader(true);
-      getActiveAppointments(payload);
+      });
+      getActiveCertificates({
+        url: get_active_certificates + '/' + userInfo?.data?.data?.family?.id,
+      });
     }
   }, [userInfo]);
 
@@ -160,57 +125,32 @@ const MainScreen = ({
   }, [errMessage]);
 
   const renderItem = ({item}) => {
-    if (route.params && route.params.booked) {
-      return (
-        <View style={styles.appoinmentRedDiv}>
-          <ImageBackground
-            source={appoinmentRedBg}
-            style={styles.appoinmentRedDiv1}>
-            <View style={styles.contentPadding1}>
-              <View style={styles.redDivTop}>
-                <Text style={styles.boxHeading}>
-                  {I18n.t('You are Covid Positive')}
-                </Text>
-                <Text style={styles.boxText}>
-                  {I18n.t(
-                    'Please donot panic, For any Medical Assistance you have +49 00 000000 available 24/7.',
-                  )}
-                </Text>
-              </View>
-              <View style={styles.redDivBottom}>
-                <Text style={styles.redDivBottomLeft}>
-                  {I18n.t(
-                    'We have added few tips in your dashbaord that may help you in these times. Swipe to view them',
-                  )}
-                </Text>
-                <Image source={rightHandFinger} style={{marginTop: 30}} />
-              </View>
-            </View>
-          </ImageBackground>
-        </View>
-      );
-    }
     return (
-      <View
-        style={{
-          flex: 1,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}>
-        <View style={styles.activeCertificationDiv}>
-          <ImageBackground
-            source={previousAppoinmentBg}
-            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
-            <View style={styles.contentPadding}>
-              <Text style={styles.boxHeadingDisable}>
-                No Active Certificate
+      <View style={styles.appoinmentRedDiv}>
+        <ImageBackground
+          source={appoinmentRedBg}
+          style={styles.appoinmentRedDiv1}>
+          <View style={styles.contentPadding1}>
+            <View style={styles.redDivTop}>
+              <Text style={styles.boxHeading}>
+                {I18n.t('You are Covid Positive')}
               </Text>
-              <Text style={styles.boxTextDisable}>
-                You don’t have any active certificate at the moment
+              <Text style={styles.boxText}>
+                {I18n.t(
+                  'Please donot panic, For any Medical Assistance you have +49 00 000000 available 24/7.',
+                )}
               </Text>
             </View>
-          </ImageBackground>
-        </View>
+            <View style={styles.redDivBottom}>
+              <Text style={styles.redDivBottomLeft}>
+                {I18n.t(
+                  'We have added few tips in your dashbaord that may help you in these times. Swipe to view them',
+                )}
+              </Text>
+              <Image source={rightHandFinger} style={{marginTop: 30}} />
+            </View>
+          </View>
+        </ImageBackground>
       </View>
     );
   };
@@ -300,13 +240,40 @@ const MainScreen = ({
           }
           <View style={styles.actionCertificateContainer}>
             <Text style={styles.boxTopHeading}>ACTIVE CERTIFICATES</Text>
-            <FlatList
-              horizontal
-              data={DATA}
-              renderItem={renderItem}
-              keyExtractor={item => item.id}
-              extraData={selectedId}
-            />
+            {activeCertificates ? (
+              <FlatList
+                horizontal
+                data={activeCertificates}
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+                extraData={selectedId}
+              />
+            ) : (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
+                <View style={styles.activeCertificationDiv}>
+                  <ImageBackground
+                    source={previousAppoinmentBg}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      resizeMode: 'cover',
+                    }}>
+                    <View style={styles.contentPadding}>
+                      <Text style={styles.boxHeadingDisable}>
+                        No Active Certificate
+                      </Text>
+                      <Text style={styles.boxTextDisable}>
+                        You don’t have any active certificate at the moment
+                      </Text>
+                    </View>
+                  </ImageBackground>
+                </View>
+              </View>
+            )}
           </View>
           <View style={styles.actionCertificateContainer}>
             <Text style={styles.boxTopHeading}>APPOINTMENTS</Text>
@@ -385,6 +352,8 @@ const mapDispatchToProps = dispatch => {
     getActiveAppointments: payload =>
       dispatch(getActiveAppointmentsAction(payload)),
     resetErrorMain: () => dispatch(resetErrorMainAction()),
+    getActiveCertificates: payload =>
+      dispatch(getActiveCertificatesAction(payload)),
   };
 };
 
@@ -396,6 +365,7 @@ const mapStateToProps = state => {
     verifyOptPayload: state.phoneReducer.verifyOptPayload,
     userInfoSignUp: state.userInfoReducer.userInfo,
     activeAppointments: state.mainScreenReducer.activeAppointments,
+    activeCertificates: state.mainScreenReducer.activeCertificates,
   };
 };
 

@@ -23,7 +23,6 @@ export default function familyReducer() {
         };
 
       case GET_FAMILY_MEMBER_SUCCESS:
-        console.log('action: ', action)
         return {
           ...state,
           loader: false,

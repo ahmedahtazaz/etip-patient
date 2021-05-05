@@ -1,5 +1,6 @@
 import {
   GET_ACTIVE_APPOINTMENTS,
+  GET_ACTIVE_CERTIFICATES,
   GET_PROFILE,
   RESET_ERROR_MAIN,
   SET_LOADER_MAIN_SCREEN,
@@ -44,5 +45,12 @@ export const getActiveAppointmentsAction = payload => {
 export const resetErrorMainAction = () => {
   return {
     type: RESET_ERROR_MAIN,
+  };
+};
+
+export const getActiveCertificatesAction = payload => {
+  return {
+    type: GET_ACTIVE_CERTIFICATES,
+    payload,
   };
 };
