@@ -1,4 +1,4 @@
-import {put, takeLatest, call} from 'redux-saga/effects';
+import { put, takeLatest, call } from 'redux-saga/effects';
 
 import {
   GET_TEST_CENTERS,
@@ -6,19 +6,18 @@ import {
   GET_TEST_CENTERS_SUCCESS,
 } from '../../commons/Constants';
 
-import DeviceInfo from 'react-native-device-info';
-
-import axios from 'axios';
-
 import AxiosInstance from '../../commons/AxiosInstance';
 
 function* getTestCenters(action) {
   try {
-    const {data: res} = yield call(AxiosInstance.get, action.payload);
-
-    yield put({type: GET_TEST_CENTERS_SUCCESS, testCenterData: res.data});
+    const res = yield call(AxiosInstance.get, action.payload);
+    if (res.error) {
+      yield put({ type: GET_TEST_CENTERS_FAILURE, errMessage: res.error.message });
+    } else {
+      yield put({ type: GET_TEST_CENTERS_SUCCESS, testCenterData: res?.success?.data?.data });
+    }
   } catch (error) {
-    yield put({type: GET_TEST_CENTERS_FAILURE, errMessage: error});
+    yield put({ type: GET_TEST_CENTERS_FAILURE, errMessage: error });
   }
 }
 

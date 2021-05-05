@@ -1,4 +1,4 @@
-import { GET_APPOINTMENT_SLOT, GET_REGION } from "../../commons/Constants";
+import { CREATE_APPOINTMENT, GET_APPOINTMENT_SLOT, GET_REGION } from "../../commons/Constants";
 
 export const moveToTestCentersAction = navigation => {
   return navigation.navigate('testCenter');
@@ -15,6 +15,13 @@ export const moveToTimeTestCenter = (navigation, region, setTestCenterValue) => 
 export const getAppointmentSlotsAction = (data) => {
   return {
     type: GET_APPOINTMENT_SLOT,
+    payload: data
+  }
+}
+
+export const bookAppointmentAction = (data) => {
+  return {
+    type: CREATE_APPOINTMENT,
     payload: data
   }
 }

@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {connect} from 'react-redux';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 
 import {
   StyleSheet,
@@ -10,7 +10,7 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import BottomNavigator from '../../components/BottomNavigator';
-import {SwipeListView} from 'react-native-swipe-list-view';
+import { SwipeListView } from 'react-native-swipe-list-view';
 
 const menuIcon = require('../../assets/images/menu-icon.png');
 const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
@@ -26,7 +26,7 @@ import {
   getFamilyMembersAction,
   removeFamilyMemberAction,
 } from './Actions';
-import {get_family_url} from '../../commons/environment';
+import { get_family_url } from '../../commons/environment';
 
 const FamilyMain = ({
   navigation,
@@ -41,29 +41,29 @@ const FamilyMain = ({
 
   useEffect(() => {
     getFamilyMembers({
-      url: `${get_family_url}/${userInfo.family.id}`,
-      userId: userInfo._id,
+      url: `${get_family_url}/${userInfo?.data?.data?.family.id}`,
+      userId: userInfo?.data?.data?._id,
     });
   }, []);
 
-  const removeMember = ({item}) => {
+  const removeMember = ({ item }) => {
     let data = {
-      url: `${get_family_url}/${userInfo.family.id}/remove-member/${item._id}`,
-      userId: userInfo._id,
+      url: `${get_family_url}/${userInfo?.data?.data?.family.id}/remove-member/${item._id}`,
+      userId: userInfo?.data?.data?._id,
       id: item._id,
     };
     removeFamilyMember(data);
   };
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     return (
       <View style={styles.nameContainer}>
         <View style={styles.parentNameContainer}>
           <View style={styles.nameTextContainer}>
-            <Text style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
+            <Text style={{ color: '#20B2AA', textColor: 'grey', marginStart: 8 }}>
               {`${item.firstName} ${item.lastName}`}
             </Text>
-            <Text style={{marginStart: 8, color: '#adadad'}}>
+            <Text style={{ marginStart: 8, color: '#adadad' }}>
               {item.relation}
             </Text>
           </View>
@@ -78,12 +78,12 @@ const FamilyMain = ({
                   item,
                 )
               }>
-              <Image source={greenQrCode} style={{marginLeft: 5}} />
+              <Image source={greenQrCode} style={{ marginLeft: 5 }} />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => moveToUserinfScreenAction(navigation, item)}
               style={styles.editContainer}>
-              <Image source={greyEdit} style={{marginLeft: 5}} />
+              <Image source={greyEdit} style={{ marginLeft: 5 }} />
             </TouchableOpacity>
           </View>
         </View>
@@ -100,10 +100,10 @@ const FamilyMain = ({
             onPress={() => {
               movetoSettingsScreen(navigation);
             }}>
-            <Image source={menuIcon} style={{marginLeft: 10}} />
+            <Image source={menuIcon} style={{ marginLeft: 10 }} />
           </TouchableOpacity>
           <View style={styles.menuItemsCenter}>
-            <Image source={smallHeaderLogo} style={{marginLeft: 5}} />
+            <Image source={smallHeaderLogo} style={{ marginLeft: 5 }} />
           </View>
         </View>
       </View>
@@ -138,7 +138,7 @@ const FamilyMain = ({
       </View>
       <BottomNavigator
         navigation={navigation}
-        selectedItem={{id: 3, label: 'Family'}}></BottomNavigator>
+        selectedItem={{ id: 3, label: 'Family' }}></BottomNavigator>
     </View>
   );
 };

@@ -1,4 +1,4 @@
-import {put, takeLatest, call} from 'redux-saga/effects';
+import { put, takeLatest, call } from 'redux-saga/effects';
 import {
   GET_FAMILY_MEMBER,
   GET_FAMILY_MEMBER_SUCCESS,
@@ -23,7 +23,7 @@ function* getFamilyMembers(action) {
     if (res.success)
       yield put({
         type: GET_FAMILY_MEMBER_SUCCESS,
-        payload: res.success,
+        payload: res.success.data.data.familyUsers,
       });
     else {
       yield put({
@@ -32,7 +32,7 @@ function* getFamilyMembers(action) {
       });
     }
   } catch (error) {
-    yield put({type: GET_FAMILY_MEMBER_FAILURE, errMessage: error});
+    yield put({ type: GET_FAMILY_MEMBER_FAILURE, errMessage: error });
   }
 }
 
@@ -45,7 +45,7 @@ function* removeFamilyMembers(action) {
         userId,
       },
     };
-    const {data: res} = yield call(
+    const { data: res } = yield call(
       AxiosInstance.delete,
       action.payload.url,
       config,
@@ -53,13 +53,13 @@ function* removeFamilyMembers(action) {
     if (res.message === 'User removed successfully.')
       yield put({
         type: REMOVE_FAMILY_MEMBER_SUCCESS,
-        payload: {id: action.payload.id},
+        payload: { id: action.payload.id },
       });
     else {
       showToast(res.message);
     }
   } catch (error) {
-    yield put({type: REMOVE_FAMILY_MEMBER_FAILURE, errMessage: error});
+    yield put({ type: REMOVE_FAMILY_MEMBER_FAILURE, errMessage: error });
   }
 }
 

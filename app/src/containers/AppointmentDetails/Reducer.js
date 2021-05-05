@@ -14,7 +14,7 @@ const INITIAL_STATE = {
   userProfile: null,
   loader: false,
   errMessage: undefined,
-  appointmentSlotsData: null,
+
 };
 
 export default function appointmentDetailsReducer() {
@@ -40,25 +40,7 @@ export default function appointmentDetailsReducer() {
           errMessage: action.errMessage,
         };
 
-      case GET_APPOINTMENT_SLOT:
-        return {
-          ...state,
-          loader: true,
-        };
-
-      case GET_APPOINTMENT_SLOT_SUCCESS:
-        return {
-          ...state,
-          loader: false,
-          appointmentSlotsData: action.payload,
-        };
-
-      case GET_APPOINTMENT_SLOT_FAILURE:
-        return {
-          ...state,
-          loader: false,
-        };
-
+      
       default:
         return state;
     }

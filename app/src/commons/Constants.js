@@ -1,4 +1,4 @@
-import {Alert, Platform, ToastAndroid} from 'react-native';
+import { Alert, Platform, ToastAndroid } from 'react-native';
 
 export const LOAD_INIT = 'LOAD_INIT';
 export const LOAD_INIT_SUCCESS = 'LOAD_INIT_SUCCESS';
@@ -67,6 +67,11 @@ export const GET_APPOINTMENT_SLOT = 'GET_APPOINTMENT_SLOT';
 export const GET_APPOINTMENT_SLOT_SUCCESS = 'GET_APPOINTMENT_SLOT_SUCCESS';
 export const GET_APPOINTMENT_SLOT_FAILURE = 'GET_APPOINTMENT_SLOT_FAILURE';
 
+export const CREATE_APPOINTMENT = "CREATE_APPOINTMENT";
+export const CREATE_APPOINTMENT_SUCCESS = "CREATE_APPOINTMENT_SUCCESS";
+export const CREATE_APPOINTMENT_FAILURE = "CREATE_APPOINTMENT_FAILURE";
+
+
 export const GET_REGION = 'GET_REGION';
 export const GET_REGION_SUCCESS = 'GET_REGION_SUCCESS';
 export const GET_REGION_FAILURE = 'GET_REGION_FAILURE ';
@@ -97,9 +102,9 @@ export const GET_LANG_BY_SELECTED_KEY_FAILURE =
 
 export const RESET_ERROR_MAIN = 'RESET_ERROR_MAIN';
 
-export const postCall = ({url, body: data}) => {
-  return axios({url, method: 'post', data})
-    .then(data => ({data}))
+export const postCall = ({ url, body: data }) => {
+  return axios({ url, method: 'post', data })
+    .then(data => ({ data }))
     .catch(ex => {
       return ex;
     });

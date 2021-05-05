@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import {
@@ -14,67 +14,32 @@ import {
   useWindowDimensions,
   ImageBackground,
 } from 'react-native';
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
 import I18n from '../../translations/I18n';
 import Calendar from '../../components/Calendar';
-import {width, height, totalSize} from 'react-native-dimension';
-import {ScrollView} from 'react-native-gesture-handler';
-import {connect} from 'react-redux';
+import { width, height, totalSize } from 'react-native-dimension';
+import { ScrollView } from 'react-native-gesture-handler';
+import { connect } from 'react-redux';
 import {
   moveToTestCentersAction,
   moveToTimeSlotsAction,
   GetRegions,
   moveToTimeTestCenter,
   getAppointmentSlotsAction,
+  bookAppointmentAction,
 } from './Actions';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import {RFValue} from 'react-native-responsive-fontsize';
-import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
-import {get_appointment_slot_url, get_regions} from '../../commons/environment';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR } from '../../theme/Colors';
+import { create_appointment_url, get_appointment_slot_url, get_regions } from '../../commons/environment';
 import moment from 'moment';
+import { showToast } from '../../commons/Constants';
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const regionSelectedIcon = require('../../assets/images/region-selected-icon.png');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-const DATA = [
-  {
-    id: 1,
-    title: 'Bavaria',
-  },
-  {
-    id: 2,
-    title: 'Munich',
-  },
-  {
-    id: 3,
-    title: 'Augsburg',
-  },
-  {
-    id: 4,
-    title: 'Frankfurt',
-  },
-  {
-    id: 5,
-    title: 'Hamburg',
-  },
-];
 
-const GRID_DATA = [
-  {key: '09:00-09:15', id: 1},
-  {key: '09:15-09:30', id: 2},
-  {key: '09:15-09:30', id: 3},
-  {key: '09:15-09:30', id: 4},
-  {key: '09:15-09:30', id: 5},
-  {key: '09:15-09:30', id: 6},
-  {key: '09:15-09:30', id: 7},
-  {key: '09:15-09:30', id: 8},
-  {key: '09:15-09:30', id: 9},
-  {key: '09:15-09:30', id: 10},
-  {key: '09:15-09:30', id: 11},
-  {key: '09:15-09:30', id: 12},
-];
-
-const Item = ({item, onPress, backgroundColor, textColor}) => (
+const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <Text style={[styles.title, textColor]}>{item.title}</Text>
   </TouchableOpacity>
@@ -89,16 +54,17 @@ const AppointmentCalender = ({
   regionData,
   moveToTimeTestCenter,
   route: {
-    params: {candidate},
+    params: { candidate },
   },
   getAppointmentSlots,
   appointmentSlotsData,
+  bookAppointment,
+  userInfo,
+  errMessage
 }) => {
   const window = useWindowDimensions();
 
-  const [selectedId, setSelectedId] = useState(null);
   const [selectedRegion, setSelectedRegion] = useState(null);
-  const [regions, setRegions] = useState([]);
   const [testCenter, setTestCenter] = useState(null);
   const [date, setDate] = useState(new Date());
   const [showCalender, setShowCalender] = useState(true);
@@ -120,6 +86,12 @@ const AppointmentCalender = ({
     GetRegions(get_regions);
   }, []);
 
+  useEffect(() => {
+    if (errMessage) {
+      showToast(errMessage);
+    }
+  }, [errMessage])
+
   const setTestCenterValue = testCenter => {
     setTestCenter(testCenter);
     let data = {
@@ -132,7 +104,51 @@ const AppointmentCalender = ({
     getAppointmentSlots(data);
   };
 
-  const renderItem = ({item}) => {
+  const navigateToTestCenter = () => {
+    if (selectedRegion) {
+      moveToTimeTestCenter(
+        navigation,
+        selectedRegion.name,
+        setTestCenterValue,
+      )
+    } else {
+      showToast("Please select a region")
+    }
+  }
+
+  const bookAppointmentHandler = () => {
+    // navigation.replace('MainScreen', { booked: true })
+    console.log("candidate:::: ", candidate);
+    console.log("testCenter::: ", testCenter);
+    console.log("region::: ", selectedRegion);
+    console.log("slot::: ", selectedSlot);
+    let data = {
+      url: `${create_appointment_url}`,
+      userId: userInfo.data?.data?._id,
+      body: {
+        name: candidate.firstName,
+        familyId: userInfo.data?.data?.family.id,
+        relation: candidate.relation || "Self",
+        patientId: "P-1234",//need to ask about it
+        email: candidate.email,
+        mobile: candidate.mobileNumber,
+        region: selectedRegion.name,
+        appointmentDate: moment(date).format('DD/MM/YYYY'),
+        appointmentTime: selectedSlot,
+        testCenter: {
+          _id: testCenter?.testCenter?._id,
+          testId: testCenter.id,
+          testType: testCenter.testType,
+          name: testCenter?.testCenter?.name,
+          lab: testCenter?.testCenter?.lab
+        }
+      }
+    }
+
+    bookAppointment(data);
+  }
+
+  const renderItem = ({ item }) => {
     let imgsource = require('../../assets/images/bavaria.png');
     switch (item.id) {
       case 1:
@@ -156,10 +172,10 @@ const AppointmentCalender = ({
     }
     return (
       <TouchableOpacity
-        style={{marginStart: 8}}
+        style={{ marginStart: 8 }}
         style={styles.imgShadow}
         onPress={() => setSelectedRegion(item)}
-        // onPress={() => moveToTimeTestCenter(navigation, item.name)}
+      // onPress={() => moveToTimeTestCenter(navigation, item.name)}
       >
         <Image
           style={{
@@ -200,7 +216,7 @@ const AppointmentCalender = ({
               name="chevron-left"
               color="#000"
               size={40}
-              style={{fontWeight: 'bold'}}
+              style={{ fontWeight: 'bold' }}
             />
           </TouchableOpacity>
         </View>
@@ -213,16 +229,16 @@ const AppointmentCalender = ({
           <View style={styles.nameContainer}>
             <View style={styles.parentNameContainer}>
               <View style={styles.nameTextContainer}>
-                <Text style={{marginStart: 8, color: '#adadad'}}>
+                <Text style={{ marginStart: 8, color: '#adadad' }}>
                   {I18n.t('Appointment For')}
                 </Text>
                 <Text
-                  style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
+                  style={{ color: '#20B2AA', textColor: 'grey', marginStart: 8 }}>
                   {`${candidate.firstName} ${candidate.lastName}`}
                 </Text>
               </View>
               <View>
-                <Icon name="cancel" color="red" size={25} style={{margin: 8}} />
+                <Icon name="cancel" color="red" size={25} style={{ margin: 8 }} />
               </View>
             </View>
           </View>
@@ -238,16 +254,10 @@ const AppointmentCalender = ({
 
           <TouchableOpacity
             style={styles.parentNameContainer}
-            onPress={() =>
-              moveToTimeTestCenter(
-                navigation,
-                selectedRegion.name,
-                setTestCenterValue,
-              )
-            }>
+            onPress={() => navigateToTestCenter()}>
             <View style={styles.nameTextContainer}>
               <Text
-                style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
+                style={{ color: '#20B2AA', textColor: 'grey', marginStart: 8 }}>
                 {I18n.t('Test Center')}
               </Text>
             </View>
@@ -260,11 +270,11 @@ const AppointmentCalender = ({
               onPress={toggleCalendarView}
               style={styles.parentNameContainer}>
               <View style={styles.nameTextContainer}>
-                <Text style={{marginStart: 8, color: '#606060'}}>
+                <Text style={{ marginStart: 8, color: '#606060' }}>
                   Appointment Date
                 </Text>
                 <Text
-                  style={{color: '#027279', textColor: 'grey', marginStart: 8}}>
+                  style={{ color: '#027279', textColor: 'grey', marginStart: 8 }}>
                   {moment(date).format('DD MMM YYYY')}
                 </Text>
               </View>
@@ -282,12 +292,12 @@ const AppointmentCalender = ({
           )}
           {showSlots ? (
             <View style={styles.calenderContainer}>
-              <Text style={{marginStart: 8}}>Time Slot</Text>
+              <Text style={{ marginStart: 8 }}>Time Slot</Text>
               {/* <Calendar/> */}
 
               <FlatList
                 data={appointmentSlotsData?.slots}
-                renderItem={({item}) => {
+                renderItem={({ item }) => {
                   if (item.timeSlot === selectedSlot) {
                     return (
                       <TouchableOpacity
@@ -318,6 +328,13 @@ const AppointmentCalender = ({
           ) : (
             <View />
           )}
+          <View style={styles.bottom}>
+            <TouchableOpacity
+              style={[styles.container1, styles.submitButton]}
+              onPress={bookAppointmentHandler}>
+              <Text style={styles.submitText}>Book Appointment</Text>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
       </View>
     </View>
@@ -332,6 +349,7 @@ const mapDispatchToProps = dispatch => {
     moveToTimeSlots: navigation => moveToTimeSlotsAction(navigation),
     GetRegions: data => dispatch(GetRegions(data)),
     getAppointmentSlots: data => dispatch(getAppointmentSlotsAction(data)),
+    bookAppointment: data => dispatch(bookAppointmentAction(data))
   };
 };
 
@@ -339,6 +357,8 @@ const mapStateToProps = state => {
   return {
     regionData: state.RegionReducer.regionData,
     appointmentSlotsData: state.RegionReducer.appointmentSlotsData,
+    userInfo: state.mainScreenReducer.userInfo,
+    errMessage: state.RegionReducer.errMessage
   };
 };
 
@@ -485,6 +505,39 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 14,
     justifyContent: 'center',
+  },
+  container1: {
+    backgroundColor: 'rgba(243,115,32,1)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    borderRadius: 67,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.35,
+    shadowRadius: 5,
+    elevation: 5,
+    minWidth: 88,
+    paddingLeft: 16,
+    paddingRight: 16,
+  },
+  submitButton: {
+    width: '100%',
+    borderRadius: 10,
+    backgroundColor: '#006970',
+    color: WHITE_COLOR,
+
+    fontSize: RFValue(14, 580),
+    fontWeight: '600',
+    minHeight: 68,
+  },
+  submitText: {
+    color: WHITE_COLOR,
+    fontSize: RFValue(14, 580),
+    fontWeight: '600',
   },
 });
 

@@ -1,4 +1,4 @@
-import {put, takeLatest, call} from 'redux-saga/effects';
+import { put, takeLatest, call } from 'redux-saga/effects';
 import {
   ADD_FAMILY_MEMBER,
   ADD_FAMILY_MEMBER_FAILURE,
@@ -14,23 +14,26 @@ import {
 import AxiosInstance from '../../commons/AxiosInstance';
 
 function* signUp(action) {
+  console.log('signup action: ', action);
   try {
     const res = yield call(
       AxiosInstance.post,
       action.payload.url,
       action.payload.body,
     );
+    console.log('signup res: ', res);
     if (res.error) {
-      yield put({type: SIGNUP_FAILURE, errMessage: error.message});
+      yield put({ type: SIGNUP_FAILURE, errMessage: res.error.message });
     } else {
-      yield put({type: SIGNUP_SUCCES, payload: res.success});
+      yield put({ type: SIGNUP_SUCCES, payload: res.success });
     }
   } catch (error) {
-    yield put({type: SIGNUP_FAILURE, errMessage: error});
+    yield put({ type: SIGNUP_FAILURE, errMessage: error });
   }
 }
 
 function* addFamilyMember(action) {
+  console.log('addFamily Member action: ', action)
   let userId = action.payload.body.userId;
   delete action.payload.body.userId;
   try {
@@ -39,19 +42,23 @@ function* addFamilyMember(action) {
         userId,
       },
     };
-    const {data: res} = yield call(
+    const res = yield call(
       AxiosInstance.post,
       action.payload.url,
       action.payload.body,
       config,
     );
-    if (res.data && res.data.familyUsers.length)
+    console.log("res addFamily Member:: ", res.success.data.data)
+    if (res.error) {
+      yield put({ type: ADD_FAMILY_MEMBER_FAILURE, errMessage: res.error.message });
+    } else {
       yield put({
         type: ADD_FAMILY_MEMBER_SUCCES,
-        payload: res.data.familyUsers,
+        payload: res?.success?.data?.data?.familyUsers,
       });
+    }
   } catch (error) {
-    yield put({type: ADD_FAMILY_MEMBER_FAILURE, errMessage: error});
+    yield put({ type: ADD_FAMILY_MEMBER_FAILURE, errMessage: error });
   }
 }
 
@@ -64,7 +71,7 @@ function* editFamilyMember(action) {
         userId,
       },
     };
-    const {data: res} = yield call(
+    const { data: res } = yield call(
       AxiosInstance.post,
       action.payload.url,
       action.payload.body,
@@ -77,10 +84,10 @@ function* editFamilyMember(action) {
       });
     else {
       showToast(res.message);
-      yield put({type: EDIT_FAMILY_MEMBER_FAILURE, errMessage: res.message});
+      yield put({ type: EDIT_FAMILY_MEMBER_FAILURE, errMessage: res.message });
     }
   } catch (error) {
-    yield put({type: EDIT_FAMILY_MEMBER_FAILURE, errMessage: error});
+    yield put({ type: EDIT_FAMILY_MEMBER_FAILURE, errMessage: error });
   }
 }
 
