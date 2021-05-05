@@ -14,14 +14,12 @@ import {
 import AxiosInstance from '../../commons/AxiosInstance';
 
 function* signUp(action) {
-  console.log('signup action: ', action);
   try {
     const res = yield call(
       AxiosInstance.post,
       action.payload.url,
       action.payload.body,
     );
-    console.log('signup res: ', res);
     if (res.error) {
       yield put({ type: SIGNUP_FAILURE, errMessage: res.error.message });
     } else {
@@ -33,7 +31,6 @@ function* signUp(action) {
 }
 
 function* addFamilyMember(action) {
-  console.log('addFamily Member action: ', action)
   let userId = action.payload.body.userId;
   delete action.payload.body.userId;
   try {
@@ -48,7 +45,6 @@ function* addFamilyMember(action) {
       action.payload.body,
       config,
     );
-    console.log("res addFamily Member:: ", res.success.data.data)
     if (res.error) {
       yield put({ type: ADD_FAMILY_MEMBER_FAILURE, errMessage: res.error.message });
     } else {
