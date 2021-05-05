@@ -81,7 +81,7 @@ function UpdateSettings({
   };
 
   return (
-    <ScrollView style={{height: '100%', paddingTop: '9%'}} ref={scrollRef}>
+    <ScrollView style={{height: '100%', paddingTop: '9%', backgroundColor:'#ffffff'}} ref={scrollRef}>
       <View style={styles.background}>
         <View style={styles.innerDiv}>
           <View style={styles.header}>
