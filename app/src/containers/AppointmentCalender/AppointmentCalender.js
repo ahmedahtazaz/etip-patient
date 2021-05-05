@@ -229,7 +229,11 @@ const AppointmentCalender = ({
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.backIcon}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+              resetPage();
+            }}>
             <EvilIcons
               name="chevron-left"
               color="#000"

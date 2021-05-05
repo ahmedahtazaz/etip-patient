@@ -72,31 +72,30 @@ function Phone({
   };
 
   const onSubmit = (isPhone, phone, otp) => {
-    // if (isPhone) {
-    //   // Temporary check
-    //   if (true || (phone && phone.match('^[+]49[0-9]{10}$'))) {
-    //     let data = {
-    //       url: send_otp_url,
-    //       body: {
-    //         mobileNumber: phone,
-    //       },
-    //     };
-    //     sendOTP(data);
-    //   } else showToast('Please enter a valid phone number.');
-    // } else {
-    //   if (otp && otp.length == 5) {
-    //     let data = {
-    //       url: verify_otp_url,
-    //       body: {
-    //         mobileNumber: phone,
-    //         otp,
-    //         referenceId: sendOptPayload?.data?.data?.ref_id,
-    //       },
-    //     };
-    //     verifyOTP(data);
-    //   } else showToast('Please enter a valid OTP.');
-    // }
-    movetoUserInfoScreen(navigation)
+    if (isPhone) {
+      // Temporary check
+      if (true || (phone && phone.match('^[+]49[0-9]{10}$'))) {
+        let data = {
+          url: send_otp_url,
+          body: {
+            mobileNumber: phone,
+          },
+        };
+        sendOTP(data);
+      } else showToast('Please enter a valid phone number.');
+    } else {
+      if (otp && otp.length == 5) {
+        let data = {
+          url: verify_otp_url,
+          body: {
+            mobileNumber: phone,
+            otp,
+            referenceId: sendOptPayload?.data?.data?.ref_id,
+          },
+        };
+        verifyOTP(data);
+      } else showToast('Please enter a valid OTP.');
+    }
   };
 
   useEffect(() => {
