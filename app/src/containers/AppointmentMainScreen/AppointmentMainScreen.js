@@ -85,7 +85,7 @@ const AppointmentMainScreen = ({
                   <Text style={styles.boxHeading}>
                     {item?.testPoint?.testCenter?.name}
                   </Text>
-                  <Text style={styles.boxText}>{item?.region}</Text>
+                  <Text style={styles.boxText}>{item?.name}</Text>
                 </View>
               </View>
             </View>

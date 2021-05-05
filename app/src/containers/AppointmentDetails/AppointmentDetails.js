@@ -131,9 +131,7 @@ const AppointmentDetails = ({
                   <Text style={styles.boxHeading}>
                     {userInfoParam?.testPoint?.testCenter?.name}
                   </Text>
-                  <Text style={styles.boxTestText}>
-                    {userInfoParam?.region}
-                  </Text>
+                  <Text style={styles.boxTestText}>{userInfoParam?.name}</Text>
                 </View>
               </View>
             </ImageBackground>
