@@ -10,6 +10,8 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import BottomNavigator from '../../components/BottomNavigator';
+import { useIsFocused } from '@react-navigation/core';
+import Orientation from 'react-native-orientation-locker';
 import { SwipeListView } from 'react-native-swipe-list-view';
 
 const menuIcon = require('../../assets/images/menu-icon.png');
@@ -39,12 +41,24 @@ const FamilyMain = ({
 }) => {
   const window = useWindowDimensions();
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
+    Orientation.lockToPortrait();
+    getFamilyData();
+    console.log('focused::::')
+  }, [isFocused]);
+
+  useEffect(() => {
+    getFamilyData()
+  }, []);
+
+  const getFamilyData = () => {
     getFamilyMembers({
       url: `${get_family_url}/${userInfo?.data?.data?.family.id}`,
       userId: userInfo?.data?.data?._id,
     });
-  }, []);
+  }
 
   const removeMember = ({ item }) => {
     let data = {
@@ -80,11 +94,15 @@ const FamilyMain = ({
               }>
               <Image source={greenQrCode} style={{ marginLeft: 5 }} />
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => moveToUserinfScreenAction(navigation, item)}
-              style={styles.editContainer}>
-              <Image source={greyEdit} style={{ marginLeft: 5 }} />
-            </TouchableOpacity>
+            {
+              item?.relation ?
+                <TouchableOpacity
+                  onPress={() => moveToUserinfScreenAction(navigation, item)}
+                  style={styles.editContainer}>
+                  <Image source={greyEdit} style={{ marginLeft: 5 }} />
+                </TouchableOpacity>
+                : <View style={styles.editContainer} />
+            }
           </View>
         </View>
       </View>
@@ -120,15 +138,18 @@ const FamilyMain = ({
               data={familyMembers}
               renderItem={renderItem}
               keyExtractor={item => item.id}
-              renderHiddenItem={(data, rowMap) => (
-                <TouchableOpacity
-                  onPress={() => removeMember(data)}
-                  style={styles.rowDeleteImage}>
-                  <View style={styles.deleteItem}>
-                    <Image source={deleteIcon} />
-                  </View>
-                </TouchableOpacity>
-              )}
+              renderHiddenItem={(data, rowMap) => {
+                if (data.item.relation)
+                  return (
+                    <TouchableOpacity
+                      onPress={() => removeMember(data)}
+                      style={styles.rowDeleteImage}>
+                      <View style={styles.deleteItem}>
+                        <Image source={deleteIcon} />
+                      </View>
+                    </TouchableOpacity>
+                  )
+              }}
               disableRightSwipe={true}
               leftOpenValue={75}
               rightOpenValue={-75}

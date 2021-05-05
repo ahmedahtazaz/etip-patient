@@ -26,12 +26,14 @@ function* getRegion(action) {
 }
 
 function* getAppointmentSlots(action) {
+  console.log("getAppointmentSlots action: ", action);
   try {
     const res = yield call(
       AxiosInstance.post,
       action.payload.url,
       action.payload.body,
     );
+    console.log("getAppointmentSlots res: ", res?.success?.data?.data)
     if (res.error) {
       yield put({ type: GET_APPOINTMENT_SLOT_FAILURE, errMessage: res.error.message });
     } else {
@@ -44,6 +46,8 @@ function* getAppointmentSlots(action) {
 
 function* createAppointment(action) {
   console.log('createAppointment action: ', action);
+  console.log('action.body.testCenter: ', action.payload.body.testCenter);
+  console.log("action.body.testCenter.lab: ", action.payload.body.testCenter.lab)
   let userId = action.payload.userId;
   delete action.payload.userId;
   try {

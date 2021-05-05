@@ -97,6 +97,7 @@ function UserInfo({
   useEffect(() => {
     const data = (route.params && route.params.data) || '';
     if (data) {
+      setIsFamily(true);
       setEditMode(true);
       setFName(data.firstName);
       setLName(data.lastName);
@@ -250,8 +251,10 @@ function UserInfo({
         },
       },
     };
+    console.log("isFamily: ", isFamily);
+    console.log("editMode: ", editMode)
 
-    if (!isFamily) {
+    if (!isFamily && !editMode) {
       signUp(data);
     } else {
       const dataObj = (route.params && route.params.data) || '';
@@ -280,6 +283,7 @@ function UserInfo({
         addFamilyMember(data);
       } else {
         data.body['id'] = dataObj['_id'];
+        console.log('before dispatching edit: ', data)
         updateFamilyMember(data);
       }
     }

@@ -67,20 +67,20 @@ function* editFamilyMember(action) {
         userId,
       },
     };
-    const { data: res } = yield call(
-      AxiosInstance.post,
+    const res = yield call(
+      AxiosInstance.put,
       action.payload.url,
       action.payload.body,
       config,
     );
-    if (res.data)
+    if (res.success)
       yield put({
         type: EDIT_FAMILY_MEMBER_SUCCES,
-        payload: res.data.familyUsers,
+        payload: res.success.data.data.familyUsers,
       });
     else {
       showToast(res.message);
-      yield put({ type: EDIT_FAMILY_MEMBER_FAILURE, errMessage: res.message });
+      yield put({ type: EDIT_FAMILY_MEMBER_FAILURE, errMessage: res.error.message });
     }
   } catch (error) {
     yield put({ type: EDIT_FAMILY_MEMBER_FAILURE, errMessage: error });

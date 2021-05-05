@@ -45,18 +45,21 @@ function* removeFamilyMembers(action) {
         userId,
       },
     };
-    const { data: res } = yield call(
+    const res = yield call(
       AxiosInstance.delete,
       action.payload.url,
       config,
     );
-    if (res.message === 'User removed successfully.')
+    if (res.success.data.message === "User removed successfully.")
       yield put({
         type: REMOVE_FAMILY_MEMBER_SUCCESS,
         payload: { id: action.payload.id },
       });
     else {
-      showToast(res.message);
+      yield put({
+        type: REMOVE_FAMILY_MEMBER_FAILURE,
+        errMessage: res.error.message,
+      });
     }
   } catch (error) {
     yield put({ type: REMOVE_FAMILY_MEMBER_FAILURE, errMessage: error });

@@ -89,12 +89,10 @@ export default function userInfoReducer() {
                 }
 
             case EDIT_FAMILY_MEMBER_SUCCES:
-                let index = familyMembers.find(member => member.mobileNumber === action.payload.mobileNumber);
-                familyMembers[index] = action.payload;
                 return {
                     ...state,
                     loader: false,
-                    familyMembers
+                    familyMembers: [...action.payload]
                 }
 
             case EDIT_FAMILY_MEMBER_FAILURE:
