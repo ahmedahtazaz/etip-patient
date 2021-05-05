@@ -29,14 +29,14 @@ function* getRegion(action) {
 }
 
 function* getAppointmentSlots(action) {
-  console.log("getAppointmentSlots action: ", action);
+  console.log('getAppointmentSlots action: ', action);
   try {
     const res = yield call(
       AxiosInstance.post,
       action.payload.url,
       action.payload.body,
     );
-    console.log("getAppointmentSlots res: ", res?.success?.data?.data)
+
     if (res.error) {
       yield put({
         type: GET_APPOINTMENT_SLOT_FAILURE,

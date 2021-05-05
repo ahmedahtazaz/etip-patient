@@ -1,3 +1,7 @@
-export const moveToAppointmentCalenderAction = (navigation, candidate) => {
-  return navigation.replace('AppointmentCalender', { candidate });
+export const moveToAppointmentCalenderAction = (
+  navigation,
+  candidate,
+  userInfo,
+) => {
+  return navigation.replace('AppointmentCalender', {candidate, userInfo});
 };

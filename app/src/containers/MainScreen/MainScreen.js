@@ -76,32 +76,32 @@ const MainScreen = ({
     Orientation.lockToPortrait();
   }, [isFocused]);
 
-  useEffect(() => {
-    if (
-      !userInfo &&
-      (verifyOptPayload?.data?.data?.userId || userInfoSignUp?.data?.data?._id)
-    ) {
-      setLoader(true);
-      const payload = {
-        url: get_user_url,
-        userId:
-          verifyOptPayload?.data?.data?.userId ||
-          userInfoSignUp?.data?.data?._id,
-      };
-      getProfile(payload);
-    }
-  }, [verifyOptPayload, userInfoSignUp]);
-
   // useEffect(() => {
-  //   if (!userInfo) {
+  //   if (
+  //     !userInfo &&
+  //     (verifyOptPayload?.data?.data?.userId || userInfoSignUp?.data?.data?._id)
+  //   ) {
   //     setLoader(true);
   //     const payload = {
   //       url: get_user_url,
-  //       userId: '6091ad2575785f004429a410',
+  //       userId:
+  //         verifyOptPayload?.data?.data?.userId ||
+  //         userInfoSignUp?.data?.data?._id,
   //     };
   //     getProfile(payload);
   //   }
-  // }, []);
+  // }, [verifyOptPayload, userInfoSignUp]);
+
+  useEffect(() => {
+    if (!userInfo) {
+      setLoader(true);
+      const payload = {
+        url: get_user_url,
+        userId: '6091ad2575785f004429a410',
+      };
+      getProfile(payload);
+    }
+  }, []);
 
   useEffect(() => {
     if (userInfo) {

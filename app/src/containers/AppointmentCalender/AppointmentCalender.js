@@ -2,35 +2,32 @@ import React, {useState, useEffect} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import {
-  Button,
   FlatList,
-  SafeAreaView,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
   Image,
   useWindowDimensions,
-  ImageBackground,
 } from 'react-native';
 import {Dimensions} from 'react-native';
 import I18n from '../../translations/I18n';
 import Calendar from '../../components/Calendar';
-import {width, height, totalSize} from 'react-native-dimension';
+import {height} from 'react-native-dimension';
 import {ScrollView} from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
 import {
-  moveToTestCentersAction,
   moveToTimeSlotsAction,
   GetRegions,
   moveToTimeTestCenter,
   getAppointmentSlotsAction,
   bookAppointmentAction,
+  resetMakeAppointmentAction,
+  moveToTMainScreenAction,
 } from './Actions';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {RFValue} from 'react-native-responsive-fontsize';
-import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
+import {WHITE_COLOR} from '../../theme/Colors';
 import {
   create_appointment_url,
   get_appointment_slot_url,
@@ -38,7 +35,7 @@ import {
 } from '../../commons/environment';
 import moment from 'moment';
 import {showToast} from '../../commons/Constants';
-const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
+import {ActivityIndicator} from 'react-native-paper';
 const regionSelectedIcon = require('../../assets/images/region-selected-icon.png');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -51,53 +48,32 @@ const Item = ({item, onPress, backgroundColor, textColor}) => (
 
 const AppointmentCalender = ({
   navigation,
-
-  moveToTestCentersAction,
-  moveToTimeSlots,
   GetRegions,
   regionData,
   moveToTimeTestCenter,
   route: {
-    params: {candidate},
+    params: {candidate, userInfo},
   },
   getAppointmentSlots,
   appointmentSlotsData,
   bookAppointment,
-  userInfo,
   errMessage,
+  testCenter,
+  appointmentCreated,
+  loader,
+  resetPage,
+  moveToMainScreen,
 }) => {
   const window = useWindowDimensions();
 
   const [selectedRegion, setSelectedRegion] = useState(null);
-  const [testCenter, setTestCenter] = useState(null);
-  const [date, setDate] = useState(new Date());
-  const [showCalender, setShowCalender] = useState(true);
+  const [date, setDate] = useState(null);
+  const [showCalender, setShowCalender] = useState(false);
   const [showSlots, setShowSlots] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState('');
 
   const onDateChange = date => {
     setDate(date);
-    setShowCalender(false);
-    setShowSlots(true);
-  };
-
-  const toggleCalendarView = () => {
-    setShowCalender(true);
-    setShowSlots(false);
-  };
-
-  useEffect(() => {
-    GetRegions(get_regions);
-  }, []);
-
-  useEffect(() => {
-    if (errMessage) {
-      showToast(errMessage);
-    }
-  }, [errMessage]);
-
-  const setTestCenterValue = testCenter => {
-    setTestCenter(testCenter);
     let data = {
       url: `${get_appointment_slot_url}/${testCenter.testCenter._id}`,
       body: {
@@ -108,23 +84,64 @@ const AppointmentCalender = ({
     getAppointmentSlots(data);
   };
 
+  const toggleCalendarView = () => {
+    setShowCalender(true);
+    setShowSlots(false);
+  };
+
+  useEffect(() => {
+    GetRegions(get_regions);
+
+    return () => {
+      setSelectedRegion(null);
+      setDate(null);
+      setShowCalender(false);
+      setShowSlots(false);
+      setSelectedSlot('');
+    };
+  }, []);
+
+  useEffect(() => {
+    if (appointmentCreated) {
+      resetPage();
+      moveToMainScreen(navigation);
+    }
+  }, [appointmentCreated]);
+
+  useEffect(() => {
+    if (errMessage) {
+      showToast(errMessage);
+    }
+  }, [errMessage]);
+
+  useEffect(() => {
+    if (testCenter) setShowCalender(true);
+  }, [testCenter]);
+
   const navigateToTestCenter = () => {
     if (selectedRegion) {
-      moveToTimeTestCenter(navigation, selectedRegion.name, setTestCenterValue);
+      moveToTimeTestCenter(navigation, selectedRegion.name);
     } else {
       showToast('Please select a region');
     }
   };
 
+  useEffect(() => {
+    if (appointmentSlotsData) {
+      setShowCalender(false);
+      setShowSlots(true);
+    }
+  }, [appointmentSlotsData]);
+
   const bookAppointmentHandler = () => {
     let data = {
       url: `${create_appointment_url}`,
-      userId: userInfo.data?.data?._id,
+      userId: candidate._id,
       body: {
         name: candidate.firstName,
-        familyId: userInfo.data?.data?.family.id,
+        familyId: userInfo?.family?.id,
         relation: candidate.relation || 'Self',
-        patientId: 'P-1234', //need to ask about it
+        patientId: candidate._id,
         email: candidate.email,
         mobile: candidate.mobileNumber,
         region: selectedRegion.name,
@@ -132,10 +149,18 @@ const AppointmentCalender = ({
         appointmentTime: selectedSlot,
         testCenter: {
           _id: testCenter?.testCenter?._id,
-          testId: testCenter.id,
-          testType: testCenter.testType,
+          testId: testCenter?._id,
+          testType: testCenter?.testType,
           name: testCenter?.testCenter?.name,
-          lab: testCenter?.testCenter?.lab,
+          lab: {
+            _id: testCenter?.testCenter?.lab?._id,
+            name: testCenter?.testCenter?.lab?.name,
+            organization: {
+              _id: '608ee99f94122fa7a3388363',
+              name: 'eTip-german',
+              key: 'Org10102',
+            },
+          },
         },
       },
     };
@@ -169,9 +194,7 @@ const AppointmentCalender = ({
       <TouchableOpacity
         style={{marginStart: 8}}
         style={styles.imgShadow}
-        onPress={() => setSelectedRegion(item)}
-        // onPress={() => moveToTimeTestCenter(navigation, item.name)}
-      >
+        onPress={() => setSelectedRegion(item)}>
         <Image
           style={{
             height: window.height / 5,
@@ -253,7 +276,7 @@ const AppointmentCalender = ({
             <View style={styles.nameTextContainer}>
               <Text
                 style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
-                {I18n.t('Test Center')}
+                {testCenter?.testCenter?.name || I18n.t('Test Center')}
               </Text>
             </View>
             <View>
@@ -277,14 +300,15 @@ const AppointmentCalender = ({
                 <Icon name="calendar" size={25} color="#016970" />
               </View>
             </TouchableOpacity>
-          ) : (
+          ) : null}
+          {showCalender ? (
             <View style={styles.calenderContainer}>
               <Text style={styles.regionText1}>
                 {I18n.t('Appointment Date')}
               </Text>
               <Calendar onDateChange={onDateChange} />
             </View>
-          )}
+          ) : null}
           {showSlots ? (
             <View style={styles.calenderContainer}>
               <Text style={{marginStart: 8}}>Time Slot</Text>
@@ -323,14 +347,29 @@ const AppointmentCalender = ({
           ) : (
             <View />
           )}
-          <View style={styles.bottom}>
-            <TouchableOpacity
-              style={[styles.container1, styles.submitButton]}
-              onPress={bookAppointmentHandler}>
-              <Text style={styles.submitText}>Book Appointment</Text>
-            </TouchableOpacity>
-          </View>
+          {showSlots ? (
+            <View style={styles.bottom}>
+              <TouchableOpacity
+                style={[styles.container1, styles.submitButton]}
+                onPress={bookAppointmentHandler}>
+                <Text style={styles.submitText}>Book Appointment</Text>
+              </TouchableOpacity>
+            </View>
+          ) : null}
         </ScrollView>
+        {loader ? (
+          <View
+            style={{
+              alignSelf: 'center',
+              height: '100%',
+              width: '100%',
+              justifyContent: 'center',
+              position: 'absolute',
+              zIndex: 1000,
+            }}>
+            <ActivityIndicator size="large" color="grey" animating={loader} />
+          </View>
+        ) : null}
       </View>
     </View>
   );
@@ -338,13 +377,14 @@ const AppointmentCalender = ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    moveToTimeTestCenter: navigation => moveToTimeTestCenter(navigation),
-    moveToTimeTestCenter: (navigation, region, setTestCenterValue) =>
-      moveToTimeTestCenter(navigation, region, setTestCenterValue),
+    moveToTimeTestCenter: (navigation, region) =>
+      moveToTimeTestCenter(navigation, region),
     moveToTimeSlots: navigation => moveToTimeSlotsAction(navigation),
     GetRegions: data => dispatch(GetRegions(data)),
     getAppointmentSlots: data => dispatch(getAppointmentSlotsAction(data)),
     bookAppointment: data => dispatch(bookAppointmentAction(data)),
+    resetPage: () => dispatch(resetMakeAppointmentAction()),
+    moveToMainScreen: navigation => moveToTMainScreenAction(navigation),
   };
 };
 
@@ -352,8 +392,10 @@ const mapStateToProps = state => {
   return {
     regionData: state.RegionReducer.regionData,
     appointmentSlotsData: state.RegionReducer.appointmentSlotsData,
-    userInfo: state.mainScreenReducer.userInfo,
     errMessage: state.RegionReducer.errMessage,
+    testCenter: state.RegionReducer.testCenter,
+    appointmentCreated: state.RegionReducer.appointmentCreated,
+    loader: state.RegionReducer.loader,
   };
 };
 
@@ -455,8 +497,7 @@ const styles = StyleSheet.create({
 
   bottom: {
     height: height(20),
-    justifyContent: 'flex-end',
-    marginBottom: 16,
+    marginBottom: '50%',
     borderRadius: 10,
   },
   regionSelectedDiv: {

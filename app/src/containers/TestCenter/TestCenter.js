@@ -1,87 +1,32 @@
 import React, {useState, useEffect} from 'react';
-import {Icon, SearchBar} from 'react-native-elements';
+import {SearchBar} from 'react-native-elements';
 import {connect} from 'react-redux';
 
-import {
-  Button,
-  FlatList,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-  useWindowDimensions,
-  ImageBackground,
-} from 'react-native';
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Dimensions} from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import Calendar from '../../components/Calendar';
 import {RFValue} from 'react-native-responsive-fontsize';
-import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
-const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 import I18n from '../../translations/I18n';
-import {get_terms_url, get_test_centers} from '../../commons/environment';
+import {get_test_centers} from '../../commons/environment';
 import {GETTestCenters} from './Action';
-import {showToast} from '../../commons/Constants';
+import {setTestCenterAction} from '../AppointmentCalender/Actions';
 
-const {width, height} = Dimensions.get('window');
-const DATA = [
-  {
-    id: 1,
-    title: 'Test Center 1',
-  },
-  {
-    id: 2,
-    title: 'Test Center 2',
-  },
-  {
-    id: 3,
-    title: 'Modify SimTest Center 3',
-  },
-  {
-    id: 4,
-    title: 'Test Center 4',
-  },
-  {
-    id: 5,
-    title: 'Test Center 5',
-  },
-  {
-    id: 6,
-    title: 'Test Center 6',
-  },
-  {
-    id: 7,
-    title: 'Test Center 7',
-  },
-];
-
-const Item = ({item, onPress, backgroundColor, textColor}) => (
-  <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-    <Text style={[styles.title, textColor]}>{item.title}</Text>
-  </TouchableOpacity>
-);
+const {height} = Dimensions.get('window');
 
 const TestCenter = ({
   route: {
-    params: {region, setTestCenterValue},
+    params: {region},
   },
   navigation: {goBack},
   GETTestCenters,
   testCenterData,
+  setTestCenterValue,
 }) => {
-  const window = useWindowDimensions();
-
-  const [selectedId, setSelectedId] = useState(null);
-  const [testCenters, setTestCenters] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [filteredTestCenters, setFilterTestCenters] = useState([]);
 
   useEffect(() => {
     GETTestCenters(get_test_centers + region);
-    setTestCenters(testCenterData);
   }, []);
 
   const searchTestCenter = text => {
@@ -99,7 +44,7 @@ const TestCenter = ({
 
   const selectTestCenter = item => {
     setTestCenterValue(item);
-    showToast('Test center selected');
+    goBack();
   };
 
   const renderItem = ({item}) => {
@@ -269,6 +214,7 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = dispatch => {
   return {
     GETTestCenters: data => dispatch(GETTestCenters(data)),
+    setTestCenterValue: center => dispatch(setTestCenterAction(center)),
   };
 };
 
