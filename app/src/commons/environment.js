@@ -21,7 +21,8 @@ export const get_test_centers = `/api/test-centers/`;
 export const get_regions = `/api/region/Germany`;
 
 export const get_appointment_slot_url = '/api/appointments/slots';
-export const create_appointment_url = "/api/application";
+export const create_appointment_url = '/api/application';
 export const get_active_appointments = '/api/appointments/active';
+export const get_active_certificates = '/api/application/getActiveCertificates';
 
 export const organizationName = 'eTip-german';
