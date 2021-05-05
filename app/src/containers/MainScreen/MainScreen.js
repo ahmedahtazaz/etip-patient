@@ -157,7 +157,6 @@ const MainScreen = ({
   };
 
   const renderItemAppointment = ({item}) => {
-    console.log(item);
     return (
       <View
         style={{
