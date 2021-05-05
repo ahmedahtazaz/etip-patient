@@ -32,7 +32,6 @@ import {ActivityIndicator} from 'react-native-paper';
 const menuIcon = require('../../assets/images/menu-icon.png');
 const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
 const activeCertificationBg = require('../../assets/images/active-certification-bg.png');
-const plusIcon = require('../../assets/images/plus-icon.png');
 const issuedWhiteQr = require('../../assets/images/issued-white-qr.png');
 const issuedGrayeQr = require('../../assets/images/issued-gray-qr.png');
 const issuedRedIcon = require('../../assets/images/issued-by-red-icon.png');
@@ -42,7 +41,6 @@ const previousAppoinmentBg = require('../../assets/images/previous-appoinment-bg
 const Certificates = ({
   navigation,
   movetoSettingsScreen,
-  movetoMakeAnAppointmentScreen,
   moveToAppointmentDetails,
   route,
   userInfo,
@@ -276,9 +274,6 @@ const Certificates = ({
             )}
           </View>
         </View>
-      </View>
-      <View style={styles.plusIconDiv}>
-        <Image source={plusIcon} />
       </View>
       <BottomNavigator
         navigation={navigation}
