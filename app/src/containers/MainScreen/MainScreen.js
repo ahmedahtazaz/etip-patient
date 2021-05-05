@@ -190,7 +190,7 @@ const MainScreen = ({
       return (
         <View
           style={{
-            width: width(95),
+            width: width(94),
           }}>
           <TouchableOpacity
             style={styles.activeAppoinmentsDiv}
@@ -396,6 +396,7 @@ const styles = StyleSheet.create({
 
     minHeight: 153,
   },
+
   contentPadding: {
     paddingTop: 25,
     paddingBottom: 25,
@@ -440,7 +441,6 @@ const styles = StyleSheet.create({
   },
   boxTopHeading: {
     marginBottom: 8,
-    marginStart: 8,
     color: '#595050',
     fontWeight: '600',
     fontSize: RFValue(12, 580),

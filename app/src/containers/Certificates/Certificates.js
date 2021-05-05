@@ -395,7 +395,6 @@ const styles = StyleSheet.create({
   },
   boxTopHeading: {
     marginBottom: 8,
-    marginStart: 8,
     color: '#595050',
     fontWeight: '600',
     fontSize: RFValue(12, 580),
