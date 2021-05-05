@@ -1,14 +1,7 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-  useWindowDimensions,
-} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View, Image} from 'react-native';
 import BottomNavigator from '../../components/BottomNavigator';
 import {useIsFocused} from '@react-navigation/core';
 import Orientation from 'react-native-orientation-locker';
@@ -39,8 +32,6 @@ const FamilyMain = ({
   getFamilyMembers,
   removeFamilyMember,
 }) => {
-  const window = useWindowDimensions();
-
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -84,12 +75,7 @@ const FamilyMain = ({
             <TouchableOpacity
               style={styles.qrEditContainer}
               onPress={() =>
-                moveToAppointmentDetails(
-                  navigation,
-                  'personal',
-                  `${item.firstName} ${item.lastName}`,
-                  item,
-                )
+                moveToAppointmentDetails(navigation, 'personal', item)
               }>
               <Image source={greenQrCode} style={{marginLeft: 5}} />
             </TouchableOpacity>
@@ -284,8 +270,8 @@ const mapDispatchToProps = dispatch => {
     movetoSettingsScreen: navigation => moveToSettingsScreenAction(navigation),
     movetoMakeAnAppointmentScreen: navigation =>
       moveToMakeAppointsAction(navigation),
-    moveToAppointmentDetails: (navigation, path, title, qrObj) =>
-      moveToAppointmentDetailsAction(navigation, path, title, qrObj),
+    moveToAppointmentDetails: (navigation, path, userInfo) =>
+      moveToAppointmentDetailsAction(navigation, path, userInfo),
     getFamilyMembers: data => dispatch(getFamilyMembersAction(data)),
     removeFamilyMember: data => dispatch(removeFamilyMemberAction(data)),
   };
@@ -293,7 +279,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    userInfo: state.userInfoReducer.userInfo,
+    userInfo: state.mainScreenReducer.userInfo,
     familyMembers: state.familyReducer.familyMembers,
   };
 };

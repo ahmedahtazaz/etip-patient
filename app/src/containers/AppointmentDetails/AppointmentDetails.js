@@ -13,24 +13,19 @@ import {RFValue} from 'react-native-responsive-fontsize';
 import {WHITE_COLOR} from '../../theme/Colors';
 import QRCode from 'react-native-qrcode-svg';
 import I18n from '../../translations/I18n';
-import {get_user_url} from '../../commons/environment';
 import {getProfileInfoAction} from './Action';
 import moment from 'moment';
-const mainScreenIcon = require('../../assets/images/main-screen-icon.png');
-const qrBig = require('../../assets/images/qr-big.png');
 const activeCertificationBg = require('../../assets/images/active-certification-bg.png');
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const previousAppoinmentsBg = require('../../assets/images/previous-appoinment-bg.png');
 const issuedWhiteQr = require('../../assets/images/issued-white-qr.png');
-const issuedGrayeQr = require('../../assets/images/issued-gray-qr.png');
 const issuedRedIcon = require('../../assets/images/issued-by-red-icon.png');
+
 const AppointmentDetails = ({
   navigation,
   route: {
     params: {getProfile, path, userInfoParam},
   },
-  userProfile,
-  userInfo,
   loader,
 }) => {
   const [title, setTitle] = useState('');
@@ -41,15 +36,6 @@ const AppointmentDetails = ({
         setTitle(userInfoParam.firstName + ' ' + userInfoParam.lastName);
     }
   }, [userInfoParam]);
-
-  useEffect(() => {
-    if (userProfile)
-      setTitle(
-        userProfile.data?.data?.firstName +
-          ' ' +
-          userProfile.data?.data?.lastName,
-      );
-  }, [userProfile]);
 
   return (
     <View style={{height: '100%', width: '100%', flexDirection: 'column'}}>
@@ -167,10 +153,7 @@ const AppointmentDetails = ({
           </View>
         ) : (
           <View style={styles.qrDiv}>
-            <QRCode
-              value={JSON.stringify(userInfoParam || userProfile?.data.data)}
-              size={250}
-            />
+            <QRCode value={JSON.stringify(userInfoParam)} size={250} />
           </View>
         )}
       </View>
@@ -186,8 +169,6 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    userInfo: state.userInfoReducer.userInfo,
-    userProfile: state.appointmentDetailsReducer.userProfile,
     loader: state.appointmentDetailsReducer.loader,
   };
 };
