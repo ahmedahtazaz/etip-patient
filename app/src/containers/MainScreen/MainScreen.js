@@ -4,8 +4,6 @@ import {connect} from 'react-redux';
 import I18n from '../../translations/I18n';
 import {
   FlatList,
-  SafeAreaView,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -14,14 +12,11 @@ import {
   useWindowDimensions,
   ImageBackground,
 } from 'react-native';
-import {Dimensions} from 'react-native';
-import {Icon} from 'react-native-elements';
 import Orientation from 'react-native-orientation-locker';
 import {WHITE_COLOR} from '../../theme/Colors';
 import {RFValue} from 'react-native-responsive-fontsize';
 import BottomNavigator from '../../components/BottomNavigator';
-import {width, height, totalSize} from 'react-native-dimension';
-import {ScrollView} from 'react-native-gesture-handler';
+import {width} from 'react-native-dimension';
 
 import {
   getActiveAppointmentsAction,
@@ -43,52 +38,13 @@ import {ActivityIndicator} from 'react-native-paper';
 import {showToast} from '../../commons/Constants';
 
 const menuIcon = require('../../assets/images/menu-icon.png');
-const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
 const mainScreenIcon = require('../../assets/images/main-screen-icon.png');
 const activeCertificationBg = require('../../assets/images/active-certification-bg.png');
-const activeAppoinmentsBg = require('../../assets/images/active-appoinments-bg.png');
 const plusIcon = require('../../assets/images/plus-icon.png');
 const appoinmentRedBg = require('../../assets/images/appoinment-red-bg.png');
 const rightHandFinger = require('../../assets/images/right-hand-finger.png');
 const previousAppoinmentBg = require('../../assets/images/previous-appoinment-bg.png');
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-const DATA = [
-  {
-    id: 'Modifiy Personal Information',
-    title: 'Modifiy Personal Information',
-  },
-  {
-    id: 'Modifiy Personal Information',
-    title: 'Modifiy Personal Information',
-  },
-  {
-    id: 'Modify Email',
-    title: 'Modify Email',
-  },
-  {
-    id: 'Modify Sim',
-    title: 'Modify Sim',
-  },
-  {
-    id: 'About App',
-    title: 'About App',
-  },
-  {
-    id: 'Need Assistance',
-    title: 'Need Assistance',
-  },
-  {
-    id: 'Privacy Policy',
-    title: 'Privacy Policy',
-  },
-  {
-    id: 'Terms & Conditions',
-    title: 'Terms & Conditions',
-  },
-];
 
 const MainScreen = ({
   navigation,
@@ -120,32 +76,32 @@ const MainScreen = ({
     Orientation.lockToPortrait();
   }, [isFocused]);
 
-  // useEffect(() => {
-  //   if (
-  //     !userInfo &&
-  //     (verifyOptPayload?.data?.data?.userId || userInfoSignUp?.data?.data?._id)
-  //   ) {
-  //     setLoader(true);
-  //     const payload = {
-  //       url: get_user_url,
-  //       userId:
-  //         verifyOptPayload?.data?.data?.userId ||
-  //         userInfoSignUp?.data?.data?._id,
-  //     };
-  //     getProfile(payload);
-  //   }
-  // }, [verifyOptPayload, userInfoSignUp]);
-
   useEffect(() => {
-    if (!userInfo) {
+    if (
+      !userInfo &&
+      (verifyOptPayload?.data?.data?.userId || userInfoSignUp?.data?.data?._id)
+    ) {
       setLoader(true);
       const payload = {
         url: get_user_url,
-        userId: '6091ad2575785f004429a410',
+        userId:
+          verifyOptPayload?.data?.data?.userId ||
+          userInfoSignUp?.data?.data?._id,
       };
       getProfile(payload);
     }
-  }, []);
+  }, [verifyOptPayload, userInfoSignUp]);
+
+  // useEffect(() => {
+  //   if (!userInfo) {
+  //     setLoader(true);
+  //     const payload = {
+  //       url: get_user_url,
+  //       userId: '6091ad2575785f004429a410',
+  //     };
+  //     getProfile(payload);
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (userInfo) {
@@ -287,7 +243,7 @@ const MainScreen = ({
             {activeCertificates ? (
               <FlatList
                 horizontal
-                data={DATA}
+                data={activeCertificates}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
                 extraData={selectedId}
