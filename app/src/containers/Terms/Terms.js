@@ -1,72 +1,30 @@
-import React, {useEffect, useState} from 'react';
-import {Icon, SearchBar} from 'react-native-elements';
+import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {RFValue} from 'react-native-responsive-fontsize';
 import HTML from 'react-native-render-html';
 
-import {
-  Button,
-  FlatList,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-  useWindowDimensions,
-  ImageBackground,
-  ScrollView,
-} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Dimensions} from 'react-native';
-import Calendar from '../../components/Calendar';
-import BottomNavigator from '../../components/BottomNavigator';
-import {SwipeListView} from 'react-native-swipe-list-view';
 import I18n from '../../translations/I18n';
-import {get_about_app_url, get_terms_url} from '../../commons/environment';
-const menuArrowWhiteIcon = require('../../assets/images/menu-arrow-white-icon.png');
+import {get_terms_url} from '../../commons/environment';
 const {width, height} = Dimensions.get('window');
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
-const menuIcon = require('../../assets/images/menu-icon.png');
-const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
-const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
-const mainScreenIcon = require('../../assets/images/main-screen-icon.png');
-const activeCertificationBg = require('../../assets/images/active-certification-bg.png');
-const activeAppoinmentsBg = require('../../assets/images/active-appoinments-bg.png');
-const plusIcon = require('../../assets/images/plus-icon.png');
-const appoinmentRedBg = require('../../assets/images/appoinment-red-bg.png');
-const rightHandFinger = require('../../assets/images/right-hand-finger.png');
-const deleteIcon = require('../../assets/images/delete-icon-red.png');
-const issuedWhiteQr = require('../../assets/images/issued-white-qr.png');
-const greenQrCode = require('../../assets/images/green-qr-code.png');
-const greyEdit = require('../../assets/images/edit-gray-icon.png');
-
 import {getterms} from './Actions';
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-const htmlContent = `
-    <h1>VR Lorem ipsum dolor sit amet, consectetur adipiscing elit. !</h1>
-    <em>By <b class="author">React Native Master</b></em>
-    <img src="https://image.freepik.com/free-photo/young-woman-using-vr-glasses-with-neon-lights_155003-17747.jpg" />
-    <p>Vivamus bibendum feugiat pretium. <a href="https://reactnativemaster.com/">Vestibulum ultricies rutrum ornare</a>. Donec eget suscipit tortor. Nullam pellentesque nibh sagittis, pharetra quam a, varius sapien. Pellentesque ut leo id mauris hendrerit ultrices et non mauris. Quisque gravida erat at felis tincidunt tincidunt. Etiam sit amet egestas leo. Cras mollis mi sed lorem finibus, interdum molestie magna mollis. Sed venenatis lorem nec magna convallis iaculis.</p>
-    <iframe height="315" src="https://www.youtube.com/embed/fnCmUWqKo6g" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-`;
-const Item = ({item, onPress, backgroundColor, textColor}) => (
-  <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-    <Text style={[styles.title, textColor]}>{item.title}</Text>
-  </TouchableOpacity>
-);
+import {useIsFocused} from '@react-navigation/core';
+import {showToast} from '../../commons/Constants';
 
-const Terms = ({getterms, navigation}) => {
-  const window = useWindowDimensions();
-
-  const [selectedId, setSelectedId] = useState(null);
+const Terms = ({getterms, navigation, errMessage, terms}) => {
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    // I18n.locale = "ar";
-    getterms(get_terms_url);
-  }, []);
+    if (isFocused) getterms(get_terms_url);
+  }, [isFocused]);
+
+  useEffect(() => {
+    if (errMessage) showToast(errMessage);
+  }, [errMessage]);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -76,12 +34,12 @@ const Terms = ({getterms, navigation}) => {
           </TouchableOpacity>
         </View>
         <View>
-          <Text style={styles.headerText}>{I18n.t('Address')}</Text>
+          <Text style={styles.headerText}>{I18n.t('Terms & Conditions')}</Text>
         </View>
       </View>
       <View style={styles.appoinmentDivBg}>
         <HTML
-          html={htmlContent}
+          html={terms?.data?.data?.terms}
           tagsStyles={tagsStyles}
           classesStyles={classesStyles}
           imagesMaxWidth={Dimensions.get('window').width * 0.9}
@@ -217,7 +175,7 @@ const styles = StyleSheet.create({
     zIndex: 2000,
     top: '3%',
     left: '3%',
-    height:'10%',
+    height: '10%',
     width: '100%',
   },
   mainMenuItems: {
@@ -245,7 +203,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    initLoaded: state.getTermsReducer.initPayLoad,
+    terms: state.getTermsReducer.terms,
+    errMessage: state.getTermsReducer.errMessage,
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Terms);

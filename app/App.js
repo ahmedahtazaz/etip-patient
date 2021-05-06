@@ -7,16 +7,16 @@
  */
 
 import React from 'react';
-import { compose, createStore, applyMiddleware } from 'redux';
+import {compose, createStore, applyMiddleware} from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './src/commons/RootSaga';
 import createRootReducer from './src/commons/RootReducer';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { StyleSheet, Text, TextInput } from 'react-native';
-import { Provider } from 'react-redux';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {StyleSheet, Text, TextInput} from 'react-native';
+import {Provider} from 'react-redux';
 
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 import Policy from './src/containers/Policy/Policy';
 import Terms from './src/containers/Terms/Terms';
 
@@ -57,6 +57,11 @@ const App: () => React$Node = () => {
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen
+              name="SplahScreen"
+              component={Splash}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
               name="WelcomeScreen"
               component={Welcome}
               options={{headerShown: false}}
@@ -69,96 +74,96 @@ const App: () => React$Node = () => {
             <Stack.Screen
               name="UserInfoScreen"
               component={UserInfo}
-              options={{ headerShown: false }}
+              options={{headerShown: false}}
             />
 
             <Stack.Screen
               name="MainScreen"
               component={MainScreen}
-              options={{ headerShown: false }}
+              options={{headerShown: false}}
             />
             <Stack.Screen
               name="Settings"
               component={Settings}
-              options={{ headerShown: false }}
+              options={{headerShown: false}}
             />
 
             <Stack.Screen
               name="Make an Appointment"
               component={Appointment}
-              options={{ headerShown: false }}
+              options={{headerShown: false}}
             />
 
             <Stack.Screen
               name="AppointmentCalender"
               component={AppointmentCalender}
-              options={{ headerShown: false }}
+              options={{headerShown: false}}
             />
 
             <Stack.Screen
               name="testCenter"
               component={TestCenter}
-              options={{ headerShown: false }}
+              options={{headerShown: false}}
             />
 
             <Stack.Screen
               name="appointmentSlot"
               component={AppointmentTimeSlot}
-              options={{ headerShown: false }}
+              options={{headerShown: false}}
             />
 
             <Stack.Screen
               name="appointmentMainScreen"
               component={AppointmentMainScreen}
-              options={{ headerShown: false }}
+              options={{headerShown: false}}
             />
 
             <Stack.Screen
               name="certificateMain"
               component={Certificates}
-              options={{ headerShown: false }}
+              options={{headerShown: false}}
             />
 
             <Stack.Screen
               name="familyMain"
               component={FamilyMain}
-              options={{ headerShown: false }}
+              options={{headerShown: false}}
             />
             <Stack.Screen
               name="AppointmentDetailsScreen"
               component={AppointmentDetails}
-              options={{ headerShown: false }}
+              options={{headerShown: false}}
             />
             <Stack.Screen
               name="UpdateSettingsScreen"
               component={UpdateSettings}
-              options={{ headerShown: false }}
+              options={{headerShown: false}}
             />
             <Stack.Screen
               name="UpdateOtherSettingsScreen"
               component={UpdateOtherSettings}
-              options={{ headerShown: false }}
+              options={{headerShown: false}}
             />
 
             <Stack.Screen
               name="ChangeLanguage"
               component={ChangeLanguage}
-              options={{ headerShown: false }}
+              options={{headerShown: false}}
             />
             <Stack.Screen
               name="aboutApp"
               component={AboutApp}
-              options={{ headerShown: false }}
+              options={{headerShown: false}}
             />
             <Stack.Screen
               name="policy"
               component={Policy}
-              options={{ headerShown: false }}
+              options={{headerShown: false}}
             />
             <Stack.Screen
               name="terms"
               component={Terms}
-              options={{ headerShown: false }}
+              options={{headerShown: false}}
             />
           </Stack.Navigator>
         </NavigationContainer>
