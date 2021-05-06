@@ -79,7 +79,7 @@ function* editFamilyMember(action) {
         payload: res.success.data.data.familyUsers,
       });
     else {
-      showToast(res.message);
+      showToast(res.error.message);
       yield put({ type: EDIT_FAMILY_MEMBER_FAILURE, errMessage: res.error.message });
     }
   } catch (error) {

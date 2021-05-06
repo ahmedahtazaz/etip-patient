@@ -26,7 +26,7 @@ const DATA = [
   {
     id: 'Modifiy Personal Information',
     title: 'Modifiy Personal Information',
-    path: 'UpdateSettingsScreen',
+    path: 'UserInfoScreen',
   },
   {
     id: 'Modify Email',
@@ -43,7 +43,7 @@ const DATA = [
     title: 'Change Language',
     path: 'ChangeLanguage',
   },
- 
+
   {
     id: 'Need Assistance',
     title: 'Need Assistance',
@@ -63,7 +63,7 @@ const DATA = [
     id: 'About App',
     title: 'About App',
     path: 'aboutApp',
-   },
+  },
 ];
 
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
@@ -86,7 +86,11 @@ const Settings = ({
         item={item}
         onPress={() => {
           setSelectedId(item.id);
-          if (item.path) movetoUpdateScreen(item.path, navigation, item.title);
+          if (item.path === "UserInfoScreen") {
+            navigation.navigate(item.path, { data: userInfo?.data?.data, editUser: true })
+          } else {
+            if (item.path) movetoUpdateScreen(item.path, navigation, item.title);
+          }
         }}
         backgroundColor={'white'}
         textColor={'black'}
@@ -102,10 +106,10 @@ const Settings = ({
             <Image source={menuArrowWhiteIcon} style={{ marginRight: 10 }} />
           </TouchableOpacity>
           <Text style={styles.profileName}>
-            {`${userInfo.firstName} ${userInfo.lastName}`}
+            {`${userInfo?.data?.data?.firstName} ${userInfo?.data?.data?.lastName}`}
           </Text>
           <TouchableOpacity
-            onPress={() => moveToAppointmentDetails(navigation, 'personal', `${userInfo.firstName} ${userInfo.lastName}`, true)}>
+            onPress={() => moveToAppointmentDetails(navigation, 'personal', `${userInfo?.data?.data?.firstName} ${userInfo?.data?.data?.lastName}`, true)}>
             <Image source={settingTopIcon} />
           </TouchableOpacity>
         </View>
