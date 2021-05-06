@@ -1,4 +1,12 @@
-import { LOAD_INIT, ADD_FAMILY_MEMBER, SIGNUP, EDIT_FAMILY_MEMBER, RESET_USER_CREATED, RESET_FAMILY_MEMBER_ADDED } from '../../commons/Constants';
+import {
+  LOAD_INIT,
+  ADD_FAMILY_MEMBER,
+  SIGNUP,
+  EDIT_FAMILY_MEMBER,
+  RESET_USER_CREATED,
+  RESET_FAMILY_MEMBER_ADDED,
+  UPDATE_USER
+} from '../../commons/Constants';
 
 export const signUpAction = payload => {
   return {
@@ -6,6 +14,13 @@ export const signUpAction = payload => {
     payload,
   };
 };
+
+export const updateUserAction = (payload) => {
+  return {
+    type: UPDATE_USER,
+    payload
+  }
+}
 
 export const addFamilyMemberAction = payload => {
   return {

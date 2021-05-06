@@ -9,7 +9,10 @@ import {
     RESET_USER_CREATED,
     SIGNUP,
     SIGNUP_FAILURE,
-    SIGNUP_SUCCES
+    SIGNUP_SUCCES,
+    UPDATE_USER,
+    UPDATE_USER_FAILURE,
+    UPDATE_USER_SUCCESS
 } from '../../commons/Constants';
 
 const INITIAL_STATE = {
@@ -32,6 +35,7 @@ export default function userInfoReducer() {
                 }
 
             case SIGNUP_SUCCES:
+                console.log("signup reducer:: ", action)
                 return {
                     ...state,
                     loader: false,
@@ -96,6 +100,28 @@ export default function userInfoReducer() {
                 }
 
             case EDIT_FAMILY_MEMBER_FAILURE:
+                return {
+                    ...state,
+                    loader: false,
+                    errMessage: action.errMessage
+                }
+
+            case UPDATE_USER:
+                return {
+                    ...state,
+                    loader: true,
+                    errMessage: undefined
+                }
+
+            case UPDATE_USER_SUCCESS:
+                return {
+                    ...state,
+                    loader: false,
+                    userInfo:  {...action.payload},
+                    errMessage: undefined
+                }
+
+            case UPDATE_USER_FAILURE:
                 return {
                     ...state,
                     loader: false,

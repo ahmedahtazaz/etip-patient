@@ -10,6 +10,9 @@ import {
   SIGNUP_FAILURE,
   SIGNUP_SUCCES,
   showToast,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILURE,
+  UPDATE_USER,
 } from '../../commons/Constants';
 import AxiosInstance from '../../commons/AxiosInstance';
 
@@ -85,6 +88,39 @@ function* editFamilyMember(action) {
   } catch (error) {
     yield put({ type: EDIT_FAMILY_MEMBER_FAILURE, errMessage: error });
   }
+}
+
+
+function* updateUser(action) {
+  let userId = action.payload.body.userId;
+  delete action.payload.body.userId;
+  try {
+    const config = {
+      headers: {
+        userId,
+      },
+    };
+    const res = yield call(
+      AxiosInstance.put,
+      action.payload.url,
+      action.payload.body,
+      config,
+    );
+    if (res.success)
+      yield put({
+        type: UPDATE_USER_SUCCESS,
+        payload: res.success,
+      });
+    else {
+      yield put({ type: UPDATE_USER_FAILURE, errMessage: res.error.message });
+    }
+  } catch (error) {
+    yield put({ type: UPDATE_USER_FAILURE, errMessage: error });
+  }
+}
+
+export function* updateUserActionWatcher() {
+  yield takeLatest(UPDATE_USER, updateUser);
 }
 
 export function* editFamilyMemberActionWatcher() {

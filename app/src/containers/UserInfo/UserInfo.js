@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {connect} from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
 import {
   WHITE_COLOR,
   PRIMARY_COLOR,
@@ -8,7 +8,7 @@ import {
 } from '../../theme/Colors';
 
 import Orientation from 'react-native-orientation-locker';
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import {
   ActivityIndicator,
   Image,
@@ -21,7 +21,7 @@ import {
   ToastAndroid,
 } from 'react-native';
 import I18n from '../../translations/I18n';
-import {RFValue} from 'react-native-responsive-fontsize';
+import { RFValue } from 'react-native-responsive-fontsize';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import RadioButton from '../../components/RadioButton';
@@ -32,8 +32,9 @@ import {
   addFamilyMemberAction,
   resetIsUserCreatedAction,
   resetIsFamilyMemberAddedAction,
+  updateUserAction,
 } from './Actions';
-import {emailRegex} from '../../commons/Constants';
+import { emailRegex } from '../../commons/Constants';
 import {
   organizationName,
   signup_url,
@@ -57,7 +58,8 @@ function UserInfo({
   isFamilyMemberAdded,
   updateFamilyMember,
   errMessage,
-  familyMembers
+  familyMembers,
+  updateUser
 }) {
   const [isFamily, setIsFamily] = useState(false);
   const [fName, setFName] = useState('');
@@ -67,10 +69,10 @@ function UserInfo({
   const [other, setOther] = useState(false);
   const [dob, setDob] = useState(
     currentDate.getDate() +
-      '-' +
-      currentDate.getMonth() +
-      '-' +
-      currentDate.getFullYear(),
+    '-' +
+    currentDate.getMonth() +
+    '-' +
+    currentDate.getFullYear(),
   );
   const [showCalender, setShowCalender] = useState(false);
   const [calDate, setCalDate] = useState(new Date());
@@ -84,7 +86,7 @@ function UserInfo({
   const [postalCode, setPostalCode] = useState('');
   const [relation, setRelation] = useState('Wife');
   const [editMode, setEditMode] = useState(false);
-
+  const [isUserEdit, setIsUserEdit] = useState(false);
   const [isSaveOnly, setIsSaveOnly] = useState(false);
 
   const scrollRef = useRef();
@@ -98,9 +100,10 @@ function UserInfo({
   useEffect(() => {
     const data = (route.params && route.params.data) || '';
     let editUser = route?.params?.editUser || false;
-
-    console.log("data::: ", data)
+    console.log("data::: ", data);
+    console.log("edit user: ", editUser)
     if (data) {
+      setIsUserEdit(editUser);
       if (!editUser) {
         setIsFamily(true);
       }
@@ -184,10 +187,10 @@ function UserInfo({
     if (currentDate)
       setDob(
         currentDate.getDate() +
-          '-' +
-          currentDate.getMonth() +
-          '-' +
-          currentDate.getFullYear(),
+        '-' +
+        currentDate.getMonth() +
+        '-' +
+        currentDate.getFullYear(),
       );
     setCalDate(new Date());
     setCity('Bavaria');
@@ -206,7 +209,6 @@ function UserInfo({
   };
 
   const addData = () => {
-    let editUser = route?.params?.editUser || false;
     if (!fName) {
       showToast('Please Enter First Name');
       return;
@@ -287,8 +289,12 @@ function UserInfo({
       if (!editMode) {
         addFamilyMember(data);
       } else {
-        if (editUser) {
-         
+        if (isUserEdit) {
+          delete data.body["relation"];
+          delete data.body["email"];
+          delete data.body["mobileNumber"];
+          data["url"] = signup_url;
+          updateUser(data);
         }
         data.body['id'] = dataObj['_id'];
         updateFamilyMember(data);
@@ -301,7 +307,7 @@ function UserInfo({
   };
 
   return (
-    <ScrollView style={{height: '100%'}} ref={scrollRef}>
+    <ScrollView style={{ height: '100%' }} ref={scrollRef}>
       <View style={styles.background}>
         <View style={styles.innerDiv}>
           <View style={styles.mainHeading}>
@@ -412,7 +418,7 @@ function UserInfo({
                 },
               ]}
               defaultValue={relation}
-              containerStyle={{height: '6%', marginBottom: '4%'}}
+              containerStyle={{ height: '6%', marginBottom: '4%' }}
               style={{
                 backgroundColor: '#F5F9F8',
                 fontSize: RFValue(14, 580),
@@ -456,22 +462,22 @@ function UserInfo({
             placeholder="Tax ID"
             style={styles.inputStyle1}
             onChangeText={value => setTaxId(value)}></TextInput>
-          <TextInput
+          {!isUserEdit && <TextInput
             placeholderTextColor={'#a29d9d'}
             value={email}
             textContentType="email"
             underlineColorAndroid="transparent"
             placeholder="Email"
             style={styles.inputStyle1}
-            onChangeText={value => setEmail(value)}></TextInput>
-          <TextInput
+            onChangeText={value => setEmail(value)}></TextInput>}
+          {!isUserEdit && <TextInput
             placeholderTextColor={'#a29d9d'}
             value={mobileNo}
             textContentType="mobileNo"
             underlineColorAndroid="transparent"
             placeholder="Mobile No"
             style={styles.inputStyle1}
-            onChangeText={value => setMobileNo(value)}></TextInput>
+            onChangeText={value => setMobileNo(value)}></TextInput>}
           <View style={styles.secondaryHeading}>
             <Text style={styles.secondaryHeadingText}>Address</Text>
           </View>
@@ -516,7 +522,7 @@ function UserInfo({
               },
             ]}
             defaultValue={city}
-            containerStyle={{height: '5%'}}
+            containerStyle={{ height: '5%' }}
             style={{
               backgroundColor: '#F5F9F8',
               fontSize: RFValue(14, 580),
@@ -564,7 +570,7 @@ function UserInfo({
               </TouchableOpacity>
               <TouchableOpacity
                 disabled={userInfo && !Object.keys(userInfo).length}
-                style={{marginTop: '4%', alignContent: 'center'}}
+                style={{ marginTop: '4%', alignContent: 'center' }}
                 onPress={() => {
                   setIsSaveOnly(false);
                   submit();
@@ -602,6 +608,7 @@ const mapDispatchToProps = dispatch => {
     updateFamilyMember: data => dispatch(updateFamilyMemberAction(data)),
     resetIsUserCreated: () => dispatch(resetIsUserCreatedAction()),
     resetIsFamilyMemberAdded: () => dispatch(resetIsFamilyMemberAddedAction()),
+    updateUser: (data) => dispatch(updateUserAction(data))
   };
 };
 
