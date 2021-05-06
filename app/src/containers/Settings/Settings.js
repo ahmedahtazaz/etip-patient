@@ -28,7 +28,7 @@ const DATA = [
   {
     id: 'Modify Email',
     title: 'Modify Email',
-    path: 'UpdateOtherSettingsScreen',
+    //path: 'UpdateOtherSettingsScreen',
   },
   {
     id: 'Modify Sim',
