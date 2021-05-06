@@ -444,6 +444,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
+    height:'88%',
     marginTop: '5%',
   },
   imgShadow: {
@@ -501,8 +502,10 @@ const styles = StyleSheet.create({
 
   bottom: {
     height: height(20),
-    marginBottom: '50%',
+    marginBottom: '10%',
     borderRadius: 10,
+    marginLeft:15,
+    marginRight:15
   },
   regionSelectedDiv: {
     position: 'absolute',

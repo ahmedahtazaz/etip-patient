@@ -177,6 +177,10 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
     paddingLeft: 15,
     paddingRight: 15,
+    height:'10%',
+    height:'8%',
+    position:'absolute',
+    bottom:5,
   },
   submitText: {
     fontSize: RFValue(12, 580),

@@ -398,9 +398,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowRadius: 5,
     elevation: 5,
-    minWidth: 88,
-    paddingLeft: 16,
-    paddingRight: 16,
   },
   submitButton: {
     width: '100%',

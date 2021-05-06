@@ -52,8 +52,8 @@ const AppointmentMainScreen = ({
     return (
       <View
         style={{
-          width: width(95),
           marginEnd: 8,
+          
         }}>
         <TouchableOpacity
           style={styles.activeAppoinmentsDiv}
@@ -131,7 +131,7 @@ const AppointmentMainScreen = ({
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                 }}>
-                <View style={styles.activeCertificationDiv}>
+                <View style={styles.activeCertificationDiv} >
                   <ImageBackground
                     source={previousAppoinmentBg}
                     style={styles.activeAppoinmentsDiv}
@@ -209,14 +209,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8fbfa',
   },
   mainDivPad: {
-    paddingLeft: '3%',
-    paddingRight: '3%',
+    paddingLeft: '4%',
+    paddingRight: '4%',
   },
   mainMenu: {
     position: 'absolute',
     zIndex: 2000,
     top: '3%',
     left: '3%',
+    height:'10%',
     width: '100%',
   },
   mainMenuItems: {
@@ -239,6 +240,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
+    height:'88%',
     marginTop: '25%',
   },
   activeCertificationDiv: {
@@ -249,6 +251,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     resizeMode: 'cover',
     overflow: 'hidden',
+    minWidth:360,
     marginEnd: 10,
     maxHeight: 153,
   },
@@ -262,7 +265,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     resizeMode: 'cover',
     overflow: 'hidden',
-
+    minWidth:360,
     minHeight: 153,
   },
   contentPadding: {
@@ -285,6 +288,12 @@ const styles = StyleSheet.create({
 
     lineHeight: 20,
   },
+  boxTestText : {
+    fontSize: RFValue(13, 580),
+    color: WHITE_COLOR,
+    fontWeight: '400',
+  },
+
   boxHeadingDisable: {
     fontSize: RFValue(14, 580),
     color: '#595050',
@@ -343,7 +352,6 @@ const styles = StyleSheet.create({
   },
   boxTopHeading: {
     marginBottom: 8,
-    marginStart: 8,
     color: '#595050',
     fontWeight: '600',
     fontSize: RFValue(12, 580),

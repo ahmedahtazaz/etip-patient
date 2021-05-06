@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     marginEnd: 8,
   },
   qrEditContainer: {
-    marginTop: -10,
+    marginTop: -15,
   },
 
   nameTextContainer: {
@@ -232,13 +232,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   mainDivPad: {
-    paddingLeft: '3%',
-    paddingRight: '3%',
+    paddingLeft: '4%',
+    paddingRight: '4%',
   },
   appoinmentDivBg: {
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
+    height:'88%',
     marginTop: '25%',
   },
   mainMenu: {
@@ -246,6 +247,7 @@ const styles = StyleSheet.create({
     zIndex: 2000,
     top: '3%',
     left: '3%',
+    height:'10%',
     width: '100%',
   },
   mainMenuItems: {

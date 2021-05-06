@@ -208,8 +208,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   mainDivPad: {
-    paddingLeft: '3%',
-    paddingRight: '3%',
+    paddingLeft: '4%',
+    paddingRight: '4%',
   },
   appoinmentDivBg: {},
   mainMenu: {
@@ -217,6 +217,7 @@ const styles = StyleSheet.create({
     zIndex: 2000,
     top: '3%',
     left: '3%',
+    height:'10%',
     width: '100%',
   },
   mainMenuItems: {
