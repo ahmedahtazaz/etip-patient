@@ -239,6 +239,11 @@ const styles = StyleSheet.create({
 
     lineHeight: 20,
   },
+  boxTestText: {
+    fontSize: RFValue(13, 580),
+    color: WHITE_COLOR,
+    fontWeight: '400',
+  },
   boxHeading1: {
     fontSize: RFValue(14, 580),
     color: '#595050',

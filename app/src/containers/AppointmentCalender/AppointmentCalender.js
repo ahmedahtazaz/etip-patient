@@ -306,7 +306,7 @@ const AppointmentCalender = ({
             </TouchableOpacity>
           ) : null}
           {showCalender ? (
-            <View style={styles.calenderContainer}>
+            <View style={styles.calenderContainer} >
               <Text style={styles.regionText1}>
                 {I18n.t('Appointment Date')}
               </Text>
@@ -501,11 +501,13 @@ const styles = StyleSheet.create({
   },
 
   bottom: {
-    height: height(20),
     marginBottom: '10%',
     borderRadius: 10,
     marginLeft:15,
-    marginRight:15
+    marginRight:15,
+    position:'absolute',
+    width:'93%',
+    bottom:'2%',
   },
   regionSelectedDiv: {
     position: 'absolute',
