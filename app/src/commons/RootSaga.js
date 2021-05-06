@@ -33,6 +33,7 @@ import {
   getRegionSaga,
 } from '../containers/AppointmentCalender/Saga';
 import { getCertificatesActionWatcher } from '../containers/Certificates/Saga';
+import { updateEmailActionWatcher } from '../containers/MainScreen/Saga';
 
 export default function* rootSaga() {
   yield all([
@@ -42,6 +43,7 @@ export default function* rootSaga() {
     verifyOTPActionWatcher(),
     signupActionWatcher(),
     updateUserActionWatcher(),
+    updateEmailActionWatcher(),
 
     addFamilyMemberActionWatcher(),
     editFamilyMemberActionWatcher(),

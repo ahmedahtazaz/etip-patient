@@ -1,7 +1,11 @@
 import {
+  RESET_IS_PHONE_UPDATED,
   SEND_OTP,
   SEND_OTP_FAILURE,
   SEND_OTP_SUCCESS,
+  UPDATE_PHONE,
+  UPDATE_PHONE_FAILURE,
+  UPDATE_PHONE_SUCCESS,
   VERIFY_OTP,
   VERIFY_OTP_FAILURE,
   VERIFY_OTP_SUCCESS,
@@ -16,6 +20,7 @@ const INITIAL_STATE = {
   otpVerified: false,
   verifyOptPayload: null,
   sendOptPayload: null,
+  isPhoneUpdated: false
 };
 
 export default function phoneReducer() {
@@ -65,6 +70,33 @@ export default function phoneReducer() {
           errMessage: action.errMessage,
           otpVerified: false,
         };
+
+      case UPDATE_PHONE:
+        return {
+          ...state,
+          loader: true,
+          errMessage: undefined
+        }
+
+      case UPDATE_PHONE_SUCCESS:
+        return {
+          ...state,
+          loader: false,
+          isPhoneUpdated: true
+        }
+
+      case UPDATE_PHONE_FAILURE:
+        return {
+          ...state,
+          loader: false,
+          errMessage: action.errMessage
+        }
+
+      case RESET_IS_PHONE_UPDATED:
+        return {
+          ...state,
+          isPhoneUpdated: false
+        }
 
       default:
         return state;

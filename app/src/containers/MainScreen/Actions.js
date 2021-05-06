@@ -4,6 +4,7 @@ import {
   GET_PROFILE,
   RESET_ERROR_MAIN,
   SET_LOADER_MAIN_SCREEN,
+  UPDATE_EMAIL,
 } from '../../commons/Constants';
 
 export const moveToSettingsScreenAction = navigation => {
@@ -41,6 +42,13 @@ export const getActiveAppointmentsAction = payload => {
     payload,
   };
 };
+
+export const updateEmailAction = (payload) => {
+  return {
+    type: UPDATE_EMAIL,
+    payload
+  }
+}
 
 export const resetErrorMainAction = () => {
   return {

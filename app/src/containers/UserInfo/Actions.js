@@ -5,7 +5,8 @@ import {
   EDIT_FAMILY_MEMBER,
   RESET_USER_CREATED,
   RESET_FAMILY_MEMBER_ADDED,
-  UPDATE_USER
+  UPDATE_USER,
+  UPDATE_EMAIL
 } from '../../commons/Constants';
 
 export const signUpAction = payload => {

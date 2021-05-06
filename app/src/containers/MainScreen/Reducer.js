@@ -7,6 +7,11 @@ import {
   RESET_ERROR_MAIN,
   GET_ACTIVE_CERTIFICATES_SUCCESS,
   GET_ACTIVE_CERTIFICATES_FAILURE,
+  UPDATE_USER,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILURE,
+  UPDATE_EMAIL_SUCCESS,
+  UPDATE_EMAIL_FAILURE
 } from '../../commons/Constants';
 const INITIAL_STATE = {
   loader: false,
@@ -77,6 +82,36 @@ export default function mainScreenReducer() {
           ...state,
           errMessage: undefined,
         };
+
+      case UPDATE_USER:
+        return {
+          ...state,
+          loader: true,
+          errMessage: undefined
+        }
+
+      case UPDATE_USER_SUCCESS:
+      case UPDATE_EMAIL_SUCCESS:
+        return {
+          ...state,
+          loader: false,
+          userInfo: { ...action.payload },
+          errMessage: undefined
+        }
+
+      case UPDATE_USER_FAILURE:
+        return {
+          ...state,
+          loader: false,
+          errMessage: action.errMessage
+        }
+
+      case UPDATE_EMAIL_FAILURE:
+        return {
+          ...state,
+          loader: false,
+          errMessage: action.errMessage
+        }
 
       default:
         return state;

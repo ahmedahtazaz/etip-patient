@@ -106,28 +106,6 @@ export default function userInfoReducer() {
                     errMessage: action.errMessage
                 }
 
-            case UPDATE_USER:
-                return {
-                    ...state,
-                    loader: true,
-                    errMessage: undefined
-                }
-
-            case UPDATE_USER_SUCCESS:
-                return {
-                    ...state,
-                    loader: false,
-                    userInfo:  {...action.payload},
-                    errMessage: undefined
-                }
-
-            case UPDATE_USER_FAILURE:
-                return {
-                    ...state,
-                    loader: false,
-                    errMessage: action.errMessage
-                }
-
 
             default:
                 return state;

@@ -13,16 +13,21 @@ import {
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE,
   UPDATE_USER,
+  UPDATE_EMAIL_SUCCESS,
+  UPDATE_EMAIL_FAILURE,
+  UPDATE_EMAIL,
 } from '../../commons/Constants';
 import AxiosInstance from '../../commons/AxiosInstance';
 
 function* signUp(action) {
+  console.log("signup action: ", action);
   try {
     const res = yield call(
       AxiosInstance.post,
       action.payload.url,
       action.payload.body,
     );
+    console.log("signup response: ", res.success?.data?.data)
     if (res.error) {
       yield put({ type: SIGNUP_FAILURE, errMessage: res.error.message });
     } else {
@@ -118,6 +123,7 @@ function* updateUser(action) {
     yield put({ type: UPDATE_USER_FAILURE, errMessage: error });
   }
 }
+
 
 export function* updateUserActionWatcher() {
   yield takeLatest(UPDATE_USER, updateUser);

@@ -1,4 +1,4 @@
-import {Alert, Platform, ToastAndroid} from 'react-native';
+import { Alert, Platform, ToastAndroid } from 'react-native';
 
 export const LOAD_INIT = 'LOAD_INIT';
 export const LOAD_INIT_SUCCESS = 'LOAD_INIT_SUCCESS';
@@ -13,6 +13,12 @@ export const VERIFY_OTP = 'VERIFY_OTP';
 export const VERIFY_OTP_SUCCESS = 'VERIFY_OTP_SUCCESS';
 export const VERIFY_OTP_FAILURE = 'VERIFY_OTP_FAILURE';
 
+export const UPDATE_PHONE = "UPDATE_PHONE";
+export const UPDATE_PHONE_SUCCESS = "UPDATE_PHONE_SUCCESS";
+export const UPDATE_PHONE_FAILURE = "UPDATE_PHONE_FAILURE";
+
+export const RESET_IS_PHONE_UPDATED = "RESET_IS_PHONE_UPDATED";
+
 export const SIGNUP = 'SIGNUP';
 export const SIGNUP_SUCCES = 'SIGNUP_SUCCESS';
 export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
@@ -21,6 +27,10 @@ export const RESET_USER_CREATED = 'RESET_USER_CREATED';
 export const UPDATE_USER = "UPDATE_USER";
 export const UPDATE_USER_SUCCESS = "UPDATE_USER_SUCCESS";
 export const UPDATE_USER_FAILURE = "UPDATE_USER_FAILURE";
+
+export const UPDATE_EMAIL = "UPDATE_EMAIL";
+export const UPDATE_EMAIL_SUCCESS = "UPDATE_EMAIL_SUCCESS";
+export const UPDATE_EMAIL_FAILURE = "UPDATE_EMAIL_FAILURE";
 
 export const GET_PROFILE = 'GET_PROFILE';
 export const GET_PROFILE_SUCCESS = 'GET_PROFILE_SUCCESS';
@@ -124,9 +134,9 @@ export const RESET_ERROR_CERTIFICATES = 'RESET_ERROR_CERTIFICATES';
 
 export const RESET_MAKE_APPOINTMENT = 'RESET_MAKE_APPOINTMENT';
 
-export const postCall = ({url, body: data}) => {
-  return axios({url, method: 'post', data})
-    .then(data => ({data}))
+export const postCall = ({ url, body: data }) => {
+  return axios({ url, method: 'post', data })
+    .then(data => ({ data }))
     .catch(ex => {
       return ex;
     });

@@ -59,12 +59,12 @@ const App: () => React$Node = () => {
             <Stack.Screen
               name="WelcomeScreen"
               component={Welcome}
-              options={{headerShown: false}}
+              options={{ headerShown: false }}
             />
             <Stack.Screen
               name="PhoneScreen"
               component={Phone}
-              options={{headerShown: false}}
+              options={{ headerShown: false }}
             />
             <Stack.Screen
               name="UserInfoScreen"

@@ -33,7 +33,7 @@ const DATA = [
   {
     id: 'Modify Sim',
     title: 'Modify Sim',
-    //path: 'UpdateOtherSettingsScreen',
+    path: 'PhoneScreen',
   },
   {
     id: 'Change Language',
@@ -84,7 +84,10 @@ const Settings = ({
           setSelectedId(item.id);
           if (item.path === "UserInfoScreen") {
             navigation.navigate(item.path, { data: userInfo?.data?.data, editUser: true })
-          } else {
+          } else if (item.path === "UpdateOtherSettingsScreen") {
+            navigation.navigate(item.path, { isUpdateMobileNumber: true });
+          }
+          else {
             if (item.path) movetoUpdateScreen(item.path, navigation, item.title);
           }
         }}

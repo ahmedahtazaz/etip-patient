@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import {connect} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import I18n from '../../translations/I18n';
 
 import Orientation from 'react-native-orientation-locker';
-import {useIsFocused} from '@react-navigation/native';
-import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
+import { useIsFocused } from '@react-navigation/native';
+import { PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR } from '../../theme/Colors';
 const headerLogo = require('../../assets/images/header-logo.png');
 const phoneDivBg = require('../../assets/images/phone-div-bg.png');
 import {
@@ -20,20 +20,23 @@ import {
   Text,
   ImageBackground,
 } from 'react-native';
-import {RFValue} from 'react-native-responsive-fontsize';
+import { RFValue } from 'react-native-responsive-fontsize';
 import {
   moveToUserInfoScreenAction,
+  resetIsPhoneUpdatedAction,
   sendOTPAction,
+  updatePhoneAction,
   verifyOTPAction,
 } from './Actions';
-import {send_otp_url, verify_otp_url} from '../../commons/environment';
-import {getProfileInfoAction} from '../AppointmentDetails/Action';
-import {moveToMainScreenAction} from '../UserInfo/Actions';
+import { send_otp_url, update_phone_url, verify_otp_url } from '../../commons/environment';
+import { getProfileInfoAction } from '../AppointmentDetails/Action';
+import { moveToMainScreenAction, resetIsUserCreatedAction } from '../UserInfo/Actions';
 
 function Phone({
   loader,
   movetoUserInfoScreen,
   navigation,
+  route,
   sendOTP,
   otpSend,
   verifyOTP,
@@ -42,6 +45,10 @@ function Phone({
   verifyOtpPayload,
   moveToMainScreen,
   sendOptPayload,
+  updatePhone,
+  userInfo,
+  isPhoneUpdated,
+  resetIsPhoneUpdated
 }) {
   const [isPhone, setIsPhone] = useState(true);
   const [phoneValue, setPhoneValue] = useState('+49');
@@ -50,6 +57,7 @@ function Phone({
   const [otpValue2, setOTPValue2] = useState('');
   const [otpValue3, setOTPValue3] = useState('');
   const [otpValue4, setOTPValue4] = useState('');
+  const [isUpdateMobileNumber, setIsUpdateMobileNumber] = useState(false);
 
   const [otp, setOtp] = useState(null);
   const [otp1, setOtp1] = useState(null);
@@ -62,6 +70,13 @@ function Phone({
   useEffect(() => {
     Orientation.lockToPortrait();
   }, [isFocused]);
+
+  useEffect(() => {
+    let flag = route?.params?.isUpdateMobileNumber || false;
+    if (flag) {
+      setIsUpdateMobileNumber(flag);
+    }
+  }, []);
 
   const showToast = msg => {
     if (Platform.OS === 'android') {
@@ -86,14 +101,19 @@ function Phone({
     } else {
       if (otp && otp.length == 5) {
         let data = {
-          url: verify_otp_url,
+          url: isUpdateMobileNumber ? update_phone_url : verify_otp_url,
           body: {
             mobileNumber: phone,
             otp,
             referenceId: sendOptPayload?.data?.data?.ref_id,
           },
         };
-        verifyOTP(data);
+        if (isUpdateMobileNumber) {
+          data.body["userId"] = userInfo?.data?.data?._id
+          updatePhone(data)
+        } else {
+          verifyOTP(data);
+        }
       } else showToast('Please enter a valid OTP.');
     }
   };
@@ -127,12 +147,19 @@ function Phone({
           moveToMainScreen(navigation);
         }
       } else {
-        Ï;
         //navigate to userInfoScreen
         movetoUserInfoScreen(navigation);
       }
     }
   }, [verifyOtpPayload]);
+
+
+  useEffect(() => {
+    if (isPhoneUpdated) {
+      resetIsPhoneUpdated();
+      navigation.goBack();
+    }
+  }, [isPhoneUpdated])
 
   return (
     <View style={styles.background}>
@@ -258,12 +285,12 @@ function Phone({
             </>
           )}
           {(isPhone && phoneValue.match('^[+]49[0-9]{10}$')) ||
-          (!isPhone &&
-            otpValue
-              .concat(otpValue1)
-              .concat(otpValue2)
-              .concat(otpValue3)
-              .concat(otpValue4).length == 5) ? (
+            (!isPhone &&
+              otpValue
+                .concat(otpValue1)
+                .concat(otpValue2)
+                .concat(otpValue3)
+                .concat(otpValue4).length == 5) ? (
             <TouchableOpacity
               style={[styles.container, styles.submitButtonDark]}
               onPress={() =>
@@ -322,6 +349,8 @@ const mapDispatchToProps = dispatch => {
     verifyOTP: data => dispatch(verifyOTPAction(data)),
     getProfileInfo: data => dispatch(getProfileInfoAction(data)),
     moveToMainScreen: navigation => moveToMainScreenAction(navigation),
+    updatePhone: data => dispatch(updatePhoneAction(data)),
+    resetIsPhoneUpdated: () => dispatch(resetIsPhoneUpdatedAction())
   };
 };
 
@@ -331,8 +360,9 @@ const mapStateToProps = state => {
     otpVerified: state.phoneReducer.otpVerified,
     errMessage: state.phoneReducer.errMessage,
     verifyOtpPayload: state.phoneReducer.verifyOptPayload,
-    userInfo: state.userInfoReducer.userInfo,
+    userInfo: state.mainScreenReducer.userInfo,
     sendOptPayload: state.phoneReducer.sendOptPayload,
+    isPhoneUpdated: state.phoneReducer.isPhoneUpdated
   };
 };
 
