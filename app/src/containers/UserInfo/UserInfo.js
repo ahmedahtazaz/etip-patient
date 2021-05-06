@@ -57,6 +57,7 @@ function UserInfo({
   isFamilyMemberAdded,
   updateFamilyMember,
   errMessage,
+  familyMembers
 }) {
   const [isFamily, setIsFamily] = useState(false);
   const [fName, setFName] = useState('');
@@ -96,8 +97,13 @@ function UserInfo({
 
   useEffect(() => {
     const data = (route.params && route.params.data) || '';
+    let editUser = route?.params?.editUser || false;
+
+    console.log("data::: ", data)
     if (data) {
-      setIsFamily(true);
+      if (!editUser) {
+        setIsFamily(true);
+      }
       setEditMode(true);
       setFName(data.firstName);
       setLName(data.lastName);
@@ -200,6 +206,7 @@ function UserInfo({
   };
 
   const addData = () => {
+    let editUser = route?.params?.editUser || false;
     if (!fName) {
       showToast('Please Enter First Name');
       return;
@@ -259,9 +266,9 @@ function UserInfo({
       let data = {
         url: editMode ? edit_family_url : `${add_family_url}`,
         body: {
-          userId: userInfo.data?.data?._id,
+          userId: userInfo?.data?.data?._id,
           relation,
-          familyId: userInfo.data?.data?.family.id,
+          familyId: userInfo?.data?.data?.family.id,
           firstName: fName,
           lastName: lName,
           taxId,
@@ -280,6 +287,9 @@ function UserInfo({
       if (!editMode) {
         addFamilyMember(data);
       } else {
+        if (editUser) {
+         
+        }
         data.body['id'] = dataObj['_id'];
         updateFamilyMember(data);
       }
@@ -598,6 +608,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
   return {
     userInfo: state.userInfoReducer.userInfo,
+    familyMembers: state.userInfoReducer.familyMembers,
     loader: state.userInfoReducer.loader,
     isUserCreated: state.userInfoReducer.isUserCreated,
     isFamilyMemberAdded: state.userInfoReducer.isFamilyMemberAdded,
