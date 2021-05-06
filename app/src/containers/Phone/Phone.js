@@ -162,7 +162,9 @@ function Phone({
                 placeholder="Phone"
                 style={styles.inputStyle1}
                 keyboardType="numeric"
-                onChangeText={value => setPhoneValue(value)}></TextInput>
+                onChangeText={value => {
+                  if (value.length > 0) setPhoneValue(value);
+                }}></TextInput>
             </>
           ) : (
             <>
@@ -331,8 +333,8 @@ const mapStateToProps = state => {
     otpVerified: state.phoneReducer.otpVerified,
     errMessage: state.phoneReducer.errMessage,
     verifyOtpPayload: state.phoneReducer.verifyOptPayload,
-    userInfo: state.userInfoReducer.userInfo,
     sendOptPayload: state.phoneReducer.sendOptPayload,
+    loader: state.phoneReducer.loader,
   };
 };
 

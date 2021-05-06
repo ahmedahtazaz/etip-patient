@@ -52,7 +52,6 @@ function UserInfo({
   isFamilyMemberAdded,
   updateFamilyMember,
   errMessage,
-  familyMembers,
   updateUser,
 }) {
   const [isFamily, setIsFamily] = useState(false);
@@ -82,6 +81,7 @@ function UserInfo({
   const [editMode, setEditMode] = useState(false);
   const [isUserEdit, setIsUserEdit] = useState(false);
   const [isSaveOnly, setIsSaveOnly] = useState(false);
+  const [addFamily, setAddFamily] = useState(false);
 
   const scrollRef = useRef();
 
@@ -93,39 +93,47 @@ function UserInfo({
 
   useEffect(() => {
     const data = (route.params && route.params.data) || '';
-    let editUser = route?.params?.editUser || false;
+    const addFamily = route?.params?.addFamily || false;
+    const editUser =
+      route?.params?.editUser || (data?.isPrimary && !addFamily) || false;
+
     if (data) {
       setIsUserEdit(editUser);
-      if (!editUser) {
-        setIsFamily(true);
+      setIsFamily(!editUser || addFamily);
+      setAddFamily(addFamily);
+
+      if (!addFamily) {
+        setEditMode(true);
+        setFName(data.firstName);
+        setLName(data.lastName);
+
+        if (data.gender === 'male') {
+          setMale(true);
+          setFemale(false);
+          setOther(false);
+        } else if (data.gender === 'female') {
+          setMale(false);
+          setFemale(true);
+          setOther(false);
+        } else {
+          setMale(false);
+          setFemale(false);
+          setOther(true);
+        }
+
+        if (data.relation) {
+          setRelation(capitalizeFirstLetter(data.relation));
+        }
+
+        setDob(data.dateOfBirth);
+        setTaxId(data.taxId);
+        setEmail(data.email);
+        setMobileNo(data.mobileNumber);
+        setSchiller(data.address.street);
+        setZimmer(data.address.houseNo);
+        data.address.city && setCity(capitalizeFirstLetter(data.address.city));
+        setPostalCode(data.address.zipCode);
       }
-      setEditMode(true);
-      setFName(data.firstName);
-      setLName(data.lastName);
-      if (data.gender === 'male') {
-        setMale(true);
-        setFemale(false);
-        setOther(false);
-      } else if (data.gender === 'female') {
-        setMale(false);
-        setFemale(true);
-        setOther(false);
-      } else {
-        setMale(false);
-        setFemale(false);
-        setOther(true);
-      }
-      if (data.relation) {
-        setRelation(capitalizeFirstLetter(data.relation));
-      }
-      setDob(data.dateOfBirth);
-      setTaxId(data.taxId);
-      setEmail(data.email);
-      setMobileNo(data.mobileNumber);
-      setSchiller(data.address.street);
-      setZimmer(data.address.houseNo);
-      data.address.city && setCity(capitalizeFirstLetter(data.address.city));
-      setPostalCode(data.address.zipCode);
     }
   }, [isFocused]);
 
@@ -146,6 +154,8 @@ function UserInfo({
     if (isFamilyMemberAdded) {
       resetIsFamilyMemberAdded();
       resetForm(true);
+
+      if (editMode) navigation.goBack();
     }
   }, [isFamilyMemberAdded]);
 
@@ -217,8 +227,11 @@ function UserInfo({
       showToast('Please Enter a valid email');
       return;
     }
-    if (isFamily && (!mobileNo || !mobileNo.match('^[+]49[0-9]{10}$'))) {
+    // Temporary removal
+    //if (isFamily && (!mobileNo || !mobileNo.match('^[+]49[0-9]{10}$'))) {
+    if (isFamily && !mobileNo) {
       showToast('Please enter a valid phone number.');
+      return;
     }
     if (!schiller) {
       showToast('Please Enter schiller');
@@ -546,23 +559,15 @@ function UserInfo({
             style={styles.inputStyle2}
             onChangeText={value => setPostalCode(value)}></TextInput>
           {editMode ? (
-            <View style={{flexDirection: 'column'}}>
-              <TouchableOpacity
-                disabled={loader}
-                style={[styles.container, styles.submitButtonDark]}
-                onPress={() => {
-                  setIsSaveOnly(true);
-                  addData();
-                }}>
-                <Text style={styles.saveCloseText}>Update</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                disabled={loader}
-                style={[styles.container, styles.cancelButton]}
-                onPress={() => navigation.goBack()}>
-                <Text style={styles.saveCloseText}>Cancel</Text>
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity
+              disabled={loader}
+              style={[styles.container, styles.submitButtonDark]}
+              onPress={() => {
+                setIsSaveOnly(true);
+                addData();
+              }}>
+              <Text style={styles.saveCloseText}>Update</Text>
+            </TouchableOpacity>
           ) : (
             <>
               <TouchableOpacity
@@ -578,19 +583,31 @@ function UserInfo({
                 }}>
                 <Text style={styles.saveCloseText}>Continue</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                disabled={userInfo && !Object.keys(userInfo).length}
-                style={{marginTop: '4%', alignContent: 'center'}}
-                onPress={() => {
-                  setIsSaveOnly(false);
-                  submit();
-                }}>
-                <Text style={styles.saveAddText}>
-                  {isFamily ? 'Save & add another member' : 'Save & Add Family'}
-                </Text>
-              </TouchableOpacity>
+              {!addFamily ? (
+                <TouchableOpacity
+                  disabled={userInfo && !Object.keys(userInfo).length}
+                  style={{marginTop: '4%', alignContent: 'center'}}
+                  onPress={() => {
+                    setIsSaveOnly(false);
+                    submit();
+                  }}>
+                  <Text style={styles.saveAddText}>
+                    {isFamily
+                      ? 'Save & add another member'
+                      : 'Save & Add Family'}
+                  </Text>
+                </TouchableOpacity>
+              ) : null}
             </>
           )}
+          {isUserEdit || editMode || addFamily ? (
+            <TouchableOpacity
+              disabled={loader}
+              style={[styles.container, styles.cancelButton]}
+              onPress={() => navigation.goBack()}>
+              <Text style={styles.saveCloseText}>Cancel</Text>
+            </TouchableOpacity>
+          ) : null}
           {loader ? (
             <View
               style={{
@@ -624,7 +641,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    userInfo: state.userInfoReducer.userInfo,
+    userInfo: state.mainScreenReducer.userInfo,
     familyMembers: state.userInfoReducer.familyMembers,
     loader: state.userInfoReducer.loader,
     isUserCreated: state.userInfoReducer.isUserCreated,

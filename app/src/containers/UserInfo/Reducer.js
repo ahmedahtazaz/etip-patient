@@ -16,7 +16,6 @@ import {
 } from '../../commons/Constants';
 
 const INITIAL_STATE = {
-  userInfo: null,
   familyMembers: [],
   loader: false,
   errMessage: undefined,
@@ -38,7 +37,6 @@ export default function userInfoReducer() {
         return {
           ...state,
           loader: false,
-          userInfo: {...action.payload},
           isUserCreated: true,
         };
 
@@ -95,6 +93,7 @@ export default function userInfoReducer() {
           ...state,
           loader: false,
           familyMembers: [...action.payload],
+          isFamilyMemberAdded: true,
         };
 
       case EDIT_FAMILY_MEMBER_FAILURE:
@@ -102,6 +101,7 @@ export default function userInfoReducer() {
           ...state,
           loader: false,
           errMessage: action.errMessage,
+          isFamilyMemberAdded: false,
         };
 
       case UPDATE_USER:
@@ -115,7 +115,6 @@ export default function userInfoReducer() {
         return {
           ...state,
           loader: false,
-          userInfo: {...action.payload},
           errMessage: undefined,
           isUserCreated: true,
         };

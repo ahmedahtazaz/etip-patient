@@ -1,17 +1,18 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, {useEffect} from 'react';
+import {connect} from 'react-redux';
 
-import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View, Image} from 'react-native';
 import BottomNavigator from '../../components/BottomNavigator';
-import { useIsFocused } from '@react-navigation/core';
+import {useIsFocused} from '@react-navigation/core';
 import Orientation from 'react-native-orientation-locker';
-import { SwipeListView } from 'react-native-swipe-list-view';
+import {SwipeListView} from 'react-native-swipe-list-view';
 
 const menuIcon = require('../../assets/images/menu-icon.png');
 const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
 const deleteIcon = require('../../assets/images/delete-icon-red.png');
 const greenQrCode = require('../../assets/images/green-qr-code.png');
 const greyEdit = require('../../assets/images/edit-gray-icon.png');
+const plusIcon = require('../../assets/images/plus-icon.png');
 
 import {
   moveToUserinfScreenAction,
@@ -21,8 +22,8 @@ import {
   getFamilyMembersAction,
   removeFamilyMemberAction,
 } from './Actions';
-import { get_family_url } from '../../commons/environment';
-import { showToast } from '../../commons/Constants';
+import {get_family_url} from '../../commons/environment';
+import {showToast} from '../../commons/Constants';
 
 const FamilyMain = ({
   navigation,
@@ -32,7 +33,8 @@ const FamilyMain = ({
   familyMembers,
   getFamilyMembers,
   removeFamilyMember,
-  errMessage
+  errMessage,
+  moveToAddFamily,
 }) => {
   const isFocused = useIsFocused();
 
@@ -58,7 +60,7 @@ const FamilyMain = ({
     });
   };
 
-  const removeMember = ({ item }) => {
+  const removeMember = ({item}) => {
     let data = {
       url: `${get_family_url}/${userInfo?.data?.data?.family.id}/remove-member/${item._id}`,
       userId: userInfo?.data?.data?._id,
@@ -67,15 +69,15 @@ const FamilyMain = ({
     removeFamilyMember(data);
   };
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({item}) => {
     return (
       <View style={styles.nameContainer}>
         <View style={styles.parentNameContainer}>
           <View style={styles.nameTextContainer}>
-            <Text style={{ color: '#20B2AA', textColor: 'grey', marginStart: 8 }}>
+            <Text style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
               {`${item.firstName} ${item.lastName}`}
             </Text>
-            <Text style={{ marginStart: 8, color: '#adadad' }}>
+            <Text style={{marginStart: 8, color: '#adadad'}}>
               {item.relation}
             </Text>
           </View>
@@ -85,13 +87,18 @@ const FamilyMain = ({
               onPress={() =>
                 moveToAppointmentDetails(navigation, 'personal', item)
               }>
-              <Image source={greenQrCode} style={{ marginLeft: 5 }} />
+              <Image source={greenQrCode} style={{marginLeft: 5}} />
             </TouchableOpacity>
             {item?.relation ? (
               <TouchableOpacity
-                onPress={() => moveToUserinfScreenAction(navigation, item)}
+                onPress={() =>
+                  moveToUserinfScreenAction(
+                    navigation,
+                    item?.isPrimary ? userInfo?.data?.data : item,
+                  )
+                }
                 style={styles.editContainer}>
-                <Image source={greyEdit} style={{ marginLeft: 5 }} />
+                <Image source={greyEdit} style={{marginLeft: 5}} />
               </TouchableOpacity>
             ) : (
               <View style={styles.editContainer} />
@@ -111,10 +118,10 @@ const FamilyMain = ({
             onPress={() => {
               movetoSettingsScreen(navigation);
             }}>
-            <Image source={menuIcon} style={{ marginLeft: 10 }} />
+            <Image source={menuIcon} style={{marginLeft: 10}} />
           </TouchableOpacity>
           <View style={styles.menuItemsCenter}>
-            <Image source={smallHeaderLogo} style={{ marginLeft: 5 }} />
+            <Image source={smallHeaderLogo} style={{marginLeft: 5}} />
           </View>
         </View>
       </View>
@@ -150,9 +157,16 @@ const FamilyMain = ({
           </View>
         </View>
       </View>
+      <TouchableOpacity
+        style={styles.plusIconDiv}
+        onPress={() => {
+          moveToAddFamily(navigation, userInfo?.data?.data, true);
+        }}>
+        <Image source={plusIcon} />
+      </TouchableOpacity>
       <BottomNavigator
         navigation={navigation}
-        selectedItem={{ id: 3, label: 'Family' }}></BottomNavigator>
+        selectedItem={{id: 3, label: 'Family'}}></BottomNavigator>
     </View>
   );
 };
@@ -274,6 +288,14 @@ const styles = StyleSheet.create({
   menuItemsCenter: {
     justifyContent: 'center',
   },
+  plusIconDiv: {
+    position: 'absolute',
+    zIndex: 99999,
+    right: 14,
+    bottom: '10%',
+    width: 81,
+    height: 81,
+  },
 });
 const mapDispatchToProps = dispatch => {
   return {
@@ -284,6 +306,8 @@ const mapDispatchToProps = dispatch => {
       moveToAppointmentDetailsAction(navigation, path, userInfo),
     getFamilyMembers: data => dispatch(getFamilyMembersAction(data)),
     removeFamilyMember: data => dispatch(removeFamilyMemberAction(data)),
+    moveToAddFamily: (navigation, data, addFamily) =>
+      moveToUserinfScreenAction(navigation, data, addFamily),
   };
 };
 
@@ -292,7 +316,6 @@ const mapStateToProps = state => {
     userInfo: state.mainScreenReducer.userInfo,
     familyMembers: state.familyReducer.familyMembers,
     errMessage: state.familyReducer.errMessage,
-
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(FamilyMain);

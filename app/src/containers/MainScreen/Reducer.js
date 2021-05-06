@@ -7,6 +7,8 @@ import {
   RESET_ERROR_MAIN,
   GET_ACTIVE_CERTIFICATES_SUCCESS,
   GET_ACTIVE_CERTIFICATES_FAILURE,
+  UPDATE_USER_SUCCESS,
+  SIGNUP_SUCCES,
 } from '../../commons/Constants';
 const INITIAL_STATE = {
   loader: false,
@@ -76,6 +78,13 @@ export default function mainScreenReducer() {
         return {
           ...state,
           errMessage: undefined,
+        };
+
+      case UPDATE_USER_SUCCESS:
+      case SIGNUP_SUCCES:
+        return {
+          ...state,
+          userInfo: action.payload,
         };
 
       default:

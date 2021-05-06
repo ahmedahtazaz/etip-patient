@@ -15,10 +15,16 @@ export const moveToAppointmentDetailsAction = (navigation, path, userInfo) => {
   });
 };
 
-export const moveToUserinfScreenAction = (navigation, data) => {
-  return navigation.navigate('UserInfoScreen', {
-    data,
-  });
+export const moveToUserinfScreenAction = (navigation, data, addFamily) => {
+  if (!addFamily)
+    return navigation.navigate('UserInfoScreen', {
+      data,
+    });
+  else
+    return navigation.navigate('UserInfoScreen', {
+      data,
+      addFamily,
+    });
 };
 
 export const getFamilyMembersAction = data => {
