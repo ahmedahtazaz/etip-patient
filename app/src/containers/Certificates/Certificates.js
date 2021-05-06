@@ -32,7 +32,6 @@ import {ActivityIndicator} from 'react-native-paper';
 const menuIcon = require('../../assets/images/menu-icon.png');
 const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
 const activeCertificationBg = require('../../assets/images/active-certification-bg.png');
-const plusIcon = require('../../assets/images/plus-icon.png');
 const issuedWhiteQr = require('../../assets/images/issued-white-qr.png');
 const issuedGrayeQr = require('../../assets/images/issued-gray-qr.png');
 const issuedRedIcon = require('../../assets/images/issued-by-red-icon.png');
@@ -42,7 +41,6 @@ const previousAppoinmentBg = require('../../assets/images/previous-appoinment-bg
 const Certificates = ({
   navigation,
   movetoSettingsScreen,
-  movetoMakeAnAppointmentScreen,
   moveToAppointmentDetails,
   route,
   userInfo,
@@ -75,10 +73,7 @@ const Certificates = ({
 
   const renderItem = ({item}) => {
     return (
-      <View
-        style={{
-          width: width(95),
-        }}>
+      <View>
         <TouchableOpacity
           style={styles.activeCertificationDiv}
           onPress={() => moveToAppointmentDetails(navigation, 'certificates')}>
@@ -130,7 +125,6 @@ const Certificates = ({
     return (
       <View
         style={{
-          width: width(95),
           marginTop: 8,
         }}>
         <View style={styles.activeCertificationDiv}>
@@ -217,7 +211,8 @@ const Certificates = ({
                 }}>
                 <View style={styles.activeCertificationDiv}>
                   <ImageBackground
-                    source={previousAppoinmentBg}
+                    source={previousCertificateBg}
+                    style={styles.activeAppoinmentsDiv}
                     style={{
                       width: '100%',
                       height: '100%',
@@ -256,7 +251,8 @@ const Certificates = ({
                 }}>
                 <View style={styles.activeCertificationDiv}>
                   <ImageBackground
-                    source={previousAppoinmentBg}
+                    source={previousCertificateBg}
+                    style={styles.activeAppoinmentsDiv}
                     style={{
                       width: '100%',
                       height: '100%',
@@ -277,12 +273,9 @@ const Certificates = ({
           </View>
         </View>
       </View>
-      <View style={styles.plusIconDiv}>
-        <Image source={plusIcon} />
-      </View>
       <BottomNavigator
         navigation={navigation}
-        selectedItem={{id: 4, label: 'Certificates'}}></BottomNavigator>
+      selectedItem={{id: 4, label: 'Certificates'}}></BottomNavigator>
       {loader ? (
         <View
           style={{
@@ -327,17 +320,18 @@ const mapDispatchToProps = dispatch => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F9F9F9',
+    backgroundColor: '#f8fbfa',
   },
   mainDivPad: {
-    paddingLeft: '3%',
-    paddingRight: '3%',
+    paddingLeft: '4%',
+    paddingRight: '4%',
   },
   mainMenu: {
     position: 'absolute',
     zIndex: 2000,
     top: '3%',
     left: '3%',
+    height:'10%',
     width: '100%',
   },
   mainMenuItems: {
@@ -362,6 +356,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
+    height:'88%',
     marginTop: '25%',
   },
   qrCodeItem: {
@@ -377,7 +372,7 @@ const styles = StyleSheet.create({
   activeCertificationDiv: {
     borderRadius: 10,
     flexWrap: 'wrap',
-
+    minWidth:360,
     display: 'flex',
     flexDirection: 'column',
     resizeMode: 'cover',
@@ -388,7 +383,7 @@ const styles = StyleSheet.create({
   },
   activeAppoinmentsDiv: {
     borderRadius: 10,
-
+    minWidth:360,
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -447,6 +442,20 @@ const styles = StyleSheet.create({
 
     lineHeight: 20,
   },
+  boxHeadingDisable: {
+    fontSize: RFValue(14, 580),
+    color: '#595050',
+    fontWeight: '800',
+
+    paddingBottom: 10,
+  },
+  boxTextDisable: {
+    fontSize: RFValue(13, 580),
+    color: '#595050',
+    fontWeight: '400',
+
+    lineHeight: 20,
+  },
   nameTextContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -463,7 +472,6 @@ const styles = StyleSheet.create({
   },
   boxTopHeading: {
     marginBottom: 8,
-    marginStart: 8,
     color: '#595050',
     fontWeight: '600',
     fontSize: RFValue(12, 580),

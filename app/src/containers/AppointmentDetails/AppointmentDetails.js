@@ -13,48 +13,29 @@ import {RFValue} from 'react-native-responsive-fontsize';
 import {WHITE_COLOR} from '../../theme/Colors';
 import QRCode from 'react-native-qrcode-svg';
 import I18n from '../../translations/I18n';
-import {get_user_url} from '../../commons/environment';
 import {getProfileInfoAction} from './Action';
-const mainScreenIcon = require('../../assets/images/main-screen-icon.png');
-const qrBig = require('../../assets/images/qr-big.png');
+import moment from 'moment';
 const activeCertificationBg = require('../../assets/images/active-certification-bg.png');
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const previousAppoinmentsBg = require('../../assets/images/previous-appoinment-bg.png');
 const issuedWhiteQr = require('../../assets/images/issued-white-qr.png');
-const issuedGrayeQr = require('../../assets/images/issued-gray-qr.png');
 const issuedRedIcon = require('../../assets/images/issued-by-red-icon.png');
+
 const AppointmentDetails = ({
   navigation,
   route: {
     params: {getProfile, path, userInfoParam},
   },
-  getProfileInfo,
-  userProfile,
-  userInfo,
   loader,
 }) => {
   const [title, setTitle] = useState('');
 
   useEffect(() => {
-    if (!userInfoParam) {
-      let data = {
-        url: get_user_url,
-        userId: userInfo._id,
-      };
-      getProfileInfo(data);
-    } else {
-      setTitle(userInfoParam.firstName + ' ' + userInfoParam.lastName);
+    if (userInfoParam) {
+      if (path == 'personal')
+        setTitle(userInfoParam.firstName + ' ' + userInfoParam.lastName);
     }
   }, [userInfoParam]);
-
-  useEffect(() => {
-    if (userProfile)
-      setTitle(
-        userProfile.data?.data?.firstName +
-          ' ' +
-          userProfile.data?.data?.lastName,
-      );
-  }, [userProfile]);
 
   return (
     <View style={{height: '100%', width: '100%', flexDirection: 'column'}}>
@@ -131,22 +112,26 @@ const AppointmentDetails = ({
               style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
               <View style={styles.parentNameContainer}>
                 <View style={styles.nameTextContainer}>
-                  <Text style={styles.boxHeading}>{I18n.t('SARS-COV-2')}</Text>
+                  <Text style={styles.boxHeading}>
+                    {userInfoParam?.testPoint?.testCenter?.test?.testType}
+                  </Text>
                   <Text style={styles.boxTestText}>
-                    {I18n.t('Citigen Antizen Test')}
+                    {userInfoParam?.testPoint?.name}
                   </Text>
                 </View>
                 <View style={styles.nameTextContainer}>
-                  <Text style={styles.boxHeading}>12-may-2021</Text>
-                  <Text style={styles.boxText}>10:00-10:15</Text>
+                  <Text style={styles.boxHeading}>
+                    {moment(userInfoParam?.day).format('DD/MM/YYYY')}
+                  </Text>
+                  <Text style={styles.boxText}>{userInfoParam?.time}</Text>
                 </View>
               </View>
               <View style={styles.parentNameContainer}>
                 <View style={styles.bottomTextContainer}>
-                  <Text style={styles.boxHeading}>{I18n.t('SARS-COV-2')}</Text>
-                  <Text style={styles.boxTestText}>
-                    {I18n.t('Citigen Antizen Test')}
+                  <Text style={styles.boxHeading}>
+                    {userInfoParam?.testPoint?.testCenter?.name}
                   </Text>
+                  <Text style={styles.boxTestText}>{userInfoParam?.name}</Text>
                 </View>
               </View>
             </ImageBackground>
@@ -166,10 +151,7 @@ const AppointmentDetails = ({
           </View>
         ) : (
           <View style={styles.qrDiv}>
-            <QRCode
-              value={JSON.stringify(userInfoParam || userProfile?.data.data)}
-              size={250}
-            />
+            <QRCode value={JSON.stringify(userInfoParam)} size={250} />
           </View>
         )}
       </View>
@@ -185,8 +167,6 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    userInfo: state.userInfoReducer.userInfo,
-    userProfile: state.appointmentDetailsReducer.userProfile,
     loader: state.appointmentDetailsReducer.loader,
   };
 };

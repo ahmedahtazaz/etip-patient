@@ -3,9 +3,12 @@ export const moveToUserUpdateSettingScreenAction = (
   navigation,
   title,
 ) => {
-  return navigation.navigate(path, { title: title });
+  return navigation.navigate(path, {title: title});
 };
 
-export const moveToAppointmentDetailsAction = (navigation, path, title, getProfile) => {
-  return navigation.navigate('AppointmentDetailsScreen', { path, title, getProfile });
+export const moveToAppointmentDetailsAction = (navigation, path, userInfo) => {
+  return navigation.navigate('AppointmentDetailsScreen', {
+    path,
+    userInfoParam: userInfo,
+  });
 };

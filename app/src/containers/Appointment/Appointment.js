@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -13,17 +13,17 @@ import {
 } from 'react-native';
 import I18n from '../../translations/I18n';
 
-import { Dimensions } from 'react-native';
-import { connect } from 'react-redux';
-import { moveToAppointmentCalenderAction } from './Actions';
-import { RFValue } from 'react-native-responsive-fontsize';
+import {Dimensions} from 'react-native';
+import {connect} from 'react-redux';
+import {moveToAppointmentCalenderAction} from './Actions';
+import {RFValue} from 'react-native-responsive-fontsize';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import { PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR } from '../../theme/Colors';
-import { getFamilyMembersAction } from '../FamilyMain/Actions';
-import { get_family_url } from '../../commons/environment';
+import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
+import {getFamilyMembersAction} from '../FamilyMain/Actions';
+import {get_family_url} from '../../commons/environment';
 const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const appointmentBg1 = require('../../assets/images/appointment-bg1.png');
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 const Appointment = ({
   movetoAppointmentCalenderScreen,
@@ -54,15 +54,17 @@ const Appointment = ({
     }
   }, [familyMembers]);
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({item}) => {
     return (
       <TouchableOpacity
         style={styles.appointmentlistContainer}
-        onPress={() => movetoAppointmentCalenderScreen(navigation, item)}>
-        <Text style={{ fontWeight: 'bold', marginStart: 8, color: '#20B2AA' }}>
+        onPress={() =>
+          movetoAppointmentCalenderScreen(navigation, item, userInfo.data?.data)
+        }>
+        <Text style={{fontWeight: 'bold', marginStart: 8, color: '#20B2AA'}}>
           {`${item.firstName} ${item.lastName}`}
         </Text>
-        <Text style={{ color: '#d3d3d3', marginStart: 8, fontSize: 16 }}>
+        <Text style={{color: '#d3d3d3', marginStart: 8, fontSize: 16}}>
           {item.relation}
         </Text>
       </TouchableOpacity>
@@ -78,7 +80,7 @@ const Appointment = ({
               name="chevron-left"
               color="#000"
               size={40}
-              style={{ fontWeight: 'bold' }}
+              style={{fontWeight: 'bold'}}
             />
           </TouchableOpacity>
         </View>
@@ -116,8 +118,8 @@ const Appointment = ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    movetoAppointmentCalenderScreen: (navigation, candidate) =>
-      moveToAppointmentCalenderAction(navigation, candidate),
+    movetoAppointmentCalenderScreen: (navigation, candidate, userInfo) =>
+      moveToAppointmentCalenderAction(navigation, candidate, userInfo),
     getFamilyMembers: payload => dispatch(getFamilyMembersAction(payload)),
   };
 };
@@ -157,6 +159,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
+    height:'88%',
     marginTop: '5%',
   },
   splashbackground: {

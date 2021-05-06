@@ -3,8 +3,6 @@ import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {
   FlatList,
-  SafeAreaView,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -14,13 +12,10 @@ import {
   ImageBackground,
 } from 'react-native';
 import I18n from '../../translations/I18n';
-import {Dimensions} from 'react-native';
-import {Icon} from 'react-native-elements';
 import Orientation from 'react-native-orientation-locker';
 import {WHITE_COLOR, LIGHT_GREY} from '../../theme/Colors';
 import {RFValue} from 'react-native-responsive-fontsize';
-import {width, height, totalSize} from 'react-native-dimension';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import {width} from 'react-native-dimension';
 
 import {
   moveToAppointmentDetailsAction,
@@ -28,61 +23,12 @@ import {
   moveToSettingsScreenAction,
 } from './Actions';
 import BottomNavigator from '../../components/BottomNavigator';
-import {ScrollView} from 'react-native-gesture-handler';
+import moment from 'moment';
 const menuIcon = require('../../assets/images/menu-icon.png');
-const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
-const mainScreenIcon = require('../../assets/images/main-screen-icon.png');
 const activeCertificationBg = require('../../assets/images/active-certification-bg.png');
-const previousAppoinmentsBg = require('../../assets/images/previous-appoinment-bg.png');
 const plusIcon = require('../../assets/images/plus-icon.png');
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-const DATA = [
-  {
-    id: 'Modifiy Personal Information',
-    title: 'Modifiy Personal Information',
-  },
-  {
-    id: 'Modify Email',
-    title: 'Modify Email',
-  },
-  {
-    id: 'Modify Sim',
-    title: 'Modify Sim',
-  },
-  {
-    id: 'About App',
-    title: 'About App',
-  },
-  {
-    id: 'Need Assistance',
-    title: 'Need Assistance',
-  },
-  {
-    id: 'Privacy Policy',
-    title: 'Privacy Policy',
-  },
-  {
-    id: 'Terms & Conditions',
-    title: 'Terms & Conditions',
-  },
-  {
-    id: 'Privacy Policy',
-    title: 'Privacy Policy',
-  },
-  {
-    id: 'Terms & Conditions',
-    title: 'Terms & Conditions',
-  },
-];
-
-const Item = ({item, onPress, backgroundColor, textColor}) => (
-  <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-    <Text style={[styles.title, textColor]}>{item.title}</Text>
-  </TouchableOpacity>
-);
+const previousAppoinmentBg = require('../../assets/images/previous-appoinment-bg.png');
 
 const AppointmentMainScreen = ({
   navigation,
@@ -90,6 +36,7 @@ const AppointmentMainScreen = ({
   movetoMakeAnAppointmentScreen,
   moveToAppointmentDetails,
   route,
+  activeAppointments,
 }) => {
   const window = useWindowDimensions();
 
@@ -105,69 +52,45 @@ const AppointmentMainScreen = ({
     return (
       <View
         style={{
-          width: width(95),
+          marginEnd: 8,
+          
         }}>
         <TouchableOpacity
-          style={styles.activeCertificationDiv} 
+          style={styles.activeAppoinmentsDiv}
           onPress={() =>
-            moveToAppointmentDetailsAction(navigation, 'appointment')
+            moveToAppointmentDetails(navigation, 'appointment', item)
           }>
           <ImageBackground
             source={activeCertificationBg}
             style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
-            <View style={styles.parentNameContainer} >
-              <View style={styles.nameTextContainer}>
-                <Text style={styles.boxHeading}>{I18n.t('SARS-COV-2')}</Text>
-                <Text style={styles.boxTestText}>{I18n.t('Citigen Antizen Test')}</Text>
+            <View style={styles.contentPadding}>
+              <View style={styles.parentNameContainer}>
+                <View style={styles.nameTextContainer}>
+                  <Text style={styles.boxHeading}>
+                    {item?.testPoint?.testCenter?.test?.testType}
+                  </Text>
+                  <Text style={styles.boxTestText}>
+                    {item?.testPoint?.name}
+                  </Text>
+                </View>
+                <View style={styles.nameTextContainer}>
+                  <Text style={styles.boxHeading}>
+                    {moment(item?.day).format('DD/MM/YYYY')}
+                  </Text>
+                  <Text style={styles.boxText}>{item?.time}</Text>
+                </View>
               </View>
-              <View style={styles.nameTextContainer}>
-                <Text style={styles.boxHeading}>12-may-2021</Text>
-                <Text style={styles.boxText}>10:00-10:15</Text>
-              </View>
-            </View>
-            <View style={styles.parentNameContainer}>
-              <View style={styles.bottomTextContainer}>
-              <Text style={styles.boxHeading}>{I18n.t('SARS-COV-2')}</Text>
-                <Text style={styles.boxText}>{I18n.t('Citigen Antizen Test')}</Text>
-              
+              <View style={styles.parentNameContainer}>
+                <View style={styles.bottomTextContainer}>
+                  <Text style={styles.boxHeading}>
+                    {item?.testPoint?.testCenter?.name}
+                  </Text>
+                  <Text style={styles.boxText}>{item?.name}</Text>
+                </View>
               </View>
             </View>
           </ImageBackground>
         </TouchableOpacity>
-      </View>
-    );
-  };
-  const renderItemAppointment = ({item}) => {
-    return (
-      <View
-        style={{
-          width: width(95),
-          marginBottom: 8,
-        }}>
-        <View style={styles.activeCertificationDiv}>
-          <ImageBackground
-            source={previousAppoinmentsBg}
-            style={styles.activeAppoinmentsDiv}
-            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
-            <View style={styles.parentNameContainer}>
-              <View style={styles.nameTextContainer}>
-                
-              <Text style={styles.boxHeading1}>{I18n.t('SARS-COV-2')}</Text>
-                <Text style={styles.boxTestText1}>{I18n.t('Citigen Antizen Test')}</Text>
-              </View>
-              <View style={styles.nameTextContainer}>
-                <Text style={styles.boxText1}>12-may-2021</Text>
-                <Text style={styles.boxText1}>10:00-10:15</Text>
-              </View>
-            </View>
-            <View style={styles.parentNameContainer}>
-              <View style={styles.bottomTextContainer}>
-                <Text style={styles.boxHeading2}>{I18n.t('Zeitfenster auswählen')}</Text>
-                <Text style={styles.boxText1}>{I18n.t('Citigen Antizen Test')}</Text>
-              </View>
-            </View>
-          </ImageBackground>
-        </View>
       </View>
     );
   };
@@ -191,33 +114,82 @@ const AppointmentMainScreen = ({
       <View style={styles.appoinmentDivBg}>
         <View style={styles.mainDivPad}>
           <View style={styles.actionCertificateContainer}>
-            <Text style={styles.boxTopHeading}>{I18n.t('ACTIVE APPOINTMENTS')}</Text>
-            <FlatList
-              horizontal
-              data={DATA}
-              renderItem={renderItem}
-              keyExtractor={item => item.id}
-              extraData={selectedId}
-            />
+            <Text style={styles.boxTopHeading}>
+              {I18n.t('ACTIVE APPOINTMENTS')}
+            </Text>
+            {activeAppointments ? (
+              <FlatList
+                horizontal
+                data={activeAppointments?.data?.data}
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+                extraData={selectedId}
+              />
+            ) : (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
+                <View style={styles.activeCertificationDiv} >
+                  <ImageBackground
+                    source={previousAppoinmentBg}
+                    style={styles.activeAppoinmentsDiv}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      resizeMode: 'cover',
+                    }}>
+                    <View style={styles.contentPadding}>
+                      <Text style={styles.boxHeadingDisable}>
+                        No Active Appointments
+                      </Text>
+                      <Text style={styles.boxTextDisable}>
+                        You don’t have any active appointment at the moment
+                      </Text>
+                    </View>
+                  </ImageBackground>
+                </View>
+              </View>
+            )}
           </View>
           <View style={styles.actionCertificateContainer}>
-            <Text style={styles.boxTopHeading}>{I18n.t('PREVIOUS APPOINTMENTS')}</Text>
-            <ScrollView>
-              <FlatList
-                vertical
-                data={DATA}
-                renderItem={renderItemAppointment}
-                keyExtractor={item => item.id}
-                extra
-                Data={selectedId}
-              />
-            </ScrollView>
+            <Text style={styles.boxTopHeading}>
+              {I18n.t('PREVIOUS APPOINTMENTS')}
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}>
+              <View style={styles.activeCertificationDiv}>
+                <ImageBackground
+                  source={previousAppoinmentBg}
+                  style={styles.activeAppoinmentsDiv}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    resizeMode: 'cover',
+                  }}>
+                  <View style={styles.contentPadding}>
+                    <Text style={styles.boxHeadingDisable}>
+                      No Previous Appointments
+                    </Text>
+                    <Text style={styles.boxTextDisable}>
+                      You don’t have any previous appointment at the moment
+                    </Text>
+                  </View>
+                </ImageBackground>
+              </View>
+            </View>
           </View>
         </View>
       </View>
-      <View style={styles.plusIconDiv}>
+      <TouchableOpacity
+        style={styles.plusIconDiv}
+        onPress={() => movetoMakeAnAppointmentScreen(navigation)}>
         <Image source={plusIcon} />
-      </View>
+      </TouchableOpacity>
       <BottomNavigator
         navigation={navigation}
         selectedItem={{id: 2, label: 'Appointments'}}></BottomNavigator>
@@ -226,7 +198,9 @@ const AppointmentMainScreen = ({
 };
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    activeAppointments: state.mainScreenReducer.activeAppointments,
+  };
 };
 
 const styles = StyleSheet.create({
@@ -235,14 +209,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8fbfa',
   },
   mainDivPad: {
-    paddingLeft: '3%',
-    paddingRight: '3%',
+    paddingLeft: '4%',
+    paddingRight: '4%',
   },
   mainMenu: {
     position: 'absolute',
     zIndex: 2000,
     top: '3%',
     left: '3%',
+    height:'10%',
     width: '100%',
   },
   mainMenuItems: {
@@ -265,6 +240,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
+    height:'88%',
     marginTop: '25%',
   },
   activeCertificationDiv: {
@@ -275,6 +251,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     resizeMode: 'cover',
     overflow: 'hidden',
+    minWidth:360,
     marginEnd: 10,
     maxHeight: 153,
   },
@@ -288,7 +265,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     resizeMode: 'cover',
     overflow: 'hidden',
-
+    minWidth:360,
     minHeight: 153,
   },
   contentPadding: {
@@ -299,10 +276,37 @@ const styles = StyleSheet.create({
   },
   boxHeading: {
     fontSize: RFValue(14, 580),
-    color: LIGHT_GREY,
+    color: WHITE_COLOR,
     fontWeight: '800',
 
     paddingBottom: 10,
+  },
+  boxText: {
+    fontSize: RFValue(13, 580),
+    color: WHITE_COLOR,
+    fontWeight: '400',
+
+    lineHeight: 20,
+  },
+  boxTestText : {
+    fontSize: RFValue(13, 580),
+    color: WHITE_COLOR,
+    fontWeight: '400',
+  },
+
+  boxHeadingDisable: {
+    fontSize: RFValue(14, 580),
+    color: '#595050',
+    fontWeight: '800',
+
+    paddingBottom: 10,
+  },
+  boxTextDisable: {
+    fontSize: RFValue(13, 580),
+    color: '#595050',
+    fontWeight: '400',
+
+    lineHeight: 20,
   },
   boxHeading1: {
     fontSize: RFValue(14, 580),
@@ -332,20 +336,6 @@ const styles = StyleSheet.create({
 
     lineHeight: 20,
   },
-  boxTestText: {
-    fontSize: RFValue(16, 580),
-    color: WHITE_COLOR,
-    fontWeight: '400',
-
-    lineHeight: 20,
-  },
-  boxTestText1: {
-    fontSize: RFValue(16, 580),
-    color: '#595050',
-    fontWeight: '400',
-
-    lineHeight: 20,
-  },
   nameTextContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -362,7 +352,6 @@ const styles = StyleSheet.create({
   },
   boxTopHeading: {
     marginBottom: 8,
-    marginStart: 8,
     color: '#595050',
     fontWeight: '600',
     fontSize: RFValue(12, 580),
@@ -405,8 +394,8 @@ const mapDispatchToProps = dispatch => {
     movetoSettingsScreen: navigation => moveToSettingsScreenAction(navigation),
     movetoMakeAnAppointmentScreen: navigation =>
       moveToMakeAppointsAction(navigation),
-    moveToAppointmentDetails: (navigation, path) =>
-      moveToAppointmentDetailsAction(navigation, path),
+    moveToAppointmentDetails: (navigation, path, userInfo) =>
+      moveToAppointmentDetailsAction(navigation, path, userInfo),
   };
 };
 export default connect(

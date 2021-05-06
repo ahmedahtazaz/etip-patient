@@ -1,18 +1,11 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, {useEffect} from 'react';
+import {connect} from 'react-redux';
 
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-  useWindowDimensions,
-} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View, Image} from 'react-native';
 import BottomNavigator from '../../components/BottomNavigator';
-import { useIsFocused } from '@react-navigation/core';
+import {useIsFocused} from '@react-navigation/core';
 import Orientation from 'react-native-orientation-locker';
-import { SwipeListView } from 'react-native-swipe-list-view';
+import {SwipeListView} from 'react-native-swipe-list-view';
 
 const menuIcon = require('../../assets/images/menu-icon.png');
 const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
@@ -28,7 +21,7 @@ import {
   getFamilyMembersAction,
   removeFamilyMemberAction,
 } from './Actions';
-import { get_family_url } from '../../commons/environment';
+import {get_family_url} from '../../commons/environment';
 
 const FamilyMain = ({
   navigation,
@@ -39,18 +32,15 @@ const FamilyMain = ({
   getFamilyMembers,
   removeFamilyMember,
 }) => {
-  const window = useWindowDimensions();
-
   const isFocused = useIsFocused();
 
   useEffect(() => {
     Orientation.lockToPortrait();
     getFamilyData();
-    console.log('focused::::')
   }, [isFocused]);
 
   useEffect(() => {
-    getFamilyData()
+    getFamilyData();
   }, []);
 
   const getFamilyData = () => {
@@ -58,9 +48,9 @@ const FamilyMain = ({
       url: `${get_family_url}/${userInfo?.data?.data?.family.id}`,
       userId: userInfo?.data?.data?._id,
     });
-  }
+  };
 
-  const removeMember = ({ item }) => {
+  const removeMember = ({item}) => {
     let data = {
       url: `${get_family_url}/${userInfo?.data?.data?.family.id}/remove-member/${item._id}`,
       userId: userInfo?.data?.data?._id,
@@ -69,15 +59,15 @@ const FamilyMain = ({
     removeFamilyMember(data);
   };
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({item}) => {
     return (
       <View style={styles.nameContainer}>
         <View style={styles.parentNameContainer}>
           <View style={styles.nameTextContainer}>
-            <Text style={{ color: '#20B2AA', textColor: 'grey', marginStart: 8 }}>
+            <Text style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
               {`${item.firstName} ${item.lastName}`}
             </Text>
-            <Text style={{ marginStart: 8, color: '#adadad' }}>
+            <Text style={{marginStart: 8, color: '#adadad'}}>
               {item.relation}
             </Text>
           </View>
@@ -85,24 +75,19 @@ const FamilyMain = ({
             <TouchableOpacity
               style={styles.qrEditContainer}
               onPress={() =>
-                moveToAppointmentDetails(
-                  navigation,
-                  'personal',
-                  `${item.firstName} ${item.lastName}`,
-                  item,
-                )
+                moveToAppointmentDetails(navigation, 'personal', item)
               }>
-              <Image source={greenQrCode} style={{ marginLeft: 5 }} />
+              <Image source={greenQrCode} style={{marginLeft: 5}} />
             </TouchableOpacity>
-            {
-              item?.relation ?
-                <TouchableOpacity
-                  onPress={() => moveToUserinfScreenAction(navigation, item)}
-                  style={styles.editContainer}>
-                  <Image source={greyEdit} style={{ marginLeft: 5 }} />
-                </TouchableOpacity>
-                : <View style={styles.editContainer} />
-            }
+            {item?.relation ? (
+              <TouchableOpacity
+                onPress={() => moveToUserinfScreenAction(navigation, item)}
+                style={styles.editContainer}>
+                <Image source={greyEdit} style={{marginLeft: 5}} />
+              </TouchableOpacity>
+            ) : (
+              <View style={styles.editContainer} />
+            )}
           </View>
         </View>
       </View>
@@ -118,10 +103,10 @@ const FamilyMain = ({
             onPress={() => {
               movetoSettingsScreen(navigation);
             }}>
-            <Image source={menuIcon} style={{ marginLeft: 10 }} />
+            <Image source={menuIcon} style={{marginLeft: 10}} />
           </TouchableOpacity>
           <View style={styles.menuItemsCenter}>
-            <Image source={smallHeaderLogo} style={{ marginLeft: 5 }} />
+            <Image source={smallHeaderLogo} style={{marginLeft: 5}} />
           </View>
         </View>
       </View>
@@ -148,7 +133,7 @@ const FamilyMain = ({
                         <Image source={deleteIcon} />
                       </View>
                     </TouchableOpacity>
-                  )
+                  );
               }}
               disableRightSwipe={true}
               leftOpenValue={75}
@@ -159,7 +144,7 @@ const FamilyMain = ({
       </View>
       <BottomNavigator
         navigation={navigation}
-        selectedItem={{ id: 3, label: 'Family' }}></BottomNavigator>
+        selectedItem={{id: 3, label: 'Family'}}></BottomNavigator>
     </View>
   );
 };
@@ -184,7 +169,7 @@ const styles = StyleSheet.create({
     marginEnd: 8,
   },
   qrEditContainer: {
-    marginTop: -10,
+    marginTop: -15,
   },
 
   nameTextContainer: {
@@ -247,13 +232,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   mainDivPad: {
-    paddingLeft: '3%',
-    paddingRight: '3%',
+    paddingLeft: '4%',
+    paddingRight: '4%',
   },
   appoinmentDivBg: {
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
+    height:'88%',
     marginTop: '25%',
   },
   mainMenu: {
@@ -261,6 +247,7 @@ const styles = StyleSheet.create({
     zIndex: 2000,
     top: '3%',
     left: '3%',
+    height:'10%',
     width: '100%',
   },
   mainMenuItems: {
@@ -285,8 +272,8 @@ const mapDispatchToProps = dispatch => {
     movetoSettingsScreen: navigation => moveToSettingsScreenAction(navigation),
     movetoMakeAnAppointmentScreen: navigation =>
       moveToMakeAppointsAction(navigation),
-    moveToAppointmentDetails: (navigation, path, title, qrObj) =>
-      moveToAppointmentDetailsAction(navigation, path, title, qrObj),
+    moveToAppointmentDetails: (navigation, path, userInfo) =>
+      moveToAppointmentDetailsAction(navigation, path, userInfo),
     getFamilyMembers: data => dispatch(getFamilyMembersAction(data)),
     removeFamilyMember: data => dispatch(removeFamilyMemberAction(data)),
   };
@@ -294,7 +281,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    userInfo: state.userInfoReducer.userInfo,
+    userInfo: state.mainScreenReducer.userInfo,
     familyMembers: state.familyReducer.familyMembers,
   };
 };

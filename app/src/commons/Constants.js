@@ -111,10 +111,14 @@ export const GET_LANG_BY_SELECTED_KEY_SUCCESS =
 export const GET_LANG_BY_SELECTED_KEY_FAILURE =
   'GET_LANG_BY_SELECTED_KEY_FAILURE';
 
+export const SET_TEST_CENTER = 'SET_TEST_CENTER';
+
 export const SET_LOADER_CERTIFICATES_SCREEN = 'SET_LOADER_CERTIFICATES_SCREEN';
 
 export const RESET_ERROR_MAIN = 'RESET_ERROR_MAIN';
 export const RESET_ERROR_CERTIFICATES = 'RESET_ERROR_CERTIFICATES';
+
+export const RESET_MAKE_APPOINTMENT = 'RESET_MAKE_APPOINTMENT';
 
 export const postCall = ({url, body: data}) => {
   return axios({url, method: 'post', data})
