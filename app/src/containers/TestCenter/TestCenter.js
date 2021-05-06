@@ -11,7 +11,7 @@ import {get_test_centers} from '../../commons/environment';
 import {GETTestCenters} from './Action';
 import {setTestCenterAction} from '../AppointmentCalender/Actions';
 
-const {height} = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 const TestCenter = ({
   route: {
@@ -145,6 +145,7 @@ const styles = StyleSheet.create({
   headerTextView: {
     flex: 9,
     alignItems: 'center',
+    paddingRight: width * 0.1,
   },
   headerText: {
     fontSize: RFValue(16, 580),
