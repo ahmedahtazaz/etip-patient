@@ -1,7 +1,7 @@
 import {
-  GET_ABOUT_APP,
-  GET_ABOUT_APP_SUCCESS,
-  GET_ABOUT_APP_FAILURE,
+  GET_POLICY,
+  GET_POLICY_SUCCESS,
+  GET_POLICY_FAILURE,
 } from '../../commons/Constants';
 
 const INITIAL_STATE = {
@@ -9,30 +9,30 @@ const INITIAL_STATE = {
   initLoaded: false,
   loader: false,
   errMessage: undefined,
-  initPayLoad: undefined,
+  policy: undefined,
   getLang: false,
 };
 
 export default function getPolicyReducer() {
   return function reducer(state = INITIAL_STATE, action) {
     switch (action.type) {
-      case GET_ABOUT_APP_SUCCESS:
+      case GET_POLICY_SUCCESS:
         return {
           ...state,
           loader: false,
           errMessage: undefined,
-          initPayLoad: action.payload,
+          policy: action.payload,
         };
 
-      case GET_ABOUT_APP_FAILURE:
+      case GET_POLICY_FAILURE:
         return {
           ...state,
           loader: false,
           errMessage: action.errMessage,
-          initPayLoad: undefined,
+          policy: undefined,
         };
 
-      case GET_ABOUT_APP:
+      case GET_POLICY:
         return {
           ...state,
           loader: true,

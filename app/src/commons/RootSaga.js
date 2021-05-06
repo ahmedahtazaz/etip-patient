@@ -1,11 +1,11 @@
-import { all } from 'redux-saga/effects';
+import {all} from 'redux-saga/effects';
 import getABoutData from '../containers/AboutApp/Saga';
-import getPolicyData from '../containers/AboutApp/Saga';
+import getPolicyData from '../containers/Policy/Saga';
 import {
   getchangeLanguage,
   getLanguageByKeysSaga,
 } from '../containers/ChangeLanguage/Saga';
-import { getProfileActionWatcher } from '../containers/AppointmentDetails/Saga';
+import {getProfileActionWatcher} from '../containers/AppointmentDetails/Saga';
 import {
   getFamilyMembersActionWatcher,
   removeFamilyMembersActionWatcher,
@@ -26,13 +26,13 @@ import welcomeActionWatcher, {
   getDefaultLanguageSaga,
   getSelectedLanguageByKeySaga,
 } from '../containers/Welcome/Saga';
-import { getTestCentersSaga } from '../containers/TestCenter/Saga';
+import {getTestCentersSaga} from '../containers/TestCenter/Saga';
 import {
   createAppointmentSaga,
   getAppointmentSlotSaga,
   getRegionSaga,
 } from '../containers/AppointmentCalender/Saga';
-import { getCertificatesActionWatcher } from '../containers/Certificates/Saga';
+import {getCertificatesActionWatcher} from '../containers/Certificates/Saga';
 
 export default function* rootSaga() {
   yield all([

@@ -1,15 +1,8 @@
+import {GET_POLICY} from '../../commons/Constants';
 
-import { GET_POLICY } from "../../commons/Constants";
-
-
-
-
-
-
-
-export const getpolicy = (payload) => {
+export const getpolicyAction = payload => {
   return {
     type: GET_POLICY,
-    payload
+    payload,
   };
 };

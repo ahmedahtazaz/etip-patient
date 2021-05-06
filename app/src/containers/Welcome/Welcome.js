@@ -1,8 +1,7 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
-import {APP_INIT_LINK, STORAGE_KEY} from '../../commons/Constants';
-import {PRIMARY_COLOR, WHITE_COLOR} from '../../theme/Colors';
-import PrimaryButton from '../../components/PrimaryButton';
+import {STORAGE_KEY} from '../../commons/Constants';
+import {WHITE_COLOR} from '../../theme/Colors';
 import Slider from 'react-native-slide-to-unlock';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -15,6 +14,8 @@ import {
   moveToPhoneScreenAction,
   moveToUserInfoScreenAction,
   GetDefaultLanguage,
+  moveToPPScreenAction,
+  moveToTTScreenAction,
 } from './Actions';
 import I18n from '../../translations/I18n';
 
@@ -27,48 +28,28 @@ import {
   StyleSheet,
   Text,
   ImageBackground,
-  Alert,
 } from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {
   get_def_lang_url,
   get_lang_by_lang_url,
 } from '../../commons/environment';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 const splashBg = require('../../assets/images/splash-bg.png');
 const splashLogoSmall = require('../../assets/images/splash-logo-small.png');
+
 function Welcome({
-  showLoader,
-  initialiseApp,
-  moveToMainScreen,
-  initLoaded,
   navigation,
   loader,
   moveToPhoneScreen,
-  moveToUserInfoScreen,
-  GetDefaultLanguage,
-  defaultLangData,
-  GetLanguageKeysByKey,
-  languageBySelectedKey,
+  moveToTerms,
+  moveToPolicy,
 }) {
   const isFocused = useIsFocused();
 
   useEffect(() => {
     Orientation.lockToPortrait();
   }, [isFocused]);
-
-  const readData = async () => {
-    try {
-      const savedLangKey = await AsyncStorage.getItem(STORAGE_KEY);
-
-      if (savedLangKey !== null) {
-        GetDefaultLanguage(get_lang_by_lang_url + 'en');
-      } else {
-        GetDefaultLanguage(get_def_lang_url);
-      }
-    } catch (e) {
-      alert('Failed to fetch the data from storage');
-    }
-  };
 
   return (
     <ImageBackground source={splashBg} style={styles.splashbackground}>
@@ -82,12 +63,16 @@ function Welcome({
             <Text style={styles.bottomTextBig}>
               {I18n.t('I have read and accept the following')}
             </Text>
-            <Text style={styles.bottomTextSmall}>
-              {I18n.t('Terms & Conditions')}
-            </Text>
-            <Text style={styles.bottomTextSmall}>
-              {I18n.t('Privacy policy of Application')}
-            </Text>
+            <TouchableOpacity onPress={() => moveToTerms(navigation)}>
+              <Text style={styles.bottomTextSmall}>
+                {I18n.t('Terms & Conditions')}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => moveToPolicy(navigation)}>
+              <Text style={styles.bottomTextSmall}>
+                {I18n.t('Privacy policy of Application')}
+              </Text>
+            </TouchableOpacity>
           </View>
           <Slider
             onEndReached={() => {
@@ -166,12 +151,9 @@ const mapDispatchToProps = dispatch => {
     GetDefaultLanguage: navigation => dispatch(GetDefaultLanguage(navigation)),
     GetLanguageKeysByKey: navigation =>
       dispatch(GetLanguageKeysByKey(navigation)),
+    moveToPolicy: navigation => moveToPPScreenAction(navigation),
+    moveToTerms: navigation => moveToTTScreenAction(navigation),
   };
-};
-const saveData = async data => {
-  try {
-    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  } catch (e) {}
 };
 
 const mapStateToProps = state => {
