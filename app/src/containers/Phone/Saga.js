@@ -34,6 +34,7 @@ function* verifyOTP(action) {
       action.payload.url,
       action.payload.body,
     );
+
     if (res.error) {
       yield put({type: VERIFY_OTP_FAILURE, errMessage: res.error.message});
     } else {

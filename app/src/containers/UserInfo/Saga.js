@@ -1,4 +1,4 @@
-import { put, takeLatest, call } from 'redux-saga/effects';
+import {put, takeLatest, call} from 'redux-saga/effects';
 import {
   ADD_FAMILY_MEMBER,
   ADD_FAMILY_MEMBER_FAILURE,
@@ -24,12 +24,12 @@ function* signUp(action) {
       action.payload.body,
     );
     if (res.error) {
-      yield put({ type: SIGNUP_FAILURE, errMessage: res.error.message });
+      yield put({type: SIGNUP_FAILURE, errMessage: res.error.message});
     } else {
-      yield put({ type: SIGNUP_SUCCES, payload: res.success });
+      yield put({type: SIGNUP_SUCCES, payload: res.success});
     }
   } catch (error) {
-    yield put({ type: SIGNUP_FAILURE, errMessage: error });
+    yield put({type: SIGNUP_FAILURE, errMessage: error});
   }
 }
 
@@ -49,7 +49,10 @@ function* addFamilyMember(action) {
       config,
     );
     if (res.error) {
-      yield put({ type: ADD_FAMILY_MEMBER_FAILURE, errMessage: res.error.message });
+      yield put({
+        type: ADD_FAMILY_MEMBER_FAILURE,
+        errMessage: res.error.message,
+      });
     } else {
       yield put({
         type: ADD_FAMILY_MEMBER_SUCCES,
@@ -57,7 +60,7 @@ function* addFamilyMember(action) {
       });
     }
   } catch (error) {
-    yield put({ type: ADD_FAMILY_MEMBER_FAILURE, errMessage: error });
+    yield put({type: ADD_FAMILY_MEMBER_FAILURE, errMessage: error});
   }
 }
 
@@ -83,17 +86,20 @@ function* editFamilyMember(action) {
       });
     else {
       showToast(res.error.message);
-      yield put({ type: EDIT_FAMILY_MEMBER_FAILURE, errMessage: res.error.message });
+      yield put({
+        type: EDIT_FAMILY_MEMBER_FAILURE,
+        errMessage: res.error.message,
+      });
     }
   } catch (error) {
-    yield put({ type: EDIT_FAMILY_MEMBER_FAILURE, errMessage: error });
+    yield put({type: EDIT_FAMILY_MEMBER_FAILURE, errMessage: error});
   }
 }
-
 
 function* updateUser(action) {
   let userId = action.payload.body.userId;
   delete action.payload.body.userId;
+
   try {
     const config = {
       headers: {
@@ -106,16 +112,17 @@ function* updateUser(action) {
       action.payload.body,
       config,
     );
+
     if (res.success)
       yield put({
         type: UPDATE_USER_SUCCESS,
         payload: res.success,
       });
     else {
-      yield put({ type: UPDATE_USER_FAILURE, errMessage: res.error.message });
+      yield put({type: UPDATE_USER_FAILURE, errMessage: res.error.message});
     }
   } catch (error) {
-    yield put({ type: UPDATE_USER_FAILURE, errMessage: error });
+    yield put({type: UPDATE_USER_FAILURE, errMessage: error});
   }
 }
 

@@ -1,17 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { connect } from 'react-redux';
-import {
-  WHITE_COLOR,
-  PRIMARY_COLOR,
-  GRAY_COLOR,
-  BLACK_COLOR,
-} from '../../theme/Colors';
+import React, {useEffect, useRef, useState} from 'react';
+import {connect} from 'react-redux';
+import {WHITE_COLOR, PRIMARY_COLOR, GRAY_COLOR} from '../../theme/Colors';
 
 import Orientation from 'react-native-orientation-locker';
-import { useIsFocused } from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 import {
   ActivityIndicator,
-  Image,
   View,
   StyleSheet,
   Text,
@@ -19,9 +13,9 @@ import {
   ScrollView,
   TouchableOpacity,
   ToastAndroid,
+  Alert,
 } from 'react-native';
-import I18n from '../../translations/I18n';
-import { RFValue } from 'react-native-responsive-fontsize';
+import {RFValue} from 'react-native-responsive-fontsize';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import RadioButton from '../../components/RadioButton';
@@ -34,7 +28,7 @@ import {
   resetIsFamilyMemberAddedAction,
   updateUserAction,
 } from './Actions';
-import { emailRegex } from '../../commons/Constants';
+import {emailRegex} from '../../commons/Constants';
 import {
   organizationName,
   signup_url,
@@ -59,7 +53,7 @@ function UserInfo({
   updateFamilyMember,
   errMessage,
   familyMembers,
-  updateUser
+  updateUser,
 }) {
   const [isFamily, setIsFamily] = useState(false);
   const [fName, setFName] = useState('');
@@ -69,10 +63,10 @@ function UserInfo({
   const [other, setOther] = useState(false);
   const [dob, setDob] = useState(
     currentDate.getDate() +
-    '-' +
-    currentDate.getMonth() +
-    '-' +
-    currentDate.getFullYear(),
+      '-' +
+      currentDate.getMonth() +
+      '-' +
+      currentDate.getFullYear(),
   );
   const [showCalender, setShowCalender] = useState(false);
   const [calDate, setCalDate] = useState(new Date());
@@ -100,8 +94,6 @@ function UserInfo({
   useEffect(() => {
     const data = (route.params && route.params.data) || '';
     let editUser = route?.params?.editUser || false;
-    console.log("data::: ", data);
-    console.log("edit user: ", editUser)
     if (data) {
       setIsUserEdit(editUser);
       if (!editUser) {
@@ -135,7 +127,7 @@ function UserInfo({
       data.address.city && setCity(capitalizeFirstLetter(data.address.city));
       setPostalCode(data.address.zipCode);
     }
-  }, []);
+  }, [isFocused]);
 
   useEffect(() => {
     Orientation.lockToPortrait();
@@ -187,10 +179,10 @@ function UserInfo({
     if (currentDate)
       setDob(
         currentDate.getDate() +
-        '-' +
-        currentDate.getMonth() +
-        '-' +
-        currentDate.getFullYear(),
+          '-' +
+          currentDate.getMonth() +
+          '-' +
+          currentDate.getFullYear(),
       );
     setCalDate(new Date());
     setCity('Bavaria');
@@ -290,14 +282,17 @@ function UserInfo({
         addFamilyMember(data);
       } else {
         if (isUserEdit) {
-          delete data.body["relation"];
-          delete data.body["email"];
-          delete data.body["mobileNumber"];
-          data["url"] = signup_url;
+          delete data.body['relation'];
+          delete data.body['email'];
+          delete data.body['mobileNumber'];
+          data['url'] = signup_url;
+          data.body['userId'] = dataObj['_id'];
+          data.body['familyId'] = dataObj['family']['id'];
           updateUser(data);
+        } else {
+          data.body['id'] = dataObj['_id'];
+          updateFamilyMember(data);
         }
-        data.body['id'] = dataObj['_id'];
-        updateFamilyMember(data);
       }
     }
   };
@@ -307,7 +302,7 @@ function UserInfo({
   };
 
   return (
-    <ScrollView style={{ height: '100%' }} ref={scrollRef}>
+    <ScrollView style={{height: '100%'}} ref={scrollRef}>
       <View style={styles.background}>
         <View style={styles.innerDiv}>
           <View style={styles.mainHeading}>
@@ -418,7 +413,7 @@ function UserInfo({
                 },
               ]}
               defaultValue={relation}
-              containerStyle={{ height: '6%', marginBottom: '4%' }}
+              containerStyle={{height: '6%', marginBottom: '4%'}}
               style={{
                 backgroundColor: '#F5F9F8',
                 fontSize: RFValue(14, 580),
@@ -462,22 +457,26 @@ function UserInfo({
             placeholder="Tax ID"
             style={styles.inputStyle1}
             onChangeText={value => setTaxId(value)}></TextInput>
-          {!isUserEdit && <TextInput
-            placeholderTextColor={'#a29d9d'}
-            value={email}
-            textContentType="email"
-            underlineColorAndroid="transparent"
-            placeholder="Email"
-            style={styles.inputStyle1}
-            onChangeText={value => setEmail(value)}></TextInput>}
-          {!isUserEdit && <TextInput
-            placeholderTextColor={'#a29d9d'}
-            value={mobileNo}
-            textContentType="mobileNo"
-            underlineColorAndroid="transparent"
-            placeholder="Mobile No"
-            style={styles.inputStyle1}
-            onChangeText={value => setMobileNo(value)}></TextInput>}
+          {!isUserEdit && (
+            <TextInput
+              placeholderTextColor={'#a29d9d'}
+              value={email}
+              textContentType="email"
+              underlineColorAndroid="transparent"
+              placeholder="Email"
+              style={styles.inputStyle1}
+              onChangeText={value => setEmail(value)}></TextInput>
+          )}
+          {!isUserEdit && (
+            <TextInput
+              placeholderTextColor={'#a29d9d'}
+              value={mobileNo}
+              textContentType="mobileNo"
+              underlineColorAndroid="transparent"
+              placeholder="Mobile No"
+              style={styles.inputStyle1}
+              onChangeText={value => setMobileNo(value)}></TextInput>
+          )}
           <View style={styles.secondaryHeading}>
             <Text style={styles.secondaryHeadingText}>Address</Text>
           </View>
@@ -522,7 +521,7 @@ function UserInfo({
               },
             ]}
             defaultValue={city}
-            containerStyle={{ height: '5%' }}
+            containerStyle={{height: '5%'}}
             style={{
               backgroundColor: '#F5F9F8',
               fontSize: RFValue(14, 580),
@@ -547,12 +546,23 @@ function UserInfo({
             style={styles.inputStyle2}
             onChangeText={value => setPostalCode(value)}></TextInput>
           {editMode ? (
-            <TouchableOpacity
-              disabled={loader}
-              style={[styles.container, styles.submitButtonDark]}
-              onPress={() => addData()}>
-              <Text style={styles.saveCloseText}>Update</Text>
-            </TouchableOpacity>
+            <View style={{flexDirection: 'column'}}>
+              <TouchableOpacity
+                disabled={loader}
+                style={[styles.container, styles.submitButtonDark]}
+                onPress={() => {
+                  setIsSaveOnly(true);
+                  addData();
+                }}>
+                <Text style={styles.saveCloseText}>Update</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                disabled={loader}
+                style={[styles.container, styles.cancelButton]}
+                onPress={() => navigation.goBack()}>
+                <Text style={styles.saveCloseText}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
           ) : (
             <>
               <TouchableOpacity
@@ -570,7 +580,7 @@ function UserInfo({
               </TouchableOpacity>
               <TouchableOpacity
                 disabled={userInfo && !Object.keys(userInfo).length}
-                style={{ marginTop: '4%', alignContent: 'center' }}
+                style={{marginTop: '4%', alignContent: 'center'}}
                 onPress={() => {
                   setIsSaveOnly(false);
                   submit();
@@ -608,7 +618,7 @@ const mapDispatchToProps = dispatch => {
     updateFamilyMember: data => dispatch(updateFamilyMemberAction(data)),
     resetIsUserCreated: () => dispatch(resetIsUserCreatedAction()),
     resetIsFamilyMemberAdded: () => dispatch(resetIsFamilyMemberAddedAction()),
-    updateUser: (data) => dispatch(updateUserAction(data))
+    updateUser: data => dispatch(updateUserAction(data)),
   };
 };
 
@@ -728,6 +738,17 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: 10,
     backgroundColor: '#006970',
+    color: WHITE_COLOR,
+    paddingTop: 20,
+    paddingBottom: 20,
+    fontSize: RFValue(14, 580),
+    fontWeight: '600',
+    marginTop: '8%',
+  },
+  cancelButton: {
+    width: '100%',
+    borderRadius: 10,
+    backgroundColor: 'red',
     color: WHITE_COLOR,
     paddingTop: 20,
     paddingBottom: 20,
