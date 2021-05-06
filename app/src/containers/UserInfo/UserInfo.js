@@ -57,10 +57,7 @@ function UserInfo({
   isFamilyMemberAdded,
   updateFamilyMember,
   errMessage,
-<<<<<<< HEAD
   familyMembers
-=======
->>>>>>> 3eecf08f099c797fa0502304e28670ffe1d057ed
 }) {
   const [isFamily, setIsFamily] = useState(false);
   const [fName, setFName] = useState('');
