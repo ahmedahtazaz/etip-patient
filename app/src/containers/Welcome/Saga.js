@@ -18,8 +18,6 @@ import {put, takeLatest, call} from 'redux-saga/effects';
 
 import AxiosInstance from '../../commons/AxiosInstance';
 
-import axios from 'axios';
-
 function* loadInit(action) {
   let error = undefined;
   let payLoad = undefined;

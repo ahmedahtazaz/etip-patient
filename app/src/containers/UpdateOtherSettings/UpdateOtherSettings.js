@@ -3,15 +3,12 @@ import {connect} from 'react-redux';
 import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
 import {
-  ActivityIndicator,
-  Image,
   View,
   StyleSheet,
   Text,
   Dimensions,
   TouchableOpacity,
   TextInput,
-  Switch,
 } from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {RFValue} from 'react-native-responsive-fontsize';
@@ -20,25 +17,38 @@ import I18n from '../../translations/I18n';
 import {update_user_email_url} from '../../commons/environment';
 import {updateEmailAction} from '../MainScreen/Actions';
 import {emailRegex, showToast} from '../../commons/Constants';
+import {ActivityIndicator} from 'react-native-paper';
+import {resetEmailUpdatedAction} from './Action';
 const {width, height} = Dimensions.get('window');
 
 function UpdateOtherSettings({
-  route: {
-    params: {title},
-  },
+  loader,
   navigation,
   updateEmail,
   userInfo,
   errMessage,
+  emailUpdated,
+  resetEmailUpdated,
 }) {
-  const [isEnabled, setIsEnabled] = useState(false);
   const [email, setEmail] = useState(userInfo?.data?.data?.email || '');
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const isFocused = useIsFocused();
 
   useEffect(() => {
     Orientation.lockToPortrait();
   }, [isFocused]);
+
+  useEffect(() => {
+    if (errMessage) {
+      showToast(errMessage);
+    }
+  }, [errMessage]);
+
+  useEffect(() => {
+    if (emailUpdated) {
+      resetEmailUpdated();
+      showToast('Email has been updated successfully');
+    }
+  }, [emailUpdated]);
 
   const updateUserEmail = () => {
     if (!email || !email.match(emailRegex)) {
@@ -55,12 +65,6 @@ function UpdateOtherSettings({
     updateEmail(data);
   };
 
-  useEffect(() => {
-    if (errMessage) {
-      showToast(errMessage);
-    }
-  }, [errMessage]);
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -70,9 +74,7 @@ function UpdateOtherSettings({
           </TouchableOpacity>
         </View>
         <View>
-          <Text style={styles.headerText}>
-            {I18n.t('Update')} {title}
-          </Text>
+          <Text style={styles.headerText}>{I18n.t('Update Email')}</Text>
         </View>
       </View>
       <View style={styles.fields}>
@@ -86,24 +88,6 @@ function UpdateOtherSettings({
               placeholder="Email"
               style={styles.inputStyle1}></TextInput>
           </View>
-          <View style={styles.switchMain}>
-            <View style={styles.switchTextView}>
-              <Text style={styles.switchText}>
-                {I18n.t(
-                  'Associate my information as a family number with another number',
-                )}
-              </Text>
-            </View>
-            <View style={styles.switchView}>
-              <Switch
-                trackColor={{false: '#767577', true: '#767577'}}
-                thumbColor={isEnabled ? '#f4f3f4' : '#f4f3f4'}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={isEnabled}
-              />
-            </View>
-          </View>
         </View>
         <View style={styles.updateBtnMain}>
           <TouchableOpacity
@@ -113,6 +97,20 @@ function UpdateOtherSettings({
           </TouchableOpacity>
         </View>
       </View>
+      {loader ? (
+        <View
+          style={{
+            alignSelf: 'center',
+            height: '100%',
+            width: '100%',
+            justifyContent: 'center',
+            position: 'absolute',
+            top: '40%',
+            zIndex: 1000,
+          }}>
+          <ActivityIndicator size="large" color="grey" animating={loader} />
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -120,13 +118,16 @@ function UpdateOtherSettings({
 const mapDispatchToProps = dispatch => {
   return {
     updateEmail: data => dispatch(updateEmailAction(data)),
+    resetEmailUpdated: () => dispatch(resetEmailUpdatedAction()),
   };
 };
 
 const mapStateToProps = state => {
   return {
     userInfo: state.mainScreenReducer.userInfo,
-    errMessage: state.mainScreenReducer.errMessage,
+    errMessage: state.updateEmailReducer.errMessage,
+    loader: state.updateEmailReducer.loader,
+    emailUpdated: state.updateEmailReducer.emailUpdated,
   };
 };
 

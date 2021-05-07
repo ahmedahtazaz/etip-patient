@@ -21,7 +21,10 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {LANGUAGE_KEY, showToast} from '../../commons/Constants';
-import {getLanguageByKeyAction} from '../Welcome/Actions';
+import {
+  getLanguageByKeyAction,
+  setLanguageUpdatedAction,
+} from '../Welcome/Actions';
 import {ActivityIndicator} from 'react-native-paper';
 
 function ChangeLanguage({
@@ -31,8 +34,11 @@ function ChangeLanguage({
   getLanguageByKey,
   loader,
   errMessage,
+  languageUpdated,
+  setLanguageUpdated,
 }) {
   const [languages, setLanguages] = useState([]);
+  const [successWaiting, setSuccessWaiting] = useState(false);
 
   useEffect(() => {
     if (availableLanguages && defaultLangData)
@@ -45,14 +51,27 @@ function ChangeLanguage({
         }),
       );
     saveLanguage(defaultLangData.lang);
+    if (successWaiting) setLanguageUpdated(true);
   }, [availableLanguages, defaultLangData]);
 
   useEffect(() => {
-    if (errMessage) showToast(errMessage);
+    if (errMessage) {
+      setSuccessWaiting(false);
+      showToast(errMessage);
+    }
   }, [errMessage]);
+
+  useEffect(() => {
+    if (languageUpdated) {
+      setSuccessWaiting(false);
+      setLanguageUpdated(false);
+      showToast('Language has been updated successfully');
+    }
+  }, [languageUpdated]);
 
   const onItemPress = item => {
     if (!item.status) {
+      setSuccessWaiting(true);
       getLanguageByKey({url: `${get_lang_by_key_url}/${item.lang}`});
     }
   };
@@ -128,6 +147,7 @@ function ChangeLanguage({
 const mapDispatchToProps = dispatch => {
   return {
     getLanguageByKey: data => dispatch(getLanguageByKeyAction(data)),
+    setLanguageUpdated: status => dispatch(setLanguageUpdatedAction(status)),
   };
 };
 
@@ -137,6 +157,7 @@ const mapStateToProps = state => {
     errMessage: state.LanguageReducer.errMessage,
     availableLanguages: state.welcomeReducer.availableLanguages,
     defaultLangData: state.welcomeReducer.defaultLangData,
+    languageUpdated: state.welcomeReducer.languageUpdated,
   };
 };
 
