@@ -10,6 +10,7 @@ import {
   UPDATE_PHONE_FAILURE,
   UPDATE_PHONE,
   UPDATE_USER_SUCCESS,
+  UPDATE_PHONE_SEND_OTP_SUCCESS
 } from '../../commons/Constants';
 
 import AxiosInstance from '../../commons/AxiosInstance';
@@ -24,7 +25,11 @@ function* sendOTP(action) {
     if (res.error) {
       yield put({ type: SEND_OTP_FAILURE, errMessage: res.error.message });
     } else {
-      yield put({ type: SEND_OTP_SUCCESS, payload: res.success });
+      if (action.payload.editMode) {
+        yield put({ type: UPDATE_PHONE_SEND_OTP_SUCCESS, payload: res.success });
+      } else {
+        yield put({ type: SEND_OTP_SUCCESS, payload: res.success });
+      }
     }
   } catch (error) {
     yield put({ type: SEND_OTP_FAILURE, errMessage: error });
@@ -38,6 +43,7 @@ function* verifyOTP(action) {
       action.payload.url,
       action.payload.body,
     );
+
     if (res.error) {
       yield put({ type: VERIFY_OTP_FAILURE, errMessage: res.error.message });
     } else {
@@ -50,7 +56,6 @@ function* verifyOTP(action) {
 
 
 function* updatePhone(action) {
-  console.log('updatePhone action: ', action);
   let userId = action.payload.body.userId;
   delete action.payload.body.userId;
   try {
@@ -65,8 +70,6 @@ function* updatePhone(action) {
       action.payload.body,
       config,
     );
-    console.log("update phone:: ", res.success);
-    console.log("update phone error:: ", res.error);
     if (res.success) {
       yield put({
         type: UPDATE_USER_SUCCESS,

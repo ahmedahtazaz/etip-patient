@@ -79,8 +79,8 @@ const MainScreen = ({
 
   useEffect(() => {
     if (
-      !userInfo &&
-      (verifyOptPayload?.data?.data?.userId || userInfoSignUp?.data?.data?._id)
+      verifyOptPayload?.data?.data?.userId ||
+      userInfoSignUp?.data?.data?._id
     ) {
       setLoader(true);
       const payload = {
@@ -224,11 +224,10 @@ const MainScreen = ({
             <View style={styles.nameContainer}>
               <View style={styles.parentNameContainer}>
                 <View style={styles.nameTextContainer}>
-                  <Text
-                    style={{fontSize: 25, fontWeight: 'bold', }}>
+                  <Text style={{fontSize: 25, fontWeight: 'bold'}}>
                     Hi {userName}
                   </Text>
-                  <Text style={{textColor: 'grey', }}>
+                  <Text style={{textColor: 'grey'}}>
                     Hope u r feeling healthy today
                   </Text>
                 </View>
@@ -241,7 +240,7 @@ const MainScreen = ({
                     )
                   }>
                   <Image
-                    style={{height: 50, width: 50,}}
+                    style={{height: 50, width: 50}}
                     source={mainScreenIcon}
                   />
                 </TouchableOpacity>
@@ -392,7 +391,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
-    height:'88%',
+    height: '88%',
     marginTop: '25%',
   },
   mainMenu: {
@@ -400,7 +399,7 @@ const styles = StyleSheet.create({
     zIndex: 2000,
     top: '3%',
     left: '3%',
-    height:'10%',
+    height: '10%',
     width: '100%',
   },
   mainMenuItems: {
@@ -422,7 +421,7 @@ const styles = StyleSheet.create({
   activeCertificationDiv: {
     borderRadius: 10,
     flexWrap: 'wrap',
-    minWidth:360,
+    minWidth: 360,
     display: 'flex',
     flexDirection: 'column',
     resizeMode: 'cover',
@@ -433,7 +432,7 @@ const styles = StyleSheet.create({
   },
   activeAppoinmentsDiv: {
     borderRadius: 10,
-    minWidth:360,
+    minWidth: 360,
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -464,7 +463,7 @@ const styles = StyleSheet.create({
 
     lineHeight: 20,
   },
-  boxTestText : {
+  boxTestText: {
     fontSize: RFValue(13, 580),
     color: WHITE_COLOR,
     fontWeight: '400',

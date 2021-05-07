@@ -12,6 +12,7 @@ import {
 } from '../containers/FamilyMain/Saga';
 import {
   sendOTPActionWatcher,
+  updatePhoneActionWatcher,
   verifyOTPActionWatcher,
 } from '../containers/Phone/Saga';
 import splashActionWatcher from '../containers/Splash/Saga';
@@ -44,6 +45,7 @@ export default function* rootSaga() {
     signupActionWatcher(),
     updateUserActionWatcher(),
     updateEmailActionWatcher(),
+    updatePhoneActionWatcher(),
 
     addFamilyMemberActionWatcher(),
     editFamilyMemberActionWatcher(),

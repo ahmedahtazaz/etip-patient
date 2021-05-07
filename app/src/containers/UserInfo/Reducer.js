@@ -12,16 +12,16 @@ import {
     SIGNUP_SUCCES,
     UPDATE_USER,
     UPDATE_USER_FAILURE,
-    UPDATE_USER_SUCCESS
+    UPDATE_USER_SUCCESS,
+    UPDATE_EMAIL_FAILURE
 } from '../../commons/Constants';
 
 const INITIAL_STATE = {
-    userInfo: null,
     familyMembers: [],
     loader: false,
     errMessage: undefined,
     isUserCreated: false,
-    isFamilyMemberAdded: false
+    isFamilyMemberAdded: false,
 };
 
 export default function userInfoReducer() {
@@ -31,81 +31,108 @@ export default function userInfoReducer() {
                 return {
                     ...state,
                     loader: true,
-                    errMessage: undefined
-                }
+                    errMessage: undefined,
+                };
 
             case SIGNUP_SUCCES:
-                console.log("signup reducer:: ", action)
                 return {
                     ...state,
                     loader: false,
-                    userInfo: { ...action.payload },
-                    isUserCreated: true
+                    isUserCreated: true,
                 };
 
             case RESET_USER_CREATED:
                 return {
                     ...state,
-                    isUserCreated: false
-                }
+                    isUserCreated: false,
+                };
 
             case SIGNUP_FAILURE:
                 return {
                     ...state,
                     loader: false,
-                    errMessage: action.errMessage
-                }
+                    errMessage: action.errMessage,
+                };
 
             case ADD_FAMILY_MEMBER:
                 return {
                     ...state,
                     loader: true,
-                    errMessage: undefined
-                }
+                    errMessage: undefined,
+                };
 
             case ADD_FAMILY_MEMBER_SUCCES:
                 return {
                     ...state,
                     loader: false,
                     familyMembers: [...state.familyMembers, ...action.payload],
-                    isFamilyMemberAdded: true
-                }
+                    isFamilyMemberAdded: true,
+                };
 
             case RESET_FAMILY_MEMBER_ADDED: {
                 return {
                     ...state,
-                    isFamilyMemberAdded: false
-                }
+                    isFamilyMemberAdded: false,
+                };
             }
 
             case ADD_FAMILY_MEMBER_FAILURE:
                 return {
                     ...state,
                     loader: false,
-                    errMessage: action.errMessage
-                }
-
+                    errMessage: action.errMessage,
+                };
 
             case EDIT_FAMILY_MEMBER:
                 return {
                     ...state,
-                    loader: true
-                }
+                    loader: true,
+                };
 
             case EDIT_FAMILY_MEMBER_SUCCES:
                 return {
                     ...state,
                     loader: false,
-                    familyMembers: [...action.payload]
-                }
+                    familyMembers: [...action.payload],
+                    isFamilyMemberAdded: true,
+                };
 
             case EDIT_FAMILY_MEMBER_FAILURE:
                 return {
                     ...state,
                     loader: false,
+                    errMessage: action.errMessage,
+                    isFamilyMemberAdded: false,
+                };
+
+            case UPDATE_USER:
+                return {
+                    ...state,
+                    loader: true,
+                    errMessage: undefined,
+                };
+
+            case UPDATE_USER_SUCCESS:
+                return {
+                    ...state,
+                    loader: false,
+                    errMessage: undefined,
+                    isUserCreated: true,
+                };
+
+            case UPDATE_USER_FAILURE:
+                return {
+                    ...state,
+                    loader: false,
+                    errMessage: action.errMessage,
+                };
+
+            case UPDATE_EMAIL_FAILURE:
+                return {
+                    ...state,
+                    loader: false,
                     errMessage: action.errMessage
                 }
-
 
             default:
                 return state;

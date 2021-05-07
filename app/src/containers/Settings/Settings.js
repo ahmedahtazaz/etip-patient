@@ -85,6 +85,8 @@ const Settings = ({
           if (item.path === "UserInfoScreen") {
             navigation.navigate(item.path, { data: userInfo?.data?.data, editUser: true })
           } else if (item.path === "UpdateOtherSettingsScreen") {
+            navigation.navigate(item.path);
+          }else if(item.path === "PhoneScreen"){
             navigation.navigate(item.path, { isUpdateMobileNumber: true });
           }
           else {

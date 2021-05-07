@@ -20,14 +20,12 @@ import {
 import AxiosInstance from '../../commons/AxiosInstance';
 
 function* signUp(action) {
-  console.log("signup action: ", action);
   try {
     const res = yield call(
       AxiosInstance.post,
       action.payload.url,
       action.payload.body,
     );
-    console.log("signup response: ", res.success?.data?.data)
     if (res.error) {
       yield put({ type: SIGNUP_FAILURE, errMessage: res.error.message });
     } else {
@@ -54,7 +52,10 @@ function* addFamilyMember(action) {
       config,
     );
     if (res.error) {
-      yield put({ type: ADD_FAMILY_MEMBER_FAILURE, errMessage: res.error.message });
+      yield put({
+        type: ADD_FAMILY_MEMBER_FAILURE,
+        errMessage: res.error.message,
+      });
     } else {
       yield put({
         type: ADD_FAMILY_MEMBER_SUCCES,
@@ -88,17 +89,20 @@ function* editFamilyMember(action) {
       });
     else {
       showToast(res.error.message);
-      yield put({ type: EDIT_FAMILY_MEMBER_FAILURE, errMessage: res.error.message });
+      yield put({
+        type: EDIT_FAMILY_MEMBER_FAILURE,
+        errMessage: res.error.message,
+      });
     }
   } catch (error) {
     yield put({ type: EDIT_FAMILY_MEMBER_FAILURE, errMessage: error });
   }
 }
 
-
 function* updateUser(action) {
   let userId = action.payload.body.userId;
   delete action.payload.body.userId;
+
   try {
     const config = {
       headers: {
@@ -111,6 +115,7 @@ function* updateUser(action) {
       action.payload.body,
       config,
     );
+
     if (res.success)
       yield put({
         type: UPDATE_USER_SUCCESS,

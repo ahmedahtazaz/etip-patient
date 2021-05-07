@@ -48,7 +48,9 @@ function Phone({
   updatePhone,
   userInfo,
   isPhoneUpdated,
-  resetIsPhoneUpdated
+  resetIsPhoneUpdated,
+  updatePhoneOtpSend,
+  updatePhoneSendOptPayload
 }) {
   const [isPhone, setIsPhone] = useState(true);
   const [phoneValue, setPhoneValue] = useState('+49');
@@ -57,26 +59,19 @@ function Phone({
   const [otpValue2, setOTPValue2] = useState('');
   const [otpValue3, setOTPValue3] = useState('');
   const [otpValue4, setOTPValue4] = useState('');
-  const [isUpdateMobileNumber, setIsUpdateMobileNumber] = useState(false);
 
   const [otp, setOtp] = useState(null);
   const [otp1, setOtp1] = useState(null);
   const [otp2, setOtp2] = useState(null);
   const [otp3, setOtp3] = useState(null);
   const [otp4, setOtp4] = useState(null);
+  let isUpdateMobileNumber = route?.params?.isUpdateMobileNumber || false;
 
   const isFocused = useIsFocused();
 
   useEffect(() => {
     Orientation.lockToPortrait();
   }, [isFocused]);
-
-  useEffect(() => {
-    let flag = route?.params?.isUpdateMobileNumber || false;
-    if (flag) {
-      setIsUpdateMobileNumber(flag);
-    }
-  }, []);
 
   const showToast = msg => {
     if (Platform.OS === 'android') {
@@ -87,11 +82,13 @@ function Phone({
   };
 
   const onSubmit = (isPhone, phone, otp) => {
+    let isUpdateMobileNumber = route?.params?.isUpdateMobileNumber || false;
     if (isPhone) {
       // Temporary check
       if (true || (phone && phone.match('^[+]49[0-9]{10}$'))) {
         let data = {
           url: send_otp_url,
+          editMode: isUpdateMobileNumber,
           body: {
             mobileNumber: phone,
           },
@@ -110,6 +107,7 @@ function Phone({
         };
         if (isUpdateMobileNumber) {
           data.body["userId"] = userInfo?.data?.data?._id
+          data.body["referenceId"] = updatePhoneSendOptPayload?.data?.data?.ref_id
           updatePhone(data)
         } else {
           verifyOTP(data);
@@ -119,25 +117,39 @@ function Phone({
   };
 
   useEffect(() => {
-    if (isPhone && otpSend) {
+    let isUpdateMobileNumber = route?.params?.isUpdateMobileNumber || false;
+    if (!isUpdateMobileNumber && isPhone && otpSend) {
       setIsPhone(false);
     }
   }, [otpSend]);
 
   useEffect(() => {
-    if (!isPhone && otpVerified) {
+    if (isPhone && updatePhoneOtpSend) {
+      setIsPhone(false);
+    }
+  }, [updatePhoneOtpSend]);
+
+  useEffect(() => {
+    let isUpdateMobileNumber = route?.params?.isUpdateMobileNumber || false;
+    if (!isUpdateMobileNumber && !isPhone && otpVerified) {
       movetoUserInfoScreen(navigation);
     }
   }, [otpVerified]);
 
+
   useEffect(() => {
+    if (errMessage === "Phone Number already exists.") {
+      setIsPhone(true);
+      resetIsPhoneUpdated();
+    }
     if (errMessage) {
       showToast(errMessage);
     }
   }, [errMessage]);
 
   useEffect(() => {
-    if (verifyOtpPayload?.data) {
+    let isUpdateMobileNumber = route?.params?.isUpdateMobileNumber || false;
+    if (!isUpdateMobileNumber && verifyOtpPayload?.data) {
       if (verifyOtpPayload?.data?.data) {
         if (verifyOtpPayload?.data?.data?.isNewAccount) {
           //navigate to userInfoScreen
@@ -189,7 +201,9 @@ function Phone({
                 placeholder="Phone"
                 style={styles.inputStyle1}
                 keyboardType="numeric"
-                onChangeText={value => setPhoneValue(value)}></TextInput>
+                onChangeText={value => {
+                  if (value.length > 0) setPhoneValue(value);
+                }}></TextInput>
             </>
           ) : (
             <>
@@ -304,7 +318,7 @@ function Phone({
                     .concat(otpValue4),
                 )
               }>
-              <Text style={styles.submitText}>{I18n.t('Continue')}</Text>
+              <Text style={styles.submitText}>{isUpdateMobileNumber ? "Update Mobile Number" : I18n.t('Continue')}</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
@@ -357,12 +371,15 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
   return {
     otpSend: state.phoneReducer.otpSend,
+    updatePhoneOtpSend: state.phoneReducer.updatePhoneOtpSend,
     otpVerified: state.phoneReducer.otpVerified,
     errMessage: state.phoneReducer.errMessage,
     verifyOtpPayload: state.phoneReducer.verifyOptPayload,
     userInfo: state.mainScreenReducer.userInfo,
+    isPhoneUpdated: state.phoneReducer.isPhoneUpdated,
     sendOptPayload: state.phoneReducer.sendOptPayload,
-    isPhoneUpdated: state.phoneReducer.isPhoneUpdated
+    updatePhoneSendOptPayload: state.phoneReducer.updatePhoneSendOptPayload,
+    loader: state.phoneReducer.loader,
   };
 };
 
