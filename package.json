@@ -1,6 +1,6 @@
 {
   "name": "EtipClient",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -29,7 +29,6 @@
     "react-native-dropdown-picker": "^4.0.9",
     "react-native-elements": "^3.4.1",
     "react-native-gesture-handler": "^1.10.3",
-    "react-native-i18n": "^2.0.15",
     "react-native-localization": "^2.1.6",
     "react-native-localize": "^2.0.3",
     "react-native-orientation-locker": "^1.2.0",
