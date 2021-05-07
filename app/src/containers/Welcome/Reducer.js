@@ -8,6 +8,9 @@ import {
   GET_LANG_BY_SELECTED_KEY,
   GET_LANG_BY_SELECTED_KEY_SUCCESS,
   GET_LANG_BY_SELECTED_KEY_FAILURE,
+  GET_LANG_KEYS,
+  GET_LANG_KEYS_SUCCESS,
+  GET_LANG_KEYS_FAILURE,
 } from '../../commons/Constants';
 
 const INITIAL_STATE = {
@@ -15,8 +18,10 @@ const INITIAL_STATE = {
   loader: false,
   errMessage: undefined,
   initPayLoad: undefined,
-  defaultLangData: '',
+  defaultLangData: null,
+  languageKeys: [],
   languageBySelectedKey: '',
+  selectedLanguage: ""
 };
 
 export default function welcomeReducer() {
@@ -45,43 +50,54 @@ export default function welcomeReducer() {
           ...state,
           loader: action.status,
         };
-      case GET_DEFAULT_LANG_SUCCESS:
-        return {
-          ...state,
-          loader: false,
-          errMessage: undefined,
-          defaultLangData: action.defaultLangData,
-        };
-
-      case GET_DEFAULT_LANG_FAILURE:
-        return {
-          ...state,
-          loader: false,
-          errMessage: action.errMessage,
-          defaultLangData: 'error',
-        };
 
       case GET_DEFAULT_LANG:
+      case GET_LANG_BY_SELECTED_KEY:
         return {
           ...state,
           loader: true,
-        };
+          errMessage: undefined
+        }
 
+      case GET_DEFAULT_LANG_SUCCESS:
       case GET_LANG_BY_SELECTED_KEY_SUCCESS:
         return {
           ...state,
           loader: false,
           errMessage: undefined,
-          languageBySelectedKey: action.languageBySelectedKey,
+          defaultLangData: action.payload,
         };
 
+      case GET_DEFAULT_LANG_FAILURE:
       case GET_LANG_BY_SELECTED_KEY_FAILURE:
         return {
           ...state,
           loader: false,
-          errMessage: action.errMessage,
-          languageBySelectedKey: 'error',
+          errMessage: action.errMessage
         };
+
+      case GET_LANG_KEYS:
+        return {
+          ...state,
+          loader: true
+        }
+
+      case GET_LANG_KEYS_SUCCESS:
+        return {
+          ...state,
+          loader: false,
+          languageKeys: action.payload,
+          errMessage: undefined
+        }
+
+      case GET_LANG_KEYS_FAILURE:
+        return {
+          ...state,
+          loader: false,
+          errMessage: action.errMessage,
+          languageKeys: []
+        }
+
 
       case GET_LANG_BY_SELECTED_KEY:
         return {

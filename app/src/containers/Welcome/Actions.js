@@ -3,6 +3,7 @@ import {
   SHOW_INIT_LOADER,
   GET_DEFAULT_LANG,
   GET_LANG_BY_SELECTED_KEY,
+  GET_LANG_KEYS,
 } from '../../commons/Constants';
 
 export const initialiseAppAction = url => {
@@ -43,16 +44,23 @@ export const moveToTTScreenAction = navigation => {
   return navigation.navigate('terms');
 };
 
-export const GetDefaultLanguage = payload => {
+export const getDefaultLanguageAction = payload => {
   return {
     type: GET_DEFAULT_LANG,
     payload,
   };
 };
 
-export const GetLanguageKeysByKey = payload => {
+export const getLanguageByKeyAction = payload => {
   return {
     type: GET_LANG_BY_SELECTED_KEY,
+    payload,
+  };
+};
+
+export const getLanguagesKeysAction = payload => {
+  return {
+    type: GET_LANG_KEYS,
     payload,
   };
 };

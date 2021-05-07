@@ -11,7 +11,8 @@ export const edit_family_url = `/api/family/edit-member`;
 export const get_family_url = `/api/family`;
 
 export const get_lang_url = `/api/language/keys`;
-export const get_lang_by_lang_url = `/api/language/`;
+export const get_lang_by_key_url = `/api/language`;
+export const get_lang_keys_url = `/api/language/keys`;
 export const get_def_lang_url = `/api/language/default`;
 export const get_about_app_url = `/api/settings/about/en`;
 

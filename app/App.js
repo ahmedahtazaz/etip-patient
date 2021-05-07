@@ -42,7 +42,7 @@ import AboutApp from './src/containers/AboutApp/AboutApp';
 const menuIcon = require('../app/src/assets/images/menu-icon.png');
 
 const sagaMiddleware = createSagaMiddleware();
-const store = createStore(
+export const store = createStore(
   createRootReducer(),
   compose(applyMiddleware(sagaMiddleware)),
 );

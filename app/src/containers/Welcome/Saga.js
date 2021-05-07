@@ -8,10 +8,13 @@ import {
   LOAD_INIT_SUCCESS,
   GET_LANG_BY_SELECTED_KEY_SUCCESS,
   GET_LANG_BY_SELECTED_KEY_FAILURE,
+  GET_LANG_KEYS_SUCCESS,
+  GET_LANG_KEYS_FAILURE,
+  GET_LANG_KEYS,
 } from '../../commons/Constants';
 import DeviceInfo from 'react-native-device-info';
 
-import {put, takeLatest, call} from 'redux-saga/effects';
+import { put, takeLatest, call } from 'redux-saga/effects';
 
 import AxiosInstance from '../../commons/AxiosInstance';
 
@@ -39,8 +42,8 @@ function* loadInit(action) {
     payLoad = yield payLoad.json();
   }
 
-  if (payLoad) yield put({type: LOAD_INIT_SUCCESS, payLoad: payLoad});
-  else yield put({type: LOAD_INIT_FAILURE, errMessage: error});
+  if (payLoad) yield put({ type: LOAD_INIT_SUCCESS, payLoad: payLoad });
+  else yield put({ type: LOAD_INIT_FAILURE, errMessage: error });
 }
 
 export default function* welcomeActionWatcher() {
@@ -48,30 +51,57 @@ export default function* welcomeActionWatcher() {
 }
 
 function* getDefaultLanguages(action) {
+  console.log('getDefault language action: ', action);
   try {
-    const {data: res} = yield call(AxiosInstance.get, action.payload);
-    yield put({type: GET_DEFAULT_LANG_SUCCESS, defaultLangData: res.data});
+    const res = yield call(AxiosInstance.get, action.payload.url);
+    if (res.success) {
+      yield put({ type: GET_DEFAULT_LANG_SUCCESS, payload: res.success?.data?.data });
+    } else {
+      yield put({ type: GET_DEFAULT_LANG_FAILURE, errMessage: res.error.message });
+    }
   } catch (error) {
-    yield put({type: GET_DEFAULT_LANG_FAILURE, errMessage: error});
+    yield put({ type: GET_DEFAULT_LANG_FAILURE, errMessage: error });
   }
 }
 
-function* getSelectedLanguagesByKey(action) {
+function* getLanguagesByKey(action) {
+  console.log('get selected language action: ', action);
   try {
-    const {data: res} = yield call(AxiosInstance.get, action.payload);
-    yield put({
-      type: GET_LANG_BY_SELECTED_KEY_SUCCESS,
-      languageBySelectedKey: res.data,
-    });
+    const res = yield call(AxiosInstance.get, action.payload.url);
+    // console.log('get selected lang res: ', res.success.data.data)
+    if (res.success) {
+      yield put({ type: GET_LANG_BY_SELECTED_KEY_SUCCESS, payload: res.success?.data?.data });
+    } else {
+      yield put({ type: GET_LANG_BY_SELECTED_KEY_FAILURE, errMessage: res.error.message });
+    }
   } catch (error) {
-    yield put({type: GET_LANG_BY_SELECTED_KEY_FAILURE, errMessage: error});
+    yield put({ type: GET_LANG_BY_SELECTED_KEY_FAILURE, errMessage: error });
   }
+}
+
+function* getLanguagesKeys(action) {
+  console.log('get language keys action: ', action);
+  try {
+    const res = yield call(AxiosInstance.get, action.payload.url);
+    console.log('get language keys res: ', res.success.data.data)
+    if (res.success) {
+      yield put({ type: GET_LANG_KEYS_SUCCESS, payload: res.success?.data?.data });
+    } else {
+      yield put({ type: GET_LANG_KEYS_FAILURE, errMessage: res.error.message });
+    }
+  } catch (error) {
+    yield put({ type: GET_LANG_KEYS_FAILURE, errMessage: error });
+  }
+}
+
+export function* getLanguagesKeysSaga() {
+  yield takeLatest(GET_LANG_KEYS, getLanguagesKeys);
 }
 
 export function* getDefaultLanguageSaga() {
   yield takeLatest(GET_DEFAULT_LANG, getDefaultLanguages);
 }
 
-export function* getSelectedLanguageByKeySaga() {
-  yield takeLatest(GET_LANG_BY_SELECTED_KEY, getSelectedLanguagesByKey);
+export function* getLanguageByKeySaga() {
+  yield takeLatest(GET_LANG_BY_SELECTED_KEY, getLanguagesByKey);
 }

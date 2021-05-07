@@ -122,12 +122,17 @@ export const SET_LOADER_MAIN_SCREEN = 'SET_LOADER_MAIN_SCREEN';
 export const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 export const IS_VERIFIER_APP = false;
 export const STORAGE_KEY = 'default_lang';
+export const LANGUAGE_KEY = 'default_lang';
 
 export const GET_LANG_BY_SELECTED_KEY = 'GET_LANG_BY_SELECTED_KEY';
 export const GET_LANG_BY_SELECTED_KEY_SUCCESS =
   'GET_LANG_BY_SELECTED_KEY_SUCCESS';
 export const GET_LANG_BY_SELECTED_KEY_FAILURE =
   'GET_LANG_BY_SELECTED_KEY_FAILURE';
+
+export const GET_LANG_KEYS = "GET_LANG_KEYS";
+export const GET_LANG_KEYS_SUCCESS = "GET_LANG_KEYS_SUCCESS";
+export const GET_LANG_KEYS_FAILURE = "GET_LANG_KEYS_FAILURE";
 
 export const SET_TEST_CENTER = 'SET_TEST_CENTER';
 

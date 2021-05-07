@@ -25,7 +25,8 @@ import {
 } from '../containers/UserInfo/Saga';
 import welcomeActionWatcher, {
   getDefaultLanguageSaga,
-  getSelectedLanguageByKeySaga,
+  getLanguageByKeySaga,
+  getLanguagesKeysSaga,
 } from '../containers/Welcome/Saga';
 import {getTestCentersSaga} from '../containers/TestCenter/Saga';
 import {
@@ -56,8 +57,9 @@ export default function* rootSaga() {
     getABoutData(),
     getchangeLanguage(),
     getDefaultLanguageSaga(),
-    getSelectedLanguageByKeySaga(),
+    getLanguageByKeySaga(),
     getLanguageByKeysSaga(),
+    getLanguagesKeysSaga(),
 
     getFamilyMembersActionWatcher(),
     getProfileActionWatcher(),

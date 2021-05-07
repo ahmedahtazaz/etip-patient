@@ -1,18 +1,21 @@
 // import I18n from 'react-native-i18n';
+// import { store } from '../../App';
 // I18n.fallbacks = true;
 // // const languageReducer = store.getState();
-// // const language = languageReducer.LanguageReducer.langData;
-// // const languageData = languageReducer.LanguageReducer.langData.keys;
+// const state = store.getState();
+// const data = state.welcomeReducer.defaultLangData;
+
+// console.log('data.lang:: ', data.lang, ' data.keys::: ', data.keys);
 
 // I18n.translations = {
-//   // 'en': require('./en'),
-//   // 'fr': require('./fr'),
-// // [language.lang ]: language.keys
+//   [data.lang]: data.keys
 // };
 
+
+
 class i18n {
-  constructor(){}
-   t = params => {
+  constructor() { }
+  t = params => {
     return params;
   };
 }
