@@ -25,7 +25,6 @@ const createRootReducer = () =>
     phoneReducer: phoneReducer(),
     getTermsReducer: getTermsReducer(),
     getPolicyReducer: getPolicyReducer(),
-    getPolicyReducer: getPolicyReducer(),
     getAboutApp: getAboutApp(),
     LanguageReducer: LanguageReducer(),
     phoneReducer: phoneReducer(),

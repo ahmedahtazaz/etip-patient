@@ -13,9 +13,9 @@ export const get_family_url = `/api/family`;
 export const get_lang_url = `/api/language/keys`;
 export const get_lang_by_lang_url = `/api/language/`;
 export const get_def_lang_url = `/api/language/default`;
-export const get_about_app_url = `/api/settings/org/about/en`;
+export const get_about_app_url = `/api/settings/about/en`;
 
-export const get_policy_url = `/settings/org/policy/en`;
+export const get_policy_url = `/api/settings/policy/en`;
 export const get_terms_url = `/api/settings/terms/en`;
 
 export const get_test_centers = `/api/test-centers/`;

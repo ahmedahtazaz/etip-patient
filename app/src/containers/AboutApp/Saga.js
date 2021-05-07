@@ -10,8 +10,11 @@ import AxiosInstance from '../../commons/AxiosInstance';
 
 function* AboutAppSaga(action) {
   try {
-    const {data: res} = yield call(AxiosInstance.get, action.payload);
-    yield put({type: GET_ABOUT_APP_SUCCESS, payload: res});
+    const res = yield call(AxiosInstance.get, action.payload);
+    if (res.success)
+      yield put({type: GET_ABOUT_APP_SUCCESS, payload: res.success});
+    else
+      yield put({type: GET_ABOUT_APP_FAILURE, errMessage: res.error.message});
   } catch (error) {
     yield put({type: GET_ABOUT_APP_FAILURE, errMessage: error});
   }

@@ -52,22 +52,18 @@ const MainScreen = ({
   movetoSettingsScreen,
   movetoMakeAnAppointmentScreen,
   moveToAppointmentDetails,
-  route,
   userInfo,
   loader,
   errMessage,
   verifyOptPayload,
   getProfile,
   setLoader,
-  userInfoSignUp,
   getActiveAppointments,
   activeAppointments,
   resetErrorMain,
   getActiveCertificates,
   activeCertificates,
 }) => {
-  const window = useWindowDimensions();
-
   const [selectedId, setSelectedId] = useState(null);
   const [userName, setUserName] = useState('');
 
@@ -78,20 +74,15 @@ const MainScreen = ({
   }, [isFocused]);
 
   useEffect(() => {
-    if (
-      verifyOptPayload?.data?.data?.userId ||
-      userInfoSignUp?.data?.data?._id
-    ) {
+    if (verifyOptPayload?.data?.data?.userId) {
       setLoader(true);
       const payload = {
         url: get_user_url,
-        userId:
-          verifyOptPayload?.data?.data?.userId ||
-          userInfoSignUp?.data?.data?._id,
+        userId: verifyOptPayload?.data?.data?.userId,
       };
       getProfile(payload);
     }
-  }, [verifyOptPayload, userInfoSignUp]);
+  }, [verifyOptPayload]);
 
   // useEffect(() => {
   //   if (!userInfo) {
@@ -111,6 +102,7 @@ const MainScreen = ({
       getActiveAppointments({
         url: get_active_appointments,
         userId: userInfo?.data?.data?._id,
+        familyId: userInfo?.data?.data?.family?.id,
       });
       getActiveCertificates({
         url: get_active_certificates + '/' + userInfo?.data?.data?.family?.id,
@@ -372,7 +364,6 @@ const mapStateToProps = state => {
     loader: state.mainScreenReducer.loader,
     errMessage: state.mainScreenReducer.errMessage,
     verifyOptPayload: state.phoneReducer.verifyOptPayload,
-    userInfoSignUp: state.userInfoReducer.userInfo,
     activeAppointments: state.mainScreenReducer.activeAppointments,
     activeCertificates: state.mainScreenReducer.activeCertificates,
   };

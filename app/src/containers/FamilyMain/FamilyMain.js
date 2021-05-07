@@ -128,18 +128,12 @@ const FamilyMain = ({
       <View style={styles.appoinmentDivBg}>
         <View style={styles.mainDivPad}>
           <View style={styles.actionCertificateContainer}>
-            {/* <FlatList
-          data={DATA}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-          extraData={selectedId}
-        /> */}
             <SwipeListView
               data={familyMembers}
               renderItem={renderItem}
               keyExtractor={item => item.id}
               renderHiddenItem={(data, rowMap) => {
-                if (data.item.relation)
+                if (!data.item.isPrimary)
                   return (
                     <TouchableOpacity
                       onPress={() => removeMember(data)}

@@ -52,8 +52,7 @@ const AppointmentMainScreen = ({
     return (
       <View
         style={{
-          marginEnd: 8,
-          
+          marginEnd: 8,         
         }}>
         <TouchableOpacity
           style={styles.activeAppoinmentsDiv}
@@ -62,7 +61,7 @@ const AppointmentMainScreen = ({
           }>
           <ImageBackground
             source={activeCertificationBg}
-            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
+            style={{height: '100%', resizeMode: 'cover'}}>
             <View style={styles.contentPadding}>
               <View style={styles.parentNameContainer}>
                 <View style={styles.nameTextContainer}>

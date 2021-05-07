@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { APP_INIT_LINK } from '../../commons/Constants';
-import { WHITE_COLOR } from '../../theme/Colors';
+import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
 import {
   moveToWelcomeScreenAction,
   moveToPincodeScreenAction,
@@ -11,38 +9,38 @@ import {
 } from './Actions';
 
 import Orientation from 'react-native-orientation-locker';
-import { useIsFocused } from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 import {
   ActivityIndicator,
   Image,
   View,
   StyleSheet,
   ImageBackground,
-  Text,
   TouchableOpacity,
 } from 'react-native';
-import { RFValue } from 'react-native-responsive-fontsize';
-import { IS_VERIFIER_APP } from '../../commons/Constants';
+import {IS_VERIFIER_APP} from '../../commons/Constants';
 const splashBg = require('../../assets/images/splash-bg.png');
 const splashLogo = require('../../assets/images/splash-logo.png');
 
-function Splash({
-  showLoader,
-  initialiseApp,
-  moveToWelcomeScreen,
-  initLoaded,
-  navigation,
-  loader,
-}) {
+function Splash({moveToWelcomeScreen, initLoaded, navigation, loader}) {
   const isFocused = useIsFocused();
+  const [timer, setTimer] = useState(null);
 
   useEffect(() => {
     Orientation.lockToPortrait();
+
+    if (!timer)
+      setTimer(
+        setTimeout(() => {
+          moveToOtherScreen();
+        }, 2000),
+      );
   }, [isFocused]);
 
   useEffect(() => {
-    showLoader(true);
-    initialiseApp(APP_INIT_LINK);
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
   }, []);
 
   useEffect(() => {
@@ -51,20 +49,19 @@ function Splash({
     }
   }, [initLoaded]);
 
+  const moveToOtherScreen = () => {
+    if (IS_VERIFIER_APP) {
+      moveToPincodeScreenAction(navigation);
+    } else {
+      moveToWelcomeScreen(navigation);
+    }
+  };
+
   return (
-    <TouchableOpacity
-      style={{ width: '100%', height: '100%' }}
-      onPress={() => {
-        if (IS_VERIFIER_APP) {
-          moveToPincodeScreenAction(navigation)
-        } else {
-          moveToWelcomeScreen(navigation)
-        }
-      }}>
+    <TouchableOpacity style={{width: '100%', height: '100%'}}>
       <ImageBackground source={splashBg} style={styles.splashbackground}>
-        
-          <Image source={splashLogo} />
-        
+        <Image source={splashLogo} />
+
         {loader ? (
           <View
             style={{
@@ -111,6 +108,4 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
   },
-
-
 });

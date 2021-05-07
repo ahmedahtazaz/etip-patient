@@ -1,103 +1,52 @@
-import React, { useEffect,useState } from 'react';
-import { Icon, SearchBar } from 'react-native-elements';
-import { connect } from 'react-redux';
+import React, {useEffect} from 'react';
+import {connect} from 'react-redux';
 import {RFValue} from 'react-native-responsive-fontsize';
 import HTML from 'react-native-render-html';
 import I18n from '../../translations/I18n';
-import {
-  Button,
-  FlatList,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-  useWindowDimensions,
-  ImageBackground,
-  ScrollView
-  
-} from 'react-native';
-import { Dimensions } from 'react-native';
-import Calendar from '../../components/Calendar';
-import BottomNavigator from '../../components/BottomNavigator';
-import { SwipeListView } from 'react-native-swipe-list-view';
-import { get_about_app_url, get_policy_url } from '../../commons/environment';
-const menuArrowWhiteIcon = require('../../assets/images/menu-arrow-white-icon.png');
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Dimensions} from 'react-native';
+import {get_policy_url} from '../../commons/environment';
 const {width, height} = Dimensions.get('window');
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import { WebView } from 'react-native-webview';
 
-const menuIcon = require('../../assets/images/menu-icon.png');
-const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
-const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
-const mainScreenIcon = require('../../assets/images/main-screen-icon.png');
-const activeCertificationBg = require('../../assets/images/active-certification-bg.png');
-const activeAppoinmentsBg = require('../../assets/images/active-appoinments-bg.png');
-const plusIcon = require('../../assets/images/plus-icon.png');
-const appoinmentRedBg = require('../../assets/images/appoinment-red-bg.png');
-const rightHandFinger = require('../../assets/images/right-hand-finger.png');
-const deleteIcon = require('../../assets/images/delete-icon-red.png');
-const issuedWhiteQr = require('../../assets/images/issued-white-qr.png');
-const greenQrCode = require('../../assets/images/green-qr-code.png');
-const greyEdit = require('../../assets/images/edit-gray-icon.png');
+import {useIsFocused} from '@react-navigation/core';
+import {showToast} from '../../commons/Constants';
 
-import {
-  getpolicy
-} from './Actions';
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-const htmlContent = `
-    <h1>VR Lorem ipsum dolor sit amet, consectetur adipiscing elit. !</h1>
-    <em>By <b class="author">React Native Master</b></em>
-    <img src="https://image.freepik.com/free-photo/young-woman-using-vr-glasses-with-neon-lights_155003-17747.jpg" />
-    <p>Vivamus bibendum feugiat pretium. <a href="https://reactnativemaster.com/">Vestibulum ultricies rutrum ornare</a>. Donec eget suscipit tortor. Nullam pellentesque nibh sagittis, pharetra quam a, varius sapien. Pellentesque ut leo id mauris hendrerit ultrices et non mauris. Quisque gravida erat at felis tincidunt tincidunt. Etiam sit amet egestas leo. Cras mollis mi sed lorem finibus, interdum molestie magna mollis. Sed venenatis lorem nec magna convallis iaculis.</p>
-    <iframe height="315" src="https://www.youtube.com/embed/fnCmUWqKo6g" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-`;
-const Item = ({ item, onPress, backgroundColor, textColor }) => (
-  <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-    <Text style={[styles.title, textColor]}>{item.title}</Text>
-  </TouchableOpacity>
-);
+import {getpolicyAction} from './Actions';
 
-const Policy = ({
-    getpolicy,
-    navigation
-}) => {
-  const window = useWindowDimensions();
+const Policy = ({getpolicy, navigation, policy, errMessage}) => {
+  const isFocused = useIsFocused();
 
-  const [selectedId, setSelectedId] = useState(null);
+  useEffect(() => {
+    if (isFocused) getpolicy(get_policy_url);
+  }, [isFocused]);
 
+  useEffect(() => {
+    if (errMessage) showToast(errMessage);
+  }, [errMessage]);
 
-useEffect(() => {
-    I18n.locale = "en";
-    getpolicy(get_policy_url);
-
-}, []);
   return (
     <View style={styles.container}>
-         <View style={styles.header}>
+      <View style={styles.header}>
         <View style={styles.backIcon}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <EvilIcons name="chevron-left" color="#000" size={30} />
           </TouchableOpacity>
         </View>
         <View>
-          <Text style={styles.headerText}>{I18n.t('Policy')}</Text>
+          <Text style={styles.headerText}>{I18n.t('Privacy Policy')}</Text>
         </View>
       </View>
-    <View style={styles.appoinmentDivBg}>
-    <HTML 
-  html={htmlContent} 
-  tagsStyles={tagsStyles}
-  classesStyles={classesStyles}
-  imagesMaxWidth={Dimensions.get('window').width * .9 } 
-  staticContentMaxWidth={Dimensions.get('window').width * .9 }
-/>
-             </View>
-   
-  </View>
+      <View style={styles.appoinmentDivBg}>
+        <HTML
+          html={policy?.data?.data?.privacyPolicy}
+          tagsStyles={tagsStyles}
+          classesStyles={classesStyles}
+          imagesMaxWidth={Dimensions.get('window').width * 0.9}
+          staticContentMaxWidth={Dimensions.get('window').width * 0.9}
+        />
+      </View>
+    </View>
   );
 };
 
@@ -105,20 +54,20 @@ const tagsStyles = {
   h1: {
     color: '#6728C7',
     textAlign: 'center',
-    marginBottom: 10
+    marginBottom: 10,
   },
   img: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginTop: 20
-  }
-}
+    marginTop: 20,
+  },
+};
 
 const classesStyles = {
-  'author': {
+  author: {
     color: '#CA43AC',
   },
-}
+};
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
@@ -220,15 +169,13 @@ const styles = StyleSheet.create({
     paddingLeft: '4%',
     paddingRight: '4%',
   },
-  appoinmentDivBg: {
-  
-  },
+  appoinmentDivBg: {},
   mainMenu: {
     position: 'absolute',
     zIndex: 2000,
     top: '3%',
     left: '3%',
-    height:'10%',
+    height: '10%',
     width: '100%',
   },
   mainMenuItems: {
@@ -250,17 +197,14 @@ const styles = StyleSheet.create({
 });
 const mapDispatchToProps = dispatch => {
   return {
-    getpolicy: data =>dispatch(getpolicy(data)),
-
+    getpolicy: data => dispatch(getpolicyAction(data)),
   };
-
 };
 
 const mapStateToProps = state => {
-  
-
   return {
-    initLoaded: state.getTermsReducer.initPayLoad,
+    policy: state.getPolicyReducer.policy,
+    errMessage: state.getPolicyReducer.errMessage,
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Policy);

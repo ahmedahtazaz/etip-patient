@@ -30,12 +30,13 @@ function* getProfile(action) {
 }
 
 function* getActiveAppointments(action) {
-  let userId = action.payload.userId;
-  delete action.payload.userId;
+  const userId = action.payload.userId;
+  const familyId = action.payload.familyId;
   try {
     const config = {
       headers: {
         userId,
+        familyId,
       },
     };
     const res = yield call(AxiosInstance.get, action.payload.url, config);
