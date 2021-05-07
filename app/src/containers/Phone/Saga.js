@@ -1,4 +1,4 @@
-import { put, takeLatest, call } from 'redux-saga/effects';
+import {put, takeLatest, call} from 'redux-saga/effects';
 import {
   SEND_OTP,
   SEND_OTP_SUCCESS,
@@ -10,7 +10,7 @@ import {
   UPDATE_PHONE_FAILURE,
   UPDATE_PHONE,
   UPDATE_USER_SUCCESS,
-  UPDATE_PHONE_SEND_OTP_SUCCESS
+  UPDATE_PHONE_SEND_OTP_SUCCESS,
 } from '../../commons/Constants';
 
 import AxiosInstance from '../../commons/AxiosInstance';
@@ -23,16 +23,16 @@ function* sendOTP(action) {
       action.payload.body,
     );
     if (res.error) {
-      yield put({ type: SEND_OTP_FAILURE, errMessage: res.error.message });
+      yield put({type: SEND_OTP_FAILURE, errMessage: res.error.message});
     } else {
       if (action.payload.editMode) {
-        yield put({ type: UPDATE_PHONE_SEND_OTP_SUCCESS, payload: res.success });
+        yield put({type: UPDATE_PHONE_SEND_OTP_SUCCESS, payload: res.success});
       } else {
-        yield put({ type: SEND_OTP_SUCCESS, payload: res.success });
+        yield put({type: SEND_OTP_SUCCESS, payload: res.success});
       }
     }
   } catch (error) {
-    yield put({ type: SEND_OTP_FAILURE, errMessage: error });
+    yield put({type: SEND_OTP_FAILURE, errMessage: error});
   }
 }
 
@@ -45,15 +45,14 @@ function* verifyOTP(action) {
     );
 
     if (res.error) {
-      yield put({ type: VERIFY_OTP_FAILURE, errMessage: res.error.message });
+      yield put({type: VERIFY_OTP_FAILURE, errMessage: res.error.message});
     } else {
-      yield put({ type: VERIFY_OTP_SUCCESS, payload: res.success });
+      yield put({type: VERIFY_OTP_SUCCESS, payload: res.success});
     }
   } catch (error) {
-    yield put({ type: VERIFY_OTP_FAILURE, errMessage: error });
+    yield put({type: VERIFY_OTP_FAILURE, errMessage: error});
   }
 }
-
 
 function* updatePhone(action) {
   let userId = action.payload.body.userId;
@@ -73,20 +72,17 @@ function* updatePhone(action) {
     if (res.success) {
       yield put({
         type: UPDATE_USER_SUCCESS,
-        payload: res.success
-      })
+        payload: res.success,
+      });
       yield put({
         type: UPDATE_PHONE_SUCCESS,
         payload: res.success,
       });
-    }
-    else {
-
-      yield put({ type: UPDATE_PHONE_FAILURE, errMessage: res.error.message });
+    } else {
+      yield put({type: UPDATE_PHONE_FAILURE, errMessage: res.error.message});
     }
   } catch (error) {
-    console.log('error: ', error)
-    yield put({ type: UPDATE_PHONE_FAILURE, errMessage: error });
+    yield put({type: UPDATE_PHONE_FAILURE, errMessage: error});
   }
 }
 

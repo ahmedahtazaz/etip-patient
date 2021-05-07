@@ -28,7 +28,7 @@ const DATA = [
   {
     id: 'Modify Email',
     title: 'Modify Email',
-    //path: 'UpdateOtherSettingsScreen',
+    path: 'UpdateOtherSettingsScreen',
   },
   {
     id: 'Modify Sim',
@@ -82,15 +82,18 @@ const Settings = ({
         item={item}
         onPress={() => {
           setSelectedId(item.id);
-          if (item.path === "UserInfoScreen") {
-            navigation.navigate(item.path, { data: userInfo?.data?.data, editUser: true })
-          } else if (item.path === "UpdateOtherSettingsScreen") {
+          if (item.path === 'UserInfoScreen') {
+            navigation.navigate(item.path, {
+              data: userInfo?.data?.data,
+              editUser: true,
+            });
+          } else if (item.path === 'UpdateOtherSettingsScreen') {
             navigation.navigate(item.path);
-          }else if(item.path === "PhoneScreen"){
-            navigation.navigate(item.path, { isUpdateMobileNumber: true });
-          }
-          else {
-            if (item.path) movetoUpdateScreen(item.path, navigation, item.title);
+          } else if (item.path === 'PhoneScreen') {
+            navigation.navigate(item.path, {isUpdateMobileNumber: true});
+          } else {
+            if (item.path)
+              movetoUpdateScreen(item.path, navigation, item.title);
           }
         }}
         backgroundColor={'white'}

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
 import Orientation from 'react-native-orientation-locker';
-import { useIsFocused } from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 import {
   ActivityIndicator,
   Image,
@@ -14,25 +14,25 @@ import {
   Switch,
 } from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import { RFValue } from 'react-native-responsive-fontsize';
-import { DARK_GREEN_COLOR, WHITE_COLOR } from '../../theme/Colors';
+import {RFValue} from 'react-native-responsive-fontsize';
+import {DARK_GREEN_COLOR, WHITE_COLOR} from '../../theme/Colors';
 import I18n from '../../translations/I18n';
-import { update_user_email_url } from "../../commons/environment"
-import { updateEmailAction } from '../MainScreen/Actions';
-import { emailRegex, showToast } from '../../commons/Constants';
-const { width, height } = Dimensions.get('window');
+import {update_user_email_url} from '../../commons/environment';
+import {updateEmailAction} from '../MainScreen/Actions';
+import {emailRegex, showToast} from '../../commons/Constants';
+const {width, height} = Dimensions.get('window');
 
 function UpdateOtherSettings({
   route: {
-    params: { title },
+    params: {title},
   },
   navigation,
   updateEmail,
   userInfo,
-  errMessage
+  errMessage,
 }) {
   const [isEnabled, setIsEnabled] = useState(false);
-  const [email, setEmail] = useState(userInfo?.data?.data?.email || "");
+  const [email, setEmail] = useState(userInfo?.data?.data?.email || '');
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const isFocused = useIsFocused();
 
@@ -49,12 +49,11 @@ function UpdateOtherSettings({
       url: update_user_email_url,
       body: {
         email,
-        userId: userInfo?.data?.data?._id
-      }
-    }
-    updateEmail(data)
-  }
-
+        userId: userInfo?.data?.data?._id,
+      },
+    };
+    updateEmail(data);
+  };
 
   useEffect(() => {
     if (errMessage) {
@@ -71,7 +70,9 @@ function UpdateOtherSettings({
           </TouchableOpacity>
         </View>
         <View>
-          <Text style={styles.headerText}>{I18n.t('Update')} {title}</Text>
+          <Text style={styles.headerText}>
+            {I18n.t('Update')} {title}
+          </Text>
         </View>
       </View>
       <View style={styles.fields}>
@@ -79,7 +80,7 @@ function UpdateOtherSettings({
           <View style={styles.inputMain}>
             <TextInput
               value={email}
-              onChangeText={(e) => setEmail(e)}
+              onChangeText={e => setEmail(e)}
               textContentType="email"
               underlineColorAndroid="transparent"
               placeholder="Email"
@@ -88,12 +89,14 @@ function UpdateOtherSettings({
           <View style={styles.switchMain}>
             <View style={styles.switchTextView}>
               <Text style={styles.switchText}>
-                {I18n.t('Associate my information as a family number with another number')}
+                {I18n.t(
+                  'Associate my information as a family number with another number',
+                )}
               </Text>
             </View>
             <View style={styles.switchView}>
               <Switch
-                trackColor={{ false: '#767577', true: '#767577' }}
+                trackColor={{false: '#767577', true: '#767577'}}
                 thumbColor={isEnabled ? '#f4f3f4' : '#f4f3f4'}
                 ios_backgroundColor="#3e3e3e"
                 onValueChange={toggleSwitch}
@@ -103,7 +106,9 @@ function UpdateOtherSettings({
           </View>
         </View>
         <View style={styles.updateBtnMain}>
-          <TouchableOpacity onPress={updateUserEmail} style={[styles.btnStyle, styles.submitButton]}>
+          <TouchableOpacity
+            onPress={updateUserEmail}
+            style={[styles.btnStyle, styles.submitButton]}>
             <Text style={styles.submitText}>{I18n.t('Update')}</Text>
           </TouchableOpacity>
         </View>
@@ -112,23 +117,23 @@ function UpdateOtherSettings({
   );
 }
 
-
 const mapDispatchToProps = dispatch => {
   return {
-    updateEmail: (data) => dispatch(updateEmailAction(data))
+    updateEmail: data => dispatch(updateEmailAction(data)),
   };
 };
 
 const mapStateToProps = state => {
-  console.log("userInfo from updateOtherSettings::: ", state.mainScreenReducer.userInfo?.data?.data);
   return {
     userInfo: state.mainScreenReducer.userInfo,
     errMessage: state.mainScreenReducer.errMessage,
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UpdateOtherSettings);
-
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(UpdateOtherSettings);
 
 // Style for "Background"
 const styles = StyleSheet.create({

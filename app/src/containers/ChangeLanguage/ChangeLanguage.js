@@ -1,125 +1,69 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
-  Platform, StyleSheet, TouchableOpacity, Text, ScrollView, View, SafeAreaView, FlatList, Checkbox, Dimensions,
-  Image
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  View,
+  FlatList,
+  Dimensions,
 } from 'react-native';
-import { exp } from 'react-native-reanimated';
-import I18n from '../../translations/I18n';
 
-import { connect } from 'react-redux';
-import { LanguageChangeAction, GetLanguage,GetLanguageByLang } from './Actions';
-import { get_lang_by_lang_url, get_lang_url } from '../../commons/environment';
+import {connect} from 'react-redux';
+import {LanguageChangeAction, GetLanguage, GetLanguageByLang} from './Actions';
+import {get_lang_by_lang_url, get_lang_url} from '../../commons/environment';
 
-import { BLACK_COLOR, GREEN_COLOR, WHITE_COLOR } from '../../theme/Colors';
-const { width, height } = Dimensions.get('window');
+import {GREEN_COLOR, WHITE_COLOR} from '../../theme/Colors';
+const {width, height} = Dimensions.get('window');
 
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-community/async-storage';
 
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-import Orientation from 'react-native-orientation-locker';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { RFValue } from 'react-native-responsive-fontsize';
-import { STORAGE_KEY } from '../../commons/Constants';
+import {RFValue} from 'react-native-responsive-fontsize';
+import {LANGUAGE_KEY} from '../../commons/Constants';
 
-
-// Enable fallbacks if you want `en-US`
-// and `en-GB` to fallback to `en`
-const language = [
-  { lang: "English", code: "en" },
-  { lang: "German", code: "fr" },
-
-]
-
-function ChangeLanguage({ LanguageChangeAction, GetLanguage, navigation, initLoaded ,GetLanguageByLang,langData}) {
+function ChangeLanguage({
+  GetLanguage,
+  navigation,
+  initLoaded,
+  GetLanguageByLang,
+}) {
   const [languages, setlanguages] = useState([]);
-  const [languages2, setlanguages2] = useState([]);
-
-  const [value, setvalue] = useState(false);
-  const [select, setselect] = useState('Select Language');
-  const [langValue, setlangValue] = useState('en');
-  const [checked, setChecked] = React.useState(false);
-  const [result, setResult] = useState('false');
-  const [selectedIndex, setSelectedIndex] = useState([]);
-
-  const [selectedlang, setSelectedLang] = useState(null);
 
   useEffect(() => {
-    // I18n.locale = "en";
-    // i18n.defaultLocale = "en";
     GetLanguage(get_lang_url);
     setlanguages(initLoaded);
-  
   }, []);
- 
 
-
-  const onSelectLanguage = () => {
-    return (
-      language.map((data, i) => {
-        return (
-          <View key={i} style={styles.dropDownView}>
-            <TouchableOpacity onPress={() => onSelectedLang(data)}>
-              <Text style={styles.dropDownText}>{data._id}</Text>
-            </TouchableOpacity>
-          </View>
-        )
-      })
-    )
-  }
-  const saveData = async (data) => {
+  const saveData = async data => {
     try {
-      await AsyncStorage.setItem(STORAGE_KEY, data)
-    } catch (e) {
-    }
-  }
-
-  const onSelectedLang = (text) => {
-
-    setvalue(false);
-
-    setselect(text.lang);
-    // I18n.locale = text.code;
-    LanguageChangeAction(text.code);
-  }
-
-  const onLanguage = () => {
-    setvalue(true);
-
-  }
-  const englishClick = (item) => {
+      await AsyncStorage.setItem(LANGUAGE_KEY, data);
+    } catch (e) {}
+  };
+  const englishClick = item => {
     item.status = 'false';
-    // I18n.locale = '';
-
-    // I18n.locale = item.lang;
     setSelectedLang(item.lang);
     saveData(item.lang);
-    GetLanguageByLang(get_lang_by_lang_url+item.lang);
-  //  init();
-   
-  }
+    GetLanguageByLang(get_lang_by_lang_url + item.lang);
+  };
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({item}) => {
     return (
       <View>
         <TouchableOpacity
           style={styles.inputStyle1}
-          onPress={()=>englishClick(item)}>
+          onPress={() => englishClick(item)}>
           <View style={styles.testOption}>
             <Text>{item.description}</Text>
             {item.status === 'true' && (
-              <Ionicons
-                name="checkmark-circle"
-                color={GREEN_COLOR}
-                size={15}
-              />
+              <Ionicons name="checkmark-circle" color={GREEN_COLOR} size={15} />
             )}
           </View>
         </TouchableOpacity>
       </View>
     );
   };
-
 
   return (
     //   <View style={styles.container}>
@@ -138,7 +82,6 @@ function ChangeLanguage({ LanguageChangeAction, GetLanguage, navigation, initLoa
     //  </View>
     // </View>
     <View style={styles.container}>
-
       <View style={styles.header}>
         <View style={styles.backIcon}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -151,7 +94,6 @@ function ChangeLanguage({ LanguageChangeAction, GetLanguage, navigation, initLoa
       </View>
 
       <FlatList
-        
         data={languages}
         renderItem={renderItem}
         keyExtractor={item => item.id}
@@ -184,31 +126,24 @@ function ChangeLanguage({ LanguageChangeAction, GetLanguage, navigation, initLoa
                 )}
               </View>
             </TouchableOpacity> */}
-
     </View>
-
   );
 }
 
-
 const mapDispatchToProps = dispatch => {
   return {
-
     GetLanguage: lang => dispatch(GetLanguage(lang)),
     LanguageChangeAction: lang => dispatch(LanguageChangeAction(lang)),
     GetLanguageByLang: lang => dispatch(GetLanguageByLang(lang)),
-
-    
   };
 };
 
 const mapStateToProps = state => {
- 
   return {
     initLoaded: state.LanguageReducer.initPayLoad,
     langData: state.LanguageReducer.langData,
   };
-};  
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChangeLanguage);
 
@@ -228,20 +163,20 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   subContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   mainTitle: {
-    color: "#3b5998",
+    color: '#3b5998',
     fontSize: 30,
     marginBottom: 20,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   title: {
     fontSize: 20,
     fontWeight: '700',
   },
   buttonView: {
-    backgroundColor: "#3b5998",
+    backgroundColor: '#3b5998',
     padding: 10,
   },
   block: {
@@ -251,15 +186,15 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   buttontext: {
-    color: "#fff",
+    color: '#fff',
   },
   dropDownView: {
-    backgroundColor: "#8b9dc3",
+    backgroundColor: '#8b9dc3',
     padding: 10,
   },
   dropDownText: {
     paddingTop: 2,
-    color: "#fff",
+    color: '#fff',
   },
   nameTextContainer: {
     display: 'flex',
@@ -287,7 +222,6 @@ const styles = StyleSheet.create({
   },
   switchView: {
     // width: width * 0.2
-
   },
   testOption: {
     flexDirection: 'row',
@@ -325,7 +259,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     paddingLeft: 15,
     paddingRight: 15,
-    height: '95%'
+    height: '95%',
   },
   backIcon: {
     marginHorizontal: 5,
@@ -336,9 +270,7 @@ const styles = StyleSheet.create({
     width: width * 0.8,
     textAlign: 'center',
   },
-  infoContainer: {
-
-  },
+  infoContainer: {},
   sectionContainer: {
     backgroundColor: Colors.black,
   },
@@ -378,8 +310,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '98%',
     left: '5%',
-    bottom: '12%'
-
+    bottom: '12%',
   },
   inputStyle1: {
     display: 'flex',

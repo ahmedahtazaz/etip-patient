@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { STORAGE_KEY, LANGUAGE_KEY } from '../../commons/Constants';
-import { WHITE_COLOR } from '../../theme/Colors';
+import React, {useEffect} from 'react';
+import {connect} from 'react-redux';
+import {LANGUAGE_KEY} from '../../commons/Constants';
+import {WHITE_COLOR} from '../../theme/Colors';
 import Slider from 'react-native-slide-to-unlock';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -17,12 +17,12 @@ import {
   moveToTTScreenAction,
   getDefaultLanguageAction,
   getLanguageByKeyAction,
-  getLanguagesKeysAction
+  getLanguagesKeysAction,
 } from './Actions';
 import I18n from '../../translations/I18n';
 
 import Orientation from 'react-native-orientation-locker';
-import { useIsFocused } from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 import {
   ActivityIndicator,
   Image,
@@ -31,13 +31,13 @@ import {
   Text,
   ImageBackground,
 } from 'react-native';
-import { RFValue } from 'react-native-responsive-fontsize';
+import {RFValue} from 'react-native-responsive-fontsize';
 import {
   get_def_lang_url,
   get_lang_by_key_url,
   get_lang_keys_url,
 } from '../../commons/environment';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 const splashBg = require('../../assets/images/splash-bg.png');
 const splashLogoSmall = require('../../assets/images/splash-logo-small.png');
 
@@ -49,7 +49,7 @@ function Welcome({
   moveToPolicy,
   getDefaultLanguage,
   getLanguageByKey,
-  getLanguagesKeys
+  getLanguagesKeys,
 }) {
   const isFocused = useIsFocused();
 
@@ -57,31 +57,26 @@ function Welcome({
     Orientation.lockToPortrait();
   }, [isFocused]);
 
-
   useEffect(async () => {
     try {
       const selectedLanguage = await AsyncStorage.getItem(LANGUAGE_KEY);
       if (!selectedLanguage) {
         let data = {
-          url: get_def_lang_url
-        }
-        getDefaultLanguage(data)
+          url: get_def_lang_url,
+        };
+        getDefaultLanguage(data);
       } else {
         let data = {
-          url: `${get_lang_by_key_url}/${selectedLanguage}`
-        }
+          url: `${get_lang_by_key_url}/${selectedLanguage}`,
+        };
         getLanguageByKey(data);
       }
       let data = {
-        url: get_lang_keys_url
-      }
+        url: get_lang_keys_url,
+      };
       getLanguagesKeys(data);
-      console.log('selected Language: ', selectedLanguage);
-    } catch (e) {
-      console.log("async storage error: ", e);
-    }
+    } catch (e) {}
   }, []);
-
 
   return (
     <ImageBackground source={splashBg} style={styles.splashbackground}>
@@ -137,12 +132,12 @@ function Welcome({
                   name="chevron-right"
                   color="white"
                   size={35}
-                  style={{ alignSelf: 'center' }}
+                  style={{alignSelf: 'center'}}
                 />
               </View>
             }>
-            <View style={{ flexDirection: 'row' }}>
-              <Text style={{ color: '#839E9F', fontSize: 21 }}>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={{color: '#839E9F', fontSize: 21}}>
                 {'Slide to Confirm'}
               </Text>
               <Icon
@@ -184,7 +179,7 @@ const mapDispatchToProps = dispatch => {
     moveToTerms: navigation => moveToTTScreenAction(navigation),
 
     getDefaultLanguage: data => dispatch(getDefaultLanguageAction(data)),
-    getLanguageByKey: (data) => dispatch(getLanguageByKeyAction(data)),
+    getLanguageByKey: data => dispatch(getLanguageByKeyAction(data)),
     getLanguagesKeys: data => dispatch(getLanguagesKeysAction(data)),
   };
 };
@@ -228,7 +223,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     paddingTop: '3%',
     paddingBottom: '3%',
-    paddingLeft:'2%',
+    paddingLeft: '2%',
   },
   bottomTextSmall: {
     fontSize: RFValue(12, 580),

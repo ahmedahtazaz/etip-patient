@@ -1,4 +1,4 @@
-import { Alert, Platform, ToastAndroid } from 'react-native';
+import {Alert, Platform, ToastAndroid} from 'react-native';
 
 export const LOAD_INIT = 'LOAD_INIT';
 export const LOAD_INIT_SUCCESS = 'LOAD_INIT_SUCCESS';
@@ -17,11 +17,11 @@ export const VERIFY_OTP = 'VERIFY_OTP';
 export const VERIFY_OTP_SUCCESS = 'VERIFY_OTP_SUCCESS';
 export const VERIFY_OTP_FAILURE = 'VERIFY_OTP_FAILURE';
 
-export const UPDATE_PHONE = "UPDATE_PHONE";
-export const UPDATE_PHONE_SUCCESS = "UPDATE_PHONE_SUCCESS";
-export const UPDATE_PHONE_FAILURE = "UPDATE_PHONE_FAILURE";
+export const UPDATE_PHONE = 'UPDATE_PHONE';
+export const UPDATE_PHONE_SUCCESS = 'UPDATE_PHONE_SUCCESS';
+export const UPDATE_PHONE_FAILURE = 'UPDATE_PHONE_FAILURE';
 
-export const RESET_IS_PHONE_UPDATED = "RESET_IS_PHONE_UPDATED";
+export const RESET_IS_PHONE_UPDATED = 'RESET_IS_PHONE_UPDATED';
 
 export const SIGNUP = 'SIGNUP';
 export const SIGNUP_SUCCES = 'SIGNUP_SUCCESS';
@@ -32,9 +32,9 @@ export const UPDATE_USER = 'UPDATE_USER';
 export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
 export const UPDATE_USER_FAILURE = 'UPDATE_USER_FAILURE';
 
-export const UPDATE_EMAIL = "UPDATE_EMAIL";
-export const UPDATE_EMAIL_SUCCESS = "UPDATE_EMAIL_SUCCESS";
-export const UPDATE_EMAIL_FAILURE = "UPDATE_EMAIL_FAILURE";
+export const UPDATE_EMAIL = 'UPDATE_EMAIL';
+export const UPDATE_EMAIL_SUCCESS = 'UPDATE_EMAIL_SUCCESS';
+export const UPDATE_EMAIL_FAILURE = 'UPDATE_EMAIL_FAILURE';
 
 export const GET_PROFILE = 'GET_PROFILE';
 export const GET_PROFILE_SUCCESS = 'GET_PROFILE_SUCCESS';
@@ -120,8 +120,9 @@ export const APP_INIT_LINK = '';
 export const SET_LOADER_MAIN_SCREEN = 'SET_LOADER_MAIN_SCREEN';
 
 export const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
 export const IS_VERIFIER_APP = false;
-export const STORAGE_KEY = 'default_lang';
+
 export const LANGUAGE_KEY = 'default_lang';
 
 export const GET_LANG_BY_SELECTED_KEY = 'GET_LANG_BY_SELECTED_KEY';
@@ -130,9 +131,9 @@ export const GET_LANG_BY_SELECTED_KEY_SUCCESS =
 export const GET_LANG_BY_SELECTED_KEY_FAILURE =
   'GET_LANG_BY_SELECTED_KEY_FAILURE';
 
-export const GET_LANG_KEYS = "GET_LANG_KEYS";
-export const GET_LANG_KEYS_SUCCESS = "GET_LANG_KEYS_SUCCESS";
-export const GET_LANG_KEYS_FAILURE = "GET_LANG_KEYS_FAILURE";
+export const GET_LANG_KEYS = 'GET_LANG_KEYS';
+export const GET_LANG_KEYS_SUCCESS = 'GET_LANG_KEYS_SUCCESS';
+export const GET_LANG_KEYS_FAILURE = 'GET_LANG_KEYS_FAILURE';
 
 export const SET_TEST_CENTER = 'SET_TEST_CENTER';
 
@@ -143,9 +144,9 @@ export const RESET_ERROR_CERTIFICATES = 'RESET_ERROR_CERTIFICATES';
 
 export const RESET_MAKE_APPOINTMENT = 'RESET_MAKE_APPOINTMENT';
 
-export const postCall = ({ url, body: data }) => {
-  return axios({ url, method: 'post', data })
-    .then(data => ({ data }))
+export const postCall = ({url, body: data}) => {
+  return axios({url, method: 'post', data})
+    .then(data => ({data}))
     .catch(ex => {
       return ex;
     });
