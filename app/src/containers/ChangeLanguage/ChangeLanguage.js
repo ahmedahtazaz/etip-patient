@@ -22,18 +22,26 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {LANGUAGE_KEY} from '../../commons/Constants';
-
+const languages = [{
+  Id: 0,
+  description: 'English',
+  status:'true',
+  },
+  {
+  Id: 1,
+  description: 'German'
+  }]
 function ChangeLanguage({
   GetLanguage,
   navigation,
   initLoaded,
   GetLanguageByLang,
 }) {
-  const [languages, setlanguages] = useState([]);
+ // const [languages, setlanguages] = useState([]);
 
   useEffect(() => {
     GetLanguage(get_lang_url);
-    setlanguages(initLoaded);
+    //setlanguages(initLoaded);
   }, []);
 
   const saveData = async data => {
@@ -57,7 +65,7 @@ function ChangeLanguage({
           <View style={styles.testOption}>
             <Text>{item.description}</Text>
             {item.status === 'true' && (
-              <Ionicons name="checkmark-circle" color={GREEN_COLOR} size={15} />
+              <Ionicons name="checkmark-circle" color={GREEN_COLOR} size={25} />
             )}
           </View>
         </TouchableOpacity>
@@ -85,14 +93,21 @@ function ChangeLanguage({
       <View style={styles.header}>
         <View style={styles.backIcon}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <EvilIcons name="chevron-left" color="#000" size={30} />
+            <EvilIcons
+              name="chevron-left"
+              color="#000"
+              size={40}
+              style={{fontWeight: 'bold'}}
+            />
           </TouchableOpacity>
         </View>
-        <View>
+        <View style={styles.headerTextView}>
           <Text style={styles.headerText}>Change Language</Text>
         </View>
       </View>
-
+      
+      <View style={styles.appoinmentDivBg}>
+      <View style={styles.mainDivPad}>
       <FlatList
         data={languages}
         renderItem={renderItem}
@@ -126,6 +141,8 @@ function ChangeLanguage({
                 )}
               </View>
             </TouchableOpacity> */}
+            </View>
+            </View>
     </View>
   );
 }
@@ -155,7 +172,7 @@ const styles = StyleSheet.create({
   // },
   container: {
     height,
-    backgroundColor: 'white',
+    backgroundColor: '#f8fbfa',
   },
   imageThumbnail: {
     fontSize: 20,
@@ -244,10 +261,34 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    height: '11%',
-    paddingTop: 30,
+    height: height * 0.1,
     alignItems: 'center',
+    paddingTop: '7%',
     width,
+  },
+  backIcon: {
+    flex: 1,
+    alignItems: 'flex-start',
+  },
+  headerTextView: {
+    flex: 9,
+    alignItems: 'center',
+    paddingRight: width * 0.1,
+  },
+  headerText: {
+    fontSize: RFValue(16, 580),
+  },
+  appoinmentDivBg: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    backgroundColor: 'white',
+    height:'88%',
+    marginTop: '5%',
+  },
+  mainDivPad: {
+    paddingLeft: '10%',
+    paddingRight: '10%',
+    paddingTop:50,
   },
   infoContainerChild: {
     paddingTop: 30,
@@ -261,15 +302,7 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     height: '95%',
   },
-  backIcon: {
-    marginHorizontal: 5,
-    width: width * 0.1,
-  },
-  headerText: {
-    fontSize: RFValue(16, 580),
-    width: width * 0.8,
-    textAlign: 'center',
-  },
+
   infoContainer: {},
   sectionContainer: {
     backgroundColor: Colors.black,
@@ -315,17 +348,17 @@ const styles = StyleSheet.create({
   inputStyle1: {
     display: 'flex',
 
-    backgroundColor: '#ffffff',
-    borderRadius: 6,
+    backgroundColor: '#F9F9F9',
+    borderRadius: 4,
     fontSize: RFValue(14, 580),
     color: '#1d1c1c',
-    paddingTop: '4%',
-    paddingBottom: '4%',
     paddingLeft: '5%',
     paddingRight: '5%',
+    height:60,
     marginBottom: 14,
     borderWidth: 1,
     borderColor: '#e0dfdf',
+    justifyContent:'center'
   },
   btnStyle: {
     backgroundColor: GREEN_COLOR,

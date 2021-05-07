@@ -38,7 +38,7 @@ const DATA = [
   {
     id: 'Change Language',
     title: 'Change Language',
-    //path: 'ChangeLanguage',
+    path: 'ChangeLanguage',
   },
 
   {
