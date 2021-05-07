@@ -220,7 +220,7 @@ const MainScreen = ({
                     Hi {userName}
                   </Text>
                   <Text style={{textColor: 'grey'}}>
-                    Hope u r feeling healthy today
+                    Hope You, are feeling healthy today
                   </Text>
                 </View>
                 <TouchableOpacity

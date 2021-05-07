@@ -195,13 +195,14 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     paddingTop: '3%',
     paddingBottom: '3%',
+    paddingLeft:'2%',
   },
   bottomTextSmall: {
     fontSize: RFValue(12, 580),
     color: WHITE_COLOR,
     fontWeight: '400',
     paddingBottom: '3%',
-    paddingLeft: '2%',
+    paddingLeft: '5%',
   },
   buttonDiv: {
     display: 'flex',
