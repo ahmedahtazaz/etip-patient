@@ -5,6 +5,7 @@ import {WHITE_COLOR} from '../../theme/Colors';
 import Slider from 'react-native-slide-to-unlock';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-community/async-storage';
+import I18n from '../../translations/I18n';
 
 import {
   moveToMainScreenAction,
@@ -18,8 +19,8 @@ import {
   getDefaultLanguageAction,
   getLanguageByKeyAction,
   getLanguagesKeysAction,
+  setLanguageUpdatedAction,
 } from './Actions';
-import I18n from '../../translations/I18n';
 
 import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
@@ -50,33 +51,58 @@ function Welcome({
   getDefaultLanguage,
   getLanguageByKey,
   getLanguagesKeys,
+  defaultLangData,
+  availableLanguages,
+  setLanguageUpdated,
+  languageUpdated,
 }) {
   const isFocused = useIsFocused();
 
   useEffect(() => {
     Orientation.lockToPortrait();
+    if (isFocused) {
+      getAvailableLanguages();
+    }
   }, [isFocused]);
 
-  useEffect(async () => {
+  useEffect(() => {
+    if (availableLanguages) getLanguageKeys();
+  }, [availableLanguages]);
+
+  useEffect(() => {
+    if (defaultLangData) {
+      I18n.translations = defaultLangData.keys;
+      setLanguageUpdated(true);
+    }
+  }, [defaultLangData]);
+
+  useEffect(() => {
+    if (languageUpdated) setLanguageUpdated(false);
+  }, [languageUpdated]);
+
+  const getAvailableLanguages = () => {
+    const payloadAvailableLanguages = {
+      url: get_lang_keys_url,
+    };
+    getLanguagesKeys(payloadAvailableLanguages);
+  };
+
+  const getLanguageKeys = async () => {
     try {
       const selectedLanguage = await AsyncStorage.getItem(LANGUAGE_KEY);
       if (!selectedLanguage) {
-        let data = {
+        const payloadDefaultLanguage = {
           url: get_def_lang_url,
         };
-        getDefaultLanguage(data);
+        getDefaultLanguage(payloadDefaultLanguage);
       } else {
-        let data = {
+        const payloadSelectedLanguage = {
           url: `${get_lang_by_key_url}/${selectedLanguage}`,
         };
-        getLanguageByKey(data);
+        getLanguageByKey(payloadSelectedLanguage);
       }
-      let data = {
-        url: get_lang_keys_url,
-      };
-      getLanguagesKeys(data);
     } catch (e) {}
-  }, []);
+  };
 
   return (
     <ImageBackground source={splashBg} style={styles.splashbackground}>
@@ -84,7 +110,6 @@ function Welcome({
         <View style={styles.welcomeLogoDiv}>
           <Image source={splashLogoSmall} />
         </View>
-
         <View style={styles.buttonDiv}>
           <View style={styles.welcomeBottomText}>
             <Text style={styles.bottomTextBig}>
@@ -181,6 +206,8 @@ const mapDispatchToProps = dispatch => {
     getDefaultLanguage: data => dispatch(getDefaultLanguageAction(data)),
     getLanguageByKey: data => dispatch(getLanguageByKeyAction(data)),
     getLanguagesKeys: data => dispatch(getLanguagesKeysAction(data)),
+
+    setLanguageUpdated: status => dispatch(setLanguageUpdatedAction(status)),
   };
 };
 
@@ -188,6 +215,9 @@ const mapStateToProps = state => {
   return {
     initLoaded: state.welcomeReducer.initLoaded,
     loader: state.welcomeReducer.loader,
+    defaultLangData: state.welcomeReducer.defaultLangData,
+    availableLanguages: state.welcomeReducer.availableLanguages,
+    languageUpdated: state.welcomeReducer.languageUpdated,
   };
 };
 

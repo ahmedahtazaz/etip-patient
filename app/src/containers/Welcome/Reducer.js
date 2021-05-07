@@ -11,6 +11,7 @@ import {
   GET_LANG_KEYS,
   GET_LANG_KEYS_SUCCESS,
   GET_LANG_KEYS_FAILURE,
+  LANGUAGE_UPDATED,
 } from '../../commons/Constants';
 
 const INITIAL_STATE = {
@@ -19,9 +20,10 @@ const INITIAL_STATE = {
   errMessage: undefined,
   initPayLoad: undefined,
   defaultLangData: null,
-  languageKeys: [],
+  availableLanguages: [],
   languageBySelectedKey: '',
-  selectedLanguage: ""
+  selectedLanguage: '',
+  languageUpdated: false,
 };
 
 export default function welcomeReducer() {
@@ -56,8 +58,8 @@ export default function welcomeReducer() {
         return {
           ...state,
           loader: true,
-          errMessage: undefined
-        }
+          errMessage: undefined,
+        };
 
       case GET_DEFAULT_LANG_SUCCESS:
       case GET_LANG_BY_SELECTED_KEY_SUCCESS:
@@ -73,36 +75,41 @@ export default function welcomeReducer() {
         return {
           ...state,
           loader: false,
-          errMessage: action.errMessage
+          errMessage: action.errMessage,
         };
 
       case GET_LANG_KEYS:
         return {
           ...state,
-          loader: true
-        }
+          loader: true,
+        };
 
       case GET_LANG_KEYS_SUCCESS:
         return {
           ...state,
           loader: false,
-          languageKeys: action.payload,
-          errMessage: undefined
-        }
+          availableLanguages: action.payload,
+          errMessage: undefined,
+        };
 
       case GET_LANG_KEYS_FAILURE:
         return {
           ...state,
           loader: false,
           errMessage: action.errMessage,
-          languageKeys: []
-        }
-
+          availableLanguages: [],
+        };
 
       case GET_LANG_BY_SELECTED_KEY:
         return {
           ...state,
           loader: true,
+        };
+
+      case LANGUAGE_UPDATED:
+        return {
+          ...state,
+          languageUpdated: action.status,
         };
 
       default:

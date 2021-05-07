@@ -16,6 +16,8 @@ import RegionReducer from '../containers/AppointmentCalender/Reducers';
 import mainScreenReducer from '../containers/MainScreen/Reducer';
 import certificatesReducer from '../containers/Certificates/Reducer';
 
+import {reducer as i18n} from 'react-native-redux-i18n';
+
 const createRootReducer = () =>
   combineReducers({
     welcomeReducer: welcomeReducer(),
@@ -26,7 +28,6 @@ const createRootReducer = () =>
     getTermsReducer: getTermsReducer(),
     getPolicyReducer: getPolicyReducer(),
     getAboutApp: getAboutApp(),
-    LanguageReducer: LanguageReducer(),
     phoneReducer: phoneReducer(),
     familyReducer: familyReducer(),
     appointmentDetailsReducer: appointmentDetailsReducer(),
@@ -34,6 +35,7 @@ const createRootReducer = () =>
     RegionReducer: RegionReducer(),
     mainScreenReducer: mainScreenReducer(),
     certificatesReducer: certificatesReducer(),
+    i18n,
   });
 
 export default createRootReducer;

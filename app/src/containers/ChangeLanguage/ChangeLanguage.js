@@ -9,8 +9,7 @@ import {
 } from 'react-native';
 
 import {connect} from 'react-redux';
-import {LanguageChangeAction, GetLanguage, GetLanguageByLang} from './Actions';
-import {get_lang_by_lang_url, get_lang_url} from '../../commons/environment';
+import {get_lang_by_key_url} from '../../commons/environment';
 
 import {GREEN_COLOR, WHITE_COLOR} from '../../theme/Colors';
 const {width, height} = Dimensions.get('window');
@@ -21,39 +20,47 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {RFValue} from 'react-native-responsive-fontsize';
-import {LANGUAGE_KEY} from '../../commons/Constants';
-const languages = [{
-  Id: 0,
-  description: 'English',
-  status:'true',
-  },
-  {
-  Id: 1,
-  description: 'German'
-  }]
+import {LANGUAGE_KEY, showToast} from '../../commons/Constants';
+import {getLanguageByKeyAction} from '../Welcome/Actions';
+import {ActivityIndicator} from 'react-native-paper';
+
 function ChangeLanguage({
-  GetLanguage,
   navigation,
-  initLoaded,
-  GetLanguageByLang,
+  availableLanguages,
+  defaultLangData,
+  getLanguageByKey,
+  loader,
+  errMessage,
 }) {
- // const [languages, setlanguages] = useState([]);
+  const [languages, setLanguages] = useState([]);
 
   useEffect(() => {
-    GetLanguage(get_lang_url);
-    //setlanguages(initLoaded);
-  }, []);
+    if (availableLanguages && defaultLangData)
+      setLanguages(
+        availableLanguages.map(lang => {
+          return {
+            ...lang,
+            status: defaultLangData.lang.toString() == lang.lang.toString(),
+          };
+        }),
+      );
+    saveLanguage(defaultLangData.lang);
+  }, [availableLanguages, defaultLangData]);
 
-  const saveData = async data => {
-    try {
-      await AsyncStorage.setItem(LANGUAGE_KEY, data);
-    } catch (e) {}
+  useEffect(() => {
+    if (errMessage) showToast(errMessage);
+  }, [errMessage]);
+
+  const onItemPress = item => {
+    if (!item.status) {
+      getLanguageByKey({url: `${get_lang_by_key_url}/${item.lang}`});
+    }
   };
-  const englishClick = item => {
-    item.status = 'false';
-    setSelectedLang(item.lang);
-    saveData(item.lang);
-    GetLanguageByLang(get_lang_by_lang_url + item.lang);
+
+  const saveLanguage = async lang => {
+    try {
+      await AsyncStorage.setItem(LANGUAGE_KEY, lang);
+    } catch (e) {}
   };
 
   const renderItem = ({item}) => {
@@ -61,12 +68,12 @@ function ChangeLanguage({
       <View>
         <TouchableOpacity
           style={styles.inputStyle1}
-          onPress={() => englishClick(item)}>
+          onPress={() => onItemPress(item)}>
           <View style={styles.testOption}>
             <Text>{item.description}</Text>
-            {item.status === 'true' && (
+            {item.status ? (
               <Ionicons name="checkmark-circle" color={GREEN_COLOR} size={25} />
-            )}
+            ) : null}
           </View>
         </TouchableOpacity>
       </View>
@@ -74,21 +81,6 @@ function ChangeLanguage({
   };
 
   return (
-    //   <View style={styles.container}>
-    //     <View style={styles.subContainer}>
-
-    //       <View>
-    //         <TouchableOpacity onPress={onLanguage}>
-    //           <View style={styles.buttonView}>
-    //             <Text style={styles.buttontext}>{select}</Text>
-    //           </View>
-    //        </TouchableOpacity>
-    //        <View>
-    //         {(value) ? onSelectLanguage() : null}
-    //        </View>
-    //     </View>
-    //  </View>
-    // </View>
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.backIcon}>
@@ -105,71 +97,52 @@ function ChangeLanguage({
           <Text style={styles.headerText}>Change Language</Text>
         </View>
       </View>
-      
+
       <View style={styles.appoinmentDivBg}>
-      <View style={styles.mainDivPad}>
-      <FlatList
-        data={languages}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
-      {/* <TouchableOpacity
-              style={styles.inputStyle1}
-              onPress={englishClick}>
-              <View style={styles.testOption}>
-                <Text>English</Text>
-                {result === 'positive' && (
-                  <Ionicons
-                    name="checkmark-circle"
-                    color={GREEN_COLOR}
-                    size={15}
-                  />
-                )}
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.inputStyle1}
-              onPress={germanClick}>
-              <View style={styles.testOption}>
-                <Text>German</Text>
-                {result === 'negative' && (
-                  <Ionicons
-                    name="checkmark-circle"
-                    color={GREEN_COLOR}
-                    size={15}
-                  />
-                )}
-              </View>
-            </TouchableOpacity> */}
-            </View>
-            </View>
+        <View style={styles.mainDivPad}>
+          <FlatList
+            data={languages}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+          />
+        </View>
+      </View>
+      {loader ? (
+        <View
+          style={{
+            alignSelf: 'center',
+            height: '100%',
+            width: '100%',
+            justifyContent: 'center',
+            position: 'absolute',
+            top: '40%',
+            zIndex: 1000,
+          }}>
+          <ActivityIndicator size="large" color="grey" animating={loader} />
+        </View>
+      ) : null}
     </View>
   );
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    GetLanguage: lang => dispatch(GetLanguage(lang)),
-    LanguageChangeAction: lang => dispatch(LanguageChangeAction(lang)),
-    GetLanguageByLang: lang => dispatch(GetLanguageByLang(lang)),
+    getLanguageByKey: data => dispatch(getLanguageByKeyAction(data)),
   };
 };
 
 const mapStateToProps = state => {
   return {
-    initLoaded: state.LanguageReducer.initPayLoad,
-    langData: state.LanguageReducer.langData,
+    loader: state.LanguageReducer.loader,
+    errMessage: state.LanguageReducer.errMessage,
+    availableLanguages: state.welcomeReducer.availableLanguages,
+    defaultLangData: state.welcomeReducer.defaultLangData,
   };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChangeLanguage);
 
 const styles = StyleSheet.create({
-  // container: {
-  //   flex: 1,
-  //   backgroundColor: '#F5FCFF',
-  //   padding: 24,
-  // },
   container: {
     height,
     backgroundColor: '#f8fbfa',
@@ -282,13 +255,13 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
-    height:'88%',
+    height: '88%',
     marginTop: '5%',
   },
   mainDivPad: {
     paddingLeft: '10%',
     paddingRight: '10%',
-    paddingTop:50,
+    paddingTop: 50,
   },
   infoContainerChild: {
     paddingTop: 30,
@@ -354,11 +327,11 @@ const styles = StyleSheet.create({
     color: '#1d1c1c',
     paddingLeft: '5%',
     paddingRight: '5%',
-    height:60,
+    height: 60,
     marginBottom: 14,
     borderWidth: 1,
     borderColor: '#e0dfdf',
-    justifyContent:'center'
+    justifyContent: 'center',
   },
   btnStyle: {
     backgroundColor: GREEN_COLOR,

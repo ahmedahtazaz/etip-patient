@@ -39,9 +39,8 @@ import UpdateOtherSettings from './src/containers/UpdateOtherSettings/UpdateOthe
 import ChangeLanguage from './src/containers/ChangeLanguage/ChangeLanguage';
 import AboutApp from './src/containers/AboutApp/AboutApp';
 
-const menuIcon = require('../app/src/assets/images/menu-icon.png');
-
 const sagaMiddleware = createSagaMiddleware();
+
 export const store = createStore(
   createRootReducer(),
   compose(applyMiddleware(sagaMiddleware)),

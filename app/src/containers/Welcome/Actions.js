@@ -4,6 +4,7 @@ import {
   GET_DEFAULT_LANG,
   GET_LANG_BY_SELECTED_KEY,
   GET_LANG_KEYS,
+  LANGUAGE_UPDATED,
 } from '../../commons/Constants';
 
 export const initialiseAppAction = url => {
@@ -62,5 +63,12 @@ export const getLanguagesKeysAction = payload => {
   return {
     type: GET_LANG_KEYS,
     payload,
+  };
+};
+
+export const setLanguageUpdatedAction = status => {
+  return {
+    type: LANGUAGE_UPDATED,
+    status,
   };
 };
