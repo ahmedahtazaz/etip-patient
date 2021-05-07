@@ -345,7 +345,7 @@ function Phone({
                 width: '100%',
                 justifyContent: 'center',
                 position: 'absolute',
-                top:'50%',
+                top:'40%',
                 zIndex: 1000,
               }}>
               <ActivityIndicator size="large" color="grey" animating={loader} />

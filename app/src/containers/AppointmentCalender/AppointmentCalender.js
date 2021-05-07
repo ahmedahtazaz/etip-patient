@@ -314,7 +314,7 @@ const AppointmentCalender = ({
             </View>
           ) : null}
           {showSlots ? (
-            <View style={styles.calenderContainer}>
+            <View style={styles.calenderContainer1}>
               <Text style={{marginStart: 8}}>Time Slot</Text>
               {/* <Calendar/> */}
 
@@ -480,6 +480,13 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     marginBottom: 150,
+  },
+  calenderContainer1: {
+    margin: 8,
+    height: height(40),
+    display: 'flex',
+    flexDirection: 'column',
+    marginBottom: 70,
   },
   nameContainer: {
     alignSelf: 'stretch',
