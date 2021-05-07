@@ -212,7 +212,7 @@ function Phone({
                 {'\n'}
                 {'\n'}
                 <Text style={styles.inputLabelSmall}>
-                  {I18n.t('Please Enter the OTP we have sent over the numuber')}
+                  {I18n.t('Please Enter the OTP we have sent over the number')}
                 </Text>
               </Text>
               <View
@@ -399,18 +399,20 @@ const styles = StyleSheet.create({
   mainMenu: {
     position: 'absolute',
     zIndex: 2000,
-    top: '5%',
+   
     width: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: '5%',
+    paddingTop:'25%',
+    height:'10%',
   },
   innerDiv: {
-    paddingTop: '35%',
+    paddingTop: '45%',
     paddingBottom: '10%',
     paddingLeft: '5%',
     paddingRight: '5%',
+    height:'100%'
   },
   inputLabelDiv: {
     display: 'flex',

@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     flexDirection: 'row',
     alignItems: 'center',
-    width: '45%',
+    width: '43%',
   },
   menuItemsCenter: {
     marginEnd: 16,

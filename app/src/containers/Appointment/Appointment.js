@@ -98,7 +98,7 @@ const Appointment = ({
               {'\n'}
               {'\n'}
               <Text style={styles.inputLabelSmall}>
-                {I18n.t('Please select the family memebers u want to select.')}
+                {I18n.t('Please select the family members u want to select.')}
               </Text>
             </Text>
           </View>

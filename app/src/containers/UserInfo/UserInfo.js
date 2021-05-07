@@ -234,15 +234,15 @@ function UserInfo({
       return;
     }
     if (!schiller) {
-      showToast('Please Enter schiller');
+      showToast('Please Enter street');
       return;
     }
     if (!zimmer) {
-      showToast('Please Enter zimmer');
+      showToast('Please Enter house no.');
       return;
     }
     if (!postalCode) {
-      showToast('Please Enter postalcode');
+      showToast('Please Enter postal code');
       return;
     }
 
@@ -499,14 +499,14 @@ function UserInfo({
               value={schiller}
               textContentType="schiller"
               underlineColorAndroid="transparent"
-              placeholder="Schiller"
+              placeholder="Street"
               style={styles.inputStyle}
               onChangeText={value => setSchiller(value)}></TextInput>
             <TextInput
               placeholderTextColor={'#a29d9d'}
               value={zimmer}
               textContentType="schiller"
-              placeholder="zimmer"
+              placeholder="House No."
               style={styles.inputStyle}
               onChangeText={value => setZimmer(value)}></TextInput>
           </View>
@@ -782,7 +782,7 @@ const styles = StyleSheet.create({
     fontSize: RFValue(14, 580),
     fontWeight: '600',
     color: '#006970',
-    marginBottom: 180,
+    marginBottom: 40,
     textAlign: 'center',
   },
 });
