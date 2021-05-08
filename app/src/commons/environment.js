@@ -34,4 +34,14 @@ export const get_active_certificates = '/api/application/getActiveCertificates';
 export const get_expired_certificates =
   '/api/application/getExpiredCertificates';
 
+
+/* verifier app urls */
+
+
+export const verify_pin_url = "/api/user/verifyPin";
+
+export const get_test_points_url = "/api/testPoint/testPointList";
+
+export const get_pending_applications_url = "/api/application/getPendingApplications"
+
 export const organizationName = 'eTip-german';

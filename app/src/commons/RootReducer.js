@@ -1,4 +1,4 @@
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 import LanguageReducer from '../containers/ChangeLanguage/Reducer';
 import splashReducer from '../containers/Splash/Reducer';
 import welcomeReducer from '../containers/Welcome/Reducer';
@@ -16,6 +16,9 @@ import RegionReducer from '../containers/AppointmentCalender/Reducers';
 import mainScreenReducer from '../containers/MainScreen/Reducer';
 import certificatesReducer from '../containers/Certificates/Reducer';
 import updateEmailReducer from '../containers/UpdateOtherSettings/Reducer';
+import pinScreenReducer from '../containers/PinScreen/Reducer';
+import testCenterVerifierReducer from '../containers/TestCenterVerifier/Reducer';
+import testCenterInfoReducer from '../containers/TestCenterInfo/Reducer';
 
 const createRootReducer = () =>
   combineReducers({
@@ -35,6 +38,12 @@ const createRootReducer = () =>
     mainScreenReducer: mainScreenReducer(),
     certificatesReducer: certificatesReducer(),
     updateEmailReducer: updateEmailReducer(),
+
+    /* verifier app reducers */
+
+    pinScreenReducer: pinScreenReducer(),
+    testCenterVerifierReducer: testCenterVerifierReducer(),
+    testCenterInfoReducer: testCenterInfoReducer()
   });
 
 export default createRootReducer;

@@ -1,11 +1,11 @@
-import {all} from 'redux-saga/effects';
+import { all } from 'redux-saga/effects';
 import getABoutData from '../containers/AboutApp/Saga';
 import getPolicyData from '../containers/Policy/Saga';
 import {
   getchangeLanguage,
   getLanguageByKeysSaga,
 } from '../containers/ChangeLanguage/Saga';
-import {getProfileActionWatcher} from '../containers/AppointmentDetails/Saga';
+import { getProfileActionWatcher } from '../containers/AppointmentDetails/Saga';
 import {
   getFamilyMembersActionWatcher,
   removeFamilyMembersActionWatcher,
@@ -30,7 +30,7 @@ import welcomeActionWatcher, {
   getLanguageByKeySaga,
   getLanguagesKeysSaga,
 } from '../containers/Welcome/Saga';
-import {getTestCentersSaga} from '../containers/TestCenter/Saga';
+import { getTestCentersSaga } from '../containers/TestCenter/Saga';
 import {
   createAppointmentSaga,
   getAppointmentSlotSaga,
@@ -38,6 +38,9 @@ import {
 } from '../containers/AppointmentCalender/Saga';
 import { getCertificatesActionWatcher } from '../containers/Certificates/Saga';
 import { updateEmailActionWatcher } from '../containers/MainScreen/Saga';
+import { verifyPinActionWatcher } from '../containers/PinScreen/Saga';
+import { getTestPointsActionWatcher } from '../containers/TestCenterVerifier/Saga';
+import { getPendingApplicationsActionWatcher } from '../containers/TestCenterInfo/Saga';
 
 export default function* rootSaga() {
   yield all([
@@ -74,5 +77,12 @@ export default function* rootSaga() {
     createAppointmentSaga(),
 
     getCertificatesActionWatcher(),
+
+    /* verifier app sagas */
+
+
+    verifyPinActionWatcher(),
+    getTestPointsActionWatcher(),
+    getPendingApplicationsActionWatcher()
   ]);
 }

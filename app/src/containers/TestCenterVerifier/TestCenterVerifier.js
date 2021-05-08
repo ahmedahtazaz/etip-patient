@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -9,18 +9,23 @@ import {
   Image,
   ImageBackground,
   FlatList,
+  ActivityIndicator
 } from 'react-native';
 import Orientation from 'react-native-orientation-locker';
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import I18n from '../../translations/I18n';
 
-import {RFValue} from 'react-native-responsive-fontsize';
-import {GREEN_COLOR} from '../../theme/Colors';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { GREEN_COLOR } from '../../theme/Colors';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import { connect } from 'react-redux';
+import { get_test_points_url } from '../../commons/environment';
+import { setTestPointAction, getTestPointsAction } from './Action';
+import { showToast } from '../../commons/Constants';
 const headerLogo = require('../../assets/images/small-header-logo.png');
 const phoneDivBg = require('../../assets/images/phone-div-bg.png');
 const menuIcon = require('../../assets/images/menu-arrow-icon1.png');
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 const DATA = [
   {
     name: 'Zeitfenster auswahlen',
@@ -52,18 +57,45 @@ const DATA = [
   },
 ];
 
-function TestCenterVerifier({navigation}) {
+function TestCenterVerifier({
+  navigation,
+  getTestPoints,
+  testPoints,
+  loader,
+  errMessage,
+  verifyPinPayload,
+  setTestPoint
+}) {
   const isFocused = useIsFocused();
 
   useEffect(() => {
     Orientation.lockToPortrait();
   }, [isFocused]);
 
-  const renderItem = ({item, index}) => (
+  useEffect(() => {
+    let testpointId = "";
+    let data = {
+      url: `${get_test_points_url}/${testpointId}`
+    }
+    getTestPoints(data);
+  }, [])
+
+  useEffect(() => {
+    if (errMessage) {
+      showToast(errMessage);
+    }
+  }, [errMessage]);
+
+  const selectTestCenter = (item) => {
+    setTestPoint(item);
+    navigation.navigate('TestCenterInfo')
+  }
+
+  const renderItem = ({ item, index }) => (
     <TouchableOpacity
       style={styles.item}
       key={index}
-      onPress={() => navigation.replace('TestCenterInfo')}>
+      onPress={() => selectTestCenter(item)}>
       <Text style={styles.name}>{I18n.t(item.name)}</Text>
       <Text style={styles.address}>{I18n.t(item.address)}</Text>
     </TouchableOpacity>
@@ -76,45 +108,58 @@ function TestCenterVerifier({navigation}) {
             <TouchableOpacity
               style={styles.menuItemsLeft}
               onPress={() => navigation.goBack()}>
-              <Image source={menuIcon} style={{marginLeft: 10}} />
+              <Image source={menuIcon} style={{ marginLeft: 10 }} />
             </TouchableOpacity>
           ) : (
             <View style={styles.menuItemsLeft}></View>
           )}
           <View style={styles.menuItemsCenter}>
-            <Image source={headerLogo} style={{marginLeft: 5}} />
+            <Image source={headerLogo} style={{ marginLeft: 5 }} />
           </View>
         </View>
       </View>
 
       <ImageBackground source={phoneDivBg} style={styles.splashbackground}>
         <View style={styles.innerDiv}>
-          <View style={{marginBottom: '5%'}}>
+          <View style={{ marginBottom: '5%' }}>
             <View>
               <Text style={styles.heading}>{I18n.t('Your test center')}</Text>
             </View>
           </View>
-          {renderItem({item: DATA[0], index: 0})}
+          {renderItem({ item: DATA[0], index: 0 })}
         </View>
         <View style={styles.innerDiv1}>
           <View style={styles.header}>
             <View>
               <Text style={styles.heading}>{I18n.t('Select test point')}</Text>
               <Text style={styles.subHeading}>
-              {I18n.t(' Select the test point you are working today')}
+                {I18n.t(' Select the test point you are working today')}
               </Text>
             </View>
           </View>
           <View style={styles.testCenterList}>
             <View style={styles.listView}>
               <FlatList
-                data={DATA}
+                data={testPoints.length ? testPoints : DATA}
                 renderItem={renderItem}
                 keyExtractor={(item, index) => index}
               />
             </View>
           </View>
         </View>
+        {loader ? (
+          <View
+            style={{
+              alignSelf: 'center',
+              height: '100%',
+              width: '100%',
+              justifyContent: 'center',
+              position: 'absolute',
+              zIndex: 1000,
+            }}>
+            <ActivityIndicator size="large" color="grey" animating={loader} />
+          </View>
+        ) : null}
       </ImageBackground>
     </View>
   );
@@ -139,7 +184,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingBottom: 15,
     paddingTop: 15,
-    paddingLeft:10,
+    paddingLeft: 10,
   },
   menuItemsLeft: {
     position: 'relative',
@@ -193,4 +238,22 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TestCenterVerifier;
+const mapStateToProps = (state) => {
+  console.log('testCenterVerifierReducer state:: ', state.testCenterVerifierReducer)
+  return {
+    testPoints: state.testCenterVerifierReducer.testPoints,
+    loader: state.testCenterVerifierReducer.loader,
+    errMessage: state.testCenterVerifierReducer.errMessage,
+    verifyPinPayload: state.pinScreenReducer.verifyPinPayload,
+
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getTestPoints: data => dispatch(getTestPointsAction(data)),
+    setTestPoint: data => dispatch(setTestPointAction(data))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TestCenterVerifier);

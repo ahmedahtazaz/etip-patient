@@ -116,13 +116,14 @@ export const GET_EXPIRED_CERTIFICATES_SUCCESS =
 export const GET_EXPIRED_CERTIFICATES_FAILURE =
   'GET_EXPIRED_CERTIFICATES_FAILURE ';
 
+
 export const APP_INIT_LINK = '';
 
 export const SET_LOADER_MAIN_SCREEN = 'SET_LOADER_MAIN_SCREEN';
 
 export const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-export const IS_VERIFIER_APP = false;
+export const IS_VERIFIER_APP = true;
 
 export const LANGUAGE_KEY = 'default_lang';
 
@@ -170,3 +171,21 @@ export const showToast = msg => {
     Alert.alert(msg);
   }
 };
+
+
+/* verifier app constants */
+
+export const VERIFY_PIN = "VERIFY_PIN";
+export const VERIFY_PIN_SUCCESS = "VERIFY_PIN_SUCCESS";
+export const VERIFY_PIN_FAILURE = "VERIFY_PIN_FAILURE";
+
+export const GET_TEST_POINTS = "GET_TEST_POINTS";
+export const GET_TEST_POINTS_SUCCESS = "GET_TEST_POINTS_SUCCESS";
+export const GET_TEST_POINTS_FAILURE = "GET_TEST_POINTS_FAILURE";
+
+export const GET_PENDING_APPLICATIONS = "GET_PENDING_APPLICATIONS";
+export const GET_PENDING_APPLICATIONS_SUCCESS = "GET_PENDING_APPLICATIONS_SUCCESS";
+export const GET_PENDING_APPLICATIONS_FAILURE = "GET_PENDING_APPLICATIONS_FAILURE";
+
+export const SET_TEST_POINT = "SET_TEST_POINT";
+

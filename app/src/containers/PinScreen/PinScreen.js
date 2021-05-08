@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -9,11 +9,12 @@ import {
   Image,
   ImageBackground,
   TextInput,
+  ActivityIndicator
 } from 'react-native';
 import Orientation from 'react-native-orientation-locker';
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import Foundation from 'react-native-vector-icons/Foundation';
-import {RFValue} from 'react-native-responsive-fontsize';
+import { RFValue } from 'react-native-responsive-fontsize';
 import I18n from '../../translations/I18n';
 import {
   GREEN_COLOR,
@@ -21,17 +22,47 @@ import {
   PRIMARY_COLOR,
   GRAY_COLOR,
 } from '../../theme/Colors';
+import { connect } from 'react-redux';
+import { verify_pin_url } from '../../commons/environment';
+import { verifyPinAction } from './Action';
+import { showToast } from '../../commons/Constants';
 const headerLogo = require('../../assets/images/header-logo.png');
 const phoneDivBg = require('../../assets/images/phone-div-bg.png');
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
-function PinScreen({navigation}) {
+function PinScreen({
+  navigation,
+  verifyPin,
+  loader,
+  isPinVerified,
+  errMessage
+}) {
   const [pin, setPin] = useState('');
   const isFocused = useIsFocused();
 
   useEffect(() => {
     Orientation.lockToPortrait();
   }, [isFocused]);
+
+  const verifyInputPin = () => {
+    let data = {
+      url: `${verify_pin_url}/${pin}`
+    }
+    verifyPin(data);
+    navigation.navigate("TestCenter");
+  }
+
+  useEffect(() => {
+    if (isPinVerified) {
+      navigation.navigate("TestCenter");
+    }
+  }, [isPinVerified]);
+
+  useEffect(() => {
+    if (errMessage) {
+      showToast(errMessage);
+    }
+  }, [errMessage]);
 
   return (
     <View style={styles.MainContainer}>
@@ -40,7 +71,7 @@ function PinScreen({navigation}) {
       </View>
       <ImageBackground source={phoneDivBg} style={styles.splashbackground}>
         <View style={styles.pinSection}>
-          <View style={{marginTop: 20}}>
+          <View style={{ marginTop: 20 }}>
             <Text style={styles.heading}>{I18n.t('Enter Your')}</Text>
             <Text style={styles.heading}>{I18n.t('Secret Pin to continue')}</Text>
           </View>
@@ -49,7 +80,7 @@ function PinScreen({navigation}) {
             <Text style={styles.label}>{I18n.t('continue')}</Text>
           </View>
 
-          <View style={{marginTop: 10}}>
+          <View style={{ marginTop: 10 }}>
             <TextInput
               placeholderTextColor={'#dfe1e1'}
               placeholder={'0000000'}
@@ -61,9 +92,9 @@ function PinScreen({navigation}) {
             />
           </View>
 
-          <View style={{marginTop: 20}}>
+          <View style={{ marginTop: 20 }}>
             <TouchableOpacity
-              onPress={() => navigation.replace('TestCenter')}
+              onPress={() => verifyInputPin()}
               disabled={pin.length !== 7}
               style={{
                 ...styles.btnStyle,
@@ -73,9 +104,36 @@ function PinScreen({navigation}) {
             </TouchableOpacity>
           </View>
         </View>
+        {loader ? (
+          <View
+            style={{
+              alignSelf: 'center',
+              height: '100%',
+              width: '100%',
+              justifyContent: 'center',
+              position: 'absolute',
+              zIndex: 1000,
+            }}>
+            <ActivityIndicator size="large" color="grey" animating={loader} />
+          </View>
+        ) : null}
       </ImageBackground>
     </View>
   );
+}
+
+const mapStateToProps = (state) => {
+  return {
+    isPinVerified: state.pinScreenReducer.isPinVerified,
+    loader: state.pinScreenReducer.loader,
+    errMessage: state.pinScreenReducer.errMessage
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    verifyPin: data => dispatch(verifyPinAction(data))
+  }
 }
 
 const styles = StyleSheet.create({
@@ -174,4 +232,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PinScreen;
+export default connect(mapStateToProps, mapDispatchToProps)(PinScreen);
