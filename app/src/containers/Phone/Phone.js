@@ -184,13 +184,13 @@ function Phone({
             <>
               <Text style={styles.inputLabelDiv}>
                 <Text style={styles.inputLabel}>
-                {I18n.t('Enter Your  Mobile Number')}
+                {I18n.t('Enter Your Mobile Number')}
                 </Text>
                 {'\n'}
                 {'\n'}
                 <Text style={styles.inputLabelSmall}>
                   {/* Please enter your valid phone number to continue */}
-                  {I18n.t('Please enter a valid phone number')}
+                  {I18n.t('Please enter your valid phone number to continue')}
                 </Text>
               </Text>
               <TextInput
@@ -317,7 +317,7 @@ function Phone({
                     .concat(otpValue4),
                 )
               }>
-              <Text style={styles.submitText}>{isUpdateMobileNumber ? "Update Mobile Number" : I18n.t('Continue')}</Text>
+              <Text style={styles.submitText}>{isUpdateMobileNumber ? I18n.t("Update Mobile Number") : I18n.t('Continue')}</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity

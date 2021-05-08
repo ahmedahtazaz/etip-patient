@@ -503,7 +503,7 @@ function UserInfo({
           </View>
           <DropDownPicker
             items={regions}
-            defaultValue={city}
+             defaultValue={city}
             containerStyle={{ height: '5%' }}
             style={{
               backgroundColor: '#F5F9F8',
