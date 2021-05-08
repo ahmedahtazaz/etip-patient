@@ -133,7 +133,7 @@ function TestCenterVerifier({
             <View>
               <Text style={styles.heading}>{I18n.t('Select test point')}</Text>
               <Text style={styles.subHeading}>
-                {I18n.t(' Select the test point you are working today')}
+                {I18n.t('Select the test point you are working today')}
               </Text>
             </View>
           </View>

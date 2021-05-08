@@ -248,7 +248,7 @@ function VerifierUserInfo({navigation, loader}) {
                 style={styles.inputStyle1}
                 onChangeText={value => setMobileNo(value)}></TextInput>
               <View style={styles.secondaryHeading}>
-                <Text style={styles.secondaryHeadingText}>ADDRESS</Text>
+                <Text style={styles.secondaryHeadingText}>{I18n.t('ADDRESS')}</Text>
               </View>
               <View style={styles.userName}>
                 <TextInput

@@ -7,7 +7,9 @@ import {
   TouchableOpacity,
   ImageBackground,
   Image,
+  FlatList
 } from 'react-native';
+import {ActivityIndicator} from 'react-native-paper';
 import I18n from '../../translations/I18n';
 import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
