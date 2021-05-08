@@ -113,7 +113,7 @@ function ChangeLanguage({
           </TouchableOpacity>
         </View>
         <View style={styles.headerTextView}>
-          <Text style={styles.headerText}>Change Language</Text>
+          <Text style={styles.headerText}>{I18n.t('Change Language')}</Text>
         </View>
       </View>
 

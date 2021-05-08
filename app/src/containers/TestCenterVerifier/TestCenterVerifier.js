@@ -64,8 +64,8 @@ function TestCenterVerifier({navigation}) {
       style={styles.item}
       key={index}
       onPress={() => navigation.replace('TestCenterInfo')}>
-      <Text style={styles.name}>{item.name}</Text>
-      <Text style={styles.address}>{item.address}</Text>
+      <Text style={styles.name}>{I18n.t(item.name)}</Text>
+      <Text style={styles.address}>{I18n.t(item.address)}</Text>
     </TouchableOpacity>
   );
   return (

@@ -127,7 +127,7 @@ function TestInformation({moveToMainScreen, navigation}) {
           <View style={styles.switchMain}>
             <View style={styles.switchTextView}>
               <Text style={styles.switchText}>
-                Send Email notification to relevant authority
+              {I18n.t('Send Email notification to relevant authority')}
               </Text>
             </View>
             <View style={styles.switchView}>
@@ -153,7 +153,7 @@ function TestInformation({moveToMainScreen, navigation}) {
             <TouchableOpacity
               style={{width: '100%'}}
               onPress={() => navigation.navigate('QRScreen')}>
-              <Text style={styles.scanAnotherQRcode}>Scan Another QR Code</Text>
+              <Text style={styles.scanAnotherQRcode}>{I18n.t('Scan Another QR Code')}</Text>
             </TouchableOpacity>
           </View>
         </View>

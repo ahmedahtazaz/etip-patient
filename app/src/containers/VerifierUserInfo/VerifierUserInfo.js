@@ -228,7 +228,7 @@ function VerifierUserInfo({navigation, loader}) {
                 value={taxId}
                 textContentType="taxId"
                 underlineColorAndroid="transparent"
-                placeholder="Tax ID"
+                placeholder={I18n.t("Tax ID")}
                 style={styles.inputStyle1}
                 onChangeText={value => setTaxId(value)}></TextInput>
               <TextInput
@@ -236,7 +236,7 @@ function VerifierUserInfo({navigation, loader}) {
                 value={email}
                 textContentType="email"
                 underlineColorAndroid="transparent"
-                placeholder="Email"
+                placeholder={I18n.t("Email")}
                 style={styles.inputStyle1}
                 onChangeText={value => setEmail(value)}></TextInput>
               <TextInput
@@ -244,7 +244,7 @@ function VerifierUserInfo({navigation, loader}) {
                 value={mobileNo}
                 textContentType="mobileNo"
                 underlineColorAndroid="transparent"
-                placeholder="Mobile No"
+                placeholder={I18n.t("Mobile No")}
                 style={styles.inputStyle1}
                 onChangeText={value => setMobileNo(value)}></TextInput>
               <View style={styles.secondaryHeading}>
@@ -312,7 +312,7 @@ function VerifierUserInfo({navigation, loader}) {
                 value={fName}
                 textContentType="postalCode"
                 underlineColorAndroid="transparent"
-                placeholder="Postal Code"
+                placeholder={I18n.t("Postal Code")}
                 style={styles.inputStyle2}
                 onChangeText={value => setPostalCode(value)}></TextInput>
               <TouchableOpacity
@@ -346,7 +346,7 @@ function VerifierUserInfo({navigation, loader}) {
                   });
                   navigation.navigate('TestInformationScreen');
                 }}>
-                <Text style={styles.saveCloseText}>Continue</Text>
+                <Text style={styles.saveCloseText}>{I18n.t('Continue')}</Text>
               </TouchableOpacity>
               {loader ? (
                 <View

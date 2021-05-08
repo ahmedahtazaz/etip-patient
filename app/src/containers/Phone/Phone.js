@@ -184,8 +184,7 @@ function Phone({
             <>
               <Text style={styles.inputLabelDiv}>
                 <Text style={styles.inputLabel}>
-                  Enter Your{'\n'}
-                  Mobile Number
+                {I18n.t('Enter Your  Mobile Number')}
                 </Text>
                 {'\n'}
                 {'\n'}
@@ -208,7 +207,7 @@ function Phone({
           ) : (
             <>
               <Text style={styles.inputLabelDiv}>
-                <Text style={styles.inputLabel}>Enter OTP</Text>
+                <Text style={styles.inputLabel}>{I18n.t('Enter OTP')}</Text>
                 {'\n'}
                 {'\n'}
                 <Text style={styles.inputLabelSmall}>

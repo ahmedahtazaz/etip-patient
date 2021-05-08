@@ -58,7 +58,7 @@ const TestCenter = ({
               fontSize: 15,
               fontWeight: '600',
             }}>
-            {item.testCenter.name}
+            {I18n.t(item.testCenter.name)}
           </Text>
           <Text
             style={{
@@ -67,7 +67,7 @@ const TestCenter = ({
               paddingTop: 5,
               marginStart: 8,
             }}>
-            {item.testCenter.address}
+            {I18n.t(item.testCenter.address)}
           </Text>
         </View>
       </TouchableOpacity>

@@ -220,7 +220,7 @@ const MainScreen = ({
                     Hi {userName}
                   </Text>
                   <Text style={{textColor: 'grey'}}>
-                    Hope You, are feeling healthy today
+                  {I18n.t('Hope You, are feeling healthy today')}
                   </Text>
                 </View>
                 <TouchableOpacity
@@ -240,7 +240,7 @@ const MainScreen = ({
             </View>
           }
           <View style={styles.actionCertificateContainer}>
-            <Text style={styles.boxTopHeading}>ACTIVE CERTIFICATES</Text>
+            <Text style={styles.boxTopHeading}>{I18n.t('ACTIVE CERTIFICATES')}</Text>
             {activeCertificates ? (
               <FlatList
                 horizontal
@@ -265,10 +265,10 @@ const MainScreen = ({
                     }}>
                     <View style={styles.contentPadding}>
                       <Text style={styles.boxHeadingDisable}>
-                        No Active Certificate
+                      {I18n.t('No Active Certificate')}
                       </Text>
                       <Text style={styles.boxTextDisable}>
-                        You don’t have any active certificate at the moment
+                      {I18n.t('You don’t have any active certificate at the moment')}
                       </Text>
                     </View>
                   </ImageBackground>
@@ -277,7 +277,7 @@ const MainScreen = ({
             )}
           </View>
           <View style={styles.actionCertificateContainer}>
-            <Text style={styles.boxTopHeading}>APPOINTMENTS</Text>
+            <Text style={styles.boxTopHeading}>{I18n.t('APPOINTMENTS')}</Text>
             {activeAppointments ? (
               <FlatList
                 data={activeAppointments?.data?.data}
@@ -302,10 +302,10 @@ const MainScreen = ({
                     }}>
                     <View style={styles.contentPadding}>
                       <Text style={styles.boxHeadingDisable}>
-                        No Active Appointments
+                      {I18n.t('No Active Appointments')}
                       </Text>
                       <Text style={styles.boxTextDisable}>
-                        You don’t have any active appointment at the moment
+                      {I18n.t('You don’t have any active appointment at the moment')}
                       </Text>
                     </View>
                   </ImageBackground>

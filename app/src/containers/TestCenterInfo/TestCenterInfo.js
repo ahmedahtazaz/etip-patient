@@ -66,7 +66,7 @@ function TestCenterInfo({navigation}) {
             <Image source={headerLogo} />
           </View>
           <View style={{height: '100%', top: '50%'}}>
-            <Text style={styles.heading}>Hello, Jone!</Text>
+            <Text style={styles.heading}>{I18n.t('Hello, Jone!')}</Text>
             <Text style={styles.subHeading}>
             {I18n.t('Hope you are having a good day')}
             </Text>
@@ -98,7 +98,7 @@ function TestCenterInfo({navigation}) {
               marginTop: 30,
               fontWeight: '600',
             }}>
-            Test Awaiting for results
+            {I18n.t('Test Awaiting for results')}
           </Text>
 
           <View style={styles.patientList}>

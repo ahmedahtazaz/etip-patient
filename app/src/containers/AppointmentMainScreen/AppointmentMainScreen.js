@@ -84,7 +84,7 @@ const AppointmentMainScreen = ({
                   <Text style={styles.boxHeading}>
                     {item?.testPoint?.testCenter?.name}
                   </Text>
-                  <Text style={styles.boxText}>{item?.name}</Text>
+                  <Text style={styles.boxText}>{I18n.t(item?.name)}</Text>
                 </View>
               </View>
             </View>
@@ -141,10 +141,10 @@ const AppointmentMainScreen = ({
                     }}>
                     <View style={styles.contentPadding}>
                       <Text style={styles.boxHeadingDisable}>
-                        No Active Appointments
+                      {I18n.t('No Active Appointments')}
                       </Text>
                       <Text style={styles.boxTextDisable}>
-                        You don’t have any active appointment at the moment
+                      {I18n.t('You don’t have any active appointment at the moment')}
                       </Text>
                     </View>
                   </ImageBackground>
@@ -172,10 +172,10 @@ const AppointmentMainScreen = ({
                   }}>
                   <View style={styles.contentPadding}>
                     <Text style={styles.boxHeadingDisable}>
-                      No Previous Appointments
+                    {I18n.t('No Previous Appointments')}
                     </Text>
                     <Text style={styles.boxTextDisable}>
-                      You don’t have any previous appointment at the moment
+                    {I18n.t('You don’t have any previous appointment at the moment')}
                     </Text>
                   </View>
                 </ImageBackground>

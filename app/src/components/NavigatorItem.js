@@ -7,6 +7,8 @@ import {
   ImageBackground,
   View,
 } from 'react-native';
+import I18n from '../translations/I18n';
+
 import { RFValue } from 'react-native-responsive-fontsize';
 import { IS_VERIFIER_APP } from '../commons/Constants';
 const selectedBottomNav = require('../assets/images/selected-bottom-nav.png');
@@ -136,7 +138,7 @@ function NavigatorItem({ item, isSelected, navigation }) {
                 paddingTop: 10,
               }}
               numberOfLines={1}>
-              {item.label}
+              {I18n.t(item.label)}
             </Text>
           </View>
         </ImageBackground>

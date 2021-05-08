@@ -42,7 +42,7 @@ const windowHeight = Dimensions.get('window').height;
 
 const Item = ({item, onPress, backgroundColor, textColor}) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-    <Text style={[styles.title, textColor]}>{item.title}</Text>
+    <Text style={[styles.title, textColor]}>{I18n.t(item.title)}</Text>
   </TouchableOpacity>
 );
 
@@ -293,7 +293,7 @@ const AppointmentCalender = ({
               style={styles.parentNameContainer}>
               <View style={styles.nameTextContainer}>
                 <Text style={{marginStart: 8, color: '#606060'}}>
-                  Appointment Date
+                {I18n.t('Appointment Date')}
                 </Text>
                 <Text
                   style={{color: '#027279', textColor: 'grey', marginStart: 8}}>
@@ -315,7 +315,7 @@ const AppointmentCalender = ({
           ) : null}
           {showSlots ? (
             <View style={styles.calenderContainer1}>
-              <Text style={{marginStart: 8}}>Time Slot</Text>
+              <Text style={{marginStart: 8}}>{I18n.t('Time Slot')}</Text>
               {/* <Calendar/> */}
 
               <FlatList
@@ -327,8 +327,8 @@ const AppointmentCalender = ({
                         style={styles.GridViewBlockStyleActive}
                         onPress={() => setSelectedSlot(null)}>
                         <Text style={styles.GridViewInsideTextItemStyleActive}>
-                          {' '}
-                          {item.timeSlot}{' '}
+                          
+                        {I18n.t('item.timeSlot')}
                         </Text>
                       </TouchableOpacity>
                     );
@@ -339,8 +339,8 @@ const AppointmentCalender = ({
                       style={styles.GridViewBlockStyle}
                       onPress={() => setSelectedSlot(item.timeSlot)}>
                       <Text style={styles.GridViewInsideTextItemStyle}>
-                        {' '}
-                        {item.timeSlot}{' '}
+                    
+                        {I18n.t('item.timeSlot')}
                       </Text>
                     </TouchableOpacity>
                   );
@@ -356,7 +356,7 @@ const AppointmentCalender = ({
               <TouchableOpacity
                 style={[styles.container1, styles.submitButton]}
                 onPress={bookAppointmentHandler}>
-                <Text style={styles.submitText}>Book Appointment</Text>
+                <Text style={styles.submitText}>{I18n.t('Book Appointment')}</Text>
               </TouchableOpacity>
             </View>
           ) : null}

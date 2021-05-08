@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {connect} from 'react-redux';
 import {WHITE_COLOR, PRIMARY_COLOR, GRAY_COLOR} from '../../theme/Colors';
-
+import I18n from '../../translations/I18n';
 import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
 import {
@@ -322,21 +322,21 @@ function UserInfo({
             <Text style={styles.mainHeadingText}>
               {!editMode
                 ? isFamily
-                  ? 'Add Family'
-                  : 'User Information'
-                : 'Edit Family'}
+                  ? I18n.t('Add Family')
+                  : I18n.t('User Information')
+                : I18n.t('Edit Family')}
             </Text>
           </View>
           <View style={styles.smallHeading}>
             <Text style={styles.smallHeadingText}>
               {isFamily
-                ? 'Please Information of Family Member'
-                : 'Please provide your information to continue'}
+                ? I18n.t('Please Information of Family Member')
+                : I18n.t('Please provide your information to continue')}
             </Text>
           </View>
 
           <View style={styles.secondaryHeading}>
-            <Text style={styles.secondaryHeadingText}>User Information</Text>
+            <Text style={styles.secondaryHeadingText}>{I18n.t('User Information')}</Text>
           </View>
 
           <View style={styles.formContainer}>
@@ -346,14 +346,14 @@ function UserInfo({
                 value={fName}
                 textContentType="givenName"
                 underlineColorAndroid="transparent"
-                placeholder="First Name"
+                placeholder={I18n.t("First Name")}
                 style={styles.inputStyle}
                 onChangeText={value => setFName(value)}></TextInput>
               <TextInput
                 placeholderTextColor={'#a29d9d'}
                 value={lName}
                 textContentType="familyName"
-                placeholder="Last Name"
+                placeholder={I18n.t("Last Name")}
                 style={styles.inputStyle}
                 onChangeText={value => setLName(value)}></TextInput>
             </View>
@@ -467,7 +467,7 @@ function UserInfo({
             value={taxId}
             textContentType="taxId"
             underlineColorAndroid="transparent"
-            placeholder="Tax ID"
+            placeholder={I18n.t("Tax ID")}
             style={styles.inputStyle1}
             onChangeText={value => setTaxId(value)}></TextInput>
           {!isUserEdit && (
@@ -476,7 +476,7 @@ function UserInfo({
               value={email}
               textContentType="email"
               underlineColorAndroid="transparent"
-              placeholder="Email"
+              placeholder={I18n.t("Email")}
               style={styles.inputStyle1}
               onChangeText={value => setEmail(value)}></TextInput>
           )}
@@ -486,12 +486,12 @@ function UserInfo({
               value={mobileNo}
               textContentType="mobileNo"
               underlineColorAndroid="transparent"
-              placeholder="Mobile No"
+              placeholder={I18n.t("Mobile No")}
               style={styles.inputStyle1}
               onChangeText={value => setMobileNo(value)}></TextInput>
           )}
           <View style={styles.secondaryHeading}>
-            <Text style={styles.secondaryHeadingText}>Address</Text>
+            <Text style={styles.secondaryHeadingText}>{I18n.t('Address')}</Text>
           </View>
           <View style={styles.userName}>
             <TextInput
@@ -499,14 +499,14 @@ function UserInfo({
               value={schiller}
               textContentType="schiller"
               underlineColorAndroid="transparent"
-              placeholder="Street"
+              placeholder={I18n.t("Street")}
               style={styles.inputStyle}
               onChangeText={value => setSchiller(value)}></TextInput>
             <TextInput
               placeholderTextColor={'#a29d9d'}
               value={zimmer}
               textContentType="schiller"
-              placeholder="House No."
+              placeholder={I18n.t("House No.")}
               style={styles.inputStyle}
               onChangeText={value => setZimmer(value)}></TextInput>
           </View>
@@ -555,7 +555,7 @@ function UserInfo({
             value={postalCode}
             textContentType="postalCode"
             underlineColorAndroid="transparent"
-            placeholder="Postal Code"
+            placeholder={I18n.t("Postal Code")}
             style={styles.inputStyle2}
             onChangeText={value => setPostalCode(value)}></TextInput>
           {editMode ? (
@@ -566,7 +566,7 @@ function UserInfo({
                 setIsSaveOnly(true);
                 addData();
               }}>
-              <Text style={styles.saveCloseText}>Update</Text>
+              <Text style={styles.saveCloseText}>{I18n.t('Update')}</Text>
             </TouchableOpacity>
           ) : (
             <>
@@ -581,7 +581,7 @@ function UserInfo({
                     submit();
                   }
                 }}>
-                <Text style={styles.saveCloseText}>Continue</Text>
+                <Text style={styles.saveCloseText}>{I18n.t('Continue')}</Text>
               </TouchableOpacity>
               {!addFamily ? (
                 <TouchableOpacity
@@ -593,8 +593,8 @@ function UserInfo({
                   }}>
                   <Text style={styles.saveAddText}>
                     {isFamily
-                      ? 'Save & add another member'
-                      : 'Save & Add Family'}
+                      ?I18n.t('Save & add another member')
+                      : I18n.t('Save & Add Family')}
                   </Text>
                 </TouchableOpacity>
               ) : null}
@@ -605,7 +605,7 @@ function UserInfo({
               disabled={loader}
               style={[styles.container, styles.cancelButton]}
               onPress={() => navigation.goBack()}>
-              <Text style={styles.saveCloseText}>Cancel</Text>
+              <Text style={styles.saveCloseText}>{I18n.t('Cancel')}</Text>
             </TouchableOpacity>
           ) : null}
           {loader ? (

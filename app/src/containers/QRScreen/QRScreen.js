@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-
+import I18n from '../../translations/I18n';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {RFValue} from 'react-native-responsive-fontsize';
@@ -42,7 +42,7 @@ function QRScreen({navigation}) {
           </TouchableOpacity>
         </View>
         <View style={styles.headerTextView}>
-          <Text style={styles.headerText}>Scan QR Code</Text>
+          <Text style={styles.headerText}>{I18n.t('Scan QR Code')}</Text>
         </View>
       </View>
       <View style={styles.scanner}>
@@ -76,7 +76,7 @@ function QRScreen({navigation}) {
             onRead={onSuccess}
             topContent={
               <Text style={styles.textBold}>
-                Scan QR code for patient information
+                {I18n.t('Scan QR code for patient information')}
               </Text>
             }
             bottomContent={
@@ -85,7 +85,7 @@ function QRScreen({navigation}) {
                 onPress={() => {
                   navigation.navigate('VerifierUserInfoScreen');
                 }}>
-                <Text style={styles.buttonText}>Or Add User Info</Text>
+                <Text style={styles.buttonText}>{I18n.t('Or Add User Info')}</Text>
               </TouchableOpacity>
             }
           />

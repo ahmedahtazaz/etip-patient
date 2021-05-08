@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {WHITE_COLOR} from '../../theme/Colors';
+import I18n from '../../translations/I18n';
 import {connect} from 'react-redux';
 import {
   moveToAppointmentDetailsAction,
@@ -64,7 +65,7 @@ const DATA = [
 
 const Item = ({item, onPress, backgroundColor, textColor}) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-    <Text style={[styles.title, textColor]}>{item.title}</Text>
+    <Text style={[styles.title, textColor]}>{I18n.t(item.title)}</Text>
   </TouchableOpacity>
 );
 
@@ -110,7 +111,7 @@ const Settings = ({
             <Image source={menuArrowWhiteIcon} style={{marginRight: 10}} />
           </TouchableOpacity>
           <Text style={styles.profileName}>
-            {`${userInfo?.data?.data?.firstName} ${userInfo?.data?.data?.lastName}`}
+          {I18n.t(`${userInfo?.data?.data?.firstName} ${userInfo?.data?.data?.lastName}`)}
           </Text>
           <TouchableOpacity
             onPress={() =>
@@ -136,7 +137,7 @@ const Settings = ({
         style={[styles.container, styles.submitButton]}
         onPress={() => navigation.goBack()}>
         <Text style={styles.submitText} style={{color: '#F20000'}}>
-          Logout
+        {I18n.t('Logout')}
         </Text>
       </TouchableOpacity>
     </SafeAreaView>

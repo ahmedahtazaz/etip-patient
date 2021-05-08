@@ -65,7 +65,7 @@ const Appointment = ({
           {`${item.firstName} ${item.lastName}`}
         </Text>
         <Text style={{color: '#d3d3d3', marginStart: 8, fontSize: 16}}>
-          {item.relation}
+        {I18n.t(item.labe)}
         </Text>
       </TouchableOpacity>
     );

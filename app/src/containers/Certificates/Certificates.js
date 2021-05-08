@@ -220,10 +220,10 @@ const Certificates = ({
                     }}>
                     <View style={styles.contentPadding}>
                       <Text style={styles.boxHeadingDisable}>
-                        No Active Certificate
+                      {I18n.t('No Active Certificate')}
                       </Text>
                       <Text style={styles.boxTextDisable}>
-                        You don’t have any active certificate at the moment
+                      {I18n.t('You don’t have any active certificate at the moment')}
                       </Text>
                     </View>
                   </ImageBackground>
@@ -260,10 +260,10 @@ const Certificates = ({
                     }}>
                     <View style={styles.contentPadding}>
                       <Text style={styles.boxHeadingDisable}>
-                        No Previous Certificate
+                      {I18n.t('No Previous Certificate')}
                       </Text>
                       <Text style={styles.boxTextDisable}>
-                        You don’t have any previous certificate at the moment
+                      {I18n.t('You don’t have any previous certificate at the moment')}
                       </Text>
                     </View>
                   </ImageBackground>

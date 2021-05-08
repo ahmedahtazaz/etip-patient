@@ -229,7 +229,7 @@ function UpdateSettings({
               value={taxId}
               textContentType="taxId"
               underlineColorAndroid="transparent"
-              placeholder="Tax ID"
+              placeholder={I18n.t("Tax ID")}
               style={styles.inputStyle1}
               onChangeText={value => setTaxId(value)}></TextInput>
             <TextInput
@@ -237,7 +237,7 @@ function UpdateSettings({
               value={email}
               textContentType="email"
               underlineColorAndroid="transparent"
-              placeholder="Email"
+              placeholder={I18n.t("Email")}
               style={styles.inputStyle1}
               onChangeText={value => setEmail(value)}></TextInput>
             {isFamily ? (
@@ -246,12 +246,12 @@ function UpdateSettings({
                 value={mobileNo}
                 textContentType="mobileNo"
                 underlineColorAndroid="transparent"
-                placeholder="Mobile No"
+                placeholder={I18n.t("Mobile No")}
                 style={styles.inputStyle1}
                 onChangeText={value => setMobileNo(value)}></TextInput>
             ) : null}
             <View style={styles.secondaryHeading}>
-              <Text style={styles.secondaryHeadingText}>Address</Text>
+              <Text style={styles.secondaryHeadingText}>{I18n.t('Address')}</Text>
             </View>
             <View style={styles.userName}>
               <TextInput

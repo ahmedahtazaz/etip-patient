@@ -45,7 +45,7 @@ function VerifierSettings({navigation}) {
 
   const renderItem = ({item, index}) => (
     <TouchableOpacity style={styles.item} key={index}>
-      <Text style={styles.name}>{item.name}</Text>
+      <Text style={styles.name}>{I18n.t(item.name)}</Text>
     </TouchableOpacity>
   );
 
