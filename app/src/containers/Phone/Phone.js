@@ -75,7 +75,7 @@ function Phone({
 
   const showToast = msg => {
     if (Platform.OS === 'android') {
-      ToastAndroid.show(msg, ToastAndroid.SHORT);
+      ToastAndroid.show(I18n.t(msg), ToastAndroid.SHORT);
     } else {
       Alert.alert(msg);
     }
@@ -94,7 +94,7 @@ function Phone({
           },
         };
         sendOTP(data);
-      } else showToast('Please enter a valid phone number.');
+      } else showToast('Please enter a valid phone number');
     } else {
       if (otp && otp.length == 5) {
         let data = {
@@ -112,7 +112,7 @@ function Phone({
         } else {
           verifyOTP(data);
         }
-      } else showToast('Please enter a valid OTP.');
+      } else showToast('Please enter a valid OTP');
     }
   };
 

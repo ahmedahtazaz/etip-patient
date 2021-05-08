@@ -1,4 +1,5 @@
 import { Alert, Platform, ToastAndroid } from 'react-native';
+import I18n from '../translations/I18n';
 
 export const LOAD_INIT = 'LOAD_INIT';
 export const LOAD_INIT_SUCCESS = 'LOAD_INIT_SUCCESS';
@@ -165,7 +166,7 @@ export const postCall = ({ url, body: data }) => {
 
 export const showToast = msg => {
   if (Platform.OS === 'android') {
-    ToastAndroid.show(msg, ToastAndroid.SHORT);
+    ToastAndroid.show(I18n.t(msg), ToastAndroid.SHORT);
   } else {
     Alert.alert(msg);
   }
