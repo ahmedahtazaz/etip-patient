@@ -463,13 +463,15 @@ class i18n {
   };
 
   t(param) {
-    const matchingTranslation = Object.keys(this.translations).filter(
-      key => key.toString() == param.toString(),
-    );
+    if (param) {
+      const matchingTranslation = Object.keys(this.translations).filter(
+        key => key && key.toString() == param.toString(),
+      );
 
-    if (matchingTranslation && matchingTranslation.length > 0)
-      return this.translations[matchingTranslation[0]];
-    else return param;
+      if (matchingTranslation && matchingTranslation.length > 0)
+        return this.translations[matchingTranslation[0]];
+      else return param;
+    } else return param;
   }
 }
 

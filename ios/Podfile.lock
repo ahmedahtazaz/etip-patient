@@ -270,7 +270,7 @@ PODS:
     - React
   - react-native-safe-area-context (3.2.0):
     - React-Core
-  - react-native-webview (11.4.3):
+  - react-native-webview (11.4.4):
     - React-Core
   - React-perflogger (0.64.1)
   - React-RCTActionSheet (0.64.1):
@@ -593,7 +593,7 @@ SPEC CHECKSUMS:
   react-native-checkbox: f25a53683bf992d14df6c3cf5b590865f293b2d8
   react-native-orientation-locker: 47aaa55d59bfc1613804dc22f159e6bb1cca5f30
   react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
-  react-native-webview: d749ba1348c17c7225391e84ac4a0c1c90c2c8ee
+  react-native-webview: cc2a1fd8149a2654d1408793daa62baadfc0bd96
   React-perflogger: aad6d4b4a267936b3667260d1f649b6f6069a675
   React-RCTActionSheet: fc376be462c9c8d6ad82c0905442fd77f82a9d2a
   React-RCTAnimation: ba0a1c3a2738be224a08092fa7f1b444ab77d309

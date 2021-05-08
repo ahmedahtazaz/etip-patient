@@ -1,33 +1,27 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
   Text,
   TouchableOpacity,
-  Dimensions,
   ImageBackground,
   Image,
-  TextInput,
-  FlatList,
-  ActivityIndicator
 } from 'react-native';
 import I18n from '../../translations/I18n';
 import Orientation from 'react-native-orientation-locker';
-import { useIsFocused } from '@react-navigation/native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {useIsFocused} from '@react-navigation/native';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { RFValue } from 'react-native-responsive-fontsize';
-import { BLACK_COLOR, GREEN_COLOR, WHITE_COLOR } from '../../theme/Colors';
+import {RFValue} from 'react-native-responsive-fontsize';
+import {BLACK_COLOR, GREEN_COLOR, WHITE_COLOR} from '../../theme/Colors';
 import BottomNavigator from '../../components/BottomNavigator';
-import { connect } from 'react-redux';
-import { get_pending_applications_url } from '../../commons/environment';
-import { getPendingApplicationsAction } from './Action';
+import {connect} from 'react-redux';
+import {get_pending_applications_url} from '../../commons/environment';
+import {getPendingApplicationsAction} from './Action';
 const testCenterInfoBg = require('../../assets/images/test-center-info-bg.png');
 const headerLogo = require('../../assets/images/splash-logo1.png');
 const btnQrCode = require('../../assets/images/btn-qr-code.png');
 const testInfoBg = require('../../assets/images/test-info-bg.png');
-const { width, height } = Dimensions.get('window');
 
 const DATA = [
   {
@@ -48,20 +42,26 @@ function TestCenterInfo({
   navigation,
   getPendingApplications,
   loader,
-  errMessage
+  errMessage,
 }) {
+  const [isUpdated, setIsUpdated] = useState(false);
   const isFocused = useIsFocused();
 
   useEffect(() => {
     Orientation.lockToPortrait();
+    if (isFocused) setIsUpdated(true);
   }, [isFocused]);
 
   useEffect(() => {
-    let testPointId = ""
+    if (isUpdated) setIsUpdated(false);
+  }, [isUpdated]);
+
+  useEffect(() => {
+    let testPointId = '';
     let data = {
-      url: `${get_pending_applications_url}/${testPointId}`
-    }
-    getPendingApplications(data)
+      url: `${get_pending_applications_url}/${testPointId}`,
+    };
+    getPendingApplications(data);
   }, []);
 
   useEffect(() => {
@@ -70,7 +70,7 @@ function TestCenterInfo({
     }
   }, [errMessage]);
 
-  const renderItem = ({ item, index }) => (
+  const renderItem = ({item, index}) => (
     <TouchableOpacity
       style={styles.item}
       key={index}
@@ -79,6 +79,7 @@ function TestCenterInfo({
       <Text style={styles.date}>{item.date}</Text>
     </TouchableOpacity>
   );
+
   return (
     <View style={styles.MainContainer}>
       <View style={styles.header}>
@@ -88,7 +89,7 @@ function TestCenterInfo({
           <View style={styles.mainMenu}>
             <Image source={headerLogo} />
           </View>
-          <View style={{ height: '100%', top: '50%' }}>
+          <View style={{height: '100%', top: '50%'}}>
             <Text style={styles.heading}>{I18n.t('Hello, Jone!')}</Text>
             <Text style={styles.subHeading}>
               {I18n.t('Hope you are having a good day')}
@@ -104,7 +105,9 @@ function TestCenterInfo({
               onPress={() => navigation.navigate('TestCenter')}>
               <View>
                 <Text style={styles.centerTitle}>{I18n.t('Test Center')}</Text>
-                <Text style={styles.centerName}>{I18n.t('Zeitfenster auswahlen')}</Text>
+                <Text style={styles.centerName}>
+                  {I18n.t('Zeitfenster auswahlen')}
+                </Text>
               </View>
               <View>
                 <Entypo
@@ -131,9 +134,6 @@ function TestCenterInfo({
                 keyExtractor={(item, index) => index}
               />
             </View>
-
-
-
           </View>
           <View style={styles.bottomBtnDiv}>
             <TouchableOpacity
@@ -143,12 +143,12 @@ function TestCenterInfo({
               <Text style={styles.submitText}>{I18n.t('Scan QR Code')}</Text>
             </TouchableOpacity>
 
-
-
             <TouchableOpacity
-              style={{ width: '100%' }}
+              style={{width: '100%'}}
               onPress={() => navigation.navigate('VerifierUserInfoScreen')}>
-              <Text style={styles.scanAnotherQRcode}>{I18n.t('Insert Person Info')}</Text>
+              <Text style={styles.scanAnotherQRcode}>
+                {I18n.t('Insert Person Info')}
+              </Text>
             </TouchableOpacity>
             {loader ? (
               <View
@@ -160,7 +160,11 @@ function TestCenterInfo({
                   position: 'absolute',
                   zIndex: 1000,
                 }}>
-                <ActivityIndicator size="large" color="grey" animating={loader} />
+                <ActivityIndicator
+                  size="large"
+                  color="grey"
+                  animating={loader}
+                />
               </View>
             ) : null}
           </View>
@@ -168,7 +172,7 @@ function TestCenterInfo({
       </View>
       <BottomNavigator
         navigation={navigation}
-        selectedItem={{ id: 1, label: 'Home' }}></BottomNavigator>
+        selectedItem={{id: 1, label: 'Home'}}></BottomNavigator>
     </View>
   );
 }
@@ -190,7 +194,6 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   splashbackground1: {
-
     resizeMode: 'cover',
     height: '82%',
   },
@@ -282,8 +285,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '90%',
     left: '5%',
-    bottom: '12%'
-
+    bottom: '12%',
   },
   btnStyle: {
     backgroundColor: GREEN_COLOR,
@@ -322,19 +324,20 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   console.log('testCenterInfoReducer state:: ', state.testCenterInfoReducer);
   return {
     loader: state.testCenterInfoReducer.loader,
     errMessage: state.testCenterInfoReducer.errMessage,
-    pendingApplications: state.testCenterInfoReducer.pendingApplications
-  }
-}
+    pendingApplications: state.testCenterInfoReducer.pendingApplications,
+  };
+};
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    getPendingApplications: data => dispatch(getPendingApplicationsAction(data))
-  }
-}
+    getPendingApplications: data =>
+      dispatch(getPendingApplicationsAction(data)),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(TestCenterInfo);
