@@ -197,7 +197,7 @@ function Phone({
                 value={phoneValue}
                 textContentType="telephoneNumber"
                 underlineColorAndroid="transparent"
-                placeholder="Phone"
+                placeholder={I18n.t("Phone")}
                 style={styles.inputStyle1}
                 keyboardType="numeric"
                 onChangeText={value => {

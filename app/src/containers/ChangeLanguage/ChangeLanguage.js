@@ -7,6 +7,7 @@ import {
   FlatList,
   Dimensions,
 } from 'react-native';
+import I18n from '../../translations/I18n';
 
 import {connect} from 'react-redux';
 import {get_lang_by_key_url} from '../../commons/environment';
