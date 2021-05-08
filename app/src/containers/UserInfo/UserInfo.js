@@ -193,7 +193,7 @@ function UserInfo({
 
   const showToast = msg => {
     if (Platform.OS === 'android') {
-      ToastAndroid.show(msg, ToastAndroid.SHORT);
+      ToastAndroid.show(I18n.t(msg), ToastAndroid.SHORT);
     } else {
       Alert.alert(msg);
     }
@@ -250,7 +250,7 @@ function UserInfo({
     // Temporary removal
     //if (isFamily && (!mobileNo || !mobileNo.match('^[+]49[0-9]{10}$'))) {
     if (isFamily && !mobileNo) {
-      showToast('Please enter a valid phone number.');
+      showToast('Please enter a valid phone number');
       return;
     }
     if (!schiller) {
@@ -258,7 +258,7 @@ function UserInfo({
       return;
     }
     if (!zimmer) {
-      showToast('Please Enter house no.');
+      showToast('Please Enter house no');
       return;
     }
     if (!postalCode) {
@@ -416,7 +416,7 @@ function UserInfo({
           {isFamily ? (
             <DropDownPicker
               items={relations}
-              defaultValue={relation}
+             // defaultValue={relation}
               containerStyle={{ height: '6%', marginBottom: '4%' }}
               style={{
                 backgroundColor: '#F5F9F8',
@@ -503,7 +503,7 @@ function UserInfo({
           </View>
           <DropDownPicker
             items={regions}
-            defaultValue={city}
+             //defaultValue={city}
             containerStyle={{ height: '5%' }}
             style={{
               backgroundColor: '#F5F9F8',

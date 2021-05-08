@@ -61,6 +61,7 @@ function ChangeLanguage({
     }
   }, [availableLanguages, defaultLangData]);
 
+  
   useEffect(() => {
     if (errMessage) {
       setSuccessWaiting(false);
