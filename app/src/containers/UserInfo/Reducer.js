@@ -13,7 +13,14 @@ import {
     UPDATE_USER,
     UPDATE_USER_FAILURE,
     UPDATE_USER_SUCCESS,
-    UPDATE_EMAIL_FAILURE
+    UPDATE_EMAIL_FAILURE,
+    GET_RELATIONS,
+    GET_REGION_SUCCESS,
+    GET_RELATIONS_FAILURE,
+    GET_RELATIONS_SUCCESS,
+    GET_USERINFO_REGION,
+    GET_USERINFO_REGION_SUCCESS,
+    GET_USERINFO_REGION_FAILURE
 } from '../../commons/Constants';
 
 const INITIAL_STATE = {
@@ -22,6 +29,8 @@ const INITIAL_STATE = {
     errMessage: undefined,
     isUserCreated: false,
     isFamilyMemberAdded: false,
+    relations: [],
+    regions: []
 };
 
 export default function userInfoReducer() {
@@ -128,6 +137,47 @@ export default function userInfoReducer() {
                 };
 
             case UPDATE_EMAIL_FAILURE:
+                return {
+                    ...state,
+                    loader: false,
+                    errMessage: action.errMessage
+                }
+
+
+            case GET_RELATIONS:
+                return {
+                    ...state,
+                    loader: true
+                }
+
+            case GET_RELATIONS_SUCCESS:
+                return {
+                    ...state,
+                    loader: false,
+                    relations: action.payload
+                }
+
+            case GET_RELATIONS_FAILURE:
+                return {
+                    ...state,
+                    loader: false,
+                    errMessage: action.errMessage
+                }
+
+            case GET_USERINFO_REGION:
+                return {
+                    ...state,
+                    loader: true
+                }
+
+            case GET_USERINFO_REGION_SUCCESS:
+                return {
+                    ...state,
+                    loader: false,
+                    regions: action.payload
+                }
+
+            case GET_USERINFO_REGION_FAILURE:
                 return {
                     ...state,
                     loader: false,

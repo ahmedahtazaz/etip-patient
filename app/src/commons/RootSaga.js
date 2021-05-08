@@ -20,6 +20,8 @@ import getTermsData from '../containers/Terms/Saga';
 import {
   addFamilyMemberActionWatcher,
   editFamilyMemberActionWatcher,
+  getRelationsActionWatcher,
+  getUserInfoRegionActionWatcher,
   signupActionWatcher,
   updateUserActionWatcher,
 } from '../containers/UserInfo/Saga';
@@ -60,6 +62,8 @@ export default function* rootSaga() {
     getLanguageByKeySaga(),
     getLanguageByKeysSaga(),
     getLanguagesKeysSaga(),
+    getRelationsActionWatcher(),
+    getUserInfoRegionActionWatcher(),
 
     getFamilyMembersActionWatcher(),
     getProfileActionWatcher(),
