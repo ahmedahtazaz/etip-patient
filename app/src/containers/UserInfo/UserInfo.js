@@ -1,9 +1,9 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {connect} from 'react-redux';
-import {WHITE_COLOR, PRIMARY_COLOR, GRAY_COLOR} from '../../theme/Colors';
+import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
+import { WHITE_COLOR, PRIMARY_COLOR, GRAY_COLOR } from '../../theme/Colors';
 
 import Orientation from 'react-native-orientation-locker';
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import {
   ActivityIndicator,
   View,
@@ -15,7 +15,7 @@ import {
   ToastAndroid,
   Alert,
 } from 'react-native';
-import {RFValue} from 'react-native-responsive-fontsize';
+import { RFValue } from 'react-native-responsive-fontsize';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import RadioButton from '../../components/RadioButton';
@@ -27,13 +27,17 @@ import {
   resetIsUserCreatedAction,
   resetIsFamilyMemberAddedAction,
   updateUserAction,
+  getRelationsAction,
+  getRegionsAction
 } from './Actions';
-import {emailRegex} from '../../commons/Constants';
+import { emailRegex } from '../../commons/Constants';
 import {
   organizationName,
   signup_url,
   add_family_url,
   edit_family_url,
+  get_lookup_url,
+  get_regions
 } from '../../commons/environment';
 const welcomeLogo = require('../../assets/images/welcome-logo.png');
 const welcomeImg = require('../../assets/images/welcome-image.png');
@@ -53,6 +57,10 @@ function UserInfo({
   updateFamilyMember,
   errMessage,
   updateUser,
+  getRelations,
+  relations,
+  regions,
+  getRegions
 }) {
   const [isFamily, setIsFamily] = useState(false);
   const [fName, setFName] = useState('');
@@ -62,10 +70,10 @@ function UserInfo({
   const [other, setOther] = useState(false);
   const [dob, setDob] = useState(
     currentDate.getDate() +
-      '-' +
-      currentDate.getMonth() +
-      '-' +
-      currentDate.getFullYear(),
+    '-' +
+    currentDate.getMonth() +
+    '-' +
+    currentDate.getFullYear(),
   );
   const [showCalender, setShowCalender] = useState(false);
   const [calDate, setCalDate] = useState(new Date());
@@ -84,6 +92,17 @@ function UserInfo({
   const [addFamily, setAddFamily] = useState(false);
 
   const scrollRef = useRef();
+
+  useEffect(() => {
+    let data = {
+      url: `${get_lookup_url}/relations`
+    }
+    let regionData = {
+      url: get_regions
+    }
+    getRelations(data);
+    getRegions(regionData)
+  }, [])
 
   useEffect(() => {
     if (errMessage) {
@@ -189,10 +208,10 @@ function UserInfo({
     if (currentDate)
       setDob(
         currentDate.getDate() +
-          '-' +
-          currentDate.getMonth() +
-          '-' +
-          currentDate.getFullYear(),
+        '-' +
+        currentDate.getMonth() +
+        '-' +
+        currentDate.getFullYear(),
       );
     setCalDate(new Date());
     setCity('Bavaria');
@@ -315,7 +334,7 @@ function UserInfo({
   };
 
   return (
-    <ScrollView style={{height: '100%'}} ref={scrollRef}>
+    <ScrollView style={{ height: '100%' }} ref={scrollRef}>
       <View style={styles.background}>
         <View style={styles.innerDiv}>
           <View style={styles.mainHeading}>
@@ -395,38 +414,9 @@ function UserInfo({
           </View>
           {isFamily ? (
             <DropDownPicker
-              items={[
-                {
-                  label: 'Brother',
-                  value: 'Brother',
-                },
-                {
-                  label: 'Sister',
-                  value: 'Sister',
-                },
-                {
-                  label: 'Mother',
-                  value: 'Mother',
-                },
-                {
-                  label: 'Father',
-                  value: 'Father',
-                },
-                {
-                  label: 'Son',
-                  value: 'Son',
-                },
-                {
-                  label: 'Daughter',
-                  value: 'Daughter',
-                },
-                {
-                  label: 'Wife',
-                  value: 'Wife',
-                },
-              ]}
+              items={relations}
               defaultValue={relation}
-              containerStyle={{height: '6%', marginBottom: '4%'}}
+              containerStyle={{ height: '6%', marginBottom: '4%' }}
               style={{
                 backgroundColor: '#F5F9F8',
                 fontSize: RFValue(14, 580),
@@ -511,30 +501,9 @@ function UserInfo({
               onChangeText={value => setZimmer(value)}></TextInput>
           </View>
           <DropDownPicker
-            items={[
-              {
-                label: 'Bavaria',
-                value: 'Bavaria',
-              },
-              {
-                label: 'Berlin',
-                value: 'Berlin',
-              },
-              {
-                label: 'Munich',
-                value: 'Munich',
-              },
-              {
-                label: 'Frankfurt',
-                value: 'Frankfurt',
-              },
-              {
-                label: 'Leipzig',
-                value: 'Leipzig',
-              },
-            ]}
+            items={regions}
             defaultValue={city}
-            containerStyle={{height: '5%'}}
+            containerStyle={{ height: '5%' }}
             style={{
               backgroundColor: '#F5F9F8',
               fontSize: RFValue(14, 580),
@@ -586,7 +555,7 @@ function UserInfo({
               {!addFamily ? (
                 <TouchableOpacity
                   disabled={userInfo && !Object.keys(userInfo).length}
-                  style={{marginTop: '4%', alignContent: 'center'}}
+                  style={{ marginTop: '4%', alignContent: 'center' }}
                   onPress={() => {
                     setIsSaveOnly(false);
                     submit();
@@ -636,17 +605,21 @@ const mapDispatchToProps = dispatch => {
     resetIsUserCreated: () => dispatch(resetIsUserCreatedAction()),
     resetIsFamilyMemberAdded: () => dispatch(resetIsFamilyMemberAddedAction()),
     updateUser: data => dispatch(updateUserAction(data)),
+    getRelations: data => dispatch(getRelationsAction(data)),
+    getRegions: data => dispatch(getRegionsAction(data)),
   };
 };
 
 const mapStateToProps = state => {
   return {
+    relations: state.userInfoReducer.relations,
     userInfo: state.mainScreenReducer.userInfo,
     familyMembers: state.userInfoReducer.familyMembers,
     loader: state.userInfoReducer.loader,
     isUserCreated: state.userInfoReducer.isUserCreated,
     isFamilyMemberAdded: state.userInfoReducer.isFamilyMemberAdded,
     errMessage: state.userInfoReducer.errMessage,
+    regions: state.userInfoReducer.regions,
   };
 };
 

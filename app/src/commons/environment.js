@@ -20,6 +20,8 @@ export const get_about_app_url = `/api/settings/about/en`;
 export const get_policy_url = `/api/settings/policy/en`;
 export const get_terms_url = `/api/settings/terms/en`;
 
+export const get_lookup_url = `/api/lookup`;
+
 export const get_test_centers = `/api/test-centers/`;
 
 export const get_regions = `/api/region/Germany`;

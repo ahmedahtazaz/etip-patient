@@ -16,6 +16,12 @@ import {
   UPDATE_EMAIL_SUCCESS,
   UPDATE_EMAIL_FAILURE,
   UPDATE_EMAIL,
+  GET_RELATIONS_SUCCESS,
+  GET_RELATIONS_FAILURE,
+  GET_RELATIONS,
+  GET_USERINFO_REGION_FAILURE,
+  GET_USERINFO_REGION_SUCCESS,
+  GET_USERINFO_REGION,
 } from '../../commons/Constants';
 import AxiosInstance from '../../commons/AxiosInstance';
 
@@ -33,6 +39,50 @@ function* signUp(action) {
     }
   } catch (error) {
     yield put({ type: SIGNUP_FAILURE, errMessage: error });
+  }
+}
+
+function* getRegion(action) {
+  try {
+    const res = yield call(AxiosInstance.get, action.payload.url);
+    if (res.error) {
+      yield put({ type: GET_USERINFO_REGION_FAILURE, errMessage: res.error?.message });
+    } else {
+      let modifiedRegions = res?.success?.data?.data.map(region => {
+        return {
+          label: region.name,
+          value: region.name
+        }
+      })
+      yield put({
+        type: GET_USERINFO_REGION_SUCCESS,
+        payload: modifiedRegions,
+      });
+    }
+  } catch (error) {
+    yield put({ type: GET_REGION_FAILURE, errMessage: error });
+  }
+}
+
+function* getRelations(action) {
+  try {
+    const res = yield call(
+      AxiosInstance.get,
+      action.payload.url
+    );
+    if (res.error) {
+      yield put({ type: GET_RELATIONS_FAILURE, errMessage: res.error?.message });
+    } else {
+      let modfiedRes = res.success?.data?.data.map(rel => {
+        return {
+          label: rel,
+          value: rel
+        }
+      })
+      yield put({ type: GET_RELATIONS_SUCCESS, payload: modfiedRes });
+    }
+  } catch (error) {
+    yield put({ type: GET_RELATIONS_FAILURE, errMessage: error });
   }
 }
 
@@ -144,4 +194,12 @@ export function* addFamilyMemberActionWatcher() {
 
 export function* signupActionWatcher() {
   yield takeLatest(SIGNUP, signUp);
+}
+
+export function* getRelationsActionWatcher() {
+  yield takeLatest(GET_RELATIONS, getRelations);
+}
+
+export function* getUserInfoRegionActionWatcher() {
+  yield takeLatest(GET_USERINFO_REGION, getRegion);
 }

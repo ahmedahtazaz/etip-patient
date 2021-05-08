@@ -6,7 +6,8 @@ import {
   RESET_USER_CREATED,
   RESET_FAMILY_MEMBER_ADDED,
   UPDATE_USER,
-  UPDATE_EMAIL
+  GET_RELATIONS,
+  GET_USERINFO_REGION
 } from '../../commons/Constants';
 
 export const signUpAction = payload => {
@@ -47,6 +48,20 @@ export const resetIsUserCreatedAction = () => {
 export const resetIsFamilyMemberAddedAction = () => {
   return {
     type: RESET_FAMILY_MEMBER_ADDED
+  }
+}
+
+export const getRelationsAction = (payload) => {
+  return {
+    type: GET_RELATIONS,
+    payload
+  }
+}
+
+export const getRegionsAction = (payload) => {
+  return {
+    type: GET_USERINFO_REGION,
+    payload
   }
 }
 
