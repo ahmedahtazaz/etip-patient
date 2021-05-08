@@ -9,14 +9,12 @@ import {
   TouchableOpacity,
   View,
   Image,
-  useWindowDimensions,
   ImageBackground,
 } from 'react-native';
 import Orientation from 'react-native-orientation-locker';
 import {WHITE_COLOR} from '../../theme/Colors';
 import {RFValue} from 'react-native-responsive-fontsize';
 import BottomNavigator from '../../components/BottomNavigator';
-import {width} from 'react-native-dimension';
 
 import {
   getActiveAppointmentsAction,
@@ -67,11 +65,18 @@ const MainScreen = ({
   const [selectedId, setSelectedId] = useState(null);
   const [userName, setUserName] = useState('');
 
+  const [isUpdated, setIsUpdated] = useState(false);
+
   const isFocused = useIsFocused();
 
   useEffect(() => {
     Orientation.lockToPortrait();
+    if (isFocused) setIsUpdated(true);
   }, [isFocused]);
+
+  useEffect(() => {
+    if (isUpdated) setIsUpdated(false);
+  }, [isUpdated]);
 
   useEffect(() => {
     if (verifyOptPayload?.data?.data?.userId) {
@@ -220,7 +225,7 @@ const MainScreen = ({
                     Hi {userName}
                   </Text>
                   <Text style={{textColor: 'grey'}}>
-                  {I18n.t('Hope You, are feeling healthy today')}
+                    {I18n.t('Hope You, are feeling healthy today')}
                   </Text>
                 </View>
                 <TouchableOpacity
@@ -240,7 +245,9 @@ const MainScreen = ({
             </View>
           }
           <View style={styles.actionCertificateContainer}>
-            <Text style={styles.boxTopHeading}>{I18n.t('ACTIVE CERTIFICATES')}</Text>
+            <Text style={styles.boxTopHeading}>
+              {I18n.t('ACTIVE CERTIFICATES')}
+            </Text>
             {activeCertificates ? (
               <FlatList
                 horizontal
@@ -265,10 +272,12 @@ const MainScreen = ({
                     }}>
                     <View style={styles.contentPadding}>
                       <Text style={styles.boxHeadingDisable}>
-                      {I18n.t('No Active Certificate')}
+                        {I18n.t('No Active Certificate')}
                       </Text>
                       <Text style={styles.boxTextDisable}>
-                      {I18n.t('You don’t have any active certificate at the moment')}
+                        {I18n.t(
+                          'You don’t have any active certificate at the moment',
+                        )}
                       </Text>
                     </View>
                   </ImageBackground>
@@ -302,10 +311,12 @@ const MainScreen = ({
                     }}>
                     <View style={styles.contentPadding}>
                       <Text style={styles.boxHeadingDisable}>
-                      {I18n.t('No Active Appointments')}
+                        {I18n.t('No Active Appointments')}
                       </Text>
                       <Text style={styles.boxTextDisable}>
-                      {I18n.t('You don’t have any active appointment at the moment')}
+                        {I18n.t(
+                          'You don’t have any active appointment at the moment',
+                        )}
                       </Text>
                     </View>
                   </ImageBackground>
