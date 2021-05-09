@@ -50,7 +50,8 @@ function Phone({
   isPhoneUpdated,
   resetIsPhoneUpdated,
   updatePhoneOtpSend,
-  updatePhoneSendOptPayload
+  updatePhoneSendOptPayload,
+ 
 }) {
   const [isPhone, setIsPhone] = useState(true);
   const [phoneValue, setPhoneValue] = useState('+49');
@@ -65,10 +66,22 @@ function Phone({
   const [otp2, setOtp2] = useState(null);
   const [otp3, setOtp3] = useState(null);
   const [otp4, setOtp4] = useState(null);
+  const [seconds, setSeconds] = React.useState(0);
+  const [resendOtpState, setresendOtpState] = React.useState(false);
+
   let isUpdateMobileNumber = route?.params?.isUpdateMobileNumber || false;
 
   const isFocused = useIsFocused();
 
+  useEffect(() => {
+    if (seconds > 0) {
+      setresendOtpState(false);
+      setTimeout(() => setSeconds(seconds - 1), 1000);
+    } else {
+      setSeconds('');
+      setresendOtpState(true);
+    }
+  });
   useEffect(() => {
     Orientation.lockToPortrait();
   }, [isFocused]);
@@ -120,6 +133,8 @@ function Phone({
     let isUpdateMobileNumber = route?.params?.isUpdateMobileNumber || false;
     if (!isUpdateMobileNumber && isPhone && otpSend) {
       setIsPhone(false);
+      setSeconds(6);
+      
     }
   }, [otpSend]);
 
@@ -132,7 +147,7 @@ function Phone({
   useEffect(() => {
     let isUpdateMobileNumber = route?.params?.isUpdateMobileNumber || false;
     if (!isUpdateMobileNumber && !isPhone && otpVerified) {
-      movetoUserInfoScreen(navigation);
+      movetoUserInfoScreen(navigation,phoneValue);
     }
   }, [otpVerified]);
 
@@ -153,19 +168,31 @@ function Phone({
       if (verifyOtpPayload?.data?.data) {
         if (verifyOtpPayload?.data?.data?.isNewAccount) {
           //navigate to userInfoScreen
-          movetoUserInfoScreen(navigation);
+          movetoUserInfoScreen(navigation,phoneValue);
         } else {
           //get userInfo and navigate to MainScreen
           moveToMainScreen(navigation);
         }
       } else {
         //navigate to userInfoScreen
-        movetoUserInfoScreen(navigation);
+        movetoUserInfoScreen(navigation,phoneValue);
       }
     }
   }, [verifyOtpPayload]);
 
+const checkOtpStatus=()=>{
 
+  if(resendOtpState)
+  {  
+    showToast('OTP send again');
+
+
+  }
+  else{
+    showToast('Please wait');
+
+  }
+}
   useEffect(() => {
     if (isPhoneUpdated) {
       resetIsPhoneUpdated();
@@ -295,6 +322,14 @@ function Phone({
                     if (!value) otp3.focus();
                   }}></TextInput>
               </View>
+              <TouchableOpacity onPress={() => checkOtpStatus()}>
+
+              <View>
+                <Text style={{textAlign:'center',marginBottom:16}}>Resend OTP {seconds}</Text>
+              </View>
+              </TouchableOpacity>
+                      
+
             </>
           )}
           {(isPhone && phoneValue.match('^[+]49[0-9]{10}$')) ||
@@ -358,7 +393,7 @@ function Phone({
 
 const mapDispatchToProps = dispatch => {
   return {
-    movetoUserInfoScreen: navigation => moveToUserInfoScreenAction(navigation),
+    movetoUserInfoScreen: (navigation,phone)  => moveToUserInfoScreenAction(navigation,phone) ,
     sendOTP: data => dispatch(sendOTPAction(data)),
     verifyOTP: data => dispatch(verifyOTPAction(data)),
     getProfileInfo: data => dispatch(getProfileInfoAction(data)),

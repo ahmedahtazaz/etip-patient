@@ -32,6 +32,7 @@
     "react-native-localization": "^2.1.6",
     "react-native-localize": "^2.0.3",
     "react-native-orientation-locker": "^1.2.0",
+    "react-native-otp-verify": "^1.0.4",
     "react-native-paper": "^4.8.1",
     "react-native-permissions": "^3.0.3",
     "react-native-popup-dialog": "^0.18.3",

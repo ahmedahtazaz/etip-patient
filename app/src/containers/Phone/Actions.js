@@ -1,8 +1,10 @@
 import { RESET_IS_PHONE_UPDATED, SEND_OTP, UPDATE_PHONE, VERIFY_OTP } from "../../commons/Constants";
 
-export const moveToUserInfoScreenAction = navigation => {
-  return navigation.replace('UserInfoScreen');
+export const moveToUserInfoScreenAction = (navigation,phone) => {
+  return navigation.replace('UserInfoScreen',{phone});
 };
+
+
 
 export const sendOTPAction = (payload) => {
   return {

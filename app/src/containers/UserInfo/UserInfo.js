@@ -61,7 +61,10 @@ function UserInfo({
   getRelations,
   relations,
   regions,
-  getRegions
+  getRegions,
+  route: {
+    params: {phone},
+  },
 }) {
   const [isFamily, setIsFamily] = useState(false);
   const [fName, setFName] = useState('');
@@ -243,16 +246,16 @@ function UserInfo({
       showToast('Please Enter Tax ID');
       return;
     }
-    if (!email || !email.match(emailRegex)) {
-      showToast('Please Enter a valid email');
-      return;
-    }
+    // if (!email.match(emailRegex)) {
+    //   showToast('Please Enter a valid email');
+    //   return;
+    // }
     // Temporary removal
     //if (isFamily && (!mobileNo || !mobileNo.match('^[+]49[0-9]{10}$'))) {
-    if (isFamily && !mobileNo) {
-      showToast('Please enter a valid phone number');
-      return;
-    }
+    // if (isFamily && !mobileNo) {
+    //   showToast('Please enter a valid phone number');
+    //   return;
+    // }
     if (!schiller) {
       showToast('Please Enter street');
       return;
@@ -474,7 +477,9 @@ function UserInfo({
           {!isUserEdit && (
             <TextInput
               placeholderTextColor={'#a29d9d'}
-              value={mobileNo}
+              // value={mobileNo}
+              value={phone}
+              editable={false}
               textContentType="mobileNo"
               underlineColorAndroid="transparent"
               placeholder={I18n.t("Mobile No")}

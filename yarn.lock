@@ -6283,6 +6283,11 @@ react-native-orientation-locker@^1.2.0:
   resolved "https://registry.yarnpkg.com/react-native-orientation-locker/-/react-native-orientation-locker-1.2.0.tgz#9fa51b3aade9b847e63066b6fd60509371940a7e"
   integrity sha512-lnwp9Jbt1m/0Gfw9a5Mrwj/APNSuYkVdJEgBKRyQgOshDrKRv5dxpD0P786AgIEjnEbjyrNOS6GQvBdqPYSxsg==
 
+react-native-otp-verify@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-otp-verify/-/react-native-otp-verify-1.0.4.tgz#7a330264d2ac3b4155f8b19a5bcaab6ab4fa456c"
+  integrity sha512-ME8XnRHxFj8Z7fpe8Gqnup///cicB6WROsf2si75zix2VWK0LW7z5dyT5EL/bOynj9KphSf219LWLKiou2aDAQ==
+
 react-native-paper@^4.8.1:
   version "4.8.1"
   resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-4.8.1.tgz#ade4e552e2aaecfc3096c8aebda37bd99facf63f"
