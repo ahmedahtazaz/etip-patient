@@ -218,11 +218,11 @@ function Phone({
                 style={{
                   width: '100%',
                   borderBottomWidth: 0,
-                  paddingTop: '1.8%',
+                 
                   paddingBottom: '1.5%',
                   fontWeight: '500',
-                  marginTop: '15%',
-                  marginBottom: '15%',
+                  marginTop: '14%',
+                  marginBottom: '13%',
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                 }}>
@@ -404,11 +404,11 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop:'25%',
+    paddingTop:'20%',
     height:'10%',
   },
   innerDiv: {
-    paddingTop: '45%',
+    paddingTop: '40%',
     paddingBottom: '10%',
     paddingLeft: '5%',
     paddingRight: '5%',

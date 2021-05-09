@@ -63,8 +63,8 @@ const AppointmentMainScreen = ({
           }>
           <ImageBackground
             source={activeCertificationBg}
-            style={{height: '100%', resizeMode: 'cover'}}>
-            <View style={styles.contentPadding}>
+            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
+            
               <View style={styles.parentNameContainer}>
                 <View style={styles.nameTextContainer}>
                   <Text style={styles.boxHeading}>
@@ -89,7 +89,7 @@ const AppointmentMainScreen = ({
                   <Text style={styles.boxText}>{I18n.t(item?.name)}</Text>
                 </View>
               </View>
-            </View>
+            
           </ImageBackground>
         </TouchableOpacity>
       </View>
@@ -112,8 +112,8 @@ const AppointmentMainScreen = ({
           </View>
         </View>
       </View>
-      <View style={styles.appoinmentDivBg}>
-        <View style={styles.mainDivPad}>
+      <View style={styles.appoinmentDivBg} >
+        <View style={styles.mainDivPad} >
           <View style={styles.actionCertificateContainer}>
             <Text style={styles.boxTopHeading}>
               {I18n.t('ACTIVE APPOINTMENTS')}
@@ -345,10 +345,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
   },
-  bottomTextContainer: {
+  /*bottomTextContainer: {
     display: 'flex',
     flexDirection: 'column',
-  },
+  },*/
 
   actionCertificateContainer: {
     marginTop: 42,
@@ -371,9 +371,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop: 15,
+    paddingTop: 10,
     paddingLeft: 13,
     paddingRight: 20,
+    paddingBottom: 10,
   },
   bluebox: {
     width: 100,

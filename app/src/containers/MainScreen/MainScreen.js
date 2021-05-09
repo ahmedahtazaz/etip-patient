@@ -124,7 +124,7 @@ const MainScreen = ({
 
   const renderItem = ({item}) => {
     return (
-      <View style={styles.appoinmentRedDiv}>
+      <View style={styles.appoinmentRedDiv} >
         <ImageBackground
           source={appoinmentRedBg}
           style={styles.appoinmentRedDiv1}>
@@ -167,7 +167,7 @@ const MainScreen = ({
           <ImageBackground
             source={activeCertificationBg}
             style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
-            <View style={styles.contentPadding}>
+            
               <View style={styles.parentNameContainer}>
                 <View style={styles.nameTextContainer}>
                   <Text style={styles.boxHeading}>
@@ -192,7 +192,7 @@ const MainScreen = ({
                   <Text style={styles.boxText}>{item?.name}</Text>
                 </View>
               </View>
-            </View>
+           
           </ImageBackground>
         </TouchableOpacity>
       </View>
@@ -507,6 +507,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    paddingTop: 10,
+    paddingLeft: 13,
+    paddingRight: 20,
+    paddingBottom: 10,
   },
   bluebox: {
     width: 100,

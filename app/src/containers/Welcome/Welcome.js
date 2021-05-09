@@ -131,7 +131,8 @@ function Welcome({
               moveToPhoneScreen(navigation);
             }}
             containerStyle={{
-              margin: 8,
+              marginTop:8,
+              marginBottom:8,
               paddingLeft: 5,
               paddingRight: 5,
               paddingTop: 2,
@@ -141,7 +142,7 @@ function Welcome({
               overflow: 'hidden',
               alignItems: 'center',
               justifyContent: 'center',
-              width: '95%',
+              width: '100%',
             }}
             sliderElement={
               <View
@@ -253,19 +254,21 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     paddingTop: '3%',
     paddingBottom: '3%',
-    paddingLeft: '2%',
+    paddingLeft: 1,
   },
   bottomTextSmall: {
     fontSize: RFValue(12, 580),
     color: WHITE_COLOR,
     fontWeight: '400',
     paddingBottom: '3%',
-    paddingLeft: '5%',
+    paddingLeft: 4,
   },
   buttonDiv: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'baseline',
+    marginLeft:4,
+    marginRight:4,
   },
 });

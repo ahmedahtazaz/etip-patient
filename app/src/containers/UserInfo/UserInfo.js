@@ -417,7 +417,7 @@ function UserInfo({
             <DropDownPicker
               items={relations}
              // defaultValue={relation}
-              containerStyle={{ height: '6%', marginBottom: '4%' }}
+              containerStyle={{ height: 48}}
               style={{
                 backgroundColor: '#F5F9F8',
                 fontSize: RFValue(14, 580),
@@ -504,11 +504,12 @@ function UserInfo({
           <DropDownPicker
             items={regions}
              //defaultValue={city}
-            containerStyle={{ height: '5%' }}
+            containerStyle={{ height: 48 }}
             style={{
               backgroundColor: '#F5F9F8',
               fontSize: RFValue(14, 580),
               color: '#a29d9d',
+              borderColor:'#F5F9F8',
             }}
             itemStyle={{
               justifyContent: 'flex-start',
@@ -657,7 +658,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    marginBottom: 4,
     width: '100%',
   },
   inputStyle: {
