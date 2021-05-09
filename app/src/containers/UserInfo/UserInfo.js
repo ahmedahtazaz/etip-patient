@@ -4,7 +4,7 @@ import {WHITE_COLOR, PRIMARY_COLOR, GRAY_COLOR} from '../../theme/Colors';
 import I18n from '../../translations/I18n';
 
 import Orientation from 'react-native-orientation-locker';
-import { useIsFocused } from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 import {
   ActivityIndicator,
   View,
@@ -16,7 +16,7 @@ import {
   ToastAndroid,
   Alert,
 } from 'react-native';
-import { RFValue } from 'react-native-responsive-fontsize';
+import {RFValue} from 'react-native-responsive-fontsize';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import RadioButton from '../../components/RadioButton';
@@ -29,16 +29,16 @@ import {
   resetIsFamilyMemberAddedAction,
   updateUserAction,
   getRelationsAction,
-  getRegionsAction
+  getRegionsAction,
 } from './Actions';
-import { emailRegex } from '../../commons/Constants';
+import {emailRegex} from '../../commons/Constants';
 import {
   organizationName,
   signup_url,
   add_family_url,
   edit_family_url,
   get_lookup_url,
-  get_regions
+  get_regions,
 } from '../../commons/environment';
 const welcomeLogo = require('../../assets/images/welcome-logo.png');
 const welcomeImg = require('../../assets/images/welcome-image.png');
@@ -74,10 +74,10 @@ function UserInfo({
   const [other, setOther] = useState(false);
   const [dob, setDob] = useState(
     currentDate.getDate() +
-    '-' +
-    currentDate.getMonth() +
-    '-' +
-    currentDate.getFullYear(),
+      '-' +
+      currentDate.getMonth() +
+      '-' +
+      currentDate.getFullYear(),
   );
   const [showCalender, setShowCalender] = useState(false);
   const [calDate, setCalDate] = useState(new Date());
@@ -98,15 +98,19 @@ function UserInfo({
   const scrollRef = useRef();
 
   useEffect(() => {
+    if (phone) setMobileNo(phone);
+  }, [phone]);
+
+  useEffect(() => {
     let data = {
-      url: `${get_lookup_url}/relations`
-    }
+      url: `${get_lookup_url}/relations`,
+    };
     let regionData = {
-      url: get_regions
-    }
+      url: get_regions,
+    };
     getRelations(data);
-    getRegions(regionData)
-  }, [])
+    getRegions(regionData);
+  }, []);
 
   useEffect(() => {
     if (errMessage) {
@@ -212,10 +216,10 @@ function UserInfo({
     if (currentDate)
       setDob(
         currentDate.getDate() +
-        '-' +
-        currentDate.getMonth() +
-        '-' +
-        currentDate.getFullYear(),
+          '-' +
+          currentDate.getMonth() +
+          '-' +
+          currentDate.getFullYear(),
       );
     setCalDate(new Date());
     setCity('Bavaria');
@@ -338,7 +342,7 @@ function UserInfo({
   };
 
   return (
-    <ScrollView style={{ height: '100%' }} ref={scrollRef}>
+    <ScrollView style={{height: '100%'}} ref={scrollRef}>
       <View style={styles.background}>
         <View style={styles.innerDiv}>
           <View style={styles.mainHeading}>
@@ -359,7 +363,9 @@ function UserInfo({
           </View>
 
           <View style={styles.secondaryHeading}>
-            <Text style={styles.secondaryHeadingText}>{I18n.t('User Information')}</Text>
+            <Text style={styles.secondaryHeadingText}>
+              {I18n.t('User Information')}
+            </Text>
           </View>
 
           <View style={styles.formContainer}>
@@ -369,14 +375,14 @@ function UserInfo({
                 value={fName}
                 textContentType="givenName"
                 underlineColorAndroid="transparent"
-                placeholder={I18n.t("First Name")}
+                placeholder={I18n.t('First Name')}
                 style={styles.inputStyle}
                 onChangeText={value => setFName(value)}></TextInput>
               <TextInput
                 placeholderTextColor={'#a29d9d'}
                 value={lName}
                 textContentType="familyName"
-                placeholder={I18n.t("Last Name")}
+                placeholder={I18n.t('Last Name')}
                 style={styles.inputStyle}
                 onChangeText={value => setLName(value)}></TextInput>
             </View>
@@ -419,8 +425,8 @@ function UserInfo({
           {isFamily ? (
             <DropDownPicker
               items={relations}
-             // defaultValue={relation}
-              containerStyle={{ height: 48}}
+              // defaultValue={relation}
+              containerStyle={{height: 48}}
               style={{
                 backgroundColor: '#F5F9F8',
                 fontSize: RFValue(14, 580),
@@ -461,7 +467,7 @@ function UserInfo({
             value={taxId}
             textContentType="taxId"
             underlineColorAndroid="transparent"
-            placeholder={I18n.t("Tax ID")}
+            placeholder={I18n.t('Tax ID')}
             style={styles.inputStyle1}
             onChangeText={value => setTaxId(value)}></TextInput>
           {!isUserEdit && (
@@ -470,7 +476,7 @@ function UserInfo({
               value={email}
               textContentType="email"
               underlineColorAndroid="transparent"
-              placeholder={I18n.t("Email")}
+              placeholder={I18n.t('Email')}
               style={styles.inputStyle1}
               onChangeText={value => setEmail(value)}></TextInput>
           )}
@@ -482,7 +488,7 @@ function UserInfo({
               editable={false}
               textContentType="mobileNo"
               underlineColorAndroid="transparent"
-              placeholder={I18n.t("Mobile No")}
+              placeholder={I18n.t('Mobile No')}
               style={styles.inputStyle1}
               onChangeText={value => setMobileNo(value)}></TextInput>
           )}
@@ -495,26 +501,26 @@ function UserInfo({
               value={schiller}
               textContentType="schiller"
               underlineColorAndroid="transparent"
-              placeholder={I18n.t("Street")}
+              placeholder={I18n.t('Street')}
               style={styles.inputStyle}
               onChangeText={value => setSchiller(value)}></TextInput>
             <TextInput
               placeholderTextColor={'#a29d9d'}
               value={zimmer}
               textContentType="schiller"
-              placeholder={I18n.t("House No.")}
+              placeholder={I18n.t('House No.')}
               style={styles.inputStyle}
               onChangeText={value => setZimmer(value)}></TextInput>
           </View>
           <DropDownPicker
             items={regions}
-             //defaultValue={city}
-            containerStyle={{ height: 48 }}
+            //defaultValue={city}
+            containerStyle={{height: 48}}
             style={{
               backgroundColor: '#F5F9F8',
               fontSize: RFValue(14, 580),
               color: '#a29d9d',
-              borderColor:'#F5F9F8',
+              borderColor: '#F5F9F8',
             }}
             itemStyle={{
               justifyContent: 'flex-start',
@@ -531,7 +537,7 @@ function UserInfo({
             value={postalCode}
             textContentType="postalCode"
             underlineColorAndroid="transparent"
-            placeholder={I18n.t("Postal Code")}
+            placeholder={I18n.t('Postal Code')}
             style={styles.inputStyle2}
             onChangeText={value => setPostalCode(value)}></TextInput>
           {editMode ? (
@@ -562,14 +568,14 @@ function UserInfo({
               {!addFamily ? (
                 <TouchableOpacity
                   disabled={userInfo && !Object.keys(userInfo).length}
-                  style={{ marginTop: '4%', alignContent: 'center' }}
+                  style={{marginTop: '4%', alignContent: 'center'}}
                   onPress={() => {
                     setIsSaveOnly(false);
                     submit();
                   }}>
                   <Text style={styles.saveAddText}>
                     {isFamily
-                      ?I18n.t('Save & add another member')
+                      ? I18n.t('Save & add another member')
                       : I18n.t('Save & Add Family')}
                   </Text>
                 </TouchableOpacity>
@@ -751,7 +757,7 @@ const styles = StyleSheet.create({
     fontSize: RFValue(14, 580),
     fontWeight: '600',
     marginTop: '8%',
-    marginBottom:10
+    marginBottom: 10,
   },
   saveCloseText: {
     fontSize: RFValue(14, 580),
