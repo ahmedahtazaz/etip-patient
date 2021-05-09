@@ -746,6 +746,7 @@ const styles = StyleSheet.create({
     fontSize: RFValue(14, 580),
     fontWeight: '600',
     marginTop: '8%',
+    marginBottom:10
   },
   saveCloseText: {
     fontSize: RFValue(14, 580),

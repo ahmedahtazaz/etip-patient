@@ -72,8 +72,8 @@ const FamilyMain = ({
   const renderItem = ({item}) => {
     return (
       <View style={styles.nameContainer}>
-        <View style={styles.parentNameContainer}>
-          <View style={styles.nameTextContainer}>
+        <View style={styles.parentNameContainer} >
+          <View style={styles.nameTextContainer} >
             <Text style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
               {`${item.firstName} ${item.lastName}`}
             </Text>
@@ -179,13 +179,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   editContainer: {
-    marginStart: 8,
-    marginBottom: 30,
-    marginTop: -8,
-    marginEnd: 8,
+    marginStart: 12,
+    marginEnd:12
   },
   qrEditContainer: {
-    marginTop: -15,
+    
   },
 
   nameTextContainer: {
@@ -198,8 +196,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   deleteItem: {
-    marginEnd: 8,
-    marginTop: 22,
+    marginEnd: 12,
   },
   calenderContainer: {
     marginTop: 8,
@@ -216,7 +213,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   parentNameContainer: {
-    marginTop: 16,
+    paddingTop:9,
+    paddingBottom:9,
     flex: 1,
 
     display: 'flex',
@@ -224,12 +222,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   qrCodeandEditConatiner: {
-    marginTop: 16,
+    
     flex: 1,
 
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    alignItems:'center',
   },
   bluebox: {
     width: 100,
@@ -250,6 +249,7 @@ const styles = StyleSheet.create({
   mainDivPad: {
     paddingLeft: '4%',
     paddingRight: '4%',
+    paddingTop:20,
   },
   appoinmentDivBg: {
     borderTopLeftRadius: 20,
