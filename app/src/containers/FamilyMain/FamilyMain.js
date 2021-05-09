@@ -189,6 +189,7 @@ const styles = StyleSheet.create({
   nameTextContainer: {
     display: 'flex',
     flexDirection: 'column',
+    justifyContent:'center',
   },
   actionCertificateContainer: {
     marginTop: 8,

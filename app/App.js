@@ -59,7 +59,7 @@ const App: () => React$Node = () => {
               name="SplahScreen"
               component={Splash}
               options={{headerShown: false}}
-            />*/}
+            />
             <Stack.Screen
               name="WelcomeScreen"
               component={Welcome}
@@ -69,7 +69,7 @@ const App: () => React$Node = () => {
               name="PhoneScreen"
               component={Phone}
               options={{headerShown: false}}
-            />
+            />*/}
             <Stack.Screen
               name="UserInfoScreen"
               component={UserInfo}
