@@ -10,7 +10,7 @@ import {
 import I18n from '../../translations/I18n';
 
 import {connect} from 'react-redux';
-import {get_lang_by_key_url} from '../../commons/environment';
+import {get_lang_by_key_url, get_lang_keys_url} from '../../commons/environment';
 
 import {GREEN_COLOR, WHITE_COLOR} from '../../theme/Colors';
 const {width, height} = Dimensions.get('window');
@@ -42,6 +42,7 @@ function ChangeLanguage({
   const [successWaiting, setSuccessWaiting] = useState(false);
 
   useEffect(() => {
+   // GetLanguage(get_lang_keys_url);
     if (availableLanguages && defaultLangData) {
       setLanguages(
         availableLanguages.map(lang => {

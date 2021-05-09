@@ -50,11 +50,13 @@ function Splash({moveToWelcomeScreen, initLoaded, navigation, loader}) {
   }, [initLoaded]);
 
   const moveToOtherScreen = () => {
-    if (IS_VERIFIER_APP) {
-      moveToPincodeScreenAction(navigation);
-    } else {
-      moveToWelcomeScreen(navigation);
-    }
+    moveToWelcomeScreen(navigation);
+
+    // if (IS_VERIFIER_APP) {
+    //   moveToPincodeScreenAction(navigation);
+    // } else {
+    //   moveToWelcomeScreen(navigation);
+    // }
   };
 
   return (
