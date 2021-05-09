@@ -291,11 +291,12 @@ function VerifierUserInfo({navigation, loader}) {
                   },
                 ]}
                 defaultValue={city}
-                containerStyle={{height: '5%'}}
+                containerStyle={{height: 48}}
                 style={{
                   backgroundColor: '#F5F9F8',
                   fontSize: RFValue(14, 580),
                   color: '#243E3B',
+                  borderColor:'#F5F9F8'
                 }}
                 itemStyle={{
                   justifyContent: 'flex-start',
@@ -427,7 +428,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    marginBottom: 4,
     width: '100%',
   },
   inputStyle: {
