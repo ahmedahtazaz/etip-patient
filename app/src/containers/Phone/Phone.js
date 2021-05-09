@@ -248,8 +248,8 @@ const checkOtpStatus=()=>{
                  
                   paddingBottom: '1.5%',
                   fontWeight: '500',
-                  marginTop: '14%',
-                  marginBottom: '13%',
+                  marginTop: '9%',
+                  marginBottom: '7%',
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                 }}>
@@ -325,7 +325,7 @@ const checkOtpStatus=()=>{
               <TouchableOpacity onPress={() => checkOtpStatus()}>
 
               <View>
-                <Text style={{textAlign:'center',marginBottom:16}}>Resend OTP {seconds}</Text>
+                <Text style={styles.resendOtpStyle}>Resend OTP {seconds}</Text>
               </View>
               </TouchableOpacity>
                       
@@ -486,7 +486,7 @@ const styles = StyleSheet.create({
     fontSize: RFValue(24, 580),
     fontWeight: '500',
     marginTop: '1%',
-    marginBottom: '5%',
+
     textAlign: 'center',
     borderBottomColor: '#000000',
     width: '17%',
@@ -533,5 +533,12 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: RFValue(14, 580),
     fontWeight: '600',
+  },
+  resendOtpStyle :{
+    color: '#006970',
+    fontSize: RFValue(13, 580),
+    fontWeight: '600',
+    textAlign:'center',
+    marginBottom:'9%'
   },
 });
