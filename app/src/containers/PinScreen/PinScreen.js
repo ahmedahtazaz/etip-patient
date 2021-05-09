@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#319085',
     marginTop: '10%',
-    marginBottom: '10%',
+    marginBottom: '7%',
   },
   header: {
     flexDirection: 'row',
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   },
   pinSection: {
     //paddingHorizontal: 10
-    paddingTop: '35%',
+    paddingTop: '30%',
     paddingBottom: '10%',
     paddingLeft: '5%',
     paddingRight: '5%',
