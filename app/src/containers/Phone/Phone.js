@@ -133,7 +133,7 @@ function Phone({
     let isUpdateMobileNumber = route?.params?.isUpdateMobileNumber || false;
     if (!isUpdateMobileNumber && isPhone && otpSend) {
       setIsPhone(false);
-      setSeconds(6);
+      setSeconds(59);
       
     }
   }, [otpSend]);
