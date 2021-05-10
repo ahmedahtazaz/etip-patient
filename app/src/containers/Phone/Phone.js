@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {connect} from 'react-redux';
 import I18n from '../../translations/I18n';
 
@@ -27,6 +27,7 @@ import {
   sendOTPAction,
   updatePhoneAction,
   verifyOTPAction,
+  resetPhoneAction,
 } from './Actions';
 import {
   send_otp_url,
@@ -34,10 +35,7 @@ import {
   verify_otp_url,
 } from '../../commons/environment';
 import {getProfileInfoAction} from '../AppointmentDetails/Action';
-import {
-  moveToMainScreenAction,
-  resetIsUserCreatedAction,
-} from '../UserInfo/Actions';
+import {moveToMainScreenAction} from '../UserInfo/Actions';
 import moment from 'moment';
 
 function Phone({
@@ -59,6 +57,7 @@ function Phone({
   resetIsPhoneUpdated,
   updatePhoneOtpSend,
   updatePhoneSendOptPayload,
+  resetPhone,
 }) {
   const [isPhone, setIsPhone] = useState(true);
   const [phoneValue, setPhoneValue] = useState('+49');
@@ -77,20 +76,32 @@ function Phone({
   const [resendOtpState, setresendOtpState] = useState(false);
 
   const [isUpdateMobileNumber, setIsUpdateMobileNumber] = useState(false);
+  const isUpdateMobileNumberRef = useRef();
+  isUpdateMobileNumberRef.current = isUpdateMobileNumber;
 
   const [otpResentAwait, setOtpResentAwait] = useState(false);
+
+  const [secTimeout, setSecTimeout] = useState(null);
 
   const isFocused = useIsFocused();
 
   useEffect(() => {
+    return () => {
+      if (secTimeout) clearTimeout(secTimeout);
+      resetPhone();
+    };
+  }, []);
+
+  useEffect(() => {
     if (seconds > 0) {
       setresendOtpState(false);
-      setTimeout(() => setSeconds(seconds - 1), 1000);
+      if (secTimeout) clearTimeout(secTimeout);
+      setSecTimeout(setTimeout(() => setSeconds(seconds - 1), 1000));
     } else {
       setSeconds(0);
       setresendOtpState(true);
     }
-  });
+  }, [seconds]);
 
   useEffect(() => {
     Orientation.lockToPortrait();
@@ -152,6 +163,9 @@ function Phone({
   useEffect(() => {
     if (isPhone && updatePhoneOtpSend) {
       setIsPhone(false);
+      setSeconds(119);
+      setOtpResentAwait(false);
+      showToast('OTP has been sent successfully');
     }
   }, [updatePhoneOtpSend]);
 
@@ -172,6 +186,7 @@ function Phone({
   }, [errMessage]);
 
   useEffect(() => {
+    const isUpdateMobileNumber = route?.params?.isUpdateMobileNumber;
     if (!isUpdateMobileNumber && verifyOtpPayload?.data) {
       if (verifyOtpPayload?.data?.data) {
         if (verifyOtpPayload?.data?.data?.isNewAccount) {
@@ -346,7 +361,7 @@ function Phone({
               </TouchableOpacity>
             </>
           )}
-          {(isPhone && phoneValue.match('^[+]49[0-9]{10}$')) ||
+          {isPhone ||
           (!isPhone &&
             otpValue
               .concat(otpValue1)
@@ -389,6 +404,14 @@ function Phone({
               <Text style={styles.submitText}>{I18n.t('Continue')}</Text>
             </TouchableOpacity>
           )}
+          {isUpdateMobileNumber ? (
+            <TouchableOpacity
+              disabled={loader}
+              style={[styles.container, styles.cancelButton]}
+              onPress={() => navigation.goBack()}>
+              <Text style={styles.saveCloseText}>{I18n.t('Cancel')}</Text>
+            </TouchableOpacity>
+          ) : null}
           {loader ? (
             <View
               style={{
@@ -419,6 +442,7 @@ const mapDispatchToProps = dispatch => {
     moveToMainScreen: navigation => moveToMainScreenAction(navigation),
     updatePhone: data => dispatch(updatePhoneAction(data)),
     resetIsPhoneUpdated: () => dispatch(resetIsPhoneUpdatedAction()),
+    resetPhone: () => dispatch(resetPhoneAction()),
   };
 };
 
@@ -559,5 +583,22 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
     marginBottom: '9%',
+  },
+  cancelButton: {
+    width: '100%',
+    borderRadius: 10,
+    backgroundColor: 'red',
+    color: WHITE_COLOR,
+    paddingTop: 20,
+    paddingBottom: 20,
+    fontSize: RFValue(14, 580),
+    fontWeight: '600',
+    marginTop: '8%',
+    marginBottom: 10,
+  },
+  saveCloseText: {
+    fontSize: RFValue(14, 580),
+    fontWeight: '600',
+    color: WHITE_COLOR,
   },
 });

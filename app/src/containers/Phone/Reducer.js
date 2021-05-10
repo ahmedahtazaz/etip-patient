@@ -10,6 +10,7 @@ import {
   VERIFY_OTP_FAILURE,
   VERIFY_OTP_SUCCESS,
   UPDATE_PHONE_SEND_OTP_SUCCESS,
+  RESET_PHONE,
 } from '../../commons/Constants';
 
 const INITIAL_STATE = {
@@ -118,6 +119,18 @@ export default function phoneReducer() {
           isPhoneUpdated: false,
           updatePhoneSendOptPayload: null,
           updatePhoneOtpSend: false,
+        };
+
+      case RESET_PHONE:
+        return {
+          ...state,
+          isPhoneUpdated: false,
+          updatePhoneSendOptPayload: null,
+          updatePhoneOtpSend: false,
+          otpSend: false,
+          otpVerified: false,
+          loader: false,
+          errMessage: false,
         };
 
       default:

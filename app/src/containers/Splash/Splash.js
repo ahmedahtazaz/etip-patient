@@ -58,7 +58,7 @@ function Splash({moveToWelcomeScreen, initLoaded, navigation, loader}) {
   };
 
   return (
-    <TouchableOpacity style={{width: '100%', height: '100%'}}>
+    <View style={{width: '100%', height: '100%'}}>
       <ImageBackground source={splashBg} style={styles.splashbackground}>
         <Image source={splashLogo} />
 
@@ -76,7 +76,7 @@ function Splash({moveToWelcomeScreen, initLoaded, navigation, loader}) {
           </View>
         ) : null}
       </ImageBackground>
-    </TouchableOpacity>
+    </View>
   );
 }
 

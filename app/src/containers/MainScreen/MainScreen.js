@@ -124,7 +124,7 @@ const MainScreen = ({
 
   const renderItem = ({item}) => {
     return (
-      <View style={styles.appoinmentRedDiv} >
+      <View style={styles.appoinmentRedDiv}>
         <ImageBackground
           source={appoinmentRedBg}
           style={styles.appoinmentRedDiv1}>
@@ -167,32 +167,28 @@ const MainScreen = ({
           <ImageBackground
             source={activeCertificationBg}
             style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
-            
-              <View style={styles.parentNameContainer}>
-                <View style={styles.nameTextContainer}>
-                  <Text style={styles.boxHeading}>
-                    {item?.testPoint?.testCenter?.test?.testType}
-                  </Text>
-                  <Text style={styles.boxTestText}>
-                    {item?.testPoint?.name}
-                  </Text>
-                </View>
-                <View style={styles.nameTextContainer}>
-                  <Text style={styles.boxHeading}>
-                    {moment(item?.day).format('DD/MM/YYYY')}
-                  </Text>
-                  <Text style={styles.boxText}>{item?.time}</Text>
-                </View>
+            <View style={styles.parentNameContainer}>
+              <View style={styles.nameTextContainer}>
+                <Text style={styles.boxHeading}>
+                  {item?.testPoint?.testCenter?.test?.testType}
+                </Text>
+                <Text style={styles.boxTestText}>{item?.testPoint?.name}</Text>
               </View>
-              <View style={styles.parentNameContainer}>
-                <View style={styles.bottomTextContainer}>
-                  <Text style={styles.boxHeading}>
-                    {item?.testPoint?.testCenter?.name}
-                  </Text>
-                  <Text style={styles.boxText}>{item?.name}</Text>
-                </View>
+              <View style={styles.nameTextContainer}>
+                <Text style={styles.boxHeading}>
+                  {moment(item?.day).format('DD/MM/YYYY')}
+                </Text>
+                <Text style={styles.boxText}>{item?.time}</Text>
               </View>
-           
+            </View>
+            <View style={styles.parentNameContainer}>
+              <View style={styles.bottomTextContainer}>
+                <Text style={styles.boxHeading}>
+                  {item?.testPoint?.testCenter?.name}
+                </Text>
+                <Text style={styles.boxText}>{item?.name}</Text>
+              </View>
+            </View>
           </ImageBackground>
         </TouchableOpacity>
       </View>
@@ -225,7 +221,7 @@ const MainScreen = ({
                     Hi {userName}
                   </Text>
                   <Text style={{textColor: 'grey'}}>
-                    {I18n.t('Hope You, are feeling healthy today')}
+                    {I18n.t('Hope you are feeling healthy today')}
                   </Text>
                 </View>
                 <TouchableOpacity

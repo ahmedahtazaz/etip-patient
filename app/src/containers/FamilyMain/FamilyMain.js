@@ -72,8 +72,8 @@ const FamilyMain = ({
   const renderItem = ({item}) => {
     return (
       <View style={styles.nameContainer}>
-        <View style={styles.parentNameContainer} >
-          <View style={styles.nameTextContainer} >
+        <View style={styles.parentNameContainer}>
+          <View style={styles.nameTextContainer}>
             <Text style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
               {`${item.firstName} ${item.lastName}`}
             </Text>
@@ -139,7 +139,13 @@ const FamilyMain = ({
                       onPress={() => removeMember(data)}
                       style={styles.rowDeleteImage}>
                       <View style={styles.deleteItem}>
-                        <Image source={deleteIcon} />
+                        <Image
+                          source={deleteIcon}
+                          style={{
+                            resizeMethod: 'resize',
+                            resizeMode: 'contain',
+                          }}
+                        />
                       </View>
                     </TouchableOpacity>
                   );
@@ -177,19 +183,19 @@ const styles = StyleSheet.create({
 
     display: 'flex',
     flexDirection: 'row',
+
+    marginTop: '5%',
   },
   editContainer: {
     marginStart: 12,
-    marginEnd:12
+    marginEnd: 12,
   },
-  qrEditContainer: {
-    
-  },
+  qrEditContainer: {},
 
   nameTextContainer: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent:'center',
+    justifyContent: 'center',
   },
   actionCertificateContainer: {
     marginTop: 8,
@@ -214,8 +220,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   parentNameContainer: {
-    paddingTop:9,
-    paddingBottom:9,
+    paddingTop: 9,
+    paddingBottom: 9,
     flex: 1,
 
     display: 'flex',
@@ -223,13 +229,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   qrCodeandEditConatiner: {
-    
     flex: 1,
 
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    alignItems:'center',
+    alignItems: 'center',
   },
   bluebox: {
     width: 100,
@@ -250,7 +255,7 @@ const styles = StyleSheet.create({
   mainDivPad: {
     paddingLeft: '4%',
     paddingRight: '4%',
-    paddingTop:20,
+    paddingTop: 20,
   },
   appoinmentDivBg: {
     borderTopLeftRadius: 20,
