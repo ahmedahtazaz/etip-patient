@@ -136,14 +136,14 @@ function TestCenterVerifier({
             <View>
               <Text style={styles.heading}>{I18n.t('Select test point')}</Text>
               <Text style={styles.subHeading}>
-                {I18n.t(' Select the test point you are working today')}
+                {I18n.t('Select the test point you are working today')}
               </Text>
             </View>
           </View>
           <View style={styles.testCenterList}>
             <View style={styles.listView}>
               <FlatList
-                data={testPoints.length ? testPoints : DATA}
+                data={testPoints}
                 renderItem={renderItem}
                 keyExtractor={(item, index) => index}
               />

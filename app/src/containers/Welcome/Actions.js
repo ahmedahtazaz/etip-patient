@@ -45,6 +45,11 @@ export const moveToTTScreenAction = navigation => {
   return navigation.navigate('terms');
 };
 
+
+export const moveToPincodeScreenAction = navigation => {
+  return navigation.navigate('PincodeScreen');
+};
+
 export const getDefaultLanguageAction = payload => {
   return {
     type: GET_DEFAULT_LANG,
@@ -72,3 +77,5 @@ export const setLanguageUpdatedAction = status => {
     status,
   };
 };
+
+

@@ -77,7 +77,7 @@ function TestInformation({moveToMainScreen, navigation}) {
           <View>
             <View style={{marginTop: 30, marginBottom: 10}}>
               <Text style={{...styles.textSize, color: BLACK_COLOR}}>
-                Test Result
+              {I18n.t('Test Result')}
               </Text>
             </View>
             <TouchableOpacity
@@ -145,7 +145,7 @@ function TestInformation({moveToMainScreen, navigation}) {
             <TouchableOpacity
               style={[styles.btnStyle, styles.submitButton]}
               onPress={() => moveToMainScreen(navigation)}>
-              <Text style={styles.submitText}>Issue Certificate</Text>
+              <Text style={styles.submitText}>{I18n.t('Issue Certificate')}</Text>
             </TouchableOpacity>
           
 

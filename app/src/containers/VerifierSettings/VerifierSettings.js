@@ -33,6 +33,11 @@ const DATA = [
   {
     name: 'Terms & Condition',
   },
+  {
+    id: 'Change Language',
+    name: 'Change Language',
+    path: 'ChangeLanguage',
+  },
 ];
 
 function VerifierSettings({navigation}) {
@@ -44,7 +49,13 @@ function VerifierSettings({navigation}) {
   }, [isFocused]);
 
   const renderItem = ({item, index}) => (
-    <TouchableOpacity style={styles.item} key={index}>
+    <TouchableOpacity style={styles.item} key={index}
+    
+    onPress={() => {
+      navigation.navigate(item.path);
+    
+    }}
+    >
       <Text style={styles.name}>{I18n.t(item.name)}</Text>
     </TouchableOpacity>
   );

@@ -5,17 +5,14 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Dimensions,
   ImageBackground,
   Image,
-  TextInput,
-  FlatList,
-  ActivityIndicator
+  FlatList
 } from 'react-native';
+import { ActivityIndicator } from 'react-native-paper';
 import I18n from '../../translations/I18n';
 import Orientation from 'react-native-orientation-locker';
 import { useIsFocused } from '@react-navigation/native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { BLACK_COLOR, GREEN_COLOR, WHITE_COLOR } from '../../theme/Colors';
@@ -28,7 +25,6 @@ const testCenterInfoBg = require('../../assets/images/test-center-info-bg.png');
 const headerLogo = require('../../assets/images/splash-logo1.png');
 const btnQrCode = require('../../assets/images/btn-qr-code.png');
 const testInfoBg = require('../../assets/images/test-info-bg.png');
-const { width, height } = Dimensions.get('window');
 
 const DATA = [
   {
@@ -53,17 +49,24 @@ function TestCenterInfo({
   verifyPinPayload,
   pendingApplications
 }) {
+  const [isUpdated, setIsUpdated] = useState(false);
   const isFocused = useIsFocused();
 
   useEffect(() => {
     Orientation.lockToPortrait();
+    if (isFocused) setIsUpdated(true);
   }, [isFocused]);
 
   useEffect(() => {
+    if (isUpdated) setIsUpdated(false);
+  }, [isUpdated]);
+
+  useEffect(() => {
+    let testPointId = '';
     let data = {
-      url: `${get_pending_applications_url}/${verifyPinPayload?.testCenter?._id}`
-    }
-    getPendingApplications(data)
+      url: `${get_pending_applications_url}/${testPointId}`,
+    };
+    getPendingApplications(data);
   }, []);
 
   useEffect(() => {
@@ -81,6 +84,7 @@ function TestCenterInfo({
       <Text style={styles.date}>{item.date}</Text>
     </TouchableOpacity>
   );
+
   return (
     <View style={styles.MainContainer}>
       <View style={styles.header}>
@@ -90,7 +94,7 @@ function TestCenterInfo({
           <View style={styles.mainMenu}>
             <Image source={headerLogo} />
           </View>
-          <View style={{ height: '100%', top: '50%' }}>
+          <View style={{height: '100%', top: '50%'}}>
             <Text style={styles.heading}>{I18n.t('Hello, Jone!')}</Text>
             <Text style={styles.subHeading}>
               {I18n.t('Hope you are having a good day')}
@@ -108,70 +112,71 @@ function TestCenterInfo({
                 <Text style={styles.centerTitle}>{I18n.t(verifyPinPayload?.testCenter?.name)}</Text>
                 {/* <Text style={styles.centerName}>{I18n.t('Zeitfenster auswahlen')}</Text> */}
               </View>
-              <View>
-                <Entypo
-                  name="chevron-small-right"
-                  color={GREEN_COLOR}
-                  size={20}
-                />
-              </View>
-            </TouchableOpacity>
-
-            <Text
-              style={{
-                fontSize: RFValue(13, 580),
-                marginTop: 30,
-                fontWeight: '600',
-              }}>
-              {I18n.t('Test Awaiting for results')}
-            </Text>
-
-            <View style={styles.patientList}>
-              <FlatList
-                data={pendingApplications.lenght ? pendingApplications : DATA}
-                renderItem={renderItem}
-                keyExtractor={(item, index) => index}
+            <View>
+              <Entypo
+                name="chevron-small-right"
+                color={GREEN_COLOR}
+                size={20}
               />
             </View>
-
-
-
-          </View>
-          <View style={styles.bottomBtnDiv}>
-            <TouchableOpacity
-              style={[styles.btnStyle, styles.submitButton]}
-              onPress={() => navigation.navigate('QRScreen')}>
-              <Image source={btnQrCode} />
-              <Text style={styles.submitText}>{I18n.t('Scan QR Code')}</Text>
             </TouchableOpacity>
 
+          <Text
+            style={{
+              fontSize: RFValue(13, 580),
+              marginTop: 30,
+              fontWeight: '600',
+            }}>
+            {I18n.t('Test Awaiting for results')}
+          </Text>
 
-
-            <TouchableOpacity
-              style={{ width: '100%' }}
-              onPress={() => navigation.navigate('VerifierUserInfoScreen')}>
-              <Text style={styles.scanAnotherQRcode}>{I18n.t('Insert Person Info')}</Text>
-            </TouchableOpacity>
-            {loader ? (
-              <View
-                style={{
-                  alignSelf: 'center',
-                  height: '100%',
-                  width: '100%',
-                  justifyContent: 'center',
-                  position: 'absolute',
-                  zIndex: 1000,
-                }}>
-                <ActivityIndicator size="large" color="grey" animating={loader} />
-              </View>
-            ) : null}
+          <View style={styles.patientList}>
+            <FlatList
+              data={pendingApplications.lenght ? pendingApplications : DATA}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => index}
+            />
           </View>
+          </View>
+        <View style={styles.bottomBtnDiv}>
+          <TouchableOpacity
+            style={[styles.btnStyle, styles.submitButton]}
+            onPress={() => navigation.navigate('QRScreen')}>
+            <Image source={btnQrCode} />
+            <Text style={styles.submitText}>{I18n.t('Scan QR Code')}</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{ width: '100%' }}
+            onPress={() => navigation.navigate('VerifierUserInfoScreen')}>
+            <Text style={styles.scanAnotherQRcode}>
+              {I18n.t('Insert Person Info')}
+            </Text>
+          </TouchableOpacity>
+          {loader ? (
+            <View
+              style={{
+                alignSelf: 'center',
+                height: '100%',
+                width: '100%',
+                justifyContent: 'center',
+                position: 'absolute',
+                zIndex: 1000,
+              }}>
+              <ActivityIndicator
+                size="large"
+                color="grey"
+                animating={loader}
+              />
+            </View>
+          ) : null}
+        </View>
         </ImageBackground>
-      </View>
-      <BottomNavigator
-        navigation={navigation}
-        selectedItem={{ id: 1, label: 'Home' }}></BottomNavigator>
     </View>
+    <BottomNavigator
+      navigation={navigation}
+      selectedItem={{ id: 1, label: 'Home' }}></BottomNavigator>
+    </View >
   );
 }
 
@@ -192,7 +197,6 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   splashbackground1: {
-
     resizeMode: 'cover',
     height: '82%',
   },
@@ -284,8 +288,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '90%',
     left: '5%',
-    bottom: '12%'
-
+    bottom: '12%',
   },
   btnStyle: {
     backgroundColor: GREEN_COLOR,
@@ -324,7 +327,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   console.log('testCenterInfoReducer state:: ', state.testCenterInfoReducer);
   return {
     loader: state.testCenterInfoReducer.loader,
@@ -334,10 +337,11 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    getPendingApplications: data => dispatch(getPendingApplicationsAction(data))
-  }
-}
+    getPendingApplications: data =>
+      dispatch(getPendingApplicationsAction(data)),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(TestCenterInfo);

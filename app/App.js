@@ -73,6 +73,11 @@ const App: () => React$Node = () => {
                     component={Splash}
                     options={{ headerShown: false }}
                   />
+                    <Stack.Screen
+                    name="WelcomeScreen"
+                    component={Welcome}
+                    options={{ headerShown: false }}
+                  />
                   <Stack.Screen
                     name="TestCenterInfo"
                     component={TestCenterInfo}
@@ -113,6 +118,11 @@ const App: () => React$Node = () => {
                   <Stack.Screen
                     name="Settings"
                     component={VerifierSettings}
+                    options={{ headerShown: false }}
+                  />
+                     <Stack.Screen
+                    name="ChangeLanguage"
+                    component={ChangeLanguage}
                     options={{ headerShown: false }}
                   />
                 </Stack.Navigator>

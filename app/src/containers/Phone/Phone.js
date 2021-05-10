@@ -75,7 +75,7 @@ function Phone({
 
   const showToast = msg => {
     if (Platform.OS === 'android') {
-      ToastAndroid.show(msg, ToastAndroid.SHORT);
+      ToastAndroid.show(I18n.t(msg), ToastAndroid.SHORT);
     } else {
       Alert.alert(msg);
     }
@@ -94,7 +94,7 @@ function Phone({
           },
         };
         sendOTP(data);
-      } else showToast('Please enter a valid phone number.');
+      } else showToast('Please enter a valid phone number');
     } else {
       if (otp && otp.length == 5) {
         let data = {
@@ -112,7 +112,7 @@ function Phone({
         } else {
           verifyOTP(data);
         }
-      } else showToast('Please enter a valid OTP.');
+      } else showToast('Please enter a valid OTP');
     }
   };
 
@@ -184,20 +184,20 @@ function Phone({
             <>
               <Text style={styles.inputLabelDiv}>
                 <Text style={styles.inputLabel}>
-                {I18n.t('Enter Your  Mobile Number')}
+                {I18n.t('Enter Your Mobile Number')}
                 </Text>
                 {'\n'}
                 {'\n'}
                 <Text style={styles.inputLabelSmall}>
                   {/* Please enter your valid phone number to continue */}
-                  {I18n.t('Please enter a valid phone number')}
+                  {I18n.t('Please enter your valid phone number to continue')}
                 </Text>
               </Text>
               <TextInput
                 value={phoneValue}
                 textContentType="telephoneNumber"
                 underlineColorAndroid="transparent"
-                placeholder="Phone"
+                placeholder={I18n.t("Phone")}
                 style={styles.inputStyle1}
                 keyboardType="numeric"
                 onChangeText={value => {
@@ -317,7 +317,7 @@ function Phone({
                     .concat(otpValue4),
                 )
               }>
-              <Text style={styles.submitText}>{isUpdateMobileNumber ? "Update Mobile Number" : I18n.t('Continue')}</Text>
+              <Text style={styles.submitText}>{isUpdateMobileNumber ? I18n.t("Update Mobile Number") : I18n.t('Continue')}</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity

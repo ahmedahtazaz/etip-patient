@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
-import {LANGUAGE_KEY} from '../../commons/Constants';
+import {IS_VERIFIER_APP, LANGUAGE_KEY} from '../../commons/Constants';
 import {WHITE_COLOR} from '../../theme/Colors';
 import Slider from 'react-native-slide-to-unlock';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -20,6 +20,8 @@ import {
   getLanguageByKeyAction,
   getLanguagesKeysAction,
   setLanguageUpdatedAction,
+  moveToPincodeScreenAction
+  
 } from './Actions';
 
 import Orientation from 'react-native-orientation-locker';
@@ -55,6 +57,7 @@ function Welcome({
   availableLanguages,
   setLanguageUpdated,
   languageUpdated,
+  moveToPincodeScreenAction
 }) {
   const isFocused = useIsFocused();
 
@@ -79,6 +82,17 @@ function Welcome({
   useEffect(() => {
     if (languageUpdated) setLanguageUpdated(false);
   }, [languageUpdated]);
+
+  const moveToOtherScreen = () => {
+    //moveToWelcomeScreen(navigation);
+
+    if (IS_VERIFIER_APP) {
+      moveToPincodeScreenAction(navigation);
+    } else {
+      moveToPhoneScreen(navigation) 
+    
+    }
+  };
 
   const getAvailableLanguages = () => {
     const payloadAvailableLanguages = {
@@ -128,7 +142,7 @@ function Welcome({
           </View>
           <Slider
             onEndReached={() => {
-              moveToPhoneScreen(navigation);
+              moveToOtherScreen(navigation);
             }}
             containerStyle={{
               margin: 8,
@@ -200,6 +214,9 @@ const mapDispatchToProps = dispatch => {
     moveToMainScreen: navigation => moveToMainScreenAction(navigation),
     moveToPhoneScreen: navigation => moveToPhoneScreenAction(navigation),
     moveToUserInfoScreen: navigation => moveToUserInfoScreenAction(navigation),
+    
+    moveToPincodeScreenAction: navigation => moveToPincodeScreenAction(navigation),
+
     moveToPolicy: navigation => moveToPPScreenAction(navigation),
     moveToTerms: navigation => moveToTTScreenAction(navigation),
 

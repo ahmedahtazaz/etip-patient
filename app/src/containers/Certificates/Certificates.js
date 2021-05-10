@@ -10,7 +10,6 @@ import {
   Image,
   ImageBackground,
 } from 'react-native';
-import {width} from 'react-native-dimension';
 import I18n from '../../translations/I18n';
 import Orientation from 'react-native-orientation-locker';
 import {WHITE_COLOR, LIGHT_GREY} from '../../theme/Colors';
@@ -36,13 +35,11 @@ const issuedWhiteQr = require('../../assets/images/issued-white-qr.png');
 const issuedGrayeQr = require('../../assets/images/issued-gray-qr.png');
 const issuedRedIcon = require('../../assets/images/issued-by-red-icon.png');
 const previousCertificateBg = require('../../assets/images/previous-certificate-bg.png');
-const previousAppoinmentBg = require('../../assets/images/previous-appoinment-bg.png');
 
 const Certificates = ({
   navigation,
   movetoSettingsScreen,
   moveToAppointmentDetails,
-  route,
   userInfo,
   getActiveCertificates,
   activeCertificates,
@@ -53,11 +50,18 @@ const Certificates = ({
 }) => {
   const [selectedId, setSelectedId] = useState(null);
 
+  const [isUpdated, setIsUpdated] = useState(false);
+
   const isFocused = useIsFocused();
 
   useEffect(() => {
     Orientation.lockToPortrait();
+    if (isFocused) setIsUpdated(true);
   }, [isFocused]);
+
+  useEffect(() => {
+    if (isUpdated) setIsUpdated(false);
+  }, [isUpdated]);
 
   useEffect(() => {
     if (userInfo) {
@@ -220,10 +224,12 @@ const Certificates = ({
                     }}>
                     <View style={styles.contentPadding}>
                       <Text style={styles.boxHeadingDisable}>
-                      {I18n.t('No Active Certificate')}
+                        {I18n.t('No Active Certificate')}
                       </Text>
                       <Text style={styles.boxTextDisable}>
-                      {I18n.t('You don’t have any active certificate at the moment')}
+                        {I18n.t(
+                          'You don’t have any active certificate at the moment',
+                        )}
                       </Text>
                     </View>
                   </ImageBackground>
@@ -260,10 +266,12 @@ const Certificates = ({
                     }}>
                     <View style={styles.contentPadding}>
                       <Text style={styles.boxHeadingDisable}>
-                      {I18n.t('No Previous Certificate')}
+                        {I18n.t('No Previous Certificate')}
                       </Text>
                       <Text style={styles.boxTextDisable}>
-                      {I18n.t('You don’t have any previous certificate at the moment')}
+                        {I18n.t(
+                          'You don’t have any previous certificate at the moment',
+                        )}
                       </Text>
                     </View>
                   </ImageBackground>
@@ -275,7 +283,7 @@ const Certificates = ({
       </View>
       <BottomNavigator
         navigation={navigation}
-      selectedItem={{id: 4, label: 'Certificates'}}></BottomNavigator>
+        selectedItem={{id: 4, label: 'Certificates'}}></BottomNavigator>
       {loader ? (
         <View
           style={{
@@ -331,7 +339,7 @@ const styles = StyleSheet.create({
     zIndex: 2000,
     top: '3%',
     left: '3%',
-    height:'10%',
+    height: '10%',
     width: '100%',
   },
   mainMenuItems: {
@@ -356,7 +364,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
-    height:'88%',
+    height: '88%',
     marginTop: '25%',
   },
   qrCodeItem: {
@@ -372,7 +380,7 @@ const styles = StyleSheet.create({
   activeCertificationDiv: {
     borderRadius: 10,
     flexWrap: 'wrap',
-    minWidth:360,
+    minWidth: 360,
     display: 'flex',
     flexDirection: 'column',
     resizeMode: 'cover',
@@ -383,7 +391,7 @@ const styles = StyleSheet.create({
   },
   activeAppoinmentsDiv: {
     borderRadius: 10,
-    minWidth:360,
+    minWidth: 360,
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
