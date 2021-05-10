@@ -123,7 +123,7 @@ export const SET_LOADER_MAIN_SCREEN = 'SET_LOADER_MAIN_SCREEN';
 
 export const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-export const IS_VERIFIER_APP = false;
+export const IS_VERIFIER_APP = true;
 
 export const LANGUAGE_KEY = 'default_lang';
 
