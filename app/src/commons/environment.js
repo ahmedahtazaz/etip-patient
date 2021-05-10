@@ -1,4 +1,6 @@
-export const base_url = 'https://hlf-backend-1.azurewebsites.net';
+import { IS_VERIFIER_APP } from "./Constants";
+
+export const base_url = IS_VERIFIER_APP ? "https://etip-dtt-verifier.azurewebsites.net" : 'https://hlf-backend-1.azurewebsites.net';
 
 export const send_otp_url = `/api/user/send-otp`;
 export const verify_otp_url = `/api/user/verify-otp`;

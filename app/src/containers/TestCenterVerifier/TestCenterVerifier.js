@@ -73,9 +73,8 @@ function TestCenterVerifier({
   }, [isFocused]);
 
   useEffect(() => {
-    let testpointId = "";
     let data = {
-      url: `${get_test_points_url}/${testpointId}`
+      url: `${get_test_points_url}/${verifyPinPayload?.testCenter?._id}`
     }
     getTestPoints(data);
   }, [])
@@ -97,7 +96,7 @@ function TestCenterVerifier({
       key={index}
       onPress={() => selectTestCenter(item)}>
       <Text style={styles.name}>{I18n.t(item.name)}</Text>
-      <Text style={styles.address}>{I18n.t(item.address)}</Text>
+      {/* <Text style={styles.address}>{I18n.t(item.address)}</Text> */}
     </TouchableOpacity>
   );
   return (
@@ -126,7 +125,11 @@ function TestCenterVerifier({
               <Text style={styles.heading}>{I18n.t('Your test center')}</Text>
             </View>
           </View>
-          {renderItem({ item: DATA[0], index: 0 })}
+          <View
+            style={styles.item}>
+            <Text style={styles.name}>{I18n.t(verifyPinPayload?.testCenter.name)}</Text>
+            {/* <Text style={styles.address}>{I18n.t("SudLager 220g, g2249 Vilseck, Germany")}</Text> */}
+          </View>
         </View>
         <View style={styles.innerDiv1}>
           <View style={styles.header}>

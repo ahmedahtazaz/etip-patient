@@ -23,6 +23,7 @@ import BottomNavigator from '../../components/BottomNavigator';
 import { connect } from 'react-redux';
 import { get_pending_applications_url } from '../../commons/environment';
 import { getPendingApplicationsAction } from './Action';
+import { showToast } from '../../commons/Constants';
 const testCenterInfoBg = require('../../assets/images/test-center-info-bg.png');
 const headerLogo = require('../../assets/images/splash-logo1.png');
 const btnQrCode = require('../../assets/images/btn-qr-code.png');
@@ -48,7 +49,9 @@ function TestCenterInfo({
   navigation,
   getPendingApplications,
   loader,
-  errMessage
+  errMessage,
+  verifyPinPayload,
+  pendingApplications
 }) {
   const isFocused = useIsFocused();
 
@@ -57,9 +60,8 @@ function TestCenterInfo({
   }, [isFocused]);
 
   useEffect(() => {
-    let testPointId = ""
     let data = {
-      url: `${get_pending_applications_url}/${testPointId}`
+      url: `${get_pending_applications_url}/${verifyPinPayload?.testCenter?._id}`
     }
     getPendingApplications(data)
   }, []);
@@ -103,8 +105,8 @@ function TestCenterInfo({
               style={styles.centerLabel}
               onPress={() => navigation.navigate('TestCenter')}>
               <View>
-                <Text style={styles.centerTitle}>{I18n.t('Test Center')}</Text>
-                <Text style={styles.centerName}>{I18n.t('Zeitfenster auswahlen')}</Text>
+                <Text style={styles.centerTitle}>{I18n.t(verifyPinPayload?.testCenter?.name)}</Text>
+                {/* <Text style={styles.centerName}>{I18n.t('Zeitfenster auswahlen')}</Text> */}
               </View>
               <View>
                 <Entypo
@@ -126,7 +128,7 @@ function TestCenterInfo({
 
             <View style={styles.patientList}>
               <FlatList
-                data={DATA}
+                data={pendingApplications.lenght ? pendingApplications : DATA}
                 renderItem={renderItem}
                 keyExtractor={(item, index) => index}
               />
@@ -327,7 +329,8 @@ const mapStateToProps = (state) => {
   return {
     loader: state.testCenterInfoReducer.loader,
     errMessage: state.testCenterInfoReducer.errMessage,
-    pendingApplications: state.testCenterInfoReducer.pendingApplications
+    pendingApplications: state.testCenterInfoReducer.pendingApplications,
+    verifyPinPayload: state.pinScreenReducer.verifyPinPayload,
   }
 }
 

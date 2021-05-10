@@ -1,7 +1,7 @@
 import { GET_PENDING_APPLICATIONS, GET_PENDING_APPLICATIONS_FAILURE, GET_PENDING_APPLICATIONS_SUCCESS } from '../../commons/Constants';
 
 const INITIAL_STATE = {
-    pendingApplications: null,
+    pendingApplications: [],
     loader: false,
     errMessage: undefined,
 

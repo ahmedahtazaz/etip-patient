@@ -49,12 +49,12 @@ function PinScreen({
       url: `${verify_pin_url}/${pin}`
     }
     verifyPin(data);
-    navigation.navigate("TestCenter");
+    // navigation.navigate("TestCenter");
   }
 
   useEffect(() => {
     if (isPinVerified) {
-      navigation.navigate("TestCenter");
+      navigation.replace("TestCenter");
     }
   }, [isPinVerified]);
 
@@ -95,10 +95,10 @@ function PinScreen({
           <View style={{ marginTop: 20 }}>
             <TouchableOpacity
               onPress={() => verifyInputPin()}
-              disabled={pin.length !== 7}
+              disabled={pin.length !== 6}
               style={{
                 ...styles.btnStyle,
-                backgroundColor: pin.length !== 7 ? '#4b9499' : GREEN_COLOR,
+                backgroundColor: pin.length !== 6 ? '#4b9499' : GREEN_COLOR,
               }}>
               <Text style={styles.submitText}>{I18n.t('Continue')}</Text>
             </TouchableOpacity>
