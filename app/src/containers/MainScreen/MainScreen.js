@@ -215,7 +215,7 @@ const MainScreen = ({
         <View style={styles.mainDivPad}>
           {
             <View style={styles.nameContainer}>
-              <View style={styles.parentNameContainer}>
+              <View style={styles.parentNameContainer1}>
                 <View style={styles.nameTextContainer}>
                   <Text style={{fontSize: 25, fontWeight: 'bold'}}>
                     Hi {userName}
@@ -390,7 +390,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     backgroundColor: 'white',
     height: '88%',
-    marginTop: '25%',
+    marginTop: '30%',
   },
   mainMenu: {
     position: 'absolute',
@@ -419,7 +419,7 @@ const styles = StyleSheet.create({
   activeCertificationDiv: {
     borderRadius: 10,
     flexWrap: 'wrap',
-    minWidth: 360,
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
     resizeMode: 'cover',
@@ -430,7 +430,7 @@ const styles = StyleSheet.create({
   },
   activeAppoinmentsDiv: {
     borderRadius: 10,
-    minWidth: 360,
+    width: '100%',
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -506,6 +506,15 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingLeft: 13,
     paddingRight: 20,
+    paddingBottom: 10,
+  },
+  parentNameContainer1: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: 10,
+    paddingLeft: 0,
+    paddingRight: 0,
     paddingBottom: 10,
   },
   bluebox: {

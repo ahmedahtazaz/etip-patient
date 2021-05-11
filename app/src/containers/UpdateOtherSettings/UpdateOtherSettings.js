@@ -69,14 +69,20 @@ function UpdateOtherSettings({
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.backIcon}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <EvilIcons name="chevron-left" color="#000" size={30} />
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+            <EvilIcons
+              name="chevron-left"
+              color="#000"
+              size={40}
+              style={{fontWeight: 'bold'}}
+            />
           </TouchableOpacity>
         </View>
-        <View>
+        <View style={styles.headerTextView}>
           <Text style={styles.headerText}>{I18n.t('Update Email')}</Text>
         </View>
       </View>
+      <View style={styles.appoinmentDivBg}>
       <View style={styles.fields}>
         <View style={styles.infoSec}>
           <View style={styles.inputMain}>
@@ -111,6 +117,7 @@ function UpdateOtherSettings({
           <ActivityIndicator size="large" color="grey" animating={loader} />
         </View>
       ) : null}
+      </View>
     </View>
   );
 }
@@ -138,9 +145,7 @@ export default connect(
 
 // Style for "Background"
 const styles = StyleSheet.create({
-  backIcon: {
-    marginHorizontal: 5,
-  },
+  
   inputMain: {
     paddingHorizontal: 20,
   },
@@ -171,20 +176,36 @@ const styles = StyleSheet.create({
   },
   container: {
     height,
+    backgroundColor: '#f8fbfa',
+  },
+  appoinmentDivBg: {
+    borderRadius: 20,
     backgroundColor: 'white',
+    height: '90%',
+    marginTop: '8%',
   },
   header: {
     flexDirection: 'row',
-    height: height * 0.2,
+    height: height * 0.1,
+    paddingTop: '7%',
     alignItems: 'center',
-    paddingTop: '10%',
   },
-  fields: {
-    height: height * 0.8,
+  backIcon: {
+    flex: 1,
+    alignItems: 'flex-start',
+  },
+  headerTextView: {
+    flex: 9,
+    alignItems: 'center',
+    paddingRight: width * 0.1,
   },
   headerText: {
     fontSize: RFValue(16, 580),
   },
+  fields: {
+    height: height * 0.8,
+  },
+  
   btnStyle: {
     backgroundColor: '#212826',
     justifyContent: 'center',

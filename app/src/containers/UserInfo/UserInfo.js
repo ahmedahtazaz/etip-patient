@@ -364,7 +364,7 @@ function UserInfo({
 
           <View style={styles.secondaryHeading}>
             <Text style={styles.secondaryHeadingText}>
-              {I18n.t('User Information')}
+              {I18n.t('Edit User Information')}
             </Text>
           </View>
 
@@ -426,12 +426,13 @@ function UserInfo({
             <DropDownPicker
               items={relations}
               placeholder={I18n.t('Select Relation')}
-              containerStyle={{height: 60}}
+              containerStyle={{height: 62}}
               style={{
                 backgroundColor: '#F5F9F8',
                 fontSize: RFValue(14, 580),
                 color: '#a29d9d',
-                marginBottom: 14
+                borderColor: '#F5F9F8',
+                marginBottom:14
               }}
               itemStyle={{
                 justifyContent: 'flex-start',

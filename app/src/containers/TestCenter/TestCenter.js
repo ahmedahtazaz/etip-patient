@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: 'white',
     height: '90%',
-    marginTop: '5%',
+    marginTop: '8%',
   },
   nameTextContainer: {
     display: 'flex',

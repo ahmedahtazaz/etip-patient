@@ -517,8 +517,8 @@ const styles = StyleSheet.create({
     paddingBottom: '1.5%',
     fontSize: RFValue(24, 580),
     fontWeight: '500',
-    marginTop: '15%',
-    marginBottom: '15%',
+    marginTop: '10%',
+    marginBottom: '10%',
   },
   inputStyle: {
     color: '#319085',
@@ -582,7 +582,7 @@ const styles = StyleSheet.create({
     fontSize: RFValue(13, 580),
     fontWeight: '600',
     textAlign: 'center',
-    marginBottom: '9%',
+    marginBottom: '5%',
   },
   cancelButton: {
     width: '100%',

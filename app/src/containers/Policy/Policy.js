@@ -29,14 +29,20 @@ const Policy = ({getpolicy, navigation, policy, errMessage}) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.backIcon}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <EvilIcons name="chevron-left" color="#000" size={30} />
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+            <EvilIcons
+              name="chevron-left"
+              color="#000"
+              size={40}
+              style={{fontWeight: 'bold'}}
+            />
           </TouchableOpacity>
         </View>
-        <View>
+        <View style={styles.headerTextView}>
           <Text style={styles.headerText}>{I18n.t('Privacy Policy')}</Text>
         </View>
       </View>
+      
       <View style={styles.appoinmentDivBg}>
         <HTML
           html={policy?.data?.data?.privacyPolicy}
@@ -69,16 +75,28 @@ const classesStyles = {
   },
 };
 const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    height: '11%',
-    paddingTop: 30,
-    alignItems: 'center',
-    width,
-  },
+ 
   container: {
     height,
-    backgroundColor: 'white',
+    backgroundColor: '#f8fbfa',
+  },
+  header: {
+    flexDirection: 'row',
+    height: height * 0.1,
+    paddingTop: '7%',
+    alignItems: 'center',
+  },
+  backIcon: {
+    flex: 1,
+    alignItems: 'flex-start',
+  },
+  headerTextView: {
+    flex: 9,
+    alignItems: 'center',
+    paddingRight: width * 0.1,
+  },
+  headerText: {
+    fontSize: RFValue(16, 580),
   },
   rowDeleteImage: {
     justifyContent: 'flex-end',
@@ -87,21 +105,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
   },
-  backIcon: {
-    marginHorizontal: 5,
-    width: width * 0.1,
-  },
+  
   editContainer: {
     marginStart: 8,
     marginBottom: 30,
     marginTop: -8,
     marginEnd: 8,
   },
-  headerText: {
-    fontSize: RFValue(16, 580),
-    width: width * 0.8,
-    textAlign: 'center',
-  },
+ 
   qrEditContainer: {
     marginTop: -10,
   },
@@ -169,7 +180,14 @@ const styles = StyleSheet.create({
     paddingLeft: '4%',
     paddingRight: '4%',
   },
-  appoinmentDivBg: {},
+  appoinmentDivBg: {
+    padding:'4%', 
+    paddingTop:47, 
+    borderRadius: 20,
+    backgroundColor: 'white',
+    height: '90%',
+    marginTop: '8%',
+  },
   mainMenu: {
     position: 'absolute',
     zIndex: 2000,

@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     backgroundColor: 'white',
     height: '88%',
-    marginTop: '25%',
+    marginTop: '30%',
   },
   mainMenu: {
     position: 'absolute',

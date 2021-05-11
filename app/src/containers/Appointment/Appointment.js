@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     backgroundColor: 'white',
     height: '88%',
-    marginTop: '5%',
+    marginTop: '8%',
   },
   splashbackground: {
     flex: 1,
