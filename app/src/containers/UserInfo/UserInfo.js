@@ -5,6 +5,9 @@ import I18n from '../../translations/I18n';
 
 import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
+import {Dimensions} from 'react-native';
+const {width, height} = Dimensions.get('window');
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {
   ActivityIndicator,
   View,
@@ -347,6 +350,22 @@ function UserInfo({
 
   return (
     <ScrollView style={{height: '100%'}} ref={scrollRef}>
+      <View style={styles.header}>
+        <View style={styles.backIcon}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+            <EvilIcons
+              name="chevron-left"
+              color="#000"
+              size={40}
+              style={{fontWeight: 'bold'}}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.headerTextView}>
+          <Text style={styles.headerText}>{I18n.t('User Information')}</Text>
+        </View>
+      </View>
+      
       <View style={styles.background}>
         <View style={styles.innerDiv}>
           <View style={styles.mainHeading}>
@@ -455,6 +474,7 @@ function UserInfo({
             textContentType="none"
             placeholder="Date"
             style={styles.inputStyle1}
+            
             onPressIn={() => {
               setShowCalender(true);
             }}></TextInput>
@@ -645,12 +665,31 @@ export default connect(mapStateToProps, mapDispatchToProps)(UserInfo);
 // Style for "Background"
 const styles = StyleSheet.create({
   background: {
-    backgroundColor: WHITE_COLOR,
-    paddingTop: '9%',
-    paddingLeft: '5%',
-    paddingRight: '5%',
+    padding:'4%', 
+    paddingTop:47, 
+    borderRadius: 20,
+    backgroundColor: 'white',
+    height: '90%',
+    marginTop: '8%',
   },
-
+  header: {
+    flexDirection: 'row',
+    height: height * 0.1,
+    paddingTop: '7%',
+    alignItems: 'center',
+  },
+  backIcon: {
+    flex: 1,
+    alignItems: 'flex-start',
+  },
+  headerTextView: {
+    flex: 9,
+    alignItems: 'center',
+    paddingRight: width * 0.1,
+  },
+  headerText: {
+    fontSize: RFValue(16, 580),
+  },
   mainHeadingText: {
     fontSize: RFValue(16, 580),
     color: PRIMARY_COLOR,
