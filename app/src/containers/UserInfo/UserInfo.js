@@ -184,14 +184,14 @@ function UserInfo({
       resetIsFamilyMemberAdded();
       resetForm(true);
 
-      if (editMode) navigation.goBack();
+      if (editMode || addFamily) navigation.goBack();
     }
   }, [isFamilyMemberAdded]);
 
   const _handleDatePicked = (e, pickeddate) => {
     const date = new Date(pickeddate);
     const day = date.getDate();
-    const month = date.getMonth();
+    const month = date.getMonth() + 1;
     const year = date.getFullYear();
     setShowCalender(false);
     if (day) setDob(day + '-' + month + '-' + year);
@@ -252,16 +252,16 @@ function UserInfo({
       showToast('Please Enter Tax ID');
       return;
     }
-    // if (!email.match(emailRegex)) {
-    //   showToast('Please Enter a valid email');
-    //   return;
-    // }
-    // Temporary removal
+    if (!email.match(emailRegex)) {
+      showToast('Please Enter a valid email');
+      return;
+    }
+    //Temporary removal
     //if (isFamily && (!mobileNo || !mobileNo.match('^[+]49[0-9]{10}$'))) {
-    // if (isFamily && !mobileNo) {
-    //   showToast('Please enter a valid phone number');
-    //   return;
-    // }
+    if (isFamily && !mobileNo) {
+      showToast('Please enter a valid phone number');
+      return;
+    }
     if (!schiller) {
       showToast('Please Enter street');
       return;
@@ -368,7 +368,7 @@ function UserInfo({
 
           <View style={styles.secondaryHeading}>
             <Text style={styles.secondaryHeadingText}>
-              {I18n.t('User Information')}
+              {I18n.t('Edit User Information')}
             </Text>
           </View>
 
@@ -429,12 +429,14 @@ function UserInfo({
           {isFamily ? (
             <DropDownPicker
               items={relations}
-              // defaultValue={relation}
-              containerStyle={{height: 48}}
+              placeholder={I18n.t('Select Relation')}
+              containerStyle={{height: 62}}
               style={{
                 backgroundColor: '#F5F9F8',
                 fontSize: RFValue(14, 580),
                 color: '#a29d9d',
+                borderColor: '#F5F9F8',
+                marginBottom:14
               }}
               itemStyle={{
                 justifyContent: 'flex-start',
@@ -482,14 +484,13 @@ function UserInfo({
               underlineColorAndroid="transparent"
               placeholder={I18n.t('Email')}
               style={styles.inputStyle1}
+              autoCapitalize="none"
               onChangeText={value => setEmail(value)}></TextInput>
           )}
           {!isUserEdit && (
             <TextInput
               placeholderTextColor={'#a29d9d'}
-              // value={mobileNo}
-              value={phone}
-              editable={false}
+              value={mobileNo}
               textContentType="mobileNo"
               underlineColorAndroid="transparent"
               placeholder={I18n.t('Mobile No')}
@@ -518,7 +519,7 @@ function UserInfo({
           </View>
           <DropDownPicker
             items={regions}
-            //defaultValue={city}
+            placeholder={I18n.t('Select Region')}
             containerStyle={{height: 48}}
             style={{
               backgroundColor: '#F5F9F8',
@@ -560,12 +561,8 @@ function UserInfo({
                 disabled={loader}
                 style={[styles.container, styles.submitButtonDark]}
                 onPress={() => {
-                  if (userInfo) {
-                    moveToMainScreen(navigation);
-                  } else {
-                    setIsSaveOnly(true);
-                    submit();
-                  }
+                  setIsSaveOnly(true);
+                  submit();
                 }}>
                 <Text style={styles.saveCloseText}>{I18n.t('Continue')}</Text>
               </TouchableOpacity>

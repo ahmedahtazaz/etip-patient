@@ -54,7 +54,7 @@ const AppointmentDetails = ({
           </TouchableOpacity>
         </View>
         <View style={styles.headerTextView}>
-          <Text style={styles.headerText}>{I18n.t('Make an Appointment')}</Text>
+          <Text style={styles.headerText}>{I18n.t('Appoinment Details')}</Text>
         </View>
       </View>
       <View style={styles.appoinmentDivBg}>
@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     backgroundColor: 'white',
     height:'88%',
-    marginTop: '5%',
+    marginTop: '8%',
   },
   contentPadding: {
     paddingTop: 25,

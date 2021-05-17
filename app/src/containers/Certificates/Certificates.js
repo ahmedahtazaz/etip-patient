@@ -365,7 +365,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     backgroundColor: 'white',
     height: '88%',
-    marginTop: '25%',
+    marginTop: '30%',
   },
   qrCodeItem: {
     marginEnd: 16,
@@ -380,7 +380,7 @@ const styles = StyleSheet.create({
   activeCertificationDiv: {
     borderRadius: 10,
     flexWrap: 'wrap',
-    minWidth: 360,
+    width:'100%',
     display: 'flex',
     flexDirection: 'column',
     resizeMode: 'cover',
@@ -391,7 +391,7 @@ const styles = StyleSheet.create({
   },
   activeAppoinmentsDiv: {
     borderRadius: 10,
-    minWidth: 360,
+    width:'100%',
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',

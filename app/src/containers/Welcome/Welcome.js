@@ -131,8 +131,8 @@ function Welcome({
               moveToPhoneScreen(navigation);
             }}
             containerStyle={{
-              marginTop:8,
-              marginBottom:8,
+              marginTop: 8,
+              marginBottom: 8,
               paddingLeft: 5,
               paddingRight: 5,
               paddingTop: 2,
@@ -164,7 +164,7 @@ function Welcome({
             }>
             <View style={{flexDirection: 'row'}}>
               <Text style={{color: '#839E9F', fontSize: 21}}>
-                {'Slide to Confirm'}
+                {I18n.t('Slide to Confirm')}
               </Text>
               <Icon
                 name="chevron-double-right"
@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'baseline',
-    marginLeft:4,
-    marginRight:4,
+    marginLeft: 4,
+    marginRight: 4,
   },
 });

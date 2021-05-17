@@ -124,7 +124,7 @@ const MainScreen = ({
 
   const renderItem = ({item}) => {
     return (
-      <View style={styles.appoinmentRedDiv} >
+      <View style={styles.appoinmentRedDiv}>
         <ImageBackground
           source={appoinmentRedBg}
           style={styles.appoinmentRedDiv1}>
@@ -167,32 +167,28 @@ const MainScreen = ({
           <ImageBackground
             source={activeCertificationBg}
             style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
-            
-              <View style={styles.parentNameContainer}>
-                <View style={styles.nameTextContainer}>
-                  <Text style={styles.boxHeading}>
-                    {item?.testPoint?.testCenter?.test?.testType}
-                  </Text>
-                  <Text style={styles.boxTestText}>
-                    {item?.testPoint?.name}
-                  </Text>
-                </View>
-                <View style={styles.nameTextContainer}>
-                  <Text style={styles.boxHeading}>
-                    {moment(item?.day).format('DD/MM/YYYY')}
-                  </Text>
-                  <Text style={styles.boxText}>{item?.time}</Text>
-                </View>
+            <View style={styles.parentNameContainer}>
+              <View style={styles.nameTextContainer}>
+                <Text style={styles.boxHeading}>
+                  {item?.testPoint?.testCenter?.test?.testType}
+                </Text>
+                <Text style={styles.boxTestText}>{item?.testPoint?.name}</Text>
               </View>
-              <View style={styles.parentNameContainer}>
-                <View style={styles.bottomTextContainer}>
-                  <Text style={styles.boxHeading}>
-                    {item?.testPoint?.testCenter?.name}
-                  </Text>
-                  <Text style={styles.boxText}>{item?.name}</Text>
-                </View>
+              <View style={styles.nameTextContainer}>
+                <Text style={styles.boxHeading}>
+                  {moment(item?.day).format('DD/MM/YYYY')}
+                </Text>
+                <Text style={styles.boxText}>{item?.time}</Text>
               </View>
-           
+            </View>
+            <View style={styles.parentNameContainer}>
+              <View style={styles.bottomTextContainer}>
+                <Text style={styles.boxHeading}>
+                  {item?.testPoint?.testCenter?.name}
+                </Text>
+                <Text style={styles.boxText}>{item?.name}</Text>
+              </View>
+            </View>
           </ImageBackground>
         </TouchableOpacity>
       </View>
@@ -219,13 +215,13 @@ const MainScreen = ({
         <View style={styles.mainDivPad}>
           {
             <View style={styles.nameContainer}>
-              <View style={styles.parentNameContainer}>
+              <View style={styles.parentNameContainer1}>
                 <View style={styles.nameTextContainer}>
                   <Text style={{fontSize: 25, fontWeight: 'bold'}}>
                     Hi {userName}
                   </Text>
                   <Text style={{textColor: 'grey'}}>
-                    {I18n.t('Hope You, are feeling healthy today')}
+                    {I18n.t('Hope you are feeling healthy today')}
                   </Text>
                 </View>
                 <TouchableOpacity
@@ -394,7 +390,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     backgroundColor: 'white',
     height: '88%',
-    marginTop: '25%',
+    marginTop: '30%',
   },
   mainMenu: {
     position: 'absolute',
@@ -423,7 +419,7 @@ const styles = StyleSheet.create({
   activeCertificationDiv: {
     borderRadius: 10,
     flexWrap: 'wrap',
-    minWidth: 360,
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
     resizeMode: 'cover',
@@ -434,7 +430,7 @@ const styles = StyleSheet.create({
   },
   activeAppoinmentsDiv: {
     borderRadius: 10,
-    minWidth: 360,
+    width: '100%',
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -510,6 +506,15 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingLeft: 13,
     paddingRight: 20,
+    paddingBottom: 10,
+  },
+  parentNameContainer1: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: 10,
+    paddingLeft: 0,
+    paddingRight: 0,
     paddingBottom: 10,
   },
   bluebox: {

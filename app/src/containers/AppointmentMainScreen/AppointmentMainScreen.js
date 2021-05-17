@@ -246,23 +246,21 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     backgroundColor: 'white',
     height: '88%',
-    marginTop: '25%',
+    marginTop: '30%',
   },
   activeCertificationDiv: {
     borderRadius: 10,
     flexWrap: 'wrap',
-
     display: 'flex',
     flexDirection: 'column',
     resizeMode: 'cover',
     overflow: 'hidden',
-    minWidth: 360,
+    width: '100%',
     marginEnd: 10,
     maxHeight: 153,
   },
   activeAppoinmentsDiv: {
     borderRadius: 10,
-
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -270,7 +268,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     resizeMode: 'cover',
     overflow: 'hidden',
-    minWidth: 360,
+    maxWidth: 360,
     minHeight: 153,
   },
   contentPadding: {
