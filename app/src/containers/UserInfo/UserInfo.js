@@ -33,6 +33,7 @@ import {
   updateUserAction,
   getRelationsAction,
   getRegionsAction,
+  moveToOtpScreen
 } from './Actions';
 import {emailRegex} from '../../commons/Constants';
 import {
@@ -65,6 +66,7 @@ function UserInfo({
   relations,
   regions,
   getRegions,
+  moveToOtpScreen,
   route: {
     params: {phone},
   },
@@ -84,7 +86,7 @@ function UserInfo({
   );
   const [showCalender, setShowCalender] = useState(false);
   const [calDate, setCalDate] = useState(new Date());
-  const [city, setCity] = useState('Bavaria');
+  const [city, setCity] = useState('Berlin');
   const isFocused = useIsFocused();
   const [taxId, setTaxId] = useState('');
   const [email, setEmail] = useState('');
@@ -298,6 +300,8 @@ function UserInfo({
 
     if (!isFamily && !editMode) {
       signUp(data);
+    //  moveToOtpScreen(navigation,data);
+
     } else {
       const dataObj = (route.params && route.params.data) || '';
       let data = {
@@ -534,6 +538,7 @@ function UserInfo({
               onChangeText={value => setZimmer(value)}></TextInput>
           </View>
           <DropDownPicker
+            defaultValue={city}
             items={regions}
             placeholder={I18n.t('Select Region')}
             containerStyle={{height: 48}}
@@ -556,6 +561,7 @@ function UserInfo({
           <TextInput
             placeholderTextColor={'#a29d9d'}
             value={postalCode}
+            maxLength={5}
             textContentType="postalCode"
             underlineColorAndroid="transparent"
             placeholder={I18n.t('Postal Code')}
@@ -629,6 +635,7 @@ function UserInfo({
 const mapDispatchToProps = dispatch => {
   return {
     moveToMainScreen: navigation => moveToMainScreenAction(navigation),
+    moveToOtpScreen: (navigation,data) =>moveToOtpScreen(navigation,data),
     signUp: user => dispatch(signUpAction(user)),
     addFamilyMember: data => dispatch(addFamilyMemberAction(data)),
     updateFamilyMember: data => dispatch(updateFamilyMemberAction(data)),

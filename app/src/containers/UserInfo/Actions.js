@@ -69,3 +69,7 @@ export const getRegionsAction = (payload) => {
 export const moveToMainScreenAction = navigation => {
   return navigation.replace('MainScreen');
 };
+
+export const moveToOtpScreen = (navigation,data) => {
+  return navigation.replace('phone');
+};

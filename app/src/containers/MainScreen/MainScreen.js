@@ -15,6 +15,7 @@ import Orientation from 'react-native-orientation-locker';
 import {WHITE_COLOR} from '../../theme/Colors';
 import {RFValue} from 'react-native-responsive-fontsize';
 import BottomNavigator from '../../components/BottomNavigator';
+import { width, height, totalSize } from 'react-native-dimension';
 
 import {
   getActiveAppointmentsAction,
@@ -158,6 +159,7 @@ const MainScreen = ({
       <View
         style={{
           marginBottom: 8,
+          flexGrow:1
         }}>
         <TouchableOpacity
           style={styles.activeAppoinmentsDiv}
@@ -166,7 +168,8 @@ const MainScreen = ({
           }>
           <ImageBackground
             source={activeCertificationBg}
-            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
+            style={{width: '100%', height: '100%', resizeMode: 'cover'}}
+            >
             <View style={styles.parentNameContainer}>
               <View style={styles.nameTextContainer}>
                 <Text style={styles.boxHeading}>
@@ -281,14 +284,19 @@ const MainScreen = ({
               </View>
             )}
           </View>
-          <View style={styles.actionCertificateContainer}>
-            <Text style={styles.boxTopHeading}>{I18n.t('APPOINTMENTS')}</Text>
+          {/* <View style={styles.actionCertificateContainer}> */}
+            <Text style={styles.boxTopHeadingAppointment}>{I18n.t('APPOINTMENTS')}</Text>
             {activeAppointments ? (
               <FlatList
-                data={activeAppointments?.data?.data}
+              style={{
+                height: height(30) ,
+                 flexGrow: 1
+              }}               
+               data={activeAppointments?.data?.data}
                 renderItem={renderItemAppointment}
                 keyExtractor={item => item.id}
                 extraData={selectedId}
+                contentContainerStyle={{paddingBottom:60}}
               />
             ) : (
               <View
@@ -319,7 +327,7 @@ const MainScreen = ({
                 </View>
               </View>
             )}
-          </View>
+          {/* </View> */}
         </View>
       </View>
       <TouchableOpacity
@@ -328,6 +336,7 @@ const MainScreen = ({
         <Image source={plusIcon} />
       </TouchableOpacity>
       <BottomNavigator
+       style={styles.footer}
         navigation={navigation}
         selectedItem={{id: 1, label: 'Home'}}></BottomNavigator>
       {loader ? (
@@ -380,6 +389,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f8fbfa',
+  },
+  footer: {
+    position: 'absolute',
+    bottom:0,
+    left:0
   },
   mainDivPad: {
     paddingLeft: '4%',
@@ -492,6 +506,13 @@ const styles = StyleSheet.create({
     color: '#595050',
     fontWeight: '600',
     fontSize: RFValue(12, 580),
+  },
+  boxTopHeadingAppointment: {
+    marginBottom: 8,
+    color: '#595050',
+    fontWeight: '600',
+    fontSize: RFValue(12, 580),
+    marginTop:8,
   },
   nameContainer: {
     alignSelf: 'stretch',
