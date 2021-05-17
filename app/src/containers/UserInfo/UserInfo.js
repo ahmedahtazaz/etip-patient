@@ -83,7 +83,7 @@ function UserInfo({
   );
   const [showCalender, setShowCalender] = useState(false);
   const [calDate, setCalDate] = useState(new Date());
-  const [city, setCity] = useState('Bavaria');
+  const [city, setCity] = useState('Berlin');
   const isFocused = useIsFocused();
   const [taxId, setTaxId] = useState('');
   const [email, setEmail] = useState('');
@@ -518,6 +518,7 @@ function UserInfo({
               onChangeText={value => setZimmer(value)}></TextInput>
           </View>
           <DropDownPicker
+            defaultValue={city}
             items={regions}
             placeholder={I18n.t('Select Region')}
             containerStyle={{height: 48}}
@@ -540,6 +541,7 @@ function UserInfo({
           <TextInput
             placeholderTextColor={'#a29d9d'}
             value={postalCode}
+            maxLength={5}
             textContentType="postalCode"
             underlineColorAndroid="transparent"
             placeholder={I18n.t('Postal Code')}

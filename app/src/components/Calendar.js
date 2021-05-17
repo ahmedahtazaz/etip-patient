@@ -5,6 +5,7 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
+import moment from 'moment';
 
 const Calendar = ({onDateChange}) => {
   return (
@@ -16,6 +17,8 @@ const Calendar = ({onDateChange}) => {
           color: 'black',
         }}
         onDateChange={onDateChange}
+        minDate={moment().toDate()}
+
       />
     </View>
   );
