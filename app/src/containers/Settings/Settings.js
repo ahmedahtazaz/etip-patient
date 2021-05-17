@@ -210,7 +210,6 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     height: '10%',
     height: '8%',
-    position: 'absolute',
     bottom: 5,
   },
   submitText: {
