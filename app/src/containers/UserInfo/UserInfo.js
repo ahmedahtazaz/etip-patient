@@ -30,6 +30,7 @@ import {
   updateUserAction,
   getRelationsAction,
   getRegionsAction,
+  moveToOtpScreen
 } from './Actions';
 import {emailRegex} from '../../commons/Constants';
 import {
@@ -62,6 +63,7 @@ function UserInfo({
   relations,
   regions,
   getRegions,
+  moveToOtpScreen,
   route: {
     params: {phone},
   },
@@ -295,6 +297,8 @@ function UserInfo({
 
     if (!isFamily && !editMode) {
       signUp(data);
+    //  moveToOtpScreen(navigation,data);
+
     } else {
       const dataObj = (route.params && route.params.data) || '';
       let data = {
@@ -612,6 +616,7 @@ function UserInfo({
 const mapDispatchToProps = dispatch => {
   return {
     moveToMainScreen: navigation => moveToMainScreenAction(navigation),
+    moveToOtpScreen: (navigation,data) =>moveToOtpScreen(navigation,data),
     signUp: user => dispatch(signUpAction(user)),
     addFamilyMember: data => dispatch(addFamilyMemberAction(data)),
     updateFamilyMember: data => dispatch(updateFamilyMemberAction(data)),
