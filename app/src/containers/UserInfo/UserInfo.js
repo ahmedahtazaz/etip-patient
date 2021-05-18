@@ -169,7 +169,10 @@ function UserInfo({
         setMobileNo(data.mobileNumber);
         setSchiller(data.address.street);
         setZimmer(data.address.houseNo);
-        data.address.city && setCity(capitalizeFirstLetter(data.address.city));
+        console.log('test',typeof data.address.city);
+
+     
+      data.address.city && setCity(capitalizeFirstLetter(data.address.city));
         setPostalCode(data.address.zipCode);
       }
     }
@@ -353,6 +356,7 @@ function UserInfo({
   const capitalizeFirstLetter = string => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
+  console.log(city);
   return (
     <ScrollView style={{height: '100%'}} ref={scrollRef}>
       <View style={styles.header}>
@@ -379,8 +383,8 @@ function UserInfo({
                 ? isFamily
                   ? I18n.t('Add Family')
                   : I18n.t('User Information')
-                  : I18n.t('Edit User Information')}
-                  </Text>
+                : I18n.t('Edit User Information')}
+            </Text>
           </View>
           <View style={styles.smallHeading}>
             <Text style={styles.smallHeadingText}>
@@ -547,7 +551,7 @@ function UserInfo({
               onChangeText={value => setZimmer(value)}></TextInput>
           </View>
           <DropDownPicker
-            defaultValue={city}
+            defaultValue={route?.params?.data?.address?.city}
             items={regions}
             placeholder={I18n.t('Select Region')}
             containerStyle={{height: 48}}
