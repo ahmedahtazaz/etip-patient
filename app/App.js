@@ -73,7 +73,7 @@ const App: () => React$Node = () => {
                     component={Splash}
                     options={{ headerShown: false }}
                   />
-                    <Stack.Screen
+                  <Stack.Screen
                     name="WelcomeScreen"
                     component={Welcome}
                     options={{ headerShown: false }}
@@ -120,9 +120,21 @@ const App: () => React$Node = () => {
                     component={VerifierSettings}
                     options={{ headerShown: false }}
                   />
-                     <Stack.Screen
+                  <Stack.Screen
                     name="ChangeLanguage"
                     component={ChangeLanguage}
+                    options={{ headerShown: false }}
+                  />
+
+                  <Stack.Screen
+                    name="AppointmentCalender"
+                    component={AppointmentCalender}
+                    options={{ headerShown: false }}
+                  />
+
+                  <Stack.Screen
+                    name="testCenter"
+                    component={TestCenter}
                     options={{ headerShown: false }}
                   />
                 </Stack.Navigator>

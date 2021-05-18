@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {connect} from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
 import {
   WHITE_COLOR,
   PRIMARY_COLOR,
@@ -10,7 +10,7 @@ import {
 import I18n from '../../translations/I18n';
 
 import Orientation from 'react-native-orientation-locker';
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import {
   ActivityIndicator,
   Image,
@@ -22,18 +22,32 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import {RFValue} from 'react-native-responsive-fontsize';
+import { RFValue } from 'react-native-responsive-fontsize';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import RadioButton from '../../components/RadioButton';
-import {moveToMainScreenAction} from './Actions';
+import { moveToMainScreenAction } from './Actions';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import { emailRegex, showToast } from '../../commons/Constants';
+import { getRegionsAction, resetIsUserCreatedAction } from '../UserInfo/Actions';
+import { get_regions, organizationName, signup_url } from '../../commons/environment';
+import { createUserAction } from './Action';
 const welcomeLogo = require('../../assets/images/welcome-logo.png');
 const welcomeImg = require('../../assets/images/welcome-image.png');
 const currentDate = new Date();
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
-function VerifierUserInfo({navigation, loader}) {
+function VerifierUserInfo({
+  navigation,
+  loader,
+  getRegions,
+  regions,
+  createUser,
+  errMessage,
+  isUserCreated,
+  resetIsUserCreated,
+  userData
+}) {
   const [isFamily, setIsFamily] = useState(false);
   const [fName, setFName] = useState('');
   const [lName, setLName] = useState('');
@@ -42,20 +56,20 @@ function VerifierUserInfo({navigation, loader}) {
   const [other, setOther] = useState(false);
   const [dob, setDob] = useState(
     currentDate.getDate() +
-      '-' +
-      currentDate.getMonth() +
-      '-' +
-      currentDate.getFullYear(),
+    '-' +
+    currentDate.getMonth() +
+    '-' +
+    currentDate.getFullYear(),
   );
   const [showCalender, setShowCalender] = useState(false);
   const [calDate, setCalDate] = useState(new Date());
-  const [city, setCity] = useState('Bavaria');
+  const [city, setCity] = useState('Berlin');
   const isFocused = useIsFocused();
   const [taxId, setTaxId] = useState('');
   const [email, setEmail] = useState('');
   const [mobileNo, setMobileNo] = useState('');
   const [schiller, setSchiller] = useState('');
-  const [zimmer, setzimmer] = useState('');
+  const [zimmer, setZimmer] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [relation, setRelation] = useState('Wife');
 
@@ -64,6 +78,13 @@ function VerifierUserInfo({navigation, loader}) {
   useEffect(() => {
     Orientation.lockToPortrait();
   }, [isFocused]);
+
+  useEffect(() => {
+    let data = {
+      url: get_regions
+    }
+    getRegions(data)
+  }, [])
 
   const _handleDatePicked = (e, pickeddate) => {
     const date = new Date(pickeddate);
@@ -75,8 +96,82 @@ function VerifierUserInfo({navigation, loader}) {
     if (day) setCalDate(date);
   };
 
+  const continueHandler = () => {
+    if (!fName) {
+      showToast('Please Enter First Name');
+      return;
+    }
+    if (!lName) {
+      showToast('Please Enter Last Name');
+      return;
+    }
+    if (!taxId) {
+      showToast('Please Enter Tax ID');
+      return;
+    }
+    if (!email || !email.match(emailRegex)) {
+      showToast('Please Enter a valid email');
+      return;
+    }
+
+    if (!mobileNo || !mobileNo.match('^[+]49[0-9]{10}$')) {
+      showToast('Please enter a valid phone number');
+      return;
+    }
+    if (!schiller) {
+      showToast('Please Enter street');
+      return;
+    }
+    if (!zimmer) {
+      showToast('Please Enter house no');
+      return;
+    }
+    if (!postalCode) {
+      showToast('Please Enter postal code');
+      return;
+    }
+
+    let data = {
+      body: {
+        organizationName: organizationName,
+        firstName: fName,
+        lastName: lName,
+        taxId,
+        email,
+        mobileNumber: mobileNo,
+        dateOfBirth: dob,
+        gender: male ? 'male' : female ? 'female' : 'other',
+        address: {
+          street: schiller,
+          houseNo: zimmer,
+          city,
+          zipCode: postalCode,
+        }
+      },
+      url: `https://hlf-backend-1.azurewebsites.net/${signup_url}`
+    }
+
+
+    console.log("data: ", data);
+    createUser(data);
+  }
+
+  useEffect(() => {
+    if (errMessage) {
+      showToast(errMessage);
+    }
+  }, [errMessage]);
+
+  useEffect(() => {
+    if (isUserCreated) {
+      showToast('user created');
+      navigation.navigate('AppointmentCalender', { candidate: userData, userInfo: userData, fromVerifierUserInfo: true })
+      resetIsUserCreated()
+    }
+  }, [isUserCreated]);
+
   return (
-    <ScrollView style={{height: '100%'}} ref={scrollRef}>
+    <ScrollView style={{ height: '100%' }} ref={scrollRef}>
       <View style={styles.background}>
         <View style={styles.innerDiv}>
           <View style={styles.header}>
@@ -95,7 +190,7 @@ function VerifierUserInfo({navigation, loader}) {
             </View>
           </View>
 
-          <View style={{backgroundColor: '#F5F9F8'}}>
+          <View style={{ backgroundColor: '#F5F9F8' }}>
             <View style={styles.infoContainerChild}>
               <View style={styles.mainHeading}>
                 <Text style={styles.mainHeadingText}>{I18n.t('USER INFORMATION')}</Text>
@@ -154,56 +249,6 @@ function VerifierUserInfo({navigation, loader}) {
                     widthFactorMain="25"></RadioButton>
                 </View>
               </View>
-              {isFamily ? (
-                <DropDownPicker
-                  items={[
-                    {
-                      label: 'Brother',
-                      value: 'Brother',
-                    },
-                    {
-                      label: 'Sister',
-                      value: 'Sister',
-                    },
-                    {
-                      label: 'Mother',
-                      value: 'Mother',
-                    },
-                    {
-                      label: 'Father',
-                      value: 'Father',
-                    },
-                    {
-                      label: 'Son',
-                      value: 'Son',
-                    },
-                    {
-                      label: 'Daughter',
-                      value: 'Daughter',
-                    },
-                    {
-                      label: 'Wife',
-                      value: 'Wife',
-                    },
-                  ]}
-                  defaultValue={relation}
-                  containerStyle={{height: '6%', marginBottom: '4%'}}
-                  style={{
-                    backgroundColor: '#F5F9F8',
-                    fontSize: RFValue(14, 580),
-                    color: '#243E3B',
-                  }}
-                  itemStyle={{
-                    justifyContent: 'flex-start',
-                  }}
-                  dropDownStyle={{
-                    backgroundColor: '#F5F9F8',
-                    fontSize: RFValue(14, 580),
-                    color: '#243E3B',
-                  }}
-                  onChangeItem={item => setRelation(item.value)}
-                />
-              ) : null}
               <TextInput
                 placeholderTextColor={'#a29d9d'}
                 value={dob}
@@ -261,42 +306,21 @@ function VerifierUserInfo({navigation, loader}) {
                   onChangeText={value => setSchiller(value)}></TextInput>
                 <TextInput
                   placeholderTextColor={'#a29d9d'}
-                  value={schiller}
+                  value={zimmer}
                   textContentType="schiller"
                   placeholder="zimmer"
                   style={styles.inputStyle}
                   onChangeText={value => setZimmer(value)}></TextInput>
               </View>
               <DropDownPicker
-                items={[
-                  {
-                    label: 'Bavaria',
-                    value: 'Bavaria',
-                  },
-                  {
-                    label: 'Berlin',
-                    value: 'Berlin',
-                  },
-                  {
-                    label: 'Munich',
-                    value: 'Munich',
-                  },
-                  {
-                    label: 'Frankfurt',
-                    value: 'Frankfurt',
-                  },
-                  {
-                    label: 'Leipzig',
-                    value: 'Leipzig',
-                  },
-                ]}
+                items={regions}
                 defaultValue={city}
-                containerStyle={{height: 48}}
+                containerStyle={{ height: 48 }}
                 style={{
                   backgroundColor: '#F5F9F8',
                   fontSize: RFValue(14, 580),
                   color: '#243E3B',
-                  borderColor:'#F5F9F8'
+                  borderColor: '#F5F9F8'
                 }}
                 itemStyle={{
                   justifyContent: 'flex-start',
@@ -310,7 +334,7 @@ function VerifierUserInfo({navigation, loader}) {
               />
               <TextInput
                 placeholderTextColor={'#a29d9d'}
-                value={fName}
+                value={postalCode}
                 textContentType="postalCode"
                 underlineColorAndroid="transparent"
                 placeholder={I18n.t("Postal Code")}
@@ -318,35 +342,7 @@ function VerifierUserInfo({navigation, loader}) {
                 onChangeText={value => setPostalCode(value)}></TextInput>
               <TouchableOpacity
                 style={[styles.container, styles.submitButtonDark]}
-                onPress={() => {
-                  setIsFamily(true);
-                  setFName('');
-                  setLName('');
-                  setMale(true);
-                  setFemale(false);
-                  setOther(false);
-                  setDob(
-                    currentDate.getDate() +
-                      '-' +
-                      currentDate.getMonth() +
-                      '-' +
-                      currentDate.getFullYear(),
-                  );
-                  setCalDate(new Date());
-                  setCity('Bavaria');
-                  setEmail('');
-                  setTaxId('');
-                  setPostalCode('');
-                  setMobileNo('');
-                  setSchiller('');
-                  setzimmer('');
-                  setRelation('Son');
-                  scrollRef.current.scrollTo({
-                    y: 0,
-                    animated: true,
-                  });
-                  navigation.navigate('TestInformationScreen');
-                }}>
+                onPress={continueHandler}>
                 <Text style={styles.saveCloseText}>{I18n.t('Continue')}</Text>
               </TouchableOpacity>
               {loader ? (
@@ -374,7 +370,25 @@ function VerifierUserInfo({navigation, loader}) {
   );
 }
 
-export default VerifierUserInfo;
+const mapDispatchToProps = dispatch => {
+  return {
+    getRegions: data => dispatch(getRegionsAction(data)),
+    createUser: data => dispatch(createUserAction(data)),
+    resetIsUserCreated: () => dispatch(resetIsUserCreatedAction())
+  };
+};
+
+const mapStateToProps = state => {
+  return {
+    regions: state.userInfoReducer.regions,
+    errMessage: state.verifierUserInfoReducer.errMessage,
+    loader: state.verifierUserInfoReducer.loader,
+    isUserCreated: state.verifierUserInfoReducer.isUserCreated,
+    userData: state.verifierUserInfoReducer.userData
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(VerifierUserInfo);
 
 // Style for "Background"
 const styles = StyleSheet.create({

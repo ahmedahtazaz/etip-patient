@@ -41,6 +41,9 @@ import { updateEmailActionWatcher } from '../containers/MainScreen/Saga';
 import { verifyPinActionWatcher } from '../containers/PinScreen/Saga';
 import { getTestPointsActionWatcher } from '../containers/TestCenterVerifier/Saga';
 import { getPendingApplicationsActionWatcher } from '../containers/TestCenterInfo/Saga';
+import { getStartApplicationActionWatcher } from '../containers/QRScreen/Saga';
+import { createUserActionWatcher } from '../containers/VerifierUserInfo/Saga';
+import { issueCertificateActionWatcher } from '../containers/TestInformation/Saga';
 
 export default function* rootSaga() {
   yield all([
@@ -83,6 +86,9 @@ export default function* rootSaga() {
 
     verifyPinActionWatcher(),
     getTestPointsActionWatcher(),
-    getPendingApplicationsActionWatcher()
+    getPendingApplicationsActionWatcher(),
+    getStartApplicationActionWatcher(),
+    createUserActionWatcher(),
+    issueCertificateActionWatcher()
   ]);
 }

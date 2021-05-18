@@ -74,7 +74,7 @@ function TestCenterVerifier({
 
   useEffect(() => {
     let data = {
-      url: `${get_test_points_url}/${verifyPinPayload?.testCenter?._id}`
+      url: `${get_test_points_url}/${verifyPinPayload?.user?.testCenter?._id}`
     }
     getTestPoints(data);
   }, [])
@@ -127,7 +127,7 @@ function TestCenterVerifier({
           </View>
           <View
             style={styles.item}>
-            <Text style={styles.name}>{I18n.t(verifyPinPayload?.testCenter.name)}</Text>
+            <Text style={styles.name}>{I18n.t(verifyPinPayload?.user?.testCenter.name)}</Text>
             {/* <Text style={styles.address}>{I18n.t("SudLager 220g, g2249 Vilseck, Germany")}</Text> */}
           </View>
         </View>
@@ -242,7 +242,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  console.log('testCenterVerifierReducer state:: ', state.testCenterVerifierReducer)
   return {
     testPoints: state.testCenterVerifierReducer.testPoints,
     loader: state.testCenterVerifierReducer.loader,

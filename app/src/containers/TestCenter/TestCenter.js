@@ -1,23 +1,23 @@
-import React, {useState, useEffect} from 'react';
-import {SearchBar} from 'react-native-elements';
-import {connect} from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { SearchBar } from 'react-native-elements';
+import { connect } from 'react-redux';
 
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Dimensions} from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions } from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import {RFValue} from 'react-native-responsive-fontsize';
+import { RFValue } from 'react-native-responsive-fontsize';
 import I18n from '../../translations/I18n';
-import {get_test_centers} from '../../commons/environment';
-import {GETTestCenters} from './Action';
-import {setTestCenterAction} from '../AppointmentCalender/Actions';
+import { get_test_centers } from '../../commons/environment';
+import { GETTestCenters } from './Action';
+import { setTestCenterAction } from '../AppointmentCalender/Actions';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const TestCenter = ({
   route: {
-    params: {region},
+    params: { region },
   },
-  navigation: {goBack},
+  navigation: { goBack },
   GETTestCenters,
   testCenterData,
   setTestCenterValue,
@@ -26,13 +26,13 @@ const TestCenter = ({
   const [filteredTestCenters, setFilterTestCenters] = useState([]);
 
   useEffect(() => {
-    GETTestCenters(get_test_centers + region);
+    GETTestCenters(`https://hlf-backend-1.azurewebsites.net${get_test_centers}${region}`);
   }, []);
 
   const searchTestCenter = text => {
     setSearchText(text);
     let filteredTestCenters = testCenterData.filter(
-      ({testCenter}) =>
+      ({ testCenter }) =>
         testCenter.name.toLowerCase().indexOf(text.toLowerCase()) > -1,
     );
     setFilterTestCenters(filteredTestCenters);
@@ -47,7 +47,7 @@ const TestCenter = ({
     goBack();
   };
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     return (
       <TouchableOpacity onPress={() => selectTestCenter(item)}>
         <View style={styles.nameTextContainer}>
@@ -83,7 +83,7 @@ const TestCenter = ({
               name="chevron-left"
               color="#000"
               size={40}
-              style={{fontWeight: 'bold'}}
+              style={{ fontWeight: 'bold' }}
             />
           </TouchableOpacity>
         </View>

@@ -4,7 +4,6 @@ import AxiosInstance from '../../commons/AxiosInstance';
 
 
 function* getPendingApplications(action) {
-    console.log('getPendingApplications action::: ', action)
     try {
         const res = yield call(AxiosInstance.get, action.payload.url);
         console.log("getPendingApplications res::: ", res.success?.data?.data);
@@ -17,7 +16,6 @@ function* getPendingApplications(action) {
             });
         }
     } catch (error) {
-        console.log('getPendingApplications catch error:: ', error)
         yield put({ type: GET_TEST_POINTS_FAILURE, errMessage: error });
     }
 }

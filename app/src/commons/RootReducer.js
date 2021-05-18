@@ -19,6 +19,9 @@ import updateEmailReducer from '../containers/UpdateOtherSettings/Reducer';
 import pinScreenReducer from '../containers/PinScreen/Reducer';
 import testCenterVerifierReducer from '../containers/TestCenterVerifier/Reducer';
 import testCenterInfoReducer from '../containers/TestCenterInfo/Reducer';
+import qrScreenReducer from '../containers/QRScreen/Reducer';
+import verifierUserInfoReducer from '../containers/VerifierUserInfo/Reducer';
+import issueCertificateReducer from '../containers/TestInformation/Reducer';
 
 const createRootReducer = () =>
   combineReducers({
@@ -43,7 +46,11 @@ const createRootReducer = () =>
 
     pinScreenReducer: pinScreenReducer(),
     testCenterVerifierReducer: testCenterVerifierReducer(),
-    testCenterInfoReducer: testCenterInfoReducer()
+    testCenterInfoReducer: testCenterInfoReducer(),
+    qrScreenReducer: qrScreenReducer(),
+    verifierUserInfoReducer: verifierUserInfoReducer(),
+    issueCertificateReducer: issueCertificateReducer()
+
   });
 
 export default createRootReducer;

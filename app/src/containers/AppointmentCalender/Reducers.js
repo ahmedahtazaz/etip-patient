@@ -20,6 +20,7 @@ const INITIAL_STATE = {
   appointmentSlotsData: null,
   testCenter: null,
   appointmentCreated: false,
+  appointmentCreatedPayload: null
 };
 
 export default function RegionReducer() {
@@ -83,6 +84,7 @@ export default function RegionReducer() {
           ...state,
           loader: false,
           appointmentCreated: true,
+          appointmentCreatedPayload: action.payload
         };
 
       case CREATE_APPOINTMENT_FAILURE:

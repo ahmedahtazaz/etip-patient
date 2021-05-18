@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -7,26 +7,66 @@ import {
   Alert,
   TouchableOpacity,
   ImageBackground,
-  Image,
+  ActivityIndicator,
   Dimensions,
 } from 'react-native';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { getStartApplicationAction, resetIsApplicationStartedAction } from './Actions';
+
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import I18n from '../../translations/I18n';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import {RFValue} from 'react-native-responsive-fontsize';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { get_start_application_url } from '../../commons/environment';
+import { connect } from 'react-redux';
+import { showToast } from '../../commons/Constants';
 const scanQrBg = require('../../assets/images/scan-qr-bg.png');
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
-function QRScreen({navigation}) {
-  const [scan, setScan] = useState(true);
+function QRScreen({
+  navigation,
+  getStartApplication,
+  isApplicationStarted,
+  resetIsApplicationStarted,
+  loader,
+  errMessage
+}) {
+  const [isScaned, setIsScaned] = useState(false);
   const [certificate_request, setCertificateRequest] = useState('');
   const [proof_request, setProofRequest] = useState('');
   var arr = [];
   var arr2 = [];
 
-  const onSuccess = e => {};
+  const onSuccess = e => {
+    console.log('e.data:: ', e.data)
+    const qrData = JSON.parse(e.data);
+    console.log("data: ", qrData)
+    if (!isScaned && qrData && qrData.applicationId) {
+      let data = {
+        url: `${get_start_application_url}/${qrData.applicationId}`
+      }
+      getStartApplication(data);
+      setIsScaned(true);
+    }
+  };
+
+  useEffect(() => {
+    if (isApplicationStarted) {
+      setIsScaned(false);
+      navigation.navigate("TestInformationScreen")
+      resetIsApplicationStarted();
+    }
+
+  }, [isApplicationStarted])
+
+
+  useEffect(() => {
+    if (errMessage) {
+      showToast(errMessage);
+      setIsScaned(false)
+    }
+  }, [errMessage]);
 
   return (
     <View style={styles.MainContainer}>
@@ -37,7 +77,7 @@ function QRScreen({navigation}) {
               name="chevron-left"
               color="#000"
               size={40}
-              style={{fontWeight: 'bold'}}
+              style={{ fontWeight: 'bold' }}
             />
           </TouchableOpacity>
         </View>
@@ -50,7 +90,7 @@ function QRScreen({navigation}) {
           <QRCodeScanner
             reactivate={true}
             showMarker={true}
-            cameraStyle={{width: '90%', marginLeft: '5%'}}
+            cameraStyle={{ width: '90%', marginLeft: '5%' }}
             customMarker={
               <View
                 style={{
@@ -89,6 +129,19 @@ function QRScreen({navigation}) {
               </TouchableOpacity>
             }
           />
+          {loader ? (
+            <View
+              style={{
+                alignSelf: 'center',
+                height: '100%',
+                width: '100%',
+                justifyContent: 'center',
+                position: 'absolute',
+                zIndex: 1000,
+              }}>
+              <ActivityIndicator size="large" color="grey" animating={loader} />
+            </View>
+          ) : null}
         </ImageBackground>
       </View>
     </View>
@@ -122,7 +175,7 @@ const styles = StyleSheet.create({
     fontSize: RFValue(16, 580),
   },
   scanner: {
-    height:'95%',
+    height: '95%',
     alignItems: 'center',
     justifyContent: 'center',
     borderTopLeftRadius: 20,
@@ -209,4 +262,21 @@ const styles = StyleSheet.create({
   },
 });
 
-export default QRScreen;
+const mapDispatchToProps = dispatch => {
+  return {
+    getStartApplication: data => dispatch(getStartApplicationAction(data)),
+    resetIsApplicationStarted: () => dispatch(resetIsApplicationStartedAction())
+  };
+};
+
+const mapStateToProps = state => {
+  return {
+    regions: state.userInfoReducer.regions,
+    loader: state.qrScreenReducer.loader,
+    isApplicationStarted: state.qrScreenReducer.isApplicationStarted,
+    errMessage: state.qrScreenReducer.errMessage
+
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(QRScreen);

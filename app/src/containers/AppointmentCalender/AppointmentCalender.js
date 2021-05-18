@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import {
@@ -10,12 +10,12 @@ import {
   Image,
   useWindowDimensions,
 } from 'react-native';
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
 import I18n from '../../translations/I18n';
 import Calendar from '../../components/Calendar';
-import {height} from 'react-native-dimension';
-import {ScrollView} from 'react-native-gesture-handler';
-import {connect} from 'react-redux';
+import { height } from 'react-native-dimension';
+import { ScrollView } from 'react-native-gesture-handler';
+import { connect } from 'react-redux';
 import {
   moveToTimeSlotsAction,
   GetRegions,
@@ -26,21 +26,23 @@ import {
   moveToTMainScreenAction,
 } from './Actions';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import {RFValue} from 'react-native-responsive-fontsize';
-import {WHITE_COLOR} from '../../theme/Colors';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { WHITE_COLOR } from '../../theme/Colors';
 import {
   create_appointment_url,
   get_appointment_slot_url,
   get_regions,
+  get_start_application_url,
 } from '../../commons/environment';
 import moment from 'moment';
-import {showToast} from '../../commons/Constants';
-import {ActivityIndicator} from 'react-native-paper';
+import { showToast } from '../../commons/Constants';
+import { ActivityIndicator } from 'react-native-paper';
+import { getStartApplicationAction, resetIsApplicationStartedAction } from '../QRScreen/Actions';
 const regionSelectedIcon = require('../../assets/images/region-selected-icon.png');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const Item = ({item, onPress, backgroundColor, textColor}) => (
+const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <Text style={[styles.title, textColor]}>{I18n.t(item.title)}</Text>
   </TouchableOpacity>
@@ -52,7 +54,7 @@ const AppointmentCalender = ({
   regionData,
   moveToTimeTestCenter,
   route: {
-    params: {candidate, userInfo},
+    params: { candidate, userInfo, fromVerifierUserInfo },
   },
   getAppointmentSlots,
   appointmentSlotsData,
@@ -63,6 +65,10 @@ const AppointmentCalender = ({
   loader,
   resetPage,
   moveToMainScreen,
+  appointmentCreatedPayload,
+  getStartApplication,
+  isApplicationStarted,
+  resetIsApplicationStarted
 }) => {
   const window = useWindowDimensions();
 
@@ -75,7 +81,7 @@ const AppointmentCalender = ({
   const onDateChange = date => {
     setDate(date);
     let data = {
-      url: `${get_appointment_slot_url}/${testCenter.testCenter._id}`,
+      url: `https://hlf-backend-1.azurewebsites.net${get_appointment_slot_url}/${testCenter.testCenter._id}`,
       body: {
         date: moment(date).format('DD/MM/YYYY'),
         timeZoneOffset: new Date().getTimezoneOffset(),
@@ -102,11 +108,25 @@ const AppointmentCalender = ({
   }, []);
 
   useEffect(() => {
-    if (appointmentCreated) {
+    if (appointmentCreated && !fromVerifierUserInfo) {
       resetPage();
       moveToMainScreen(navigation);
     }
+    if (fromVerifierUserInfo && appointmentCreatedPayload) {
+      let data = {
+        url: `${get_start_application_url}/${appointmentCreatedPayload.applicationId}`
+      }
+      getStartApplication(data);
+    }
   }, [appointmentCreated]);
+
+  useEffect(() => {
+    if (isApplicationStarted) {
+      navigation.navigate("TestInformationScreen")
+      resetIsApplicationStarted();
+    }
+
+  }, [isApplicationStarted])
 
   useEffect(() => {
     if (errMessage) {
@@ -135,7 +155,7 @@ const AppointmentCalender = ({
 
   const bookAppointmentHandler = () => {
     let data = {
-      url: `${create_appointment_url}`,
+      url: `https://hlf-backend-1.azurewebsites.net/${create_appointment_url}`,
       userId: candidate._id,
       body: {
         name: candidate.firstName,
@@ -168,7 +188,7 @@ const AppointmentCalender = ({
     bookAppointment(data);
   };
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     let imgsource = require('../../assets/images/bavaria.png');
     switch (item.id) {
       case 1:
@@ -192,7 +212,7 @@ const AppointmentCalender = ({
     }
     return (
       <TouchableOpacity
-        style={{marginStart: 8}}
+        style={{ marginStart: 8 }}
         style={styles.imgShadow}
         onPress={() => setSelectedRegion(item)}>
         <Image
@@ -238,7 +258,7 @@ const AppointmentCalender = ({
               name="chevron-left"
               color="#000"
               size={40}
-              style={{fontWeight: 'bold'}}
+              style={{ fontWeight: 'bold' }}
             />
           </TouchableOpacity>
         </View>
@@ -251,16 +271,16 @@ const AppointmentCalender = ({
           <View style={styles.nameContainer}>
             <View style={styles.parentNameContainer}>
               <View style={styles.nameTextContainer}>
-                <Text style={{marginStart: 8, color: '#adadad'}}>
+                <Text style={{ marginStart: 8, color: '#adadad' }}>
                   {I18n.t('Appointment For')}
                 </Text>
                 <Text
-                  style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
+                  style={{ color: '#20B2AA', textColor: 'grey', marginStart: 8 }}>
                   {`${candidate.firstName} ${candidate.lastName}`}
                 </Text>
               </View>
               <View>
-                <Icon name="cancel" color="red" size={25} style={{margin: 8}} />
+                <Icon name="cancel" color="red" size={25} style={{ margin: 8 }} />
               </View>
             </View>
           </View>
@@ -279,7 +299,7 @@ const AppointmentCalender = ({
             onPress={() => navigateToTestCenter()}>
             <View style={styles.nameTextContainer}>
               <Text
-                style={{color: '#20B2AA', textColor: 'grey', marginStart: 8}}>
+                style={{ color: '#20B2AA', textColor: 'grey', marginStart: 8 }}>
                 {testCenter?.testCenter?.name || I18n.t('Test Center')}
               </Text>
             </View>
@@ -292,11 +312,11 @@ const AppointmentCalender = ({
               onPress={toggleCalendarView}
               style={styles.parentNameContainer}>
               <View style={styles.nameTextContainer}>
-                <Text style={{marginStart: 8, color: '#606060'}}>
-                {I18n.t('Appointment Date')}
+                <Text style={{ marginStart: 8, color: '#606060' }}>
+                  {I18n.t('Appointment Date')}
                 </Text>
                 <Text
-                  style={{color: '#027279', textColor: 'grey', marginStart: 8}}>
+                  style={{ color: '#027279', textColor: 'grey', marginStart: 8 }}>
                   {moment(date).format('DD MMM YYYY')}
                 </Text>
               </View>
@@ -315,20 +335,20 @@ const AppointmentCalender = ({
           ) : null}
           {showSlots ? (
             <View style={styles.calenderContainer1}>
-              <Text style={{marginStart: 8}}>{I18n.t('Time Slot')}</Text>
+              <Text style={{ marginStart: 8 }}>{I18n.t('Time Slot')}</Text>
               {/* <Calendar/> */}
 
               <FlatList
                 data={appointmentSlotsData?.slots}
-                renderItem={({item}) => {
+                renderItem={({ item }) => {
                   if (item.timeSlot === selectedSlot) {
                     return (
                       <TouchableOpacity
                         style={styles.GridViewBlockStyleActive}
                         onPress={() => setSelectedSlot(null)}>
                         <Text style={styles.GridViewInsideTextItemStyleActive}>
-                          
-                        {I18n.t('item.timeSlot')}
+
+                          {I18n.t(item.timeSlot)}
                         </Text>
                       </TouchableOpacity>
                     );
@@ -339,8 +359,8 @@ const AppointmentCalender = ({
                       style={styles.GridViewBlockStyle}
                       onPress={() => setSelectedSlot(item.timeSlot)}>
                       <Text style={styles.GridViewInsideTextItemStyle}>
-                    
-                        {I18n.t('item.timeSlot')}
+
+                        {I18n.t(item.timeSlot)}
                       </Text>
                     </TouchableOpacity>
                   );
@@ -389,6 +409,8 @@ const mapDispatchToProps = dispatch => {
     bookAppointment: data => dispatch(bookAppointmentAction(data)),
     resetPage: () => dispatch(resetMakeAppointmentAction()),
     moveToMainScreen: navigation => moveToTMainScreenAction(navigation),
+    getStartApplication: data => dispatch(getStartApplicationAction(data)),
+    resetIsApplicationStarted: () => dispatch(resetIsApplicationStartedAction())
   };
 };
 
@@ -400,6 +422,8 @@ const mapStateToProps = state => {
     testCenter: state.RegionReducer.testCenter,
     appointmentCreated: state.RegionReducer.appointmentCreated,
     loader: state.RegionReducer.loader,
+    appointmentCreatedPayload: state.RegionReducer.appointmentCreatedPayload,
+    isApplicationStarted: state.qrScreenReducer.isApplicationStarted,
   };
 };
 
@@ -444,7 +468,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
-    height:'88%',
+    height: '88%',
     marginTop: '5%',
   },
   imgShadow: {
@@ -510,11 +534,11 @@ const styles = StyleSheet.create({
   bottom: {
     marginBottom: '10%',
     borderRadius: 10,
-    marginLeft:15,
-    marginRight:15,
-    position:'absolute',
-    width:'93%',
-    bottom:'2%',
+    marginLeft: 15,
+    marginRight: 15,
+    position: 'absolute',
+    width: '93%',
+    bottom: '2%',
   },
   regionSelectedDiv: {
     position: 'absolute',

@@ -109,7 +109,7 @@ function TestCenterInfo({
               style={styles.centerLabel}
               onPress={() => navigation.navigate('TestCenter')}>
               <View>
-                <Text style={styles.centerTitle}>{I18n.t(verifyPinPayload?.testCenter?.name)}</Text>
+                <Text style={styles.centerTitle}>{I18n.t(verifyPinPayload?.user?.testCenter?.name)}</Text>
                 {/* <Text style={styles.centerName}>{I18n.t('Zeitfenster auswahlen')}</Text> */}
               </View>
             <View>
@@ -328,7 +328,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  console.log('testCenterInfoReducer state:: ', state.testCenterInfoReducer);
   return {
     loader: state.testCenterInfoReducer.loader,
     errMessage: state.testCenterInfoReducer.errMessage,

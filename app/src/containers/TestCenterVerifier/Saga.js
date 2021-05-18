@@ -4,10 +4,8 @@ import AxiosInstance from '../../commons/AxiosInstance';
 
 
 function* getTestPoints(action) {
-    console.log('getTestPoints action::: ', action)
     try {
         const res = yield call(AxiosInstance.get, action.payload.url);
-        console.log("getTestPoints res::: ", res.success?.data?.data);
         if (res.error) {
             yield put({ type: GET_TEST_POINTS_FAILURE, errMessage: res.error?.message });
         } else {
@@ -17,7 +15,6 @@ function* getTestPoints(action) {
             });
         }
     } catch (error) {
-        console.log('getTestPoints catch error:: ', error)
         yield put({ type: GET_TEST_POINTS_FAILURE, errMessage: error });
     }
 }
