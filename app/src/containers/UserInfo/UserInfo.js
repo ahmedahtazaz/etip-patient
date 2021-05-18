@@ -547,7 +547,6 @@ function UserInfo({
               onChangeText={value => setZimmer(value)}></TextInput>
           </View>
           <DropDownPicker
-
             defaultValue={city}
             items={regions}
             placeholder={I18n.t('Select Region')}
