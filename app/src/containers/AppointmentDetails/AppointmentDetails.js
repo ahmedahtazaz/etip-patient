@@ -198,16 +198,13 @@ const styles = StyleSheet.create({
   },
   activeAppoinmentsDiv: {
     borderRadius: 10,
-
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
     textAlign: 'left',
     marginBottom: 50,
-    
     resizeMode: 'cover',
     overflow: 'hidden',
-
     minHeight: 153,
   },
   mainView: {
@@ -340,7 +337,7 @@ const styles = StyleSheet.create({
   submitButtonDark: {
     width: 65,
     height: 38,
-    borderRadius: 17,
+    borderRadius: 10,
     backgroundColor: '#12878D',
     color: WHITE_COLOR,
     paddingTop: 10,
@@ -352,7 +349,7 @@ const styles = StyleSheet.create({
   submitButtonRed: {
     width: 65,
     height: 38,
-    borderRadius: 17,
+    borderRadius: 10,
     backgroundColor: '#FB4646',
     color: WHITE_COLOR,
     paddingTop: 10,

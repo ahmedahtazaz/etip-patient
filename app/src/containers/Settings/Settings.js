@@ -151,7 +151,7 @@ const Settings = ({
       />
 
       <TouchableOpacity
-        style={[styles.container, styles.submitButton]}
+        style={[styles.container1, styles.submitButton]}
         onPress={() => navigation.goBack()}>
         <Text style={styles.submitText} style={{color: '#F20000'}}>
           {I18n.t('Logout')}
@@ -205,13 +205,10 @@ const styles = StyleSheet.create({
     fontSize: RFValue(14, 580),
     fontWeight: '700',
     paddingTop: 20,
-    paddingBottom: 0,
+    paddingBottom: 20,
     paddingLeft: 15,
     paddingRight: 15,
-    height: '10%',
-    height: '8%',
-    position: 'absolute',
-    bottom: 5,
+    position:'relative'
   },
   submitText: {
     fontSize: RFValue(12, 580),

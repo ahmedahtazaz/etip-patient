@@ -410,6 +410,7 @@ function UserInfo({
                 placeholderTextColor={'#a29d9d'}
                 value={lName}
                 textContentType="familyName"
+                underlineColorAndroid="transparent"
                 placeholder={I18n.t('Last Name')}
                 style={styles.inputStyle}
                 onChangeText={value => setLName(value)}></TextInput>
@@ -478,6 +479,7 @@ function UserInfo({
             placeholderTextColor={'#a29d9d'}
             value={dob}
             textContentType="none"
+            underlineColorAndroid="transparent"
             placeholder="Date"
             style={styles.inputStyle1}
             
@@ -539,6 +541,7 @@ function UserInfo({
               placeholderTextColor={'#a29d9d'}
               value={zimmer}
               textContentType="schiller"
+              underlineColorAndroid="transparent"
               placeholder={I18n.t('House No.')}
               style={styles.inputStyle}
               onChangeText={value => setZimmer(value)}></TextInput>
