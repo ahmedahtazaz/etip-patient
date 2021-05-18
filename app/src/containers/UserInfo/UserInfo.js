@@ -379,8 +379,8 @@ function UserInfo({
                 ? isFamily
                   ? I18n.t('Add Family')
                   : I18n.t('User Information')
-                : I18n.t('Edit Family')}
-            </Text>
+                  : I18n.t('Edit User Information')}
+                  </Text>
           </View>
           <View style={styles.smallHeading}>
             <Text style={styles.smallHeadingText}>
