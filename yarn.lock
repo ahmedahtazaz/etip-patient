@@ -6229,7 +6229,7 @@ react-native-dimension@^1.0.6:
   resolved "https://registry.yarnpkg.com/react-native-dimension/-/react-native-dimension-1.0.6.tgz#049e40746160137f5e1dde89983b04ff8dc288d5"
   integrity sha1-BJ5AdGFgE39eHd6JmDsE/43CiNU=
 
-react-native-dropdown-picker@^4.0.9:
+react-native-dropdown-picker@4.0.9:
   version "4.0.9"
   resolved "https://registry.yarnpkg.com/react-native-dropdown-picker/-/react-native-dropdown-picker-4.0.9.tgz#e735714f53eb9243227cf4ffe5ca484b56513dba"
   integrity sha512-HJtl0KpgzEVY8AWoONTSIfs6tnCAXCnlGkT/aTX2UwQmcdtp9Y83aFnZEwsXZDLtpHvVqDJvyNJ6XX8cCZWaVg==

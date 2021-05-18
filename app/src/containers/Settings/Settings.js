@@ -35,7 +35,7 @@ const DATA = [
   },
   {
     id: 'Modify Sim',
-    title: 'Modify Sim',
+    title: 'Modify Sim Number',
     path: 'PhoneScreen',
   },
   {

@@ -46,6 +46,7 @@ import {
 } from '../../commons/environment';
 const welcomeLogo = require('../../assets/images/welcome-logo.png');
 const welcomeImg = require('../../assets/images/welcome-image.png');
+
 const currentDate = new Date();
 function UserInfo({
   loader,
@@ -71,6 +72,10 @@ function UserInfo({
     params: {phone},
   },
 }) {
+  const [items, setItems] = useState([
+    {label: 'Apple', value: 'apple'},
+    {label: 'Banana', value: 'banana'}
+  ]);
   const [isFamily, setIsFamily] = useState(false);
   const [fName, setFName] = useState('');
   const [lName, setLName] = useState('');
@@ -94,7 +99,7 @@ function UserInfo({
   const [schiller, setSchiller] = useState('');
   const [zimmer, setZimmer] = useState('');
   const [postalCode, setPostalCode] = useState('');
-  const [relation, setRelation] = useState('Wife');
+  const [relation, setRelation] = useState('father');
   const [editMode, setEditMode] = useState(false);
   const [isUserEdit, setIsUserEdit] = useState(false);
   const [isSaveOnly, setIsSaveOnly] = useState(false);
@@ -133,6 +138,7 @@ function UserInfo({
       setIsUserEdit(editUser);
       setIsFamily(!editUser || addFamily);
       setAddFamily(addFamily);
+      console.log(data);
 
       if (!addFamily) {
         setEditMode(true);
@@ -154,7 +160,7 @@ function UserInfo({
         }
 
         if (data.relation) {
-          setRelation(capitalizeFirstLetter(data.relation));
+          setRelation((data.relation));
         }
 
         setDob(data.dateOfBirth);
@@ -227,14 +233,14 @@ function UserInfo({
           currentDate.getFullYear(),
       );
     setCalDate(new Date());
-    setCity('Bavaria');
+    setCity('Berlin');
     setEmail('');
     setTaxId('');
     setPostalCode('');
     setMobileNo('');
     setSchiller('');
     setZimmer('');
-    setRelation('Son');
+    setRelation('father');
 
     scrollRef.current.scrollTo({
       y: 0,
@@ -347,7 +353,6 @@ function UserInfo({
   const capitalizeFirstLetter = string => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
-
   return (
     <ScrollView style={{height: '100%'}} ref={scrollRef}>
       <View style={styles.header}>
@@ -447,6 +452,7 @@ function UserInfo({
           </View>
           {isFamily ? (
             <DropDownPicker
+              defaultValue={relation}
               items={relations}
               placeholder={I18n.t('Select Relation')}
               containerStyle={{height: 62}}
@@ -538,6 +544,7 @@ function UserInfo({
               onChangeText={value => setZimmer(value)}></TextInput>
           </View>
           <DropDownPicker
+
             defaultValue={city}
             items={regions}
             placeholder={I18n.t('Select Region')}
@@ -548,7 +555,7 @@ function UserInfo({
               color: '#a29d9d',
               borderColor: '#F5F9F8',
             }}
-            itemStyle={{
+            itemStyle={{  
               justifyContent: 'flex-start',
             }}
             dropDownStyle={{
@@ -558,6 +565,7 @@ function UserInfo({
             }}
             onChangeItem={item => setCity(item.value)}
           />
+
           <TextInput
             placeholderTextColor={'#a29d9d'}
             value={postalCode}
