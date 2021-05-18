@@ -114,6 +114,7 @@ function VerifierUserInfo({navigation, loader}) {
                     placeholderTextColor={'#a29d9d'}
                     value={lName}
                     textContentType="familyName"
+                    underlineColorAndroid="transparent"
                     placeholder={I18n.t("Last Name")}
                     style={styles.inputStyle}
                     onChangeText={value => setLName(value)}></TextInput>
@@ -208,6 +209,7 @@ function VerifierUserInfo({navigation, loader}) {
                 placeholderTextColor={'#a29d9d'}
                 value={dob}
                 textContentType="none"
+                underlineColorAndroid="transparent"
                 placeholder="Date"
                 style={styles.inputStyle1}
                 onPressIn={() => {
@@ -263,6 +265,7 @@ function VerifierUserInfo({navigation, loader}) {
                   placeholderTextColor={'#a29d9d'}
                   value={schiller}
                   textContentType="schiller"
+                  underlineColorAndroid="transparent"
                   placeholder="zimmer"
                   style={styles.inputStyle}
                   onChangeText={value => setZimmer(value)}></TextInput>
