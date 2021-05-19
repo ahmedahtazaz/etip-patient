@@ -48,6 +48,8 @@ export const get_pending_applications_url = "/api/application/getPendingApplicat
 
 export const get_start_application_url = "/api/application/startApplication";
 
+export const get_assistance_url = "/api/settings/assistance/en";
+
 export const issue_certificate_url = "/api/application/issueCertificate"
 
 export const organizationName = 'eTip-german';

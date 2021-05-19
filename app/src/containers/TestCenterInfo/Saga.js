@@ -6,7 +6,6 @@ import AxiosInstance from '../../commons/AxiosInstance';
 function* getPendingApplications(action) {
     try {
         const res = yield call(AxiosInstance.get, action.payload.url);
-        console.log("getPendingApplications res::: ", res.success?.data?.data);
         if (res.error) {
             yield put({ type: GET_PENDING_APPLICATIONS_FAILURE, errMessage: res.error?.message });
         } else {

@@ -9,6 +9,7 @@ import {
   Image,
   FlatList
 } from 'react-native';
+import moment from 'moment';
 import { ActivityIndicator } from 'react-native-paper';
 import I18n from '../../translations/I18n';
 import Orientation from 'react-native-orientation-locker';
@@ -70,7 +71,7 @@ function TestCenterInfo({
   }, []);
 
   useEffect(() => {
-    if (errMessage) {
+    if (errMessage && errMessage !== "Not Found") {
       showToast(errMessage);
     }
   }, [errMessage]);
@@ -81,7 +82,7 @@ function TestCenterInfo({
       key={index}
       onPress={() => navigation.navigate('TestInformationScreen')}>
       <Text style={styles.name}>{item.name}</Text>
-      <Text style={styles.date}>{item.date}</Text>
+      <Text style={styles.date}>{`${moment(item?.appointmentDate).format("DD MMM YYYY")} ${item?.appointmentTime}`}</Text>
     </TouchableOpacity>
   );
 
@@ -94,7 +95,7 @@ function TestCenterInfo({
           <View style={styles.mainMenu}>
             <Image source={headerLogo} />
           </View>
-          <View style={{height: '100%', top: '50%'}}>
+          <View style={{ height: '100%', top: '50%' }}>
             <Text style={styles.heading}>{I18n.t('Hello, Jone!')}</Text>
             <Text style={styles.subHeading}>
               {I18n.t('Hope you are having a good day')}
@@ -112,75 +113,78 @@ function TestCenterInfo({
                 <Text style={styles.centerTitle}>{I18n.t(verifyPinPayload?.user?.testCenter?.name)}</Text>
                 {/* <Text style={styles.centerName}>{I18n.t('Zeitfenster auswahlen')}</Text> */}
               </View>
-            <View>
-              <Entypo
-                name="chevron-small-right"
-                color={GREEN_COLOR}
-                size={20}
-              />
-            </View>
+              <View>
+                <Entypo
+                  name="chevron-small-right"
+                  color={GREEN_COLOR}
+                  size={20}
+                />
+              </View>
             </TouchableOpacity>
 
-          <Text
-            style={{
-              fontSize: RFValue(13, 580),
-              marginTop: 30,
-              fontWeight: '600',
-            }}>
-            {I18n.t('Test Awaiting for results')}
-          </Text>
-
-          <View style={styles.patientList} >
-           {/*<FlatList
-              data={pendingApplications.lenght ? pendingApplications : DATA}
-              renderItem={renderItem}
-              keyExtractor={(item, index) => index}
-            />*/}
-            <View style={styles.noItemDiv} >
-            <Text style={styles.noItem}>
-              No Record Found
-            </Text>
-            </View>
-          </View>
-          </View>
-        <View style={styles.bottomBtnDiv}>
-          <TouchableOpacity
-            style={[styles.btnStyle, styles.submitButton]}
-            onPress={() => navigation.navigate('QRScreen')}>
-            <Image source={btnQrCode} />
-            <Text style={styles.submitText}>{I18n.t('Scan QR Code')}</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={{ width: '100%' }}
-            onPress={() => navigation.navigate('VerifierUserInfoScreen')}>
-            <Text style={styles.scanAnotherQRcode}>
-              {I18n.t('Insert Person Info')}
-            </Text>
-          </TouchableOpacity>
-          {loader ? (
-            <View
+            <Text
               style={{
-                alignSelf: 'center',
-                height: '100%',
-                width: '100%',
-                justifyContent: 'center',
-                position: 'absolute',
-                zIndex: 1000,
+                fontSize: RFValue(13, 580),
+                marginTop: 30,
+                fontWeight: '600',
               }}>
-              <ActivityIndicator
-                size="large"
-                color="grey"
-                animating={loader}
-              />
+              {I18n.t('Test Awaiting for results')}
+            </Text>
+
+            <View style={styles.patientList} >
+              {
+                pendingApplications.lenght ?
+                  <FlatList
+                    data={pendingApplications}
+                    renderItem={renderItem}
+                    keyExtractor={(item, index) => index}
+                  /> :
+                  <View style={styles.noItemDiv} >
+                    <Text style={styles.noItem}>
+                      No Record Found
+                  </Text>
+                  </View>
+              }
             </View>
-          ) : null}
-        </View>
+          </View>
+          <View style={styles.bottomBtnDiv}>
+            <TouchableOpacity
+              style={[styles.btnStyle, styles.submitButton]}
+              onPress={() => navigation.navigate('QRScreen')}>
+              <Image source={btnQrCode} />
+              <Text style={styles.submitText}>{I18n.t('Scan QR Code')}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={{ width: '100%' }}
+              onPress={() => navigation.navigate('VerifierUserInfoScreen')}>
+              <Text style={styles.scanAnotherQRcode}>
+                {I18n.t('Insert Person Info')}
+              </Text>
+            </TouchableOpacity>
+            {loader ? (
+              <View
+                style={{
+                  alignSelf: 'center',
+                  height: '100%',
+                  width: '100%',
+                  justifyContent: 'center',
+                  position: 'absolute',
+                  zIndex: 1000,
+                }}>
+                <ActivityIndicator
+                  size="large"
+                  color="grey"
+                  animating={loader}
+                />
+              </View>
+            ) : null}
+          </View>
         </ImageBackground>
-    </View>
-    <BottomNavigator
-      navigation={navigation}
-      selectedItem={{ id: 1, label: 'Home' }}></BottomNavigator>
+      </View>
+      <BottomNavigator
+        navigation={navigation}
+        selectedItem={{ id: 1, label: 'Home' }}></BottomNavigator>
     </View >
   );
 }
@@ -330,19 +334,19 @@ const styles = StyleSheet.create({
     paddingLeft: '5%',
     paddingRight: '5%',
   },
-  noItemDiv : {
-    display:'flex',
-    justifyContent:'center',
-    height:'100%',
-    flexDirection:'column'
+  noItemDiv: {
+    display: 'flex',
+    justifyContent: 'center',
+    height: '100%',
+    flexDirection: 'column'
   },
   noItem: {
     display: 'flex',
     borderRadius: 4,
     flexDirection: 'column',
     backgroundColor: '#F9F9F9',
-    paddingTop:15,
-    paddingBottom:15,
+    paddingTop: 15,
+    paddingBottom: 15,
     padding: 10,
     fontSize: RFValue(12, 580),
   },

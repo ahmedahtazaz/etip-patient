@@ -47,6 +47,7 @@ import UpdateOtherSettings from './src/containers/UpdateOtherSettings/UpdateOthe
 import ChangeLanguage from './src/containers/ChangeLanguage/ChangeLanguage';
 import AboutApp from './src/containers/AboutApp/AboutApp';
 import { IS_VERIFIER_APP } from './src/commons/Constants';
+import NeedAssistance from './src/containers/NeedAssistance/NeedAssistance';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -108,18 +109,12 @@ const App: () => React$Node = () => {
                     component={TestConducted}
                     options={{ headerShown: false }}
                   />
-
                   <Stack.Screen
                     name="VerifierUserInfoScreen"
                     component={VerifierUserInfo}
                     options={{ headerShown: false }}
                   />
 
-                  <Stack.Screen
-                    name="Settings"
-                    component={VerifierSettings}
-                    options={{ headerShown: false }}
-                  />
                   <Stack.Screen
                     name="ChangeLanguage"
                     component={ChangeLanguage}
@@ -135,6 +130,31 @@ const App: () => React$Node = () => {
                   <Stack.Screen
                     name="testCenter"
                     component={TestCenter}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="Settings"
+                    component={VerifierSettings}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="policy"
+                    component={Policy}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="terms"
+                    component={Terms}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="aboutApp"
+                    component={AboutApp}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="needAssistance"
+                    component={NeedAssistance}
                     options={{ headerShown: false }}
                   />
                 </Stack.Navigator>
