@@ -236,6 +236,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     flexDirection: 'column',
     backgroundColor: '#F9F9F9',
+    paddingTop:15,
+    paddingBottom:15,
     padding: 10,
     marginBottom: 10,
   },

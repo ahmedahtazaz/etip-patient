@@ -130,12 +130,17 @@ function TestCenterInfo({
             {I18n.t('Test Awaiting for results')}
           </Text>
 
-          <View style={styles.patientList}>
-            <FlatList
+          <View style={styles.patientList} >
+           {/*<FlatList
               data={pendingApplications.lenght ? pendingApplications : DATA}
               renderItem={renderItem}
               keyExtractor={(item, index) => index}
-            />
+            />*/}
+            <View style={styles.noItemDiv} >
+            <Text style={styles.noItem}>
+              No Record Found
+            </Text>
+            </View>
           </View>
           </View>
         <View style={styles.bottomBtnDiv}>
@@ -324,6 +329,22 @@ const styles = StyleSheet.create({
   innerDiv: {
     paddingLeft: '5%',
     paddingRight: '5%',
+  },
+  noItemDiv : {
+    display:'flex',
+    justifyContent:'center',
+    height:'100%',
+    flexDirection:'column'
+  },
+  noItem: {
+    display: 'flex',
+    borderRadius: 4,
+    flexDirection: 'column',
+    backgroundColor: '#F9F9F9',
+    paddingTop:15,
+    paddingBottom:15,
+    padding: 10,
+    fontSize: RFValue(12, 580),
   },
 });
 
