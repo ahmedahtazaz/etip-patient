@@ -132,6 +132,7 @@ const FamilyMain = ({
               data={familyMembers}
               renderItem={renderItem}
               keyExtractor={item => item.id}
+              //contentContainerStyle={{paddingBottom:60}}
               renderHiddenItem={(data, rowMap) => {
                 if (!data.item.isPrimary)
                   return (
@@ -201,6 +202,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     display: 'flex',
     flexDirection: 'column',
+    paddingBottom:50
   },
   deleteItem: {
     marginEnd: 12,
