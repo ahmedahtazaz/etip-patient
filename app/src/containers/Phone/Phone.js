@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import React, {useEffect, useRef, useState} from 'react';
+import {connect} from 'react-redux';
 import I18n from '../../translations/I18n';
 
 import Orientation from 'react-native-orientation-locker';
-import { useIsFocused } from '@react-navigation/native';
-import { PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR } from '../../theme/Colors';
+import {useIsFocused} from '@react-navigation/native';
+import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
 const headerLogo = require('../../assets/images/header-logo.png');
 const phoneDivBg = require('../../assets/images/phone-div-bg.png');
 import {
@@ -20,17 +20,23 @@ import {
   Text,
   ImageBackground,
 } from 'react-native';
-import { RFValue } from 'react-native-responsive-fontsize';
+import {RFValue} from 'react-native-responsive-fontsize';
 import {
   moveToUserInfoScreenAction,
   resetIsPhoneUpdatedAction,
   sendOTPAction,
   updatePhoneAction,
   verifyOTPAction,
+  resetPhoneAction,
 } from './Actions';
-import { send_otp_url, update_phone_url, verify_otp_url } from '../../commons/environment';
-import { getProfileInfoAction } from '../AppointmentDetails/Action';
-import { moveToMainScreenAction, resetIsUserCreatedAction } from '../UserInfo/Actions';
+import {
+  send_otp_url,
+  update_phone_url,
+  verify_otp_url,
+} from '../../commons/environment';
+import {getProfileInfoAction} from '../AppointmentDetails/Action';
+import {moveToMainScreenAction} from '../UserInfo/Actions';
+import moment from 'moment';
 
 function Phone({
   loader,
@@ -50,7 +56,8 @@ function Phone({
   isPhoneUpdated,
   resetIsPhoneUpdated,
   updatePhoneOtpSend,
-  updatePhoneSendOptPayload
+  updatePhoneSendOptPayload,
+  resetPhone,
 }) {
   const [isPhone, setIsPhone] = useState(true);
   const [phoneValue, setPhoneValue] = useState('+49');
@@ -65,24 +72,51 @@ function Phone({
   const [otp2, setOtp2] = useState(null);
   const [otp3, setOtp3] = useState(null);
   const [otp4, setOtp4] = useState(null);
-  let isUpdateMobileNumber = route?.params?.isUpdateMobileNumber || false;
+  const [seconds, setSeconds] = useState(0);
+  const [resendOtpState, setresendOtpState] = useState(false);
+
+  const [isUpdateMobileNumber, setIsUpdateMobileNumber] = useState(false);
+  const isUpdateMobileNumberRef = useRef();
+  isUpdateMobileNumberRef.current = isUpdateMobileNumber;
+
+  const [otpResentAwait, setOtpResentAwait] = useState(false);
+
+  const [secTimeout, setSecTimeout] = useState(null);
 
   const isFocused = useIsFocused();
 
   useEffect(() => {
+    return () => {
+      if (secTimeout) clearTimeout(secTimeout);
+      resetPhone();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (seconds > 0) {
+      setresendOtpState(false);
+      if (secTimeout) clearTimeout(secTimeout);
+      setSecTimeout(setTimeout(() => setSeconds(seconds - 1), 1000));
+    } else {
+      setSeconds(0);
+      setresendOtpState(true);
+    }
+  }, [seconds]);
+
+  useEffect(() => {
     Orientation.lockToPortrait();
+    if (isFocused) setIsUpdateMobileNumber(route?.params?.isUpdateMobileNumber);
   }, [isFocused]);
 
   const showToast = msg => {
     if (Platform.OS === 'android') {
-      ToastAndroid.show(msg, ToastAndroid.SHORT);
+      ToastAndroid.show(I18n.t(msg), ToastAndroid.SHORT);
     } else {
       Alert.alert(msg);
     }
   };
 
   const onSubmit = (isPhone, phone, otp) => {
-    let isUpdateMobileNumber = route?.params?.isUpdateMobileNumber || false;
     if (isPhone) {
       // Temporary check
       if (true || (phone && phone.match('^[+]49[0-9]{10}$'))) {
@@ -94,7 +128,7 @@ function Phone({
           },
         };
         sendOTP(data);
-      } else showToast('Please enter a valid phone number.');
+      } else showToast('Please enter a valid phone number');
     } else {
       if (otp && otp.length == 5) {
         let data = {
@@ -106,39 +140,43 @@ function Phone({
           },
         };
         if (isUpdateMobileNumber) {
-          data.body["userId"] = userInfo?.data?.data?._id
-          data.body["referenceId"] = updatePhoneSendOptPayload?.data?.data?.ref_id
-          updatePhone(data)
+          data.body['userId'] = userInfo?.data?.data?._id;
+          data.body['referenceId'] =
+            updatePhoneSendOptPayload?.data?.data?.ref_id;
+          updatePhone(data);
         } else {
           verifyOTP(data);
         }
-      } else showToast('Please enter a valid OTP.');
+      } else showToast('Please enter a valid OTP');
     }
   };
 
   useEffect(() => {
-    let isUpdateMobileNumber = route?.params?.isUpdateMobileNumber || false;
-    if (!isUpdateMobileNumber && isPhone && otpSend) {
+    if (!isUpdateMobileNumber && (isPhone || otpResentAwait) && otpSend) {
       setIsPhone(false);
+      setSeconds(119);
+      setOtpResentAwait(false);
+      showToast('OTP has been sent successfully');
     }
   }, [otpSend]);
 
   useEffect(() => {
     if (isPhone && updatePhoneOtpSend) {
       setIsPhone(false);
+      setSeconds(119);
+      setOtpResentAwait(false);
+      showToast('OTP has been sent successfully');
     }
   }, [updatePhoneOtpSend]);
 
   useEffect(() => {
-    let isUpdateMobileNumber = route?.params?.isUpdateMobileNumber || false;
     if (!isUpdateMobileNumber && !isPhone && otpVerified) {
-      movetoUserInfoScreen(navigation);
+      movetoUserInfoScreen(navigation, phoneValue);
     }
   }, [otpVerified]);
 
-
   useEffect(() => {
-    if (errMessage === "Phone Number already exists.") {
+    if (errMessage === 'Phone Number already exists.') {
       setIsPhone(true);
       resetIsPhoneUpdated();
     }
@@ -148,30 +186,47 @@ function Phone({
   }, [errMessage]);
 
   useEffect(() => {
-    let isUpdateMobileNumber = route?.params?.isUpdateMobileNumber || false;
+    const isUpdateMobileNumber = route?.params?.isUpdateMobileNumber;
     if (!isUpdateMobileNumber && verifyOtpPayload?.data) {
       if (verifyOtpPayload?.data?.data) {
         if (verifyOtpPayload?.data?.data?.isNewAccount) {
           //navigate to userInfoScreen
-          movetoUserInfoScreen(navigation);
+          movetoUserInfoScreen(navigation, phoneValue);
         } else {
           //get userInfo and navigate to MainScreen
           moveToMainScreen(navigation);
         }
       } else {
         //navigate to userInfoScreen
-        movetoUserInfoScreen(navigation);
+        movetoUserInfoScreen(navigation, phoneValue);
       }
     }
   }, [verifyOtpPayload]);
 
-
+  const checkOtpStatus = () => {
+    if (resendOtpState) {
+      // Temporary check
+      if (true || (phoneValue && phoneValue.match('^[+]49[0-9]{10}$'))) {
+        let data = {
+          url: send_otp_url,
+          editMode: isUpdateMobileNumber,
+          body: {
+            mobileNumber: phoneValue,
+          },
+        };
+        sendOTP(data);
+        setOtpResentAwait(true);
+      } else showToast('Please enter a valid phone number');
+    } else {
+      showToast('Please wait for at least 2 minutes');
+    }
+  };
   useEffect(() => {
     if (isPhoneUpdated) {
       resetIsPhoneUpdated();
       navigation.goBack();
     }
-  }, [isPhoneUpdated])
+  }, [isPhoneUpdated]);
 
   return (
     <View style={styles.background}>
@@ -184,20 +239,20 @@ function Phone({
             <>
               <Text style={styles.inputLabelDiv}>
                 <Text style={styles.inputLabel}>
-                {I18n.t('Enter Your  Mobile Number')}
+                  {I18n.t('Enter Your Mobile Number')}
                 </Text>
                 {'\n'}
                 {'\n'}
                 <Text style={styles.inputLabelSmall}>
                   {/* Please enter your valid phone number to continue */}
-                  {I18n.t('Please enter a valid phone number')}
+                  {I18n.t('Please enter your valid phone number to continue')}
                 </Text>
               </Text>
               <TextInput
                 value={phoneValue}
                 textContentType="telephoneNumber"
                 underlineColorAndroid="transparent"
-                placeholder="Phone"
+                placeholder={I18n.t('Phone')}
                 style={styles.inputStyle1}
                 keyboardType="numeric"
                 onChangeText={value => {
@@ -218,11 +273,11 @@ function Phone({
                 style={{
                   width: '100%',
                   borderBottomWidth: 0,
-                  paddingTop: '1.8%',
+
                   paddingBottom: '1.5%',
                   fontWeight: '500',
-                  marginTop: '15%',
-                  marginBottom: '15%',
+                  marginTop: '9%',
+                  marginBottom: '7%',
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                 }}>
@@ -295,15 +350,24 @@ function Phone({
                     if (!value) otp3.focus();
                   }}></TextInput>
               </View>
+              <TouchableOpacity onPress={() => checkOtpStatus()}>
+                <View>
+                  <Text style={styles.resendOtpStyle}>
+                    {'Resend OTP (' +
+                      moment.utc(seconds * 1000).format('mm:ss') +
+                      ')'}
+                  </Text>
+                </View>
+              </TouchableOpacity>
             </>
           )}
-          {(isPhone && phoneValue.match('^[+]49[0-9]{10}$')) ||
-            (!isPhone &&
-              otpValue
-                .concat(otpValue1)
-                .concat(otpValue2)
-                .concat(otpValue3)
-                .concat(otpValue4).length == 5) ? (
+          {isPhone ||
+          (!isPhone &&
+            otpValue
+              .concat(otpValue1)
+              .concat(otpValue2)
+              .concat(otpValue3)
+              .concat(otpValue4).length == 5) ? (
             <TouchableOpacity
               style={[styles.container, styles.submitButtonDark]}
               onPress={() =>
@@ -317,7 +381,11 @@ function Phone({
                     .concat(otpValue4),
                 )
               }>
-              <Text style={styles.submitText}>{isUpdateMobileNumber ? "Update Mobile Number" : I18n.t('Continue')}</Text>
+              <Text style={styles.submitText}>
+                {isUpdateMobileNumber
+                  ? I18n.t('Update Mobile Number')
+                  : I18n.t('Continue')}
+              </Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
@@ -336,6 +404,14 @@ function Phone({
               <Text style={styles.submitText}>{I18n.t('Continue')}</Text>
             </TouchableOpacity>
           )}
+          {isUpdateMobileNumber ? (
+            <TouchableOpacity
+              disabled={loader}
+              style={[styles.container, styles.cancelButton]}
+              onPress={() => navigation.goBack()}>
+              <Text style={styles.saveCloseText}>{I18n.t('Cancel')}</Text>
+            </TouchableOpacity>
+          ) : null}
           {loader ? (
             <View
               style={{
@@ -344,7 +420,7 @@ function Phone({
                 width: '100%',
                 justifyContent: 'center',
                 position: 'absolute',
-                top:'40%',
+                top: '40%',
                 zIndex: 1000,
               }}>
               <ActivityIndicator size="large" color="grey" animating={loader} />
@@ -358,13 +434,15 @@ function Phone({
 
 const mapDispatchToProps = dispatch => {
   return {
-    movetoUserInfoScreen: navigation => moveToUserInfoScreenAction(navigation),
+    movetoUserInfoScreen: (navigation, phone) =>
+      moveToUserInfoScreenAction(navigation, phone),
     sendOTP: data => dispatch(sendOTPAction(data)),
     verifyOTP: data => dispatch(verifyOTPAction(data)),
     getProfileInfo: data => dispatch(getProfileInfoAction(data)),
     moveToMainScreen: navigation => moveToMainScreenAction(navigation),
     updatePhone: data => dispatch(updatePhoneAction(data)),
-    resetIsPhoneUpdated: () => dispatch(resetIsPhoneUpdatedAction())
+    resetIsPhoneUpdated: () => dispatch(resetIsPhoneUpdatedAction()),
+    resetPhone: () => dispatch(resetPhoneAction()),
   };
 };
 
@@ -399,20 +477,20 @@ const styles = StyleSheet.create({
   mainMenu: {
     position: 'absolute',
     zIndex: 2000,
-   
+
     width: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop:'25%',
-    height:'10%',
+    paddingTop: '20%',
+    height: '10%',
   },
   innerDiv: {
-    paddingTop: '45%',
+    paddingTop: '40%',
     paddingBottom: '10%',
     paddingLeft: '5%',
     paddingRight: '5%',
-    height:'100%'
+    height: '100%',
   },
   inputLabelDiv: {
     display: 'flex',
@@ -439,8 +517,8 @@ const styles = StyleSheet.create({
     paddingBottom: '1.5%',
     fontSize: RFValue(24, 580),
     fontWeight: '500',
-    marginTop: '15%',
-    marginBottom: '15%',
+    marginTop: '10%',
+    marginBottom: '10%',
   },
   inputStyle: {
     color: '#319085',
@@ -451,7 +529,7 @@ const styles = StyleSheet.create({
     fontSize: RFValue(24, 580),
     fontWeight: '500',
     marginTop: '1%',
-    marginBottom: '5%',
+
     textAlign: 'center',
     borderBottomColor: '#000000',
     width: '17%',
@@ -498,5 +576,29 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: RFValue(14, 580),
     fontWeight: '600',
+  },
+  resendOtpStyle: {
+    color: '#006970',
+    fontSize: RFValue(13, 580),
+    fontWeight: '600',
+    textAlign: 'center',
+    marginBottom: '5%',
+  },
+  cancelButton: {
+    width: '100%',
+    borderRadius: 10,
+    backgroundColor: 'red',
+    color: WHITE_COLOR,
+    paddingTop: 20,
+    paddingBottom: 20,
+    fontSize: RFValue(14, 580),
+    fontWeight: '600',
+    marginTop: '8%',
+    marginBottom: 10,
+  },
+  saveCloseText: {
+    fontSize: RFValue(14, 580),
+    fontWeight: '600',
+    color: WHITE_COLOR,
   },
 });

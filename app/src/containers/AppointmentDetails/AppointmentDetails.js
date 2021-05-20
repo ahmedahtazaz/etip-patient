@@ -20,6 +20,9 @@ const menuArrowIcon = require('../../assets/images/menu-arrow-icon.png');
 const previousAppoinmentsBg = require('../../assets/images/previous-appoinment-bg.png');
 const issuedWhiteQr = require('../../assets/images/issued-white-qr.png');
 const issuedRedIcon = require('../../assets/images/issued-by-red-icon.png');
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import {Dimensions} from 'react-native';
+const {width, height} = Dimensions.get('window');
 
 const AppointmentDetails = ({
   navigation,
@@ -39,14 +42,22 @@ const AppointmentDetails = ({
 
   return (
     <View style={{height: '100%', width: '100%', flexDirection: 'column'}}>
-      <View style={styles.mainMenu}>
-        <TouchableOpacity
-          style={styles.mainMenuItems}
-          onPress={() => navigation.goBack()}>
-          <Image source={menuArrowIcon} style={{marginLeft: 5}} />
-        </TouchableOpacity>
+      <View style={styles.header}>
+        <View style={styles.backIcon}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <EvilIcons
+              name="chevron-left"
+              color="#000"
+              size={40}
+              style={{fontWeight: 'bold'}}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.headerTextView}>
+          <Text style={styles.headerText}>{I18n.t('Appoinment Details')}</Text>
+        </View>
       </View>
-
+      <View style={styles.appoinmentDivBg}>
       <View style={styles.mainView}>
         {path == 'personal' ? (
           <View style={styles.activeCertificationDiv}>
@@ -111,7 +122,7 @@ const AppointmentDetails = ({
               source={activeCertificationBg}
               style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
               <View style={styles.parentNameContainer}>
-                <View style={styles.nameTextContainer}>
+                <View style={styles.nameTextContainer} >
                   <Text style={styles.boxHeading}>
                     {userInfoParam?.testPoint?.testCenter?.test?.testType}
                   </Text>
@@ -119,7 +130,7 @@ const AppointmentDetails = ({
                     {userInfoParam?.testPoint?.name}
                   </Text>
                 </View>
-                <View style={styles.nameTextContainer}>
+                <View style={styles.nameTextContainer} >
                   <Text style={styles.boxHeading}>
                     {moment(userInfoParam?.day).format('DD/MM/YYYY')}
                   </Text>
@@ -155,6 +166,7 @@ const AppointmentDetails = ({
           </View>
         )}
       </View>
+      </View>
     </View>
   );
 };
@@ -180,44 +192,53 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     resizeMode: 'cover',
     overflow: 'hidden',
-    marginEnd: 10,
+    
     maxHeight: 153,
     marginBottom: 50,
   },
   activeAppoinmentsDiv: {
     borderRadius: 10,
-
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
     textAlign: 'left',
-    marginBottom: 10,
-    marginEnd: 10,
+    marginBottom: 50,
     resizeMode: 'cover',
     overflow: 'hidden',
-
     minHeight: 153,
   },
   mainView: {
     flex: 1,
     flexDirection: 'column',
-
-    paddingTop: 80,
-    paddingLeft: '3%',
+    paddingLeft: '4%',
+    paddingRight: '4%',
+    paddingTop: 52,
   },
-  mainMenu: {
-    position: 'absolute',
-    zIndex: 2000,
-    top: '3%',
-    left: '3%',
-    width: '100%',
-  },
-  mainMenuItems: {
-    flex: 1,
+  header: {
     flexDirection: 'row',
+    height: height * 0.1,
     alignItems: 'center',
-    paddingBottom: 15,
-    paddingTop: 15,
+    paddingTop: '7%',
+    width,
+  },
+  backIcon: {
+    flex: 1,
+    alignItems: 'flex-start',
+  },
+  headerTextView: {
+    flex: 9,
+    alignItems: 'center',
+    paddingRight: width * 0.1,
+  },
+  headerText: {
+    fontSize: RFValue(16, 580),
+  },
+  appoinmentDivBg: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    backgroundColor: 'white',
+    height:'88%',
+    marginTop: '8%',
   },
   contentPadding: {
     paddingTop: 25,
@@ -316,7 +337,7 @@ const styles = StyleSheet.create({
   submitButtonDark: {
     width: 65,
     height: 38,
-    borderRadius: 17,
+    borderRadius: 10,
     backgroundColor: '#12878D',
     color: WHITE_COLOR,
     paddingTop: 10,
@@ -328,7 +349,7 @@ const styles = StyleSheet.create({
   submitButtonRed: {
     width: 65,
     height: 38,
-    borderRadius: 17,
+    borderRadius: 10,
     backgroundColor: '#FB4646',
     color: WHITE_COLOR,
     paddingTop: 10,

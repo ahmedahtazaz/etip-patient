@@ -5,16 +5,12 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Dimensions,
   ImageBackground,
   Image,
-  TextInput,
-  FlatList,
 } from 'react-native';
 import I18n from '../../translations/I18n';
 import Orientation from 'react-native-orientation-locker';
 import {useIsFocused} from '@react-navigation/native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {BLACK_COLOR, GREEN_COLOR, WHITE_COLOR} from '../../theme/Colors';
@@ -23,7 +19,6 @@ const testCenterInfoBg = require('../../assets/images/test-center-info-bg.png');
 const headerLogo = require('../../assets/images/splash-logo1.png');
 const btnQrCode = require('../../assets/images/btn-qr-code.png');
 const testInfoBg = require('../../assets/images/test-info-bg.png');
-const {width, height} = Dimensions.get('window');
 
 const DATA = [
   {
@@ -41,11 +36,17 @@ const DATA = [
 ];
 
 function TestCenterInfo({navigation}) {
+  const [isUpdated, setIsUpdated] = useState(false);
   const isFocused = useIsFocused();
 
   useEffect(() => {
     Orientation.lockToPortrait();
+    if (isFocused) setIsUpdated(true);
   }, [isFocused]);
+
+  useEffect(() => {
+    if (isUpdated) setIsUpdated(false);
+  }, [isUpdated]);
 
   const renderItem = ({item, index}) => (
     <TouchableOpacity
@@ -68,67 +69,66 @@ function TestCenterInfo({navigation}) {
           <View style={{height: '100%', top: '50%'}}>
             <Text style={styles.heading}>{I18n.t('Hello, Jone!')}</Text>
             <Text style={styles.subHeading}>
-            {I18n.t('Hope you are having a good day')}
+              {I18n.t('Hope you are having a good day')}
             </Text>
           </View>
         </ImageBackground>
       </View>
       <View style={styles.testCenterList}>
-      <ImageBackground source={testInfoBg} style={styles.splashbackground1}>
-        <View style={styles.innerDiv}>
-          <TouchableOpacity
-            style={styles.centerLabel}
-            onPress={() => navigation.navigate('TestCenter')}>
-            <View>
-              <Text style={styles.centerTitle}>{I18n.t('Test Center')}</Text>
-              <Text style={styles.centerName}>{I18n.t('Zeitfenster auswahlen')}</Text>
-            </View>
-            <View>
-              <Entypo
-                name="chevron-small-right"
-                color={GREEN_COLOR}
-                size={20}
+        <ImageBackground source={testInfoBg} style={styles.splashbackground1}>
+          <View style={styles.innerDiv}>
+            <TouchableOpacity
+              style={styles.centerLabel}
+              onPress={() => navigation.navigate('TestCenter')}>
+              <View>
+                <Text style={styles.centerTitle}>{I18n.t('Test Center')}</Text>
+                <Text style={styles.centerName}>
+                  {I18n.t('Zeitfenster auswahlen')}
+                </Text>
+              </View>
+              <View>
+                <Entypo
+                  name="chevron-small-right"
+                  color={GREEN_COLOR}
+                  size={20}
+                />
+              </View>
+            </TouchableOpacity>
+
+            <Text
+              style={{
+                fontSize: RFValue(13, 580),
+                marginTop: 30,
+                fontWeight: '600',
+              }}>
+              {I18n.t('Test Awaiting for results')}
+            </Text>
+
+            <View style={styles.patientList}>
+              <FlatList
+                data={DATA}
+                renderItem={renderItem}
+                keyExtractor={(item, index) => index}
               />
             </View>
-          </TouchableOpacity>
-
-          <Text
-            style={{
-              fontSize: RFValue(13, 580),
-              marginTop: 30,
-              fontWeight: '600',
-            }}>
-            {I18n.t('Test Awaiting for results')}
-          </Text>
-
-          <View style={styles.patientList}>
-            <FlatList
-              data={DATA}
-              renderItem={renderItem}
-              keyExtractor={(item, index) => index}
-            />
           </View>
-
-            
-          
-        </View>
-        <View style={styles.bottomBtnDiv}>
+          <View style={styles.bottomBtnDiv}>
             <TouchableOpacity
               style={[styles.btnStyle, styles.submitButton]}
               onPress={() => navigation.navigate('QRScreen')}>
               <Image source={btnQrCode} />
               <Text style={styles.submitText}>{I18n.t('Scan QR Code')}</Text>
             </TouchableOpacity>
-          
 
-          
             <TouchableOpacity
               style={{width: '100%'}}
               onPress={() => navigation.navigate('VerifierUserInfoScreen')}>
-              <Text style={styles.scanAnotherQRcode}>{I18n.t('Insert Person Info')}</Text>
+              <Text style={styles.scanAnotherQRcode}>
+                {I18n.t('Insert Person Info')}
+              </Text>
             </TouchableOpacity>
-            </View>
-            </ImageBackground>
+          </View>
+        </ImageBackground>
       </View>
       <BottomNavigator
         navigation={navigation}
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   },
   MainContainer: {
     flex: 1,
-    backgroundColor:'#fff',
+    backgroundColor: '#fff',
   },
   splashbackground: {
     flex: 1,
@@ -154,7 +154,6 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   splashbackground1: {
-   
     resizeMode: 'cover',
     height: '82%',
   },
@@ -178,7 +177,7 @@ const styles = StyleSheet.create({
     height: '30%',
   },
   testCenterList: {
-    backgroundColor:'white',
+    backgroundColor: 'white',
   },
   listView: {
     marginTop: 30,
@@ -242,12 +241,11 @@ const styles = StyleSheet.create({
     fontSize: RFValue(12, 580),
     color: '#919e9c',
   },
-  bottomBtnDiv : {
-    position:'absolute',
-    width:'90%',
-    left:'5%',
-    bottom:'12%'
-
+  bottomBtnDiv: {
+    position: 'absolute',
+    width: '90%',
+    left: '5%',
+    bottom: '12%',
   },
   btnStyle: {
     backgroundColor: GREEN_COLOR,
@@ -265,7 +263,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     elevation: 2,
     height: '70%',
-    
+
     width: '100%',
     borderRadius: 8,
   },

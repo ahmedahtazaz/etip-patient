@@ -4,7 +4,10 @@ import {WHITE_COLOR, PRIMARY_COLOR, GRAY_COLOR} from '../../theme/Colors';
 import I18n from '../../translations/I18n';
 
 import Orientation from 'react-native-orientation-locker';
-import { useIsFocused } from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
+import {Dimensions} from 'react-native';
+const {width, height} = Dimensions.get('window');
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {
   ActivityIndicator,
   View,
@@ -16,7 +19,7 @@ import {
   ToastAndroid,
   Alert,
 } from 'react-native';
-import { RFValue } from 'react-native-responsive-fontsize';
+import {RFValue} from 'react-native-responsive-fontsize';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import RadioButton from '../../components/RadioButton';
@@ -29,19 +32,21 @@ import {
   resetIsFamilyMemberAddedAction,
   updateUserAction,
   getRelationsAction,
-  getRegionsAction
+  getRegionsAction,
+  moveToOtpScreen
 } from './Actions';
-import { emailRegex } from '../../commons/Constants';
+import {emailRegex} from '../../commons/Constants';
 import {
   organizationName,
   signup_url,
   add_family_url,
   edit_family_url,
   get_lookup_url,
-  get_regions
+  get_regions,
 } from '../../commons/environment';
 const welcomeLogo = require('../../assets/images/welcome-logo.png');
 const welcomeImg = require('../../assets/images/welcome-image.png');
+
 const currentDate = new Date();
 function UserInfo({
   loader,
@@ -61,8 +66,16 @@ function UserInfo({
   getRelations,
   relations,
   regions,
-  getRegions
+  getRegions,
+  moveToOtpScreen,
+  route: {
+    params: {phone},
+  },
 }) {
+  const [items, setItems] = useState([
+    {label: 'Apple', value: 'apple'},
+    {label: 'Banana', value: 'banana'}
+  ]);
   const [isFamily, setIsFamily] = useState(false);
   const [fName, setFName] = useState('');
   const [lName, setLName] = useState('');
@@ -71,14 +84,14 @@ function UserInfo({
   const [other, setOther] = useState(false);
   const [dob, setDob] = useState(
     currentDate.getDate() +
-    '-' +
-    currentDate.getMonth() +
-    '-' +
-    currentDate.getFullYear(),
+      '-' +
+      currentDate.getMonth() +
+      '-' +
+      currentDate.getFullYear(),
   );
   const [showCalender, setShowCalender] = useState(false);
   const [calDate, setCalDate] = useState(new Date());
-  const [city, setCity] = useState('Bavaria');
+  const [city, setCity] = useState('Berlin');
   const isFocused = useIsFocused();
   const [taxId, setTaxId] = useState('');
   const [email, setEmail] = useState('');
@@ -86,7 +99,7 @@ function UserInfo({
   const [schiller, setSchiller] = useState('');
   const [zimmer, setZimmer] = useState('');
   const [postalCode, setPostalCode] = useState('');
-  const [relation, setRelation] = useState('Wife');
+  const [relation, setRelation] = useState('father');
   const [editMode, setEditMode] = useState(false);
   const [isUserEdit, setIsUserEdit] = useState(false);
   const [isSaveOnly, setIsSaveOnly] = useState(false);
@@ -95,15 +108,19 @@ function UserInfo({
   const scrollRef = useRef();
 
   useEffect(() => {
+    if (phone) setMobileNo(phone);
+  }, [phone]);
+
+  useEffect(() => {
     let data = {
-      url: `${get_lookup_url}/relations`
-    }
+      url: `${get_lookup_url}/relations`,
+    };
     let regionData = {
-      url: get_regions
-    }
+      url: get_regions,
+    };
     getRelations(data);
-    getRegions(regionData)
-  }, [])
+    getRegions(regionData);
+  }, []);
 
   useEffect(() => {
     if (errMessage) {
@@ -121,6 +138,7 @@ function UserInfo({
       setIsUserEdit(editUser);
       setIsFamily(!editUser || addFamily);
       setAddFamily(addFamily);
+      console.log(data);
 
       if (!addFamily) {
         setEditMode(true);
@@ -142,7 +160,7 @@ function UserInfo({
         }
 
         if (data.relation) {
-          setRelation(capitalizeFirstLetter(data.relation));
+          setRelation((data.relation));
         }
 
         setDob(data.dateOfBirth);
@@ -151,7 +169,10 @@ function UserInfo({
         setMobileNo(data.mobileNumber);
         setSchiller(data.address.street);
         setZimmer(data.address.houseNo);
-        data.address.city && setCity(capitalizeFirstLetter(data.address.city));
+        console.log('test',typeof data.address.city);
+
+     
+      data.address.city && setCity(capitalizeFirstLetter(data.address.city));
         setPostalCode(data.address.zipCode);
       }
     }
@@ -175,14 +196,14 @@ function UserInfo({
       resetIsFamilyMemberAdded();
       resetForm(true);
 
-      if (editMode) navigation.goBack();
+      if (editMode || addFamily) navigation.goBack();
     }
   }, [isFamilyMemberAdded]);
 
   const _handleDatePicked = (e, pickeddate) => {
     const date = new Date(pickeddate);
     const day = date.getDate();
-    const month = date.getMonth();
+    const month = date.getMonth() + 1;
     const year = date.getFullYear();
     setShowCalender(false);
     if (day) setDob(day + '-' + month + '-' + year);
@@ -193,7 +214,7 @@ function UserInfo({
 
   const showToast = msg => {
     if (Platform.OS === 'android') {
-      ToastAndroid.show(msg, ToastAndroid.SHORT);
+      ToastAndroid.show(I18n.t(msg), ToastAndroid.SHORT);
     } else {
       Alert.alert(msg);
     }
@@ -209,20 +230,20 @@ function UserInfo({
     if (currentDate)
       setDob(
         currentDate.getDate() +
-        '-' +
-        currentDate.getMonth() +
-        '-' +
-        currentDate.getFullYear(),
+          '-' +
+          currentDate.getMonth() +
+          '-' +
+          currentDate.getFullYear(),
       );
     setCalDate(new Date());
-    setCity('Bavaria');
+    setCity('Berlin');
     setEmail('');
     setTaxId('');
     setPostalCode('');
     setMobileNo('');
     setSchiller('');
     setZimmer('');
-    setRelation('Son');
+    setRelation('father');
 
     scrollRef.current.scrollTo({
       y: 0,
@@ -243,14 +264,14 @@ function UserInfo({
       showToast('Please Enter Tax ID');
       return;
     }
-    if (!email || !email.match(emailRegex)) {
+    if (!email.match(emailRegex)) {
       showToast('Please Enter a valid email');
       return;
     }
-    // Temporary removal
+    //Temporary removal
     //if (isFamily && (!mobileNo || !mobileNo.match('^[+]49[0-9]{10}$'))) {
     if (isFamily && !mobileNo) {
-      showToast('Please enter a valid phone number.');
+      showToast('Please enter a valid phone number');
       return;
     }
     if (!schiller) {
@@ -258,7 +279,7 @@ function UserInfo({
       return;
     }
     if (!zimmer) {
-      showToast('Please Enter house no.');
+      showToast('Please Enter house no');
       return;
     }
     if (!postalCode) {
@@ -288,6 +309,8 @@ function UserInfo({
 
     if (!isFamily && !editMode) {
       signUp(data);
+    //  moveToOtpScreen(navigation,data);
+
     } else {
       const dataObj = (route.params && route.params.data) || '';
       let data = {
@@ -333,9 +356,25 @@ function UserInfo({
   const capitalizeFirstLetter = string => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
-
+  console.log(city);
   return (
-    <ScrollView style={{ height: '100%' }} ref={scrollRef}>
+    <ScrollView style={{height: '100%'}} ref={scrollRef}>
+      <View style={styles.header}>
+        <View style={styles.backIcon}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+            <EvilIcons
+              name="chevron-left"
+              color="#000"
+              size={40}
+              style={{fontWeight: 'bold'}}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.headerTextView}>
+          <Text style={styles.headerText}>{I18n.t('User Information')}</Text>
+        </View>
+      </View>
+      
       <View style={styles.background}>
         <View style={styles.innerDiv}>
           <View style={styles.mainHeading}>
@@ -344,7 +383,7 @@ function UserInfo({
                 ? isFamily
                   ? I18n.t('Add Family')
                   : I18n.t('User Information')
-                : I18n.t('Edit Family')}
+                : I18n.t('Edit User Information')}
             </Text>
           </View>
           <View style={styles.smallHeading}>
@@ -356,7 +395,9 @@ function UserInfo({
           </View>
 
           <View style={styles.secondaryHeading}>
-            <Text style={styles.secondaryHeadingText}>{I18n.t('User Information')}</Text>
+            <Text style={styles.secondaryHeadingText}>
+              {I18n.t('Edit User Information')}
+            </Text>
           </View>
 
           <View style={styles.formContainer}>
@@ -366,14 +407,15 @@ function UserInfo({
                 value={fName}
                 textContentType="givenName"
                 underlineColorAndroid="transparent"
-                placeholder={I18n.t("First Name")}
+                placeholder={I18n.t('First Name')}
                 style={styles.inputStyle}
                 onChangeText={value => setFName(value)}></TextInput>
               <TextInput
                 placeholderTextColor={'#a29d9d'}
                 value={lName}
                 textContentType="familyName"
-                placeholder={I18n.t("Last Name")}
+                underlineColorAndroid="transparent"
+                placeholder={I18n.t('Last Name')}
                 style={styles.inputStyle}
                 onChangeText={value => setLName(value)}></TextInput>
             </View>
@@ -415,13 +457,16 @@ function UserInfo({
           </View>
           {isFamily ? (
             <DropDownPicker
-              items={relations}
               defaultValue={relation}
-              containerStyle={{ height: '6%', marginBottom: '4%' }}
+              items={relations}
+              placeholder={I18n.t('Select Relation')}
+              containerStyle={{height: 62}}
               style={{
                 backgroundColor: '#F5F9F8',
                 fontSize: RFValue(14, 580),
                 color: '#a29d9d',
+                borderColor: '#F5F9F8',
+                marginBottom:14
               }}
               itemStyle={{
                 justifyContent: 'flex-start',
@@ -438,8 +483,10 @@ function UserInfo({
             placeholderTextColor={'#a29d9d'}
             value={dob}
             textContentType="none"
+            underlineColorAndroid="transparent"
             placeholder="Date"
             style={styles.inputStyle1}
+            
             onPressIn={() => {
               setShowCalender(true);
             }}></TextInput>
@@ -458,7 +505,7 @@ function UserInfo({
             value={taxId}
             textContentType="taxId"
             underlineColorAndroid="transparent"
-            placeholder={I18n.t("Tax ID")}
+            placeholder={I18n.t('Tax ID')}
             style={styles.inputStyle1}
             onChangeText={value => setTaxId(value)}></TextInput>
           {!isUserEdit && (
@@ -467,8 +514,9 @@ function UserInfo({
               value={email}
               textContentType="email"
               underlineColorAndroid="transparent"
-              placeholder={I18n.t("Email")}
+              placeholder={I18n.t('Email')}
               style={styles.inputStyle1}
+              autoCapitalize="none"
               onChangeText={value => setEmail(value)}></TextInput>
           )}
           {!isUserEdit && (
@@ -477,7 +525,7 @@ function UserInfo({
               value={mobileNo}
               textContentType="mobileNo"
               underlineColorAndroid="transparent"
-              placeholder={I18n.t("Mobile No")}
+              placeholder={I18n.t('Mobile No')}
               style={styles.inputStyle1}
               onChangeText={value => setMobileNo(value)}></TextInput>
           )}
@@ -490,27 +538,30 @@ function UserInfo({
               value={schiller}
               textContentType="schiller"
               underlineColorAndroid="transparent"
-              placeholder={I18n.t("Street")}
+              placeholder={I18n.t('Street')}
               style={styles.inputStyle}
               onChangeText={value => setSchiller(value)}></TextInput>
             <TextInput
               placeholderTextColor={'#a29d9d'}
               value={zimmer}
               textContentType="schiller"
-              placeholder={I18n.t("House No.")}
+              underlineColorAndroid="transparent"
+              placeholder={I18n.t('House No.')}
               style={styles.inputStyle}
               onChangeText={value => setZimmer(value)}></TextInput>
           </View>
           <DropDownPicker
+            defaultValue={route?.params?.data?.address?.city}
             items={regions}
-            defaultValue={city}
-            containerStyle={{ height: '5%' }}
+            placeholder={I18n.t('Select Region')}
+            containerStyle={{height: 48}}
             style={{
               backgroundColor: '#F5F9F8',
               fontSize: RFValue(14, 580),
               color: '#a29d9d',
+              borderColor: '#F5F9F8',
             }}
-            itemStyle={{
+            itemStyle={{  
               justifyContent: 'flex-start',
             }}
             dropDownStyle={{
@@ -520,12 +571,14 @@ function UserInfo({
             }}
             onChangeItem={item => setCity(item.value)}
           />
+
           <TextInput
             placeholderTextColor={'#a29d9d'}
             value={postalCode}
+            maxLength={5}
             textContentType="postalCode"
             underlineColorAndroid="transparent"
-            placeholder={I18n.t("Postal Code")}
+            placeholder={I18n.t('Postal Code')}
             style={styles.inputStyle2}
             onChangeText={value => setPostalCode(value)}></TextInput>
           {editMode ? (
@@ -544,26 +597,22 @@ function UserInfo({
                 disabled={loader}
                 style={[styles.container, styles.submitButtonDark]}
                 onPress={() => {
-                  if (userInfo) {
-                    moveToMainScreen(navigation);
-                  } else {
-                    setIsSaveOnly(true);
-                    submit();
-                  }
+                  setIsSaveOnly(true);
+                  submit();
                 }}>
                 <Text style={styles.saveCloseText}>{I18n.t('Continue')}</Text>
               </TouchableOpacity>
               {!addFamily ? (
                 <TouchableOpacity
                   disabled={userInfo && !Object.keys(userInfo).length}
-                  style={{ marginTop: '4%', alignContent: 'center' }}
+                  style={{marginTop: '4%', alignContent: 'center'}}
                   onPress={() => {
                     setIsSaveOnly(false);
                     submit();
                   }}>
                   <Text style={styles.saveAddText}>
                     {isFamily
-                      ?I18n.t('Save & add another member')
+                      ? I18n.t('Save & add another member')
                       : I18n.t('Save & Add Family')}
                   </Text>
                 </TouchableOpacity>
@@ -600,6 +649,7 @@ function UserInfo({
 const mapDispatchToProps = dispatch => {
   return {
     moveToMainScreen: navigation => moveToMainScreenAction(navigation),
+    moveToOtpScreen: (navigation,data) =>moveToOtpScreen(navigation,data),
     signUp: user => dispatch(signUpAction(user)),
     addFamilyMember: data => dispatch(addFamilyMemberAction(data)),
     updateFamilyMember: data => dispatch(updateFamilyMemberAction(data)),
@@ -629,12 +679,31 @@ export default connect(mapStateToProps, mapDispatchToProps)(UserInfo);
 // Style for "Background"
 const styles = StyleSheet.create({
   background: {
-    backgroundColor: WHITE_COLOR,
-    paddingTop: '9%',
-    paddingLeft: '5%',
-    paddingRight: '5%',
+    padding:'4%', 
+    paddingTop:47, 
+    borderRadius: 20,
+    backgroundColor: 'white',
+    height: '90%',
+    marginTop: '8%',
   },
-
+  header: {
+    flexDirection: 'row',
+    height: height * 0.1,
+    paddingTop: '7%',
+    alignItems: 'center',
+  },
+  backIcon: {
+    flex: 1,
+    alignItems: 'flex-start',
+  },
+  headerTextView: {
+    flex: 9,
+    alignItems: 'center',
+    paddingRight: width * 0.1,
+  },
+  headerText: {
+    fontSize: RFValue(16, 580),
+  },
   mainHeadingText: {
     fontSize: RFValue(16, 580),
     color: PRIMARY_COLOR,
@@ -657,7 +726,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    marginBottom: 4,
     width: '100%',
   },
   inputStyle: {
@@ -746,6 +814,7 @@ const styles = StyleSheet.create({
     fontSize: RFValue(14, 580),
     fontWeight: '600',
     marginTop: '8%',
+    marginBottom: 10,
   },
   saveCloseText: {
     fontSize: RFValue(14, 580),

@@ -65,7 +65,7 @@ const Appointment = ({
           {`${item.firstName} ${item.lastName}`}
         </Text>
         <Text style={{color: '#d3d3d3', marginStart: 8, fontSize: 16}}>
-        {I18n.t(item.labe)}
+          {I18n.t(item.labe)}
         </Text>
       </TouchableOpacity>
     );
@@ -98,7 +98,7 @@ const Appointment = ({
               {'\n'}
               {'\n'}
               <Text style={styles.inputLabelSmall}>
-                {I18n.t('Please select the family members u want to select.')}
+                {I18n.t('Please select the family member.')}
               </Text>
             </Text>
           </View>
@@ -159,8 +159,8 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
-    height:'88%',
-    marginTop: '5%',
+    height: '88%',
+    marginTop: '8%',
   },
   splashbackground: {
     flex: 1,

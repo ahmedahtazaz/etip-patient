@@ -9,7 +9,8 @@ import {
   VERIFY_OTP,
   VERIFY_OTP_FAILURE,
   VERIFY_OTP_SUCCESS,
-  UPDATE_PHONE_SEND_OTP_SUCCESS
+  UPDATE_PHONE_SEND_OTP_SUCCESS,
+  RESET_PHONE,
 } from '../../commons/Constants';
 
 const INITIAL_STATE = {
@@ -23,7 +24,7 @@ const INITIAL_STATE = {
   verifyOptPayload: null,
   sendOptPayload: null,
   updatePhoneSendOptPayload: null,
-  isPhoneUpdated: false
+  isPhoneUpdated: false,
 };
 
 export default function phoneReducer() {
@@ -44,8 +45,8 @@ export default function phoneReducer() {
           loader: false,
           errMessage: undefined,
           updatePhoneOtpSend: true,
-          updatePhoneSendOptPayload: action.payload
-        }
+          updatePhoneSendOptPayload: action.payload,
+        };
 
       case SEND_OTP_FAILURE:
         return {
@@ -56,14 +57,22 @@ export default function phoneReducer() {
           sendOptPayload: null,
         };
 
-      case SEND_OTP:
       case VERIFY_OTP:
         return {
           ...state,
           errMessage: undefined,
           loader: true,
-          sendOptPayload: null,
           verifyOptPayload: null,
+          otpVerified: false,
+        };
+
+      case SEND_OTP:
+        return {
+          ...state,
+          errMessage: undefined,
+          loader: true,
+          sendOptPayload: null,
+          otpSend: false,
         };
 
       case VERIFY_OTP_SUCCESS:
@@ -87,22 +96,22 @@ export default function phoneReducer() {
         return {
           ...state,
           loader: true,
-          errMessage: undefined
-        }
+          errMessage: undefined,
+        };
 
       case UPDATE_PHONE_SUCCESS:
         return {
           ...state,
           loader: false,
-          isPhoneUpdated: true
-        }
+          isPhoneUpdated: true,
+        };
 
       case UPDATE_PHONE_FAILURE:
         return {
           ...state,
           loader: false,
-          errMessage: action.errMessage
-        }
+          errMessage: action.errMessage,
+        };
 
       case RESET_IS_PHONE_UPDATED:
         return {
@@ -110,7 +119,19 @@ export default function phoneReducer() {
           isPhoneUpdated: false,
           updatePhoneSendOptPayload: null,
           updatePhoneOtpSend: false,
-        }
+        };
+
+      case RESET_PHONE:
+        return {
+          ...state,
+          isPhoneUpdated: false,
+          updatePhoneSendOptPayload: null,
+          updatePhoneOtpSend: false,
+          otpSend: false,
+          otpVerified: false,
+          loader: false,
+          errMessage: false,
+        };
 
       default:
         return state;

@@ -9,14 +9,13 @@ import {
   TouchableOpacity,
   View,
   Image,
-  useWindowDimensions,
   ImageBackground,
 } from 'react-native';
 import Orientation from 'react-native-orientation-locker';
 import {WHITE_COLOR} from '../../theme/Colors';
 import {RFValue} from 'react-native-responsive-fontsize';
 import BottomNavigator from '../../components/BottomNavigator';
-import {width} from 'react-native-dimension';
+import { width, height, totalSize } from 'react-native-dimension';
 
 import {
   getActiveAppointmentsAction,
@@ -67,11 +66,18 @@ const MainScreen = ({
   const [selectedId, setSelectedId] = useState(null);
   const [userName, setUserName] = useState('');
 
+  const [isUpdated, setIsUpdated] = useState(false);
+
   const isFocused = useIsFocused();
 
   useEffect(() => {
     Orientation.lockToPortrait();
+    if (isFocused) setIsUpdated(true);
   }, [isFocused]);
+
+  useEffect(() => {
+    if (isUpdated) setIsUpdated(false);
+  }, [isUpdated]);
 
   useEffect(() => {
     if (verifyOptPayload?.data?.data?.userId) {
@@ -153,6 +159,7 @@ const MainScreen = ({
       <View
         style={{
           marginBottom: 8,
+          flexGrow:1
         }}>
         <TouchableOpacity
           style={styles.activeAppoinmentsDiv}
@@ -161,31 +168,28 @@ const MainScreen = ({
           }>
           <ImageBackground
             source={activeCertificationBg}
-            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
-            <View style={styles.contentPadding}>
-              <View style={styles.parentNameContainer}>
-                <View style={styles.nameTextContainer}>
-                  <Text style={styles.boxHeading}>
-                    {item?.testPoint?.testCenter?.test?.testType}
-                  </Text>
-                  <Text style={styles.boxTestText}>
-                    {item?.testPoint?.name}
-                  </Text>
-                </View>
-                <View style={styles.nameTextContainer}>
-                  <Text style={styles.boxHeading}>
-                    {moment(item?.day).format('DD/MM/YYYY')}
-                  </Text>
-                  <Text style={styles.boxText}>{item?.time}</Text>
-                </View>
+            style={{width: '100%', height: '100%', resizeMode: 'cover'}}
+            >
+            <View style={styles.parentNameContainer}>
+              <View style={styles.nameTextContainer}>
+                <Text style={styles.boxHeading}>
+                  {item?.testPoint?.testCenter?.test?.testType}
+                </Text>
+                <Text style={styles.boxTestText}>{item?.testPoint?.name}</Text>
               </View>
-              <View style={styles.parentNameContainer}>
-                <View style={styles.bottomTextContainer}>
-                  <Text style={styles.boxHeading}>
-                    {item?.testPoint?.testCenter?.name}
-                  </Text>
-                  <Text style={styles.boxText}>{item?.name}</Text>
-                </View>
+              <View style={styles.nameTextContainer}>
+                <Text style={styles.boxHeading}>
+                  {moment(item?.day).format('DD/MM/YYYY')}
+                </Text>
+                <Text style={styles.boxText}>{item?.time}</Text>
+              </View>
+            </View>
+            <View style={styles.parentNameContainer}>
+              <View style={styles.bottomTextContainer}>
+                <Text style={styles.boxHeading}>
+                  {item?.testPoint?.testCenter?.name}
+                </Text>
+                <Text style={styles.boxText}>{item?.name}</Text>
               </View>
             </View>
           </ImageBackground>
@@ -214,13 +218,13 @@ const MainScreen = ({
         <View style={styles.mainDivPad}>
           {
             <View style={styles.nameContainer}>
-              <View style={styles.parentNameContainer}>
+              <View style={styles.parentNameContainer1}>
                 <View style={styles.nameTextContainer}>
                   <Text style={{fontSize: 25, fontWeight: 'bold'}}>
                     Hi {userName}
                   </Text>
                   <Text style={{textColor: 'grey'}}>
-                  {I18n.t('Hope You, are feeling healthy today')}
+                    {I18n.t('Hope you are feeling healthy today')}
                   </Text>
                 </View>
                 <TouchableOpacity
@@ -240,7 +244,9 @@ const MainScreen = ({
             </View>
           }
           <View style={styles.actionCertificateContainer}>
-            <Text style={styles.boxTopHeading}>{I18n.t('ACTIVE CERTIFICATES')}</Text>
+            <Text style={styles.boxTopHeading}>
+              {I18n.t('ACTIVE CERTIFICATES')}
+            </Text>
             {activeCertificates ? (
               <FlatList
                 horizontal
@@ -265,10 +271,12 @@ const MainScreen = ({
                     }}>
                     <View style={styles.contentPadding}>
                       <Text style={styles.boxHeadingDisable}>
-                      {I18n.t('No Active Certificate')}
+                        {I18n.t('No Active Certificate')}
                       </Text>
                       <Text style={styles.boxTextDisable}>
-                      {I18n.t('You don’t have any active certificate at the moment')}
+                        {I18n.t(
+                          'You don’t have any active certificate at the moment',
+                        )}
                       </Text>
                     </View>
                   </ImageBackground>
@@ -276,14 +284,19 @@ const MainScreen = ({
               </View>
             )}
           </View>
-          <View style={styles.actionCertificateContainer}>
-            <Text style={styles.boxTopHeading}>{I18n.t('APPOINTMENTS')}</Text>
+          {/* <View style={styles.actionCertificateContainer}> */}
+            <Text style={styles.boxTopHeadingAppointment}>{I18n.t('APPOINTMENTS')}</Text>
             {activeAppointments ? (
               <FlatList
-                data={activeAppointments?.data?.data}
+              style={{
+                height: height(30) ,
+                 flexGrow: 1
+              }}               
+               data={activeAppointments?.data?.data}
                 renderItem={renderItemAppointment}
                 keyExtractor={item => item.id}
                 extraData={selectedId}
+                contentContainerStyle={{paddingBottom:60}}
               />
             ) : (
               <View
@@ -302,17 +315,19 @@ const MainScreen = ({
                     }}>
                     <View style={styles.contentPadding}>
                       <Text style={styles.boxHeadingDisable}>
-                      {I18n.t('No Active Appointments')}
+                        {I18n.t('No Active Appointments')}
                       </Text>
                       <Text style={styles.boxTextDisable}>
-                      {I18n.t('You don’t have any active appointment at the moment')}
+                        {I18n.t(
+                          'You don’t have any active appointment at the moment',
+                        )}
                       </Text>
                     </View>
                   </ImageBackground>
                 </View>
               </View>
             )}
-          </View>
+          {/* </View> */}
         </View>
       </View>
       <TouchableOpacity
@@ -321,6 +336,7 @@ const MainScreen = ({
         <Image source={plusIcon} />
       </TouchableOpacity>
       <BottomNavigator
+       style={styles.footer}
         navigation={navigation}
         selectedItem={{id: 1, label: 'Home'}}></BottomNavigator>
       {loader ? (
@@ -374,6 +390,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f8fbfa',
   },
+  footer: {
+    position: 'absolute',
+    bottom:0,
+    left:0
+  },
   mainDivPad: {
     paddingLeft: '4%',
     paddingRight: '4%',
@@ -383,7 +404,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     backgroundColor: 'white',
     height: '88%',
-    marginTop: '25%',
+    marginTop: '26%',
   },
   mainMenu: {
     position: 'absolute',
@@ -412,7 +433,7 @@ const styles = StyleSheet.create({
   activeCertificationDiv: {
     borderRadius: 10,
     flexWrap: 'wrap',
-    minWidth: 360,
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
     resizeMode: 'cover',
@@ -423,7 +444,7 @@ const styles = StyleSheet.create({
   },
   activeAppoinmentsDiv: {
     borderRadius: 10,
-    minWidth: 360,
+    width: '100%',
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -486,6 +507,13 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: RFValue(12, 580),
   },
+  boxTopHeadingAppointment: {
+    marginBottom: 8,
+    color: '#595050',
+    fontWeight: '600',
+    fontSize: RFValue(12, 580),
+    marginTop:8,
+  },
   nameContainer: {
     alignSelf: 'stretch',
     marginTop: 16,
@@ -496,6 +524,19 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    paddingTop: 10,
+    paddingLeft: 13,
+    paddingRight: 20,
+    paddingBottom: 10,
+  },
+  parentNameContainer1: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: 10,
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingBottom: 10,
   },
   bluebox: {
     width: 100,

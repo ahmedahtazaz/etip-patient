@@ -1,4 +1,5 @@
-import { Alert, Platform, ToastAndroid } from 'react-native';
+import {Alert, Platform, ToastAndroid} from 'react-native';
+import I18n from '../translations/I18n';
 
 export const LOAD_INIT = 'LOAD_INIT';
 export const LOAD_INIT_SUCCESS = 'LOAD_INIT_SUCCESS';
@@ -22,6 +23,8 @@ export const UPDATE_PHONE_SUCCESS = 'UPDATE_PHONE_SUCCESS';
 export const UPDATE_PHONE_FAILURE = 'UPDATE_PHONE_FAILURE';
 
 export const RESET_IS_PHONE_UPDATED = 'RESET_IS_PHONE_UPDATED';
+
+export const RESET_PHONE = 'RESET_PHONE';
 
 export const SIGNUP = 'SIGNUP';
 export const SIGNUP_SUCCES = 'SIGNUP_SUCCESS';
@@ -146,18 +149,17 @@ export const RESET_ERROR_CERTIFICATES = 'RESET_ERROR_CERTIFICATES';
 
 export const RESET_MAKE_APPOINTMENT = 'RESET_MAKE_APPOINTMENT';
 
-export const GET_RELATIONS = "GET_RELATIONS";
-export const GET_RELATIONS_SUCCESS = "GET_RELATIONS_SUCCESS";
-export const GET_RELATIONS_FAILURE = "GET_RELATIONS_FAILURE";
+export const GET_RELATIONS = 'GET_RELATIONS';
+export const GET_RELATIONS_SUCCESS = 'GET_RELATIONS_SUCCESS';
+export const GET_RELATIONS_FAILURE = 'GET_RELATIONS_FAILURE';
 
-export const GET_USERINFO_REGION = "GET_USERINFO_REGION";
-export const GET_USERINFO_REGION_SUCCESS = "GET_USERINFO_REGION_SUCCESS";
-export const GET_USERINFO_REGION_FAILURE = "GET_USERINFO_REGION_FAILURE";
+export const GET_USERINFO_REGION = 'GET_USERINFO_REGION';
+export const GET_USERINFO_REGION_SUCCESS = 'GET_USERINFO_REGION_SUCCESS';
+export const GET_USERINFO_REGION_FAILURE = 'GET_USERINFO_REGION_FAILURE';
 
-
-export const postCall = ({ url, body: data }) => {
-  return axios({ url, method: 'post', data })
-    .then(data => ({ data }))
+export const postCall = ({url, body: data}) => {
+  return axios({url, method: 'post', data})
+    .then(data => ({data}))
     .catch(ex => {
       return ex;
     });
@@ -165,7 +167,7 @@ export const postCall = ({ url, body: data }) => {
 
 export const showToast = msg => {
   if (Platform.OS === 'android') {
-    ToastAndroid.show(msg, ToastAndroid.SHORT);
+    ToastAndroid.show(I18n.t(msg), ToastAndroid.SHORT);
   } else {
     Alert.alert(msg);
   }

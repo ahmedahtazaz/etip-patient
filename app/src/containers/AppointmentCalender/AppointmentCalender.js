@@ -328,7 +328,7 @@ const AppointmentCalender = ({
                         onPress={() => setSelectedSlot(null)}>
                         <Text style={styles.GridViewInsideTextItemStyleActive}>
                           
-                        {I18n.t('item.timeSlot')}
+                        {item.timeSlot}
                         </Text>
                       </TouchableOpacity>
                     );
@@ -340,7 +340,7 @@ const AppointmentCalender = ({
                       onPress={() => setSelectedSlot(item.timeSlot)}>
                       <Text style={styles.GridViewInsideTextItemStyle}>
                     
-                        {I18n.t('item.timeSlot')}
+                        {item.timeSlot}
                       </Text>
                     </TouchableOpacity>
                   );
@@ -445,7 +445,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     backgroundColor: 'white',
     height:'88%',
-    marginTop: '5%',
+    marginTop: '8%',
   },
   imgShadow: {
     shadowColor: '#000',
@@ -529,7 +529,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
     alignItems: 'center',
-    height: 50,
+    minHeight: 50,
     margin: 5,
     backgroundColor: 'white',
     borderStyle: 'dotted',
@@ -540,7 +540,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
     alignItems: 'center',
-    height: 50,
+    minHeight: 50,
     margin: 5,
     backgroundColor: '#006970',
     backgroundColor: '#006970',

@@ -7,6 +7,7 @@ import {
   FlatList,
   Dimensions,
 } from 'react-native';
+import I18n from '../../translations/I18n';
 
 import {connect} from 'react-redux';
 import {get_lang_by_key_url} from '../../commons/environment';
@@ -41,7 +42,7 @@ function ChangeLanguage({
   const [successWaiting, setSuccessWaiting] = useState(false);
 
   useEffect(() => {
-    if (availableLanguages && defaultLangData)
+    if (availableLanguages && defaultLangData) {
       setLanguages(
         availableLanguages.map(lang => {
           return {
@@ -50,10 +51,17 @@ function ChangeLanguage({
           };
         }),
       );
-    saveLanguage(defaultLangData.lang);
-    if (successWaiting) setLanguageUpdated(true);
+
+      saveLanguage(defaultLangData.lang);
+
+      if (successWaiting) {
+        I18n.translations = defaultLangData.keys;
+        setLanguageUpdated(true);
+      }
+    }
   }, [availableLanguages, defaultLangData]);
 
+  
   useEffect(() => {
     if (errMessage) {
       setSuccessWaiting(false);
@@ -277,7 +285,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     backgroundColor: 'white',
     height: '88%',
-    marginTop: '5%',
+    marginTop: '8%',
   },
   mainDivPad: {
     paddingLeft: '10%',

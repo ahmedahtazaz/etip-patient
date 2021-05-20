@@ -8,14 +8,12 @@ import {
   TouchableOpacity,
   View,
   Image,
-  useWindowDimensions,
   ImageBackground,
 } from 'react-native';
 import I18n from '../../translations/I18n';
 import Orientation from 'react-native-orientation-locker';
 import {WHITE_COLOR, LIGHT_GREY} from '../../theme/Colors';
 import {RFValue} from 'react-native-responsive-fontsize';
-import {width} from 'react-native-dimension';
 
 import {
   moveToAppointmentDetailsAction,
@@ -35,24 +33,28 @@ const AppointmentMainScreen = ({
   movetoSettingsScreen,
   movetoMakeAnAppointmentScreen,
   moveToAppointmentDetails,
-  route,
   activeAppointments,
 }) => {
-  const window = useWindowDimensions();
-
   const [selectedId, setSelectedId] = useState(null);
+
+  const [isUpdated, setIsUpdated] = useState(false);
 
   const isFocused = useIsFocused();
 
   useEffect(() => {
     Orientation.lockToPortrait();
+    if (isFocused) setIsUpdated(true);
   }, [isFocused]);
+
+  useEffect(() => {
+    if (isUpdated) setIsUpdated(false);
+  }, [isUpdated]);
 
   const renderItem = ({item}) => {
     return (
       <View
         style={{
-          marginEnd: 8,         
+          marginEnd: 8,
         }}>
         <TouchableOpacity
           style={styles.activeAppoinmentsDiv}
@@ -61,8 +63,8 @@ const AppointmentMainScreen = ({
           }>
           <ImageBackground
             source={activeCertificationBg}
-            style={{height: '100%', resizeMode: 'cover'}}>
-            <View style={styles.contentPadding}>
+            style={{width: '100%', height: '100%', resizeMode: 'cover'}}>
+            
               <View style={styles.parentNameContainer}>
                 <View style={styles.nameTextContainer}>
                   <Text style={styles.boxHeading}>
@@ -87,7 +89,7 @@ const AppointmentMainScreen = ({
                   <Text style={styles.boxText}>{I18n.t(item?.name)}</Text>
                 </View>
               </View>
-            </View>
+            
           </ImageBackground>
         </TouchableOpacity>
       </View>
@@ -110,8 +112,8 @@ const AppointmentMainScreen = ({
           </View>
         </View>
       </View>
-      <View style={styles.appoinmentDivBg}>
-        <View style={styles.mainDivPad}>
+      <View style={styles.appoinmentDivBg} >
+        <View style={styles.mainDivPad} >
           <View style={styles.actionCertificateContainer}>
             <Text style={styles.boxTopHeading}>
               {I18n.t('ACTIVE APPOINTMENTS')}
@@ -130,7 +132,7 @@ const AppointmentMainScreen = ({
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                 }}>
-                <View style={styles.activeCertificationDiv} >
+                <View style={styles.activeCertificationDiv}>
                   <ImageBackground
                     source={previousAppoinmentBg}
                     style={styles.activeAppoinmentsDiv}
@@ -141,10 +143,12 @@ const AppointmentMainScreen = ({
                     }}>
                     <View style={styles.contentPadding}>
                       <Text style={styles.boxHeadingDisable}>
-                      {I18n.t('No Active Appointments')}
+                        {I18n.t('No Active Appointments')}
                       </Text>
                       <Text style={styles.boxTextDisable}>
-                      {I18n.t('You don’t have any active appointment at the moment')}
+                        {I18n.t(
+                          'You don’t have any active appointment at the moment',
+                        )}
                       </Text>
                     </View>
                   </ImageBackground>
@@ -172,10 +176,12 @@ const AppointmentMainScreen = ({
                   }}>
                   <View style={styles.contentPadding}>
                     <Text style={styles.boxHeadingDisable}>
-                    {I18n.t('No Previous Appointments')}
+                      {I18n.t('No Previous Appointments')}
                     </Text>
                     <Text style={styles.boxTextDisable}>
-                    {I18n.t('You don’t have any previous appointment at the moment')}
+                      {I18n.t(
+                        'You don’t have any previous appointment at the moment',
+                      )}
                     </Text>
                   </View>
                 </ImageBackground>
@@ -216,7 +222,7 @@ const styles = StyleSheet.create({
     zIndex: 2000,
     top: '3%',
     left: '3%',
-    height:'10%',
+    height: '10%',
     width: '100%',
   },
   mainMenuItems: {
@@ -239,24 +245,22 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
-    height:'88%',
-    marginTop: '25%',
+    height: '88%',
+    marginTop: '26%',
   },
   activeCertificationDiv: {
     borderRadius: 10,
     flexWrap: 'wrap',
-
     display: 'flex',
     flexDirection: 'column',
     resizeMode: 'cover',
     overflow: 'hidden',
-    minWidth:360,
+    width: '100%',
     marginEnd: 10,
     maxHeight: 153,
   },
   activeAppoinmentsDiv: {
     borderRadius: 10,
-
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -264,7 +268,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     resizeMode: 'cover',
     overflow: 'hidden',
-    minWidth:360,
+    maxWidth: 360,
     minHeight: 153,
   },
   contentPadding: {
@@ -287,7 +291,7 @@ const styles = StyleSheet.create({
 
     lineHeight: 20,
   },
-  boxTestText : {
+  boxTestText: {
     fontSize: RFValue(13, 580),
     color: WHITE_COLOR,
     fontWeight: '400',
@@ -339,10 +343,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
   },
-  bottomTextContainer: {
+  /*bottomTextContainer: {
     display: 'flex',
     flexDirection: 'column',
-  },
+  },*/
 
   actionCertificateContainer: {
     marginTop: 42,
@@ -365,9 +369,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop: 15,
+    paddingTop: 10,
     paddingLeft: 13,
     paddingRight: 20,
+    paddingBottom: 10,
   },
   bluebox: {
     width: 100,

@@ -132,6 +132,7 @@ const FamilyMain = ({
               data={familyMembers}
               renderItem={renderItem}
               keyExtractor={item => item.id}
+              //contentContainerStyle={{paddingBottom:60}}
               renderHiddenItem={(data, rowMap) => {
                 if (!data.item.isPrimary)
                   return (
@@ -139,7 +140,13 @@ const FamilyMain = ({
                       onPress={() => removeMember(data)}
                       style={styles.rowDeleteImage}>
                       <View style={styles.deleteItem}>
-                        <Image source={deleteIcon} />
+                        <Image
+                          source={deleteIcon}
+                          style={{
+                            resizeMethod: 'resize',
+                            resizeMode: 'contain',
+                          }}
+                        />
                       </View>
                     </TouchableOpacity>
                   );
@@ -177,29 +184,28 @@ const styles = StyleSheet.create({
 
     display: 'flex',
     flexDirection: 'row',
+
+    marginTop: '5%',
   },
   editContainer: {
-    marginStart: 8,
-    marginBottom: 30,
-    marginTop: -8,
-    marginEnd: 8,
+    marginStart: 12,
+    marginEnd: 12,
   },
-  qrEditContainer: {
-    marginTop: -15,
-  },
+  qrEditContainer: {},
 
   nameTextContainer: {
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'center',
   },
   actionCertificateContainer: {
     marginTop: 8,
     display: 'flex',
     flexDirection: 'column',
+    paddingBottom:50
   },
   deleteItem: {
-    marginEnd: 8,
-    marginTop: 22,
+    marginEnd: 12,
   },
   calenderContainer: {
     marginTop: 8,
@@ -216,7 +222,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   parentNameContainer: {
-    marginTop: 16,
+    paddingTop: 9,
+    paddingBottom: 9,
     flex: 1,
 
     display: 'flex',
@@ -224,12 +231,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   qrCodeandEditConatiner: {
-    marginTop: 16,
     flex: 1,
 
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   bluebox: {
     width: 100,
@@ -250,13 +257,14 @@ const styles = StyleSheet.create({
   mainDivPad: {
     paddingLeft: '4%',
     paddingRight: '4%',
+    paddingTop: 20,
   },
   appoinmentDivBg: {
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
     height: '88%',
-    marginTop: '25%',
+    marginTop: '26%',
   },
   mainMenu: {
     position: 'absolute',

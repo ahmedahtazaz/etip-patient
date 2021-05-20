@@ -450,7 +450,7 @@ const styles = StyleSheet.create({
   },
   submitButtonDark: {
     height: height * 0.1,
-    borderRadius: 3,
+    borderRadius: 10,
     backgroundColor: '#000',
     color: WHITE_COLOR,
     paddingTop: 15,
