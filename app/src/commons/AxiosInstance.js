@@ -1,5 +1,6 @@
 import { base_url } from './environment';
 import axios from 'axios';
+import { store } from '../../App';
 
 const AxiosInstance = axios.create({
   baseURL: base_url,
@@ -10,6 +11,11 @@ const AxiosInstance = axios.create({
 });
 
 AxiosInstance.interceptors.request.use((config) => {
+
+  let token = store.getState().phoneReducer.verifyOptPayload?.data?.data?.token;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
   config.headers["organization"] = "eTip-german";
   return config;
 })
