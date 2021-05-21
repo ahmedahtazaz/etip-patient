@@ -1,69 +1,80 @@
 import * as React from 'react';
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import {
   StyleSheet,
   View,
   Text,
   TouchableOpacity,
   Dimensions,
-  Switch,
+  ActivityIndicator,
   TextInput,
   FlatList,
 } from 'react-native';
+import moment from 'moment';
 import I18n from '../../translations/I18n';
-
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import Orientation from 'react-native-orientation-locker';
-import {useIsFocused} from '@react-navigation/native';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import { useIsFocused } from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
-import {RFValue} from 'react-native-responsive-fontsize';
-import {BLACK_COLOR, GREEN_COLOR, WHITE_COLOR} from '../../theme/Colors';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { BLACK_COLOR, GREEN_COLOR, WHITE_COLOR } from '../../theme/Colors';
 import BottomNavigator from '../../components/BottomNavigator';
-const {width, height} = Dimensions.get('window');
-const DATA = [
-  {
-    name: 'P-1234',
-    date: '20/May/2020 10:00',
-  },
-  {
-    name: 'P-1354',
-    date: '1/Jun/2020 09:00',
-  },
-  {
-    name: 'P-7878',
-    date: '12/Jul/2020 01:00',
-  },
-  {
-    name: 'P-4887',
-    date: '2/Aug/2020 04:00',
-  },
-  {
-    name: 'P-6698',
-    date: '8/Sep/2020 08:00',
-  },
-  {
-    name: 'P-1987',
-    date: '27/Oct/2020 10:00',
-  },
-];
+import { getConductedTestsAction } from './Action';
+import { showToast } from '../../commons/Constants';
+import { get_pending_applications_url } from '../../commons/environment';
+import { getPendingApplicationsAction } from '../TestCenterInfo/Action';
+const { width, height } = Dimensions.get('window');
 
-function TestConducted({navigation}) {
+function TestConducted({
+  navigation,
+  getPendingApplications,
+  conductedTests,
+  errMessage,
+  loader,
+  verifyPinPayload,
+  pendingApplications
+}) {
   const [patientName, setPatientName] = useState('');
+  const [filteredPatient, setFilteredPatient] = useState([]);
   const isFocused = useIsFocused();
 
   useEffect(() => {
     Orientation.lockToPortrait();
   }, [isFocused]);
 
-  const renderItem = ({item, index}) => (
-    <TouchableOpacity
+  useEffect(() => {
+    let data = {
+      url: `${get_pending_applications_url}/${verifyPinPayload?.user?.testCenter?._id}`
+    };
+    getPendingApplications(data);
+  }, []);
+
+  useEffect(() => {
+    if (errMessage) {
+      showToast(errMessage);
+    }
+  }, [errMessage]);
+
+  const searchPatient = text => {
+    setPatientName(text);
+    let filteredPatients = pendingApplications.filter(
+      (patient) =>
+        patient.name.toLowerCase().indexOf(text.toLowerCase()) > -1,
+    );
+    setFilteredPatient(filteredPatients);
+  };
+
+  const getData = () => {
+    return patientName.length ? filteredPatient : pendingApplications;
+  };
+
+  const renderItem = ({ item, index }) => (
+    <View
       style={styles.item}
-      key={index}
-      onPress={() => navigation.navigate('TestInformationScreen')}>
+      key={index}>
       <Text style={styles.name}>{item.name}</Text>
-      <Text style={styles.date}>{item.date}</Text>
-    </TouchableOpacity>
+      <Text style={styles.date}>{`${moment(item?.appointmentDate).format("DD MMM YYYY")} ${item?.appointmentTime}`}</Text>
+    </View>
   );
 
   return (
@@ -82,7 +93,7 @@ function TestConducted({navigation}) {
                 placeholder="Search"
                 underlineColorAndroid="transparent"
                 value={patientName}
-                onChange={e => setPatientName(e.target.value)}></TextInput>
+                onChangeText={e => searchPatient(e)}></TextInput>
             </View>
             <View style={styles.searchIconView}>
               <Feather name="search" color="#aeadad" size={20} />
@@ -91,16 +102,30 @@ function TestConducted({navigation}) {
 
           <View style={styles.patientList}>
             <FlatList
-              data={DATA}
+              data={getData()}
               renderItem={renderItem}
               keyExtractor={(item, index) => index}
             />
           </View>
+          {loader ? (
+            <View
+              style={{
+                alignSelf: 'center',
+                height: '100%',
+                width: '100%',
+                justifyContent: 'center',
+                position: 'absolute',
+                top: '40%',
+                zIndex: 1000,
+              }}>
+              <ActivityIndicator size="large" color="grey" animating={loader} />
+            </View>
+          ) : null}
         </View>
       </View>
       <BottomNavigator
         navigation={navigation}
-        selectedItem={{id: 2, label: 'Test Conducted'}}></BottomNavigator>
+        selectedItem={{ id: 2, label: 'Test Conducted' }}></BottomNavigator>
     </View>
   );
 }
@@ -108,6 +133,7 @@ function TestConducted({navigation}) {
 const styles = StyleSheet.create({
   patientList: {
     marginTop: 30,
+    height: height * 0.55
   },
   item: {
     height: 60,
@@ -165,17 +191,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   infoContainer: {
-    
+
     backgroundColor: '#f8fbfa',
   },
   infoContainerChild: {
     paddingTop: 30,
     borderWidth: 1,
     marginTop: 20,
-    height:'95%',
+    height: '95%',
     borderColor: '#f2f4f3',
     backgroundColor: '#ffffff',
-   
+
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     paddingHorizontal: 15,
@@ -201,4 +227,22 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TestConducted;
+
+const mapStateToProps = (state) => {
+  return {
+    loader: state.testCenterInfoReducer.loader,
+    errMessage: state.testCenterInfoReducer.errMessage,
+    pendingApplications: state.testCenterInfoReducer.pendingApplications,
+    verifyPinPayload: state.pinScreenReducer.verifyPinPayload,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getConductedTests: data => dispatch(getConductedTestsAction(data)),
+    getPendingApplications: data =>
+      dispatch(getPendingApplicationsAction(data)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TestConducted);

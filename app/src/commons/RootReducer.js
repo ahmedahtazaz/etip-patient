@@ -23,6 +23,7 @@ import qrScreenReducer from '../containers/QRScreen/Reducer';
 import verifierUserInfoReducer from '../containers/VerifierUserInfo/Reducer';
 import issueCertificateReducer from '../containers/TestInformation/Reducer';
 import getNeedAssistanceReducer from '../containers/NeedAssistance/Reducer';
+import testConductedReducer from '../containers/TestConducted/Reducer';
 
 const createRootReducer = () =>
   combineReducers({
@@ -51,7 +52,8 @@ const createRootReducer = () =>
     qrScreenReducer: qrScreenReducer(),
     verifierUserInfoReducer: verifierUserInfoReducer(),
     issueCertificateReducer: issueCertificateReducer(),
-    getNeedAssistanceReducer: getNeedAssistanceReducer()
+    getNeedAssistanceReducer: getNeedAssistanceReducer(),
+    testConductedReducer: testConductedReducer()
 
   });
 
