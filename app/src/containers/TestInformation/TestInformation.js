@@ -117,7 +117,7 @@ function TestInformation({
           </View>
 
           <View>
-            <View style={{ marginTop: 30, marginBottom: 10 }}>
+            <View style={{ marginTop: 30, marginBottom: 10, }}>
               <Text style={{ ...styles.textSize, color: BLACK_COLOR }}>
                 {I18n.t('Test Result')}
               </Text>

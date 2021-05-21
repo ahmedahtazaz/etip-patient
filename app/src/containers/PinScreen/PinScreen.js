@@ -149,12 +149,13 @@ const styles = StyleSheet.create({
   mainMenu: {
     position: 'absolute',
     zIndex: 2000,
-    top: '5%',
+   
     width: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: '5%',
+    paddingTop:'25%',
+    height:'10%',
   },
   pinStyle: {
     display: 'flex',

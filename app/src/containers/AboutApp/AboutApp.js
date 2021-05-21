@@ -31,7 +31,7 @@ const AboutApp = ({getAbout, navigation, about, errMessage}) => {
       <View style={styles.header}>
         <View style={styles.backIcon}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <EvilIcons name="chevron-left" color="#000" size={30} />
+            <EvilIcons name="chevron-left" color="#000" size={40} />
           </TouchableOpacity>
         </View>
         <View>
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   },
   container: {
     height,
-    backgroundColor: 'white',
+    backgroundColor: '#f8fbfa',
   },
   rowDeleteImage: {
     justifyContent: 'flex-end',
@@ -170,7 +170,14 @@ const styles = StyleSheet.create({
     paddingLeft: '4%',
     paddingRight: '4%',
   },
-  appoinmentDivBg: {},
+  appoinmentDivBg: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    backgroundColor: 'white',
+    height: '82%',
+    marginTop: '8%',
+    padding:30
+  },
   mainMenu: {
     position: 'absolute',
     zIndex: 2000,
