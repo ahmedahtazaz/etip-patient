@@ -44,7 +44,8 @@ function TestConducted({
 
   useEffect(() => {
     let data = {
-      url: `${get_pending_applications_url}/${verifyPinPayload?.user?.testCenter?._id}`
+      // url: `${get_pending_applications_url}/${verifyPinPayload?.user?.testCenter?._id}`
+      url: `${get_pending_applications_url}/608fd4db94122fa7a3c31eba`
     };
     getPendingApplications(data);
   }, []);
@@ -205,6 +206,12 @@ const styles = StyleSheet.create({
     borderColor: '#f2f4f3',
     backgroundColor: '#ffffff',
 
+    height: '79%',
+    marginTop: '25%',
+    paddingBottom:50,
+    borderColor: '#f2f4f3',
+    backgroundColor: 'white',
+   
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     paddingHorizontal: 15,
