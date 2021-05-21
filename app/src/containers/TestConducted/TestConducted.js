@@ -44,8 +44,7 @@ function TestConducted({
 
   useEffect(() => {
     let data = {
-      // url: `${get_pending_applications_url}/${verifyPinPayload?.user?.testCenter?._id}`
-      url: `${get_pending_applications_url}/608fd4db94122fa7a3c31eba`
+      url: `${get_pending_applications_url}/${verifyPinPayload?.user?.testCenter?._id}`
     };
     getPendingApplications(data);
   }, []);
