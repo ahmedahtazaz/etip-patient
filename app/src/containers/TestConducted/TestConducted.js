@@ -162,6 +162,8 @@ const styles = StyleSheet.create({
   },
   searchField: {
     paddingLeft: 20,
+    color:'black',
+    
   },
   searchBox: {
     flexDirection: 'row',
@@ -178,12 +180,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8fbfa',
   },
   header: {
+    position:'absolute',
+    zIndex: 2000,
     flexDirection: 'row',
     height: '11%',
     alignItems: 'center',
-    paddingTop: 30,
+    //paddingTop: 30,
+    paddingTop:'8%',
     width,
-    backgroundColor: '#f8fbfa',
   },
   headerText: {
     fontSize: RFValue(16, 580),
@@ -191,7 +195,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   infoContainer: {
-
     backgroundColor: '#f8fbfa',
   },
   infoContainerChild: {

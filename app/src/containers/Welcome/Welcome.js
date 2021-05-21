@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    height: '72%',
+    height: '70%',
   },
   welcomeBottomText: {
     display: 'flex',

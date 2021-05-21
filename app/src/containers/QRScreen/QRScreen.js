@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     overflow: 'hidden',
-    marginTop: '13%',
+    marginTop: '8%',
   },
   sectionContainer: {
     backgroundColor: Colors.black,

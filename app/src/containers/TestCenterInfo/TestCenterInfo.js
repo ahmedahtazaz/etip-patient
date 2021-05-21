@@ -93,7 +93,7 @@ function TestCenterInfo({
           <View style={styles.mainMenu}>
             <Image source={headerLogo} />
           </View>
-          <View style={{ height: '100%', top: '50%' }}>
+          <View style={{ height: '100%', top: '50%', paddingLeft:20 }}>
             <Text style={styles.heading}>{I18n.t('Hello, Jone!')}</Text>
             <Text style={styles.subHeading}>
               {I18n.t('Hope you are having a good day')}
@@ -157,7 +157,7 @@ function TestCenterInfo({
               style={{ width: '100%' }}
               onPress={() => navigation.navigate('VerifierUserInfoScreen')}>
               <Text style={styles.scanAnotherQRcode}>
-                {I18n.t('Insert Person Info')}
+                {I18n.t('Insert Personal Info')}
               </Text>
             </TouchableOpacity>
             {loader ? (
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: 'cover',
     flexDirection: 'column',
-    paddingLeft: 20,
+    //paddingLeft: 20,
     height: '100%',
   },
   splashbackground1: {

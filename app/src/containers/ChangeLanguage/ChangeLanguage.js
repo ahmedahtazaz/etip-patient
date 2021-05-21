@@ -285,8 +285,8 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
-    height: '88%',
-    marginTop: '5%',
+    height: '82%',
+    marginTop: '8%',
   },
   mainDivPad: {
     paddingLeft: '10%',

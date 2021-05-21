@@ -113,7 +113,7 @@ function TestCenterVerifier({
             <View style={styles.menuItemsLeft}></View>
           )}
           <View style={styles.menuItemsCenter}>
-            <Image source={headerLogo} style={{ marginLeft: 5 }} />
+            <Image source={headerLogo} style={{ marginLeft: 5,marginTop:-6 }} />
           </View>
         </View>
       </View>
