@@ -21,7 +21,9 @@ export default function verifierUserInfoReducer() {
                 return {
                     ...state,
                     loader: true,
-                    errMessage: undefined
+                    errMessage: undefined,
+                    isUserCreated:false,
+                    userData: null
                 }
 
             case CREATE_USRE_SUCCESS:

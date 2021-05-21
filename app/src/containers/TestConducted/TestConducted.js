@@ -46,6 +46,18 @@ const DATA = [
     name: 'P-1987',
     date: '27/Oct/2020 10:00',
   },
+  {
+    name: 'P-4887',
+    date: '2/Aug/2020 04:00',
+  },
+  {
+    name: 'P-6698',
+    date: '8/Sep/2020 08:00',
+  },
+  {
+    name: 'P-1987',
+    date: '27/Oct/2020 10:00',
+  },
 ];
 
 function TestConducted({navigation}) {
@@ -92,6 +104,7 @@ function TestConducted({navigation}) {
           <View style={styles.patientList}>
             <FlatList
               data={DATA}
+              contentContainerStyl={{paddingBottom:50}}
               renderItem={renderItem}
               keyExtractor={(item, index) => index}
             />
@@ -136,6 +149,8 @@ const styles = StyleSheet.create({
   },
   searchField: {
     paddingLeft: 20,
+    color:'black',
+    
   },
   searchBox: {
     flexDirection: 'row',

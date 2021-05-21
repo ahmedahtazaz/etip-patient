@@ -159,7 +159,7 @@ function TestCenterInfo({
               style={{ width: '100%' }}
               onPress={() => navigation.navigate('VerifierUserInfoScreen')}>
               <Text style={styles.scanAnotherQRcode}>
-                {I18n.t('Insert Person Info')}
+                {I18n.t('Insert Personal Info')}
               </Text>
             </TouchableOpacity>
             {loader ? (

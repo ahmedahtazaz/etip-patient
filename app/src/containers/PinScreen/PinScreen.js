@@ -72,18 +72,18 @@ function PinScreen({
       <ImageBackground source={phoneDivBg} style={styles.splashbackground}>
         <View style={styles.pinSection}>
           <View style={{ marginTop: 20 }}>
-            <Text style={styles.heading}>{I18n.t('Enter Your')}</Text>
-            <Text style={styles.heading}>{I18n.t('Secret Pin to continue')}</Text>
+            <Text style={styles.heading}>{I18n.t('Enter your')}</Text>
+            <Text style={styles.heading}>{I18n.t('secret pin to continue')}</Text>
           </View>
           <View style={styles.lableView}>
-            <Text style={styles.labe}>{I18n.t('Please Enter your Phone Number to')}</Text>
+            <Text style={styles.labe}>{I18n.t('Please enter your secret pin to')}</Text>
             <Text style={styles.label}>{I18n.t('continue')}</Text>
           </View>
 
           <View style={{ marginTop: 10 }}>
             <TextInput
               placeholderTextColor={'#dfe1e1'}
-              placeholder={'0000000'}
+              placeholder={'000000'}
               style={styles.pinStyle}
               value={pin}
               onChangeText={e => setPin(e)}
@@ -149,7 +149,6 @@ const styles = StyleSheet.create({
   mainMenu: {
     position: 'absolute',
     zIndex: 2000,
-   
     width: '100%',
     display: 'flex',
     alignItems: 'center',
