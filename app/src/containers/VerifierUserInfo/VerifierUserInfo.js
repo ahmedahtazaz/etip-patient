@@ -310,6 +310,7 @@ function VerifierUserInfo({
                   placeholderTextColor={'#a29d9d'}
                   value={zimmer}
                   textContentType="schiller"
+                  underlineColorAndroid="transparent"
                   placeholder="zimmer"
                   style={styles.inputStyle}
                   onChangeText={value => setZimmer(value)}></TextInput>
