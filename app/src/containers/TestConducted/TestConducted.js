@@ -182,14 +182,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   infoContainer: {
-    
-    backgroundColor: 'white',
+    backgroundColor: '#f8fbfa',
   },
   infoContainerChild: {
     paddingTop: 30,
     borderWidth: 1,
-    height: '75%',
+    height: '79%',
     marginTop: '25%',
+    paddingBottom:50,
     borderColor: '#f2f4f3',
     backgroundColor: 'white',
    
