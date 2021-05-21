@@ -57,7 +57,7 @@ function VerifierUserInfo({
   const [dob, setDob] = useState(
     currentDate.getDate() +
     '-' +
-    currentDate.getMonth() +
+   (currentDate.getMonth()+1) +
     '-' +
     currentDate.getFullYear(),
   );
@@ -89,7 +89,7 @@ function VerifierUserInfo({
   const _handleDatePicked = (e, pickeddate) => {
     const date = new Date(pickeddate);
     const day = date.getDate();
-    const month = date.getMonth();
+    const month = date.getMonth()+1;
     const year = date.getFullYear();
     setShowCalender(false);
     if (day) setDob(day + '-' + month + '-' + year);

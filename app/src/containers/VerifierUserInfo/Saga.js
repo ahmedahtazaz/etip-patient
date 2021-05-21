@@ -14,8 +14,12 @@ function* createUser(action) {
             action.payload.body,
         );
         if (res.error) {
+            console.log('error',res.error.message);
+
             yield put({ type: CREATE_USRE_FAILURE, errMessage: res.error.message });
         } else {
+            console.log('response',res?.success?.data?.data);
+
             yield put({ type: CREATE_USRE_SUCCESS, payload: res?.success?.data?.data });
         }
     } catch (error) {
