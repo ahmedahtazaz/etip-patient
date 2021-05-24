@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   },
   infoContainerChild: {
     paddingTop: 30,
-    height: '82%',
+    height: '85%',
     marginTop: '8%',
     borderWidth: 1,
     borderColor: '#f2f4f3',

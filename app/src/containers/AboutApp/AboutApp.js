@@ -31,10 +31,15 @@ const AboutApp = ({getAbout, navigation, about, errMessage}) => {
       <View style={styles.header}>
         <View style={styles.backIcon}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <EvilIcons name="chevron-left" color="#000" size={40} />
+            <EvilIcons
+              name="chevron-left"
+              color="#000"
+              size={40}
+              style={{fontWeight: 'bold'}}
+            />
           </TouchableOpacity>
         </View>
-        <View>
+        <View style={styles.headerTextView}>
           <Text style={styles.headerText}>{I18n.t('About App')}</Text>
         </View>
       </View>
@@ -72,10 +77,22 @@ const classesStyles = {
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
-    height: '11%',
-    paddingTop: 30,
+    height: height * 0.1,
     alignItems: 'center',
+    paddingTop: '7%',
     width,
+  },
+  backIcon: {
+    flex: 1,
+    alignItems: 'flex-start',
+  },
+  headerTextView: {
+    flex: 9,
+    alignItems: 'center',
+    paddingRight: width * 0.1,
+  },
+  headerText: {
+    fontSize: RFValue(16, 580),
   },
   container: {
     height,
@@ -88,20 +105,11 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
   },
-  backIcon: {
-    marginHorizontal: 5,
-    width: width * 0.1,
-  },
   editContainer: {
     marginStart: 8,
     marginBottom: 30,
     marginTop: -8,
     marginEnd: 8,
-  },
-  headerText: {
-    fontSize: RFValue(16, 580),
-    width: width * 0.8,
-    textAlign: 'center',
   },
   qrEditContainer: {
     marginTop: -10,
