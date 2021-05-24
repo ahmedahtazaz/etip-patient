@@ -63,9 +63,8 @@ function TestCenterInfo({
   }, [isUpdated]);
 
   useEffect(() => {
-    let testPointId = '';
     let data = {
-      url: `${get_pending_applications_url}/${testPointId}`,
+      url: `${get_pending_applications_url}/${verifyPinPayload?.user?.testCenter?._id}`
     };
     getPendingApplications(data);
   }, []);
@@ -77,13 +76,12 @@ function TestCenterInfo({
   }, [errMessage]);
 
   const renderItem = ({ item, index }) => (
-    <TouchableOpacity
+    <View
       style={styles.item}
-      key={index}
-      onPress={() => navigation.navigate('TestInformationScreen')}>
+      key={index}>
       <Text style={styles.name}>{item.name}</Text>
       <Text style={styles.date}>{`${moment(item?.appointmentDate).format("DD MMM YYYY")} ${item?.appointmentTime}`}</Text>
-    </TouchableOpacity>
+    </View>
   );
 
   return (
@@ -133,7 +131,7 @@ function TestCenterInfo({
 
             <View style={styles.patientList} >
               {
-                pendingApplications.lenght ?
+                pendingApplications.length ?
                   <FlatList
                     data={pendingApplications}
                     renderItem={renderItem}

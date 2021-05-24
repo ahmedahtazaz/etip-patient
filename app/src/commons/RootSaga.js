@@ -45,6 +45,7 @@ import { getStartApplicationActionWatcher } from '../containers/QRScreen/Saga';
 import { createUserActionWatcher } from '../containers/VerifierUserInfo/Saga';
 import { issueCertificateActionWatcher } from '../containers/TestInformation/Saga';
 import getNeedAssistanceActionWatcher from '../containers/NeedAssistance/Saga';
+import { getConductedTestActionWatcher } from '../containers/TestConducted/Saga';
 
 export default function* rootSaga() {
   yield all([
@@ -91,6 +92,7 @@ export default function* rootSaga() {
     getStartApplicationActionWatcher(),
     createUserActionWatcher(),
     issueCertificateActionWatcher(),
-    getNeedAssistanceActionWatcher()
+    getNeedAssistanceActionWatcher(),
+    getConductedTestActionWatcher()
   ]);
 }
