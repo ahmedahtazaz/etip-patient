@@ -94,7 +94,7 @@ function TestCenterInfo({
             <Image source={headerLogo} />
           </View>
           <View style={{ height: '100%', top: '50%', paddingLeft: 20 }}>
-            <Text style={styles.heading}>{I18n.t('Hello, Jone!')}</Text>
+            <Text style={styles.heading}>{I18n.t('Hello')}, {verifyPinPayload?.user?.firstName}</Text>
             <Text style={styles.subHeading}>
               {I18n.t('Hope you are having a good day')}
             </Text>
@@ -351,6 +351,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
+
   return {
     loader: state.testCenterInfoReducer.loader,
     errMessage: state.testCenterInfoReducer.errMessage,

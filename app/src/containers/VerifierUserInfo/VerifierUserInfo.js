@@ -98,7 +98,7 @@ function VerifierUserInfo({
 
   const continueHandler = () => {
     if (!fName) {
-      showToast('Please Enter First Name');
+      showToast('Please Enter Last Name');
       return;
     }
     if (!lName) {
@@ -303,7 +303,7 @@ function VerifierUserInfo({
                   value={schiller}
                   textContentType="schiller"
                   underlineColorAndroid="transparent"
-                  placeholder="Schiller"
+                  placeholder={I18n.t("Schiller")}
                   style={styles.inputStyle}
                   onChangeText={value => setSchiller(value)}></TextInput>
                 <TextInput
@@ -311,7 +311,7 @@ function VerifierUserInfo({
                   value={zimmer}
                   textContentType="schiller"
                   underlineColorAndroid="transparent"
-                  placeholder="zimmer"
+                  placeholder={I18n.t("zimmer")}
                   style={styles.inputStyle}
                   onChangeText={value => setZimmer(value)}></TextInput>
               </View>
