@@ -126,7 +126,7 @@ function TestCenterInfo({
                 marginTop: 30,
                 fontWeight: '600',
               }}>
-              {I18n.t('Test Awaiting for results')}
+              {I18n.t('Test awaiting for results')}
             </Text>
 
             <View style={styles.patientList} >
