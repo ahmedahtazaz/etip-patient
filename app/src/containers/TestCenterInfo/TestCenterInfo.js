@@ -93,7 +93,7 @@ function TestCenterInfo({
           <View style={styles.mainMenu}>
             <Image source={headerLogo} />
           </View>
-          <View style={{ height: '100%', top: '50%', paddingLeft:20 }}>
+          <View style={{ height: '100%', top: '50%', paddingLeft: 20 }}>
             <Text style={styles.heading}>{I18n.t('Hello, Jone!')}</Text>
             <Text style={styles.subHeading}>
               {I18n.t('Hope you are having a good day')}
@@ -140,7 +140,7 @@ function TestCenterInfo({
                   <View style={styles.noItemDiv} >
                     <Text style={styles.noItem}>
                       No Record Found
-                  </Text>
+                    </Text>
                   </View>
               }
             </View>

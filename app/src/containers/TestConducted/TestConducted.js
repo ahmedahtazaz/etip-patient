@@ -101,11 +101,19 @@ function TestConducted({
           </View>
 
           <View style={styles.patientList}>
-            <FlatList
-              data={getData()}
-              renderItem={renderItem}
-              keyExtractor={(item, index) => index}
-            />
+            {
+              getData().length ?
+                <FlatList
+                  data={getData()}
+                  renderItem={renderItem}
+                  keyExtractor={(item, index) => index}
+                /> :
+                <View style={styles.noItemDiv} >
+                  <Text style={styles.noItem}>
+                    No Record Found
+                    </Text>
+                </View>
+            }
           </View>
           {loader ? (
             <View
@@ -162,8 +170,8 @@ const styles = StyleSheet.create({
   },
   searchField: {
     paddingLeft: 20,
-    color:'black',
-    
+    color: 'black',
+
   },
   searchBox: {
     flexDirection: 'row',
@@ -180,13 +188,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8fbfa',
   },
   header: {
-    position:'absolute',
+    position: 'absolute',
     zIndex: 2000,
     flexDirection: 'row',
     height: '11%',
     alignItems: 'center',
     //paddingTop: 30,
-    paddingTop:'8%',
+    paddingTop: '8%',
     width,
   },
   headerText: {
@@ -207,10 +215,10 @@ const styles = StyleSheet.create({
 
     height: '79%',
     marginTop: '25%',
-    paddingBottom:50,
+    paddingBottom: 50,
     borderColor: '#f2f4f3',
     backgroundColor: 'white',
-   
+
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     paddingHorizontal: 15,
@@ -233,6 +241,22 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: 8,
     marginTop: 15,
+  },
+  noItemDiv: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    height: '100%',
+    flexDirection: 'column'
+  },
+  noItem: {
+    display: 'flex',
+    borderRadius: 4,
+    flexDirection: 'column',
+    backgroundColor: '#F9F9F9',
+    paddingTop: 15,
+    paddingBottom: 15,
+    padding: 10,
+    fontSize: RFValue(12, 580),
   },
 });
 
