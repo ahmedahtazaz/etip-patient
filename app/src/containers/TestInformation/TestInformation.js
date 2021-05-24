@@ -174,7 +174,7 @@ function TestInformation({
             </View>
             <View style={styles.switchView}>
               <Switch
-                trackColor={{ false: '#4a9b8b', true: '#4a9b8b' }}
+                trackColor={{ false: 'gray', true: '#4a9b8b' }}
                 thumbColor={isEnabled ? '#f4f3f4' : '#f4f3f4'}
                 ios_backgroundColor="#3e3e3e"
                 onValueChange={toggleSwitch}

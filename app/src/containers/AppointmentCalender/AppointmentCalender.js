@@ -122,8 +122,14 @@ const AppointmentCalender = ({
 
   useEffect(() => {
     if (isApplicationStarted) {
-      navigation.navigate("TestInformationScreen")
       resetIsApplicationStarted();
+      setSelectedRegion(null);
+      setDate(null);
+      setShowCalender(false);
+      setShowSlots(false);
+      setSelectedSlot('');
+      resetPage();
+      navigation.navigate("TestInformationScreen")
     }
 
   }, [isApplicationStarted])
@@ -415,6 +421,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = state => {
+  console.log("isApplicationStarted:: ", state.qrScreenReducer.isApplicationStarted)
   return {
     regionData: state.RegionReducer.regionData,
     appointmentSlotsData: state.RegionReducer.appointmentSlotsData,
