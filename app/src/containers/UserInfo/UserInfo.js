@@ -122,6 +122,7 @@ function UserInfo({
     getRegions(regionData);
   }, []);
 
+
   useEffect(() => {
     if (errMessage) {
       showToast(errMessage);
@@ -138,7 +139,6 @@ function UserInfo({
       setIsUserEdit(editUser);
       setIsFamily(!editUser || addFamily);
       setAddFamily(addFamily);
-      console.log(data);
 
       if (!addFamily) {
         setEditMode(true);
@@ -169,7 +169,6 @@ function UserInfo({
         setMobileNo(data.mobileNumber);
         setSchiller(data.address.street);
         setZimmer(data.address.houseNo);
-        console.log('test',typeof data.address.city);
 
      
       data.address.city && setCity(capitalizeFirstLetter(data.address.city));
@@ -356,7 +355,6 @@ function UserInfo({
   const capitalizeFirstLetter = string => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
-  console.log(city);
   return (
     <ScrollView style={{height: '100%'}} ref={scrollRef}>
       <View style={styles.header}>
@@ -457,7 +455,7 @@ function UserInfo({
           </View>
           {isFamily ? (
             <DropDownPicker
-              defaultValue={relation}
+             defaultValue={relations.length? relation: ""}
               items={relations}
               placeholder={I18n.t('Select Relation')}
               containerStyle={{height: 62}}
@@ -551,7 +549,7 @@ function UserInfo({
               onChangeText={value => setZimmer(value)}></TextInput>
           </View>
           <DropDownPicker
-            defaultValue={route?.params?.data?.address?.city}
+            defaultValue={regions.length? city: ""}
             items={regions}
             placeholder={I18n.t('Select Region')}
             containerStyle={{height: 48}}
