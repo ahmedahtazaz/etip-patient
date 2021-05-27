@@ -11,6 +11,10 @@ import {
   VERIFY_OTP_SUCCESS,
   UPDATE_PHONE_SEND_OTP_SUCCESS,
   RESET_PHONE,
+  VERIFY_OTP_UPGRADE_FAMILY,
+  VERIFY_OTP_UPGRADE_FAMILY_SUCCESS,
+  VERIFY_OTP_UPGRADE_FAMILY_FAILURE,
+  RESET_IS_FAMILY_UPGRADED
 } from '../../commons/Constants';
 
 const INITIAL_STATE = {
@@ -25,11 +29,14 @@ const INITIAL_STATE = {
   sendOptPayload: null,
   updatePhoneSendOptPayload: null,
   isPhoneUpdated: false,
+  upgradefamilypayload:null,
+  isFamilyUpgraded:false,
 };
 
 export default function phoneReducer() {
   return function reducer(state = INITIAL_STATE, action) {
     switch (action.type) {
+      
       case SEND_OTP_SUCCESS:
         return {
           ...state,
@@ -73,6 +80,7 @@ export default function phoneReducer() {
           loader: true,
           sendOptPayload: null,
           otpSend: false,
+
         };
 
       case VERIFY_OTP_SUCCESS:
@@ -132,6 +140,37 @@ export default function phoneReducer() {
           loader: false,
           errMessage: false,
         };
+
+        case VERIFY_OTP_UPGRADE_FAMILY:
+          return {
+            ...state,
+            loader: false,
+            errMessage: undefined,
+            verifyOptPayload: action.payload,
+          };
+
+        case VERIFY_OTP_UPGRADE_FAMILY_SUCCESS:
+          return {
+            ...state,
+            loader: false,
+            errMessage: undefined,
+            verifyOptPayload: action.payload,  
+            isFamilyUpgraded:true,
+          };
+
+        case VERIFY_OTP_UPGRADE_FAMILY_FAILURE:
+          return {
+            ...state,
+            loader: false,
+            errMessage: action.errMessage, 
+            isFamilyUpgraded:false,
+          };
+
+          case RESET_IS_FAMILY_UPGRADED:
+            return {
+              ...state,
+              isFamilyUpgraded:false,
+            } 
 
       default:
         return state;

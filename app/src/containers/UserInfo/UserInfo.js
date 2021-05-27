@@ -493,6 +493,7 @@ function UserInfo({
               testID="dateTimePicker"
               mode={'date'}
               value={calDate}
+              maximumDate={new Date()}
               is24Hour={true}
               display="default"
               onChange={_handleDatePicked}

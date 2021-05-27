@@ -11,6 +11,9 @@ import {
   UPDATE_PHONE,
   UPDATE_USER_SUCCESS,
   UPDATE_PHONE_SEND_OTP_SUCCESS,
+  VERIFY_OTP_UPGRADE_FAMILY,
+  VERIFY_OTP_UPGRADE_FAMILY_SUCCESS,
+  VERIFY_OTP_UPGRADE_FAMILY_FAILURE
 } from '../../commons/Constants';
 
 import AxiosInstance from '../../commons/AxiosInstance';
@@ -28,7 +31,8 @@ function* sendOTP(action) {
       if (action.payload.editMode) {
         yield put({type: UPDATE_PHONE_SEND_OTP_SUCCESS, payload: res.success});
       } else {
-        yield put({type: SEND_OTP_SUCCESS, payload: res.success});
+       
+        yield put({type: SEND_OTP_SUCCESS, payload: res?.success});
       }
     }
   } catch (error) {
@@ -43,6 +47,7 @@ function* verifyOTP(action) {
       action.payload.url,
       action.payload.body,
     );
+   // yield put({type: VERIFY_OTP_SUCCESS, payload: res.success});
 
     if (res.error) {
       yield put({type: VERIFY_OTP_FAILURE, errMessage: res.error.message});
@@ -51,6 +56,28 @@ function* verifyOTP(action) {
     }
   } catch (error) {
     yield put({type: VERIFY_OTP_FAILURE, errMessage: error});
+  }
+}
+
+
+function* verifyOTPForUpgradeFamily(action) {
+  try {
+    const res = yield call(
+      AxiosInstance.post,
+      action.payload.url,
+      action.payload.body,
+    );
+
+    if (res.error) {
+
+      yield put({type: VERIFY_OTP_UPGRADE_FAMILY_FAILURE, errMessage: res.error.message});
+    } else {
+      console.log(res?.success?.data?.data);
+      yield put({type: VERIFY_OTP_UPGRADE_FAMILY_SUCCESS, payload: res?.success});
+    }
+  } catch (error) {
+
+    yield put({type: VERIFY_OTP_UPGRADE_FAMILY_FAILURE, errMessage: error});
   }
 }
 
@@ -96,4 +123,9 @@ export function* sendOTPActionWatcher() {
 
 export function* verifyOTPActionWatcher() {
   yield takeLatest(`${VERIFY_OTP}`, verifyOTP);
+}
+
+
+export function* verifyOTPForUpgradeFamilyActionWatcher() {
+  yield takeLatest(`${VERIFY_OTP_UPGRADE_FAMILY}`, verifyOTPForUpgradeFamily);
 }

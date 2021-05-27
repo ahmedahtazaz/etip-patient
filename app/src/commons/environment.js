@@ -7,6 +7,7 @@ export const update_phone_url = `/api/user/verify-update-phone`;
 export const signup_url = `/api/user`;
 export const get_user_url = `/api/user`;
 export const update_user_email_url = `/api/user/update-email`;
+export const upgrade_family_member = `/api/user/upgrade-family-member`;
 
 export const add_family_url = `/api/family/add-member`;
 export const edit_family_url = `/api/family/edit-member`;

@@ -1,10 +1,10 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {connect} from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
 import I18n from '../../translations/I18n';
 
 import Orientation from 'react-native-orientation-locker';
-import {useIsFocused} from '@react-navigation/native';
-import {PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR} from '../../theme/Colors';
+import { useIsFocused } from '@react-navigation/native';
+import { PRIMARY_COLOR, GRAY_COLOR, WHITE_COLOR } from '../../theme/Colors';
 const headerLogo = require('../../assets/images/header-logo.png');
 const phoneDivBg = require('../../assets/images/phone-div-bg.png');
 import {
@@ -20,7 +20,7 @@ import {
   Text,
   ImageBackground,
 } from 'react-native';
-import {RFValue} from 'react-native-responsive-fontsize';
+import { RFValue } from 'react-native-responsive-fontsize';
 import {
   moveToUserInfoScreenAction,
   resetIsPhoneUpdatedAction,
@@ -28,14 +28,16 @@ import {
   updatePhoneAction,
   verifyOTPAction,
   resetPhoneAction,
+  upgradeFamilyAction
 } from './Actions';
 import {
   send_otp_url,
   update_phone_url,
+  upgrade_family_member,
   verify_otp_url,
 } from '../../commons/environment';
-import {getProfileInfoAction} from '../AppointmentDetails/Action';
-import {moveToMainScreenAction} from '../UserInfo/Actions';
+import { getProfileInfoAction } from '../AppointmentDetails/Action';
+import { moveToMainScreenAction } from '../UserInfo/Actions';
 import moment from 'moment';
 
 function Phone({
@@ -58,6 +60,8 @@ function Phone({
   updatePhoneOtpSend,
   updatePhoneSendOptPayload,
   resetPhone,
+  upgradeFamilyAction
+
 }) {
   const [isPhone, setIsPhone] = useState(true);
   const [phoneValue, setPhoneValue] = useState('+49');
@@ -145,14 +149,39 @@ function Phone({
             updatePhoneSendOptPayload?.data?.data?.ref_id;
           updatePhone(data);
         } else {
-          verifyOTP(data);
+          console.log(sendOptPayload?.data?.data?.upgradeFamily);
+          console.log('asasa');
+          if (sendOptPayload?.data?.data?.upgradeFamily) {
+            let data = {
+              url: upgrade_family_member,
+              body: {
+                taxId: sendOptPayload?.data?.data?.taxId,
+                otp,
+                referenceId: sendOptPayload?.data?.data?.ref_id,
+              },
+            };
+            console.log(data);
+            upgradeFamilyAction(data);
+          }
+          else {
+            verifyOTP(data);
+          }
         }
       } else showToast('Please enter a valid OTP');
     }
   };
+  useEffect(() => {
+    const isUpdateMobileNumber = route?.params?.isUpdateMobileNumber;
+    if (!isUpdateMobileNumber && sendOptPayload?.data?.data?.upgradeFamily) {
+      setIsPhone(false);
+      setSeconds(119);
+      setOtpResentAwait(false);
+      showToast('OTP has been sent to your parent account');
+    }
+  }, [sendOptPayload?.data?.data?.upgradeFamily])
 
   useEffect(() => {
-    if (!isUpdateMobileNumber && (isPhone || otpResentAwait) && otpSend) {
+    if (!isUpdateMobileNumber && (isPhone || otpResentAwait) && otpSend && !sendOptPayload?.data?.data?.upgradeFamily) {
       setIsPhone(false);
       setSeconds(119);
       setOtpResentAwait(false);
@@ -192,15 +221,21 @@ function Phone({
         if (verifyOtpPayload?.data?.data?.isNewAccount) {
           //navigate to userInfoScreen
           movetoUserInfoScreen(navigation, phoneValue);
+          resetPhone();
         } else {
           //get userInfo and navigate to MainScreen
           moveToMainScreen(navigation);
+          resetPhone();
+
         }
       } else {
         //navigate to userInfoScreen
         movetoUserInfoScreen(navigation, phoneValue);
+        resetPhone();
+
       }
     }
+
   }, [verifyOtpPayload]);
 
   const checkOtpStatus = () => {
@@ -362,12 +397,12 @@ function Phone({
             </>
           )}
           {isPhone ||
-          (!isPhone &&
-            otpValue
-              .concat(otpValue1)
-              .concat(otpValue2)
-              .concat(otpValue3)
-              .concat(otpValue4).length == 5) ? (
+            (!isPhone &&
+              otpValue
+                .concat(otpValue1)
+                .concat(otpValue2)
+                .concat(otpValue3)
+                .concat(otpValue4).length == 5) ? (
             <TouchableOpacity
               style={[styles.container, styles.submitButtonDark]}
               onPress={() =>
@@ -443,6 +478,9 @@ const mapDispatchToProps = dispatch => {
     updatePhone: data => dispatch(updatePhoneAction(data)),
     resetIsPhoneUpdated: () => dispatch(resetIsPhoneUpdatedAction()),
     resetPhone: () => dispatch(resetPhoneAction()),
+    upgradeFamilyAction: data => dispatch(upgradeFamilyAction(data)),
+
+
   };
 };
 

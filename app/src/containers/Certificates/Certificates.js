@@ -199,7 +199,7 @@ const Certificates = ({
             <Text style={styles.boxTopHeading}>
               {I18n.t('ACTIVE CERTIFICATES')}
             </Text>
-            {activeCertificates ? (
+            {activeCertificates?.data?.data.length ? (
               <FlatList
                 horizontal
                 data={activeCertificates}
@@ -241,7 +241,7 @@ const Certificates = ({
             <Text style={styles.boxTopHeading}>
               {I18n.t('PREVIOUS CERTIFICATES')}
             </Text>
-            {expiredCertificates ? (
+            {expiredCertificates?.data?.data.length ? (
               <FlatList
                 vertical
                 data={expiredCertificates}

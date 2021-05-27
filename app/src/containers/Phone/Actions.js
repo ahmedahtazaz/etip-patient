@@ -1,9 +1,11 @@
 import {
+  RESET_IS_FAMILY_UPGRADED,
   RESET_IS_PHONE_UPDATED,
   RESET_PHONE,
   SEND_OTP,
   UPDATE_PHONE,
   VERIFY_OTP,
+  VERIFY_OTP_UPGRADE_FAMILY,
 } from '../../commons/Constants';
 
 export const moveToUserInfoScreenAction = (navigation, phone) => {
@@ -11,6 +13,7 @@ export const moveToUserInfoScreenAction = (navigation, phone) => {
 };
 
 export const sendOTPAction = payload => {
+
   return {
     type: SEND_OTP,
     payload,
@@ -41,4 +44,20 @@ export const resetPhoneAction = () => {
   return {
     type: RESET_PHONE,
   };
+
 };
+
+export const upgradeFamilyAction=payload=>{
+  return {
+    type:VERIFY_OTP_UPGRADE_FAMILY,
+    payload
+  };
+} 
+
+export const resetFamilyUpgradedAction=()=>{
+  return {
+   type:RESET_IS_FAMILY_UPGRADED,
+  };
+
+}
+

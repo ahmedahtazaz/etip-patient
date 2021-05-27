@@ -14,6 +14,7 @@ import {
   sendOTPActionWatcher,
   updatePhoneActionWatcher,
   verifyOTPActionWatcher,
+  verifyOTPForUpgradeFamilyActionWatcher
 } from '../containers/Phone/Saga';
 import splashActionWatcher from '../containers/Splash/Saga';
 import getTermsData from '../containers/Terms/Saga';
@@ -74,5 +75,6 @@ export default function* rootSaga() {
     createAppointmentSaga(),
 
     getCertificatesActionWatcher(),
+    verifyOTPForUpgradeFamilyActionWatcher(),
   ]);
 }

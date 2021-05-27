@@ -247,10 +247,10 @@ const MainScreen = ({
             <Text style={styles.boxTopHeading}>
               {I18n.t('ACTIVE CERTIFICATES')}
             </Text>
-            {activeCertificates ? (
+            {activeCertificates?.data?.data.length ? (
               <FlatList
                 horizontal
-                data={activeCertificates}
+                data={activeCertificates?.data?.data}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
                 extraData={selectedId}
@@ -286,7 +286,7 @@ const MainScreen = ({
           </View>
           {/* <View style={styles.actionCertificateContainer}> */}
             <Text style={styles.boxTopHeadingAppointment}>{I18n.t('APPOINTMENTS')}</Text>
-            {activeAppointments ? (
+            {activeAppointments?.data?.data.length  ? (
               <FlatList
               style={{
                 height: height(30) ,
