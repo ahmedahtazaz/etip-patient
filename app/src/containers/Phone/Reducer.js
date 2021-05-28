@@ -14,7 +14,8 @@ import {
   VERIFY_OTP_UPGRADE_FAMILY,
   VERIFY_OTP_UPGRADE_FAMILY_SUCCESS,
   VERIFY_OTP_UPGRADE_FAMILY_FAILURE,
-  RESET_IS_FAMILY_UPGRADED
+  RESET_IS_FAMILY_UPGRADED,
+  LOGOUT_SUCCESS
 } from '../../commons/Constants';
 
 const INITIAL_STATE = {
@@ -29,14 +30,14 @@ const INITIAL_STATE = {
   sendOptPayload: null,
   updatePhoneSendOptPayload: null,
   isPhoneUpdated: false,
-  upgradefamilypayload:null,
-  isFamilyUpgraded:false,
+  upgradefamilypayload: null,
+  isFamilyUpgraded: false,
 };
 
 export default function phoneReducer() {
   return function reducer(state = INITIAL_STATE, action) {
     switch (action.type) {
-      
+
       case SEND_OTP_SUCCESS:
         return {
           ...state,
@@ -141,36 +142,53 @@ export default function phoneReducer() {
           errMessage: false,
         };
 
-        case VERIFY_OTP_UPGRADE_FAMILY:
-          return {
-            ...state,
-            loader: false,
-            errMessage: undefined,
-            verifyOptPayload: action.payload,
-          };
+      case LOGOUT_SUCCESS:
+        return {
+          initLoaded: false,
+          loader: false,
+          errMessage: undefined,
+          initPayLoad: undefined,
+          otpSend: false,
+          updatePhoneOtpSend: false,
+          otpVerified: false,
+          verifyOptPayload: null,
+          sendOptPayload: null,
+          updatePhoneSendOptPayload: null,
+          isPhoneUpdated: false,
+          upgradefamilypayload: null,
+          isFamilyUpgraded: false,
+        }
 
-        case VERIFY_OTP_UPGRADE_FAMILY_SUCCESS:
-          return {
-            ...state,
-            loader: false,
-            errMessage: undefined,
-            verifyOptPayload: action.payload,  
-            isFamilyUpgraded:true,
-          };
+      case VERIFY_OTP_UPGRADE_FAMILY:
+        return {
+          ...state,
+          loader: false,
+          errMessage: undefined,
+          verifyOptPayload: action.payload,
+        };
 
-        case VERIFY_OTP_UPGRADE_FAMILY_FAILURE:
-          return {
-            ...state,
-            loader: false,
-            errMessage: action.errMessage, 
-            isFamilyUpgraded:false,
-          };
+      case VERIFY_OTP_UPGRADE_FAMILY_SUCCESS:
+        return {
+          ...state,
+          loader: false,
+          errMessage: undefined,
+          verifyOptPayload: action.payload,
+          isFamilyUpgraded: true,
+        };
 
-          case RESET_IS_FAMILY_UPGRADED:
-            return {
-              ...state,
-              isFamilyUpgraded:false,
-            } 
+      case VERIFY_OTP_UPGRADE_FAMILY_FAILURE:
+        return {
+          ...state,
+          loader: false,
+          errMessage: action.errMessage,
+          isFamilyUpgraded: false,
+        };
+
+      case RESET_IS_FAMILY_UPGRADED:
+        return {
+          ...state,
+          isFamilyUpgraded: false,
+        }
 
       default:
         return state;

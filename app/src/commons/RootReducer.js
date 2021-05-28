@@ -16,6 +16,7 @@ import RegionReducer from '../containers/AppointmentCalender/Reducers';
 import mainScreenReducer from '../containers/MainScreen/Reducer';
 import certificatesReducer from '../containers/Certificates/Reducer';
 import updateEmailReducer from '../containers/UpdateOtherSettings/Reducer';
+import logoutReducer from '../containers/Settings/Reducer';
 
 const createRootReducer = () =>
   combineReducers({
@@ -35,6 +36,7 @@ const createRootReducer = () =>
     mainScreenReducer: mainScreenReducer(),
     certificatesReducer: certificatesReducer(),
     updateEmailReducer: updateEmailReducer(),
+    logoutReducer:logoutReducer()
   });
 
 export default createRootReducer;

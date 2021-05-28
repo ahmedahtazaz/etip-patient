@@ -17,7 +17,12 @@ import {connect} from 'react-redux';
 import {
   moveToAppointmentDetailsAction,
   moveToUserUpdateSettingScreenAction,
+  logoutAction,
+  logoutActionReset
 } from './Actions';
+import {logout_service
+} from '../../commons/environment';
+
 import Orientation from 'react-native-orientation-locker';
 const settingHeaderBg = require('../../assets/images/setting-header-bg.png');
 const settingTopIcon = require('../../assets/images/setting-top-icon.png');
@@ -76,6 +81,11 @@ const Settings = ({
   movetoUpdateScreen,
   moveToAppointmentDetails,
   userInfo,
+  verifyOtpPayload,
+  logoutAction,
+  errMessage,
+  isLogout,
+  logoutActionReset
 }) => {
   const [selectedId, setSelectedId] = useState(null);
 
@@ -91,6 +101,19 @@ const Settings = ({
   useEffect(() => {
     if (isUpdated) setIsUpdated(false);
   }, [isUpdated]);
+
+  useEffect(() => {
+    if (errMessage) {
+      showToast(errMessage);
+    }
+  }, [errMessage]);
+
+  useEffect(() => {
+    if (isLogout) {
+      navigation.replace('PhoneScreen');
+      logoutActionReset
+    }
+  }, [isLogout]);
 
   const renderItem = ({item}) => {
     return (
@@ -117,7 +140,12 @@ const Settings = ({
       />
     );
   };
-
+const onLogout=()=>{
+  logoutAction({
+    url : logout_service,
+    userId: verifyOtpPayload?.data?.data?.userId,
+  })
+}
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground source={settingHeaderBg} style={styles.settingHeaderBg}>
@@ -152,7 +180,7 @@ const Settings = ({
 
       <TouchableOpacity
         style={[styles.container1, styles.submitButton]}
-        onPress={() => navigation.goBack()}>
+        onPress={onLogout}>
         <Text style={styles.submitText} style={{color: '#F20000'}}>
           {I18n.t('Logout')}
         </Text>
@@ -223,12 +251,20 @@ const mapDispatchToProps = dispatch => {
       moveToUserUpdateSettingScreenAction(path, navigation, title),
     moveToAppointmentDetails: (navigation, path, userInfo) =>
       moveToAppointmentDetailsAction(navigation, path, userInfo),
+      logoutAction: data => dispatch(logoutAction(data)),
+      logoutActionReset: () => dispatch(logoutActionReset()),
+
   };
 };
 
 const mapStateToProps = state => {
   return {
     userInfo: state.mainScreenReducer.userInfo,
+    verifyOtpPayload: state.phoneReducer.verifyOptPayload,
+    errMessage: state.phoneReducer.errMessage,
+    isLogout:state.logoutReducer.isLogout
+
+
   };
 };
 

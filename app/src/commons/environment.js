@@ -30,6 +30,7 @@ export const get_regions = `/api/region/Germany`;
 export const get_appointment_slot_url = '/api/appointments/slots';
 export const create_appointment_url = '/api/application';
 export const get_active_appointments = '/api/appointments/active';
+export const logout_service = '/api/user/logout';
 
 export const get_active_certificates = '/api/application/getActiveCertificates';
 export const get_expired_certificates =

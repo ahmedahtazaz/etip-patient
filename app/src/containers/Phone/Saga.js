@@ -72,7 +72,6 @@ function* verifyOTPForUpgradeFamily(action) {
 
       yield put({type: VERIFY_OTP_UPGRADE_FAMILY_FAILURE, errMessage: res.error.message});
     } else {
-      console.log(res?.success?.data?.data);
       yield put({type: VERIFY_OTP_UPGRADE_FAMILY_SUCCESS, payload: res?.success});
     }
   } catch (error) {

@@ -149,8 +149,6 @@ function Phone({
             updatePhoneSendOptPayload?.data?.data?.ref_id;
           updatePhone(data);
         } else {
-          console.log(sendOptPayload?.data?.data?.upgradeFamily);
-          console.log('asasa');
           if (sendOptPayload?.data?.data?.upgradeFamily) {
             let data = {
               url: upgrade_family_member,
@@ -160,7 +158,6 @@ function Phone({
                 referenceId: sendOptPayload?.data?.data?.ref_id,
               },
             };
-            console.log(data);
             upgradeFamilyAction(data);
           }
           else {

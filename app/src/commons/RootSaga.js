@@ -39,6 +39,7 @@ import {
 } from '../containers/AppointmentCalender/Saga';
 import { getCertificatesActionWatcher } from '../containers/Certificates/Saga';
 import { updateEmailActionWatcher } from '../containers/MainScreen/Saga';
+import { logoutActionWatcher } from '../containers/Settings/Saga';
 
 export default function* rootSaga() {
   yield all([
@@ -76,5 +77,6 @@ export default function* rootSaga() {
 
     getCertificatesActionWatcher(),
     verifyOTPForUpgradeFamilyActionWatcher(),
+    logoutActionWatcher()
   ]);
 }
