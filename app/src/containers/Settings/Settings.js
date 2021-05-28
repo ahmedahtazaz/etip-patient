@@ -261,7 +261,7 @@ const mapStateToProps = state => {
   return {
     userInfo: state.mainScreenReducer.userInfo,
     verifyOtpPayload: state.phoneReducer.verifyOptPayload,
-    errMessage: state.phoneReducer.errMessage,
+    errMessage: state.logoutReducer.errMessage,
     isLogout:state.logoutReducer.isLogout
 
 
