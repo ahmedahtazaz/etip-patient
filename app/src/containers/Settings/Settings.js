@@ -10,6 +10,7 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
+
 import {RFValue} from 'react-native-responsive-fontsize';
 import {WHITE_COLOR} from '../../theme/Colors';
 import I18n from '../../translations/I18n';
@@ -114,8 +115,13 @@ const Settings = ({
 
   useEffect(() => {
     if (isLogout) {
-      navigation.replace('PhoneScreen');
+    //  navigation.replace('PhoneScreen');
       logoutActionReset();
+      navigation.reset({
+        index:0,
+        routes: [{ name: 'PhoneScreen' }]
+
+      })
     }
   }, [isLogout]);
 
