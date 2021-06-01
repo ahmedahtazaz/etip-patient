@@ -5,6 +5,7 @@ import {
   RESET_ERROR_CERTIFICATES,
   GET_EXPIRED_CERTIFICATES_FAILURE,
   GET_EXPIRED_CERTIFICATES_SUCCESS,
+  LOGOUT_SUCCESS
 } from '../../commons/Constants';
 const INITIAL_STATE = {
   loader: false,
@@ -59,7 +60,14 @@ export default function certificatesReducer() {
           ...state,
           errMessage: undefined,
         };
-
+        case LOGOUT_SUCCESS:
+          return{
+            ...state,
+            loader: false,
+            errMessage: undefined,
+            activeCertificates: null,
+            expiredCertificates: null,
+          }
       default:
         return state;
     }

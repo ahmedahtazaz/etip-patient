@@ -11,7 +11,9 @@ import {
 export const moveToUserInfoScreenAction = (navigation, phone) => {
   return navigation.replace('UserInfoScreen', {phone});
 };
-
+export const moveToMainScreenAction = navigation => {
+  return navigation.replace('MainScreen');
+};
 export const sendOTPAction = payload => {
 
   return {

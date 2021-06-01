@@ -2,7 +2,8 @@ import {
     LOGOUT,
     LOGOUT_SUCCESS,
     LOGOUT_FAILURE,
-    LOGOUT_IS_RESET
+    LOGOUT_IS_RESET,
+    RESET_ERROR_MESSAGE
    
   } from '../../commons/Constants';
   
@@ -44,7 +45,13 @@ import {
                 errMessage: undefined,
                 isLogout:false
               }
-  
+          
+          case RESET_ERROR_MESSAGE:
+            return {
+              ...state,
+              errMessage:undefined
+            }
+          
         default:
           return state;
       }

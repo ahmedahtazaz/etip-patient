@@ -5,6 +5,7 @@ import {
   REMOVE_FAMILY_MEMBER,
   REMOVE_FAMILY_MEMBER_SUCCESS,
   REMOVE_FAMILY_MEMBER_FAILURE,
+  LOGOUT_SUCCESS
 } from '../../commons/Constants';
 
 const INITIAL_STATE = {
@@ -62,7 +63,13 @@ export default function familyReducer() {
           loader: false,
           errMessage: action.errMessage,
         };
-
+        case LOGOUT_SUCCESS:
+          return{
+            ...state,
+            familyMembers: [],
+            loader: false,
+            errMessage: undefined,
+          }
       default:
         return state;
     }

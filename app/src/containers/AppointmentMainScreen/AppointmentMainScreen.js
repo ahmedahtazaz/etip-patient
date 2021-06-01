@@ -22,6 +22,9 @@ import {
 } from './Actions';
 import BottomNavigator from '../../components/BottomNavigator';
 import moment from 'moment';
+import { get_active_appointments } from '../../commons/environment';
+import { getActiveAppointmentsAction, setLoaderAction } from '../MainScreen/Actions';
+import { ActivityIndicator } from 'react-native-paper';
 const menuIcon = require('../../assets/images/menu-icon.png');
 const smallHeaderLogo = require('../../assets/images/small-header-logo.png');
 const activeCertificationBg = require('../../assets/images/active-certification-bg.png');
@@ -34,6 +37,11 @@ const AppointmentMainScreen = ({
   movetoMakeAnAppointmentScreen,
   moveToAppointmentDetails,
   activeAppointments,
+  userInfo,
+  loader,
+  getActiveAppointments,
+  setLoader,
+  errMessage
 }) => {
   const [selectedId, setSelectedId] = useState(null);
 
@@ -49,6 +57,26 @@ const AppointmentMainScreen = ({
   useEffect(() => {
     if (isUpdated) setIsUpdated(false);
   }, [isUpdated]);
+
+
+  useEffect(() => {
+    if (userInfo) {
+       setLoader(true);
+        getActiveAppointments({
+        url: get_active_appointments,
+        userId: userInfo?.data?.data?._id,
+        familyId: userInfo?.data?.data?.family?.id,
+      });
+     
+    }
+  }, [userInfo]);
+
+  useEffect(() => {
+    if (errMessage) {
+      showToast(errMessage);
+      resetErrorMain();
+    }
+  }, [errMessage]);
 
   const renderItem = ({item}) => {
     return (
@@ -198,6 +226,19 @@ const AppointmentMainScreen = ({
       <BottomNavigator
         navigation={navigation}
         selectedItem={{id: 2, label: 'Appointments'}}></BottomNavigator>
+         {loader ? (
+        <View
+          style={{
+            alignSelf: 'center',
+            height: '100%',
+            width: '100%',
+            justifyContent: 'center',
+            position: 'absolute',
+            zIndex: 1000,
+          }}>
+          <ActivityIndicator size="large" color="grey" animating={loader} />
+        </View>
+      ) : null}
     </View>
   );
 };
@@ -205,6 +246,10 @@ const AppointmentMainScreen = ({
 const mapStateToProps = state => {
   return {
     activeAppointments: state.mainScreenReducer.activeAppointments,
+    userInfo: state.mainScreenReducer.userInfo,
+    loader: state.mainScreenReducer.loader,
+    errMessage: state.mainScreenReducer.errMessage,
+
   };
 };
 
@@ -400,6 +445,10 @@ const mapDispatchToProps = dispatch => {
       moveToMakeAppointsAction(navigation),
     moveToAppointmentDetails: (navigation, path, userInfo) =>
       moveToAppointmentDetailsAction(navigation, path, userInfo),
+      getActiveAppointments: payload =>
+      dispatch(getActiveAppointmentsAction(payload)),
+      setLoader: status => dispatch(setLoaderAction(status)),
+
   };
 };
 export default connect(

@@ -1,4 +1,4 @@
-import { LOGOUT,LOGOUT_IS_RESET } from "../../commons/Constants";
+import { LOGOUT,LOGOUT_IS_RESET,RESET_ERROR_MESSAGE } from "../../commons/Constants";
 
 export const moveToUserUpdateSettingScreenAction = (
   path,
@@ -20,8 +20,14 @@ export const logoutAction = data => {
     payload: data,
   };
 };
-export const logoutActionReset = data => {
+export const logoutActionReset = () => {
   return {
     type: LOGOUT_IS_RESET,
   };
 };
+
+export const resetErrorMessageAction=()=>{
+  return {
+    type: RESET_ERROR_MESSAGE
+  };
+}

@@ -28,7 +28,8 @@ import {
   updatePhoneAction,
   verifyOTPAction,
   resetPhoneAction,
-  upgradeFamilyAction
+  upgradeFamilyAction,
+  moveToMainScreenAction
 } from './Actions';
 import {
   send_otp_url,
@@ -37,7 +38,6 @@ import {
   verify_otp_url,
 } from '../../commons/environment';
 import { getProfileInfoAction } from '../AppointmentDetails/Action';
-import { moveToMainScreenAction } from '../UserInfo/Actions';
 import moment from 'moment';
 
 function Phone({
@@ -191,6 +191,11 @@ function Phone({
       setIsPhone(false);
       setSeconds(119);
       setOtpResentAwait(false);
+      setOTPValue('');
+      setOTPValue1('');
+      setOTPValue2('');
+      setOTPValue3('');
+      setOTPValue4('');   
       showToast('OTP has been sent successfully');
     }
   }, [updatePhoneOtpSend]);

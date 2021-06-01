@@ -20,7 +20,8 @@ import {
     GET_RELATIONS_SUCCESS,
     GET_USERINFO_REGION,
     GET_USERINFO_REGION_SUCCESS,
-    GET_USERINFO_REGION_FAILURE
+    GET_USERINFO_REGION_FAILURE,
+    RESET_ERROR_MESSAGE_USERINFO
 } from '../../commons/Constants';
 
 const INITIAL_STATE = {
@@ -183,7 +184,11 @@ export default function userInfoReducer() {
                     loader: false,
                     errMessage: action.errMessage
                 }
-
+                case RESET_ERROR_MESSAGE_USERINFO:
+                    return {
+                      ...state,
+                      errMessage:undefined
+                    }
             default:
                 return state;
         }

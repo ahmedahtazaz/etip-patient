@@ -33,7 +33,8 @@ import {
   updateUserAction,
   getRelationsAction,
   getRegionsAction,
-  moveToOtpScreen
+  moveToOtpScreen,
+  resetErrorMessageAction
 } from './Actions';
 import {emailRegex} from '../../commons/Constants';
 import {
@@ -68,6 +69,7 @@ function UserInfo({
   regions,
   getRegions,
   moveToOtpScreen,
+  resetErrorMessage,
   route: {
     params: {phone},
   },
@@ -126,6 +128,7 @@ function UserInfo({
   useEffect(() => {
     if (errMessage) {
       showToast(errMessage);
+      resetErrorMessage();
     }
   }, [errMessage]);
 
@@ -657,6 +660,7 @@ const mapDispatchToProps = dispatch => {
     updateUser: data => dispatch(updateUserAction(data)),
     getRelations: data => dispatch(getRelationsAction(data)),
     getRegions: data => dispatch(getRegionsAction(data)),
+    resetErrorMessage:()=>dispatch(resetErrorMessageAction())
   };
 };
 
