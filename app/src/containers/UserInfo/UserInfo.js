@@ -85,7 +85,7 @@ function UserInfo({
   const [dob, setDob] = useState(
     currentDate.getDate() +
       '-' +
-      currentDate.getMonth() +
+      (currentDate.getMonth()+1) +
       '-' +
       currentDate.getFullYear(),
   );

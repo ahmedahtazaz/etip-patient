@@ -24,6 +24,7 @@ import {logout_service
 } from '../../commons/environment';
 
 import Orientation from 'react-native-orientation-locker';
+import { showToast } from '../../commons/Constants';
 const settingHeaderBg = require('../../assets/images/setting-header-bg.png');
 const settingTopIcon = require('../../assets/images/setting-top-icon.png');
 const menuArrowWhiteIcon = require('../../assets/images/menu-arrow-white-icon.png');
@@ -111,7 +112,7 @@ const Settings = ({
   useEffect(() => {
     if (isLogout) {
       navigation.replace('PhoneScreen');
-      logoutActionReset
+      logoutActionReset();
     }
   }, [isLogout]);
 
