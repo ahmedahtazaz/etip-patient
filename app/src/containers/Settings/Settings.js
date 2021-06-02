@@ -10,6 +10,7 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
+
 import {RFValue} from 'react-native-responsive-fontsize';
 import {WHITE_COLOR} from '../../theme/Colors';
 import I18n from '../../translations/I18n';
@@ -18,7 +19,8 @@ import {
   moveToAppointmentDetailsAction,
   moveToUserUpdateSettingScreenAction,
   logoutAction,
-  logoutActionReset
+  logoutActionReset,
+  resetErrorMessageAction
 } from './Actions';
 import {logout_service
 } from '../../commons/environment';
@@ -86,7 +88,8 @@ const Settings = ({
   logoutAction,
   errMessage,
   isLogout,
-  logoutActionReset
+  logoutActionReset,
+  resetErrorMessage
 }) => {
   const [selectedId, setSelectedId] = useState(null);
 
@@ -106,13 +109,19 @@ const Settings = ({
   useEffect(() => {
     if (errMessage) {
       showToast(errMessage);
+      resetErrorMessage();
     }
   }, [errMessage]);
 
   useEffect(() => {
     if (isLogout) {
-      navigation.replace('PhoneScreen');
+    //  navigation.replace('PhoneScreen');
       logoutActionReset();
+      navigation.reset({
+        index:0,
+        routes: [{ name: 'PhoneScreen' }]
+
+      })
     }
   }, [isLogout]);
 
@@ -248,12 +257,14 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
   return {
-    movetoUpdateScreen: (path, navigation, title) =>
+      movetoUpdateScreen: (path, navigation, title) =>
       moveToUserUpdateSettingScreenAction(path, navigation, title),
-    moveToAppointmentDetails: (navigation, path, userInfo) =>
+      moveToAppointmentDetails: (navigation, path, userInfo) =>
       moveToAppointmentDetailsAction(navigation, path, userInfo),
       logoutAction: data => dispatch(logoutAction(data)),
       logoutActionReset: () => dispatch(logoutActionReset()),
+      resetErrorMessage:()=>dispatch(resetErrorMessageAction())
+
 
   };
 };

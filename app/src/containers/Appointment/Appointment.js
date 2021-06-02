@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   nameTextContainer: {
-    marginTop: 50,
+    marginTop: 30,
     marginVertical: 8,
     marginHorizontal: 16,
 
@@ -186,10 +186,11 @@ const styles = StyleSheet.create({
     marginTop: 32,
     display: 'flex',
     flexDirection: 'column',
+    paddingBottom:150
   },
   nameContainer: {
     alignSelf: 'stretch',
-    marginTop: 16,
+    marginTop: 0,
     backgroundColor: 'white',
     textAlign: 'center',
   },

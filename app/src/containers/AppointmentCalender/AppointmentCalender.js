@@ -9,6 +9,7 @@ import {
   View,
   Image,
   useWindowDimensions,
+  BackHandler
 } from 'react-native';
 import {Dimensions} from 'react-native';
 import I18n from '../../translations/I18n';
@@ -91,15 +92,31 @@ const AppointmentCalender = ({
 
   useEffect(() => {
     GetRegions(get_regions);
-
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
     return () => {
       setSelectedRegion(null);
       setDate(null);
       setShowCalender(false);
       setShowSlots(false);
       setSelectedSlot('');
+      backHandler.remove()
     };
   }, []);
+
+  const backAction = () => {
+    setSelectedRegion(null);
+    setDate(null);
+    setShowCalender(false);
+    setShowSlots(false);
+    setSelectedSlot('');
+    resetPage();
+    navigation.goBack();
+   
+    return true;
+  };
 
   useEffect(() => {
     if (appointmentCreated) {

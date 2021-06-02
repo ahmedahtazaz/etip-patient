@@ -7,7 +7,8 @@ import {
   RESET_FAMILY_MEMBER_ADDED,
   UPDATE_USER,
   GET_RELATIONS,
-  GET_USERINFO_REGION
+  GET_USERINFO_REGION,
+  RESET_ERROR_MESSAGE_USERINFO
 } from '../../commons/Constants';
 
 export const signUpAction = payload => {
@@ -73,3 +74,9 @@ export const moveToMainScreenAction = navigation => {
 export const moveToOtpScreen = (navigation,data) => {
   return navigation.replace('phone');
 };
+
+export const resetErrorMessageAction=()=>{
+  return {
+    type: RESET_ERROR_MESSAGE_USERINFO
+  };
+}

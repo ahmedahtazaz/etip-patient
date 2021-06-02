@@ -11,6 +11,7 @@ import {
   UPDATE_USER_SUCCESS,
   UPDATE_EMAIL_SUCCESS,
   SIGNUP_SUCCES,
+  LOGOUT_SUCCESS
 } from '../../commons/Constants';
 const INITIAL_STATE = {
   loader: false,
@@ -90,7 +91,15 @@ export default function mainScreenReducer() {
           ...state,
           userInfo: action.payload,
         };
-
+      case LOGOUT_SUCCESS:
+        return{
+          ...state,
+          loader: false,
+          errMessage: undefined,
+          userInfo: null,
+          activeAppointments: null,
+          activeCertificates: null,
+        }
       default:
         return state;
     }

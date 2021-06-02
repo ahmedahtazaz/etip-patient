@@ -24,6 +24,7 @@ import {
 } from './Actions';
 import {get_family_url} from '../../commons/environment';
 import {showToast} from '../../commons/Constants';
+import { red100 } from 'react-native-paper/lib/typescript/styles/colors';
 
 const FamilyMain = ({
   navigation,
@@ -126,7 +127,7 @@ const FamilyMain = ({
         </View>
       </View>
       <View style={styles.appoinmentDivBg}>
-        <View style={styles.mainDivPad}>
+        <View style={styles.mainDivPad} >
           <View style={styles.actionCertificateContainer}>
             <SwipeListView
               data={familyMembers}
@@ -202,7 +203,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     display: 'flex',
     flexDirection: 'column',
-    paddingBottom:50
+    paddingBottom:100
   },
   deleteItem: {
     marginEnd: 12,
